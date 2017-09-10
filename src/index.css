@@ -1,0 +1,110 @@
+body {
+  padding: 0px;
+  margin: 0px;
+}
+#root {
+  margin-top: 20px;
+}
+.iv-demo-doc-container {
+  text-align: center;
+}
+.iv-demo-doc-container .iv-demo-doc {
+  margin-left: 10px;
+  margin-bottom: 10px;
+  font-size: 99%;
+}
+.iv-loading-openurl {
+  margin-top: 30px;
+  text-align: center;
+}
+.iv-openurl-error .alert {
+  margin: 0px;
+  margin-top: 10px;
+}
+.iv-openurl-error div.iv-istex-icon {
+  display: inline-block;
+  background-image: url("/images/icon-istex-16x18.png");
+  width: 16px;
+  height: 18px;
+  float: left;
+  margin-right: 10px;
+}
+.iv-openurl-fulltext-btn {
+  display: block;
+  margin: auto;
+  font-size: 2em;
+  padding: 0.5em;
+  background-color: #458CA5;
+}
+.iv-openurl-fulltext-btn div.iv-istex-icon {
+  display: inline-block;
+  background-image: url("/images/icon-istex-32x36.png");
+  width: 32px;
+  height: 36px;
+  float: left;
+}
+.iv-openurl-failed div.iv-istex-icon {
+  display: inline-block;
+  background-image: url("/images/icon-istex-16x18.png");
+  width: 16px;
+  height: 18px;
+  float: left;
+  margin-right: 10px;
+}
+.iv-doc-record .iv-author-affi {
+  margin-left: 3px;
+}
+.iv-doc-record .iv-author-block {
+  margin-right: 5px;
+}
+.iv-doc-record .iv-doc-record-ref {
+  font-size: 80%;
+}
+.iv-doc-button {
+  font-size: 12px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+}
+.iv-doc-button span.glyphicon {
+  margin-right: 10px;
+}
+.iv-doc-button div.iv-istex-icon {
+  display: inline-block;
+  background-image: url("/images/icon-istex-16x18.png");
+  width: 16px;
+  height: 18px;
+  float: left;
+  margin-right: 10px;
+}
+.iv-doc-button span.iv-istexid {
+  font-family: monospace;
+  margin-top: 2px;
+}
+.pdf-context,
+.pdf-viewer {
+  position: relative;
+  width: 100%;
+}
+.pdf-viewer {
+  padding-top: 3em;
+  padding-bottom: 3em;
+}
+.pdf-page {
+  position: relative;
+  margin: 0 auto 3em auto;
+  padding: 0;
+  overflow: visible;
+  background-clip: content-box;
+  box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.54);
+  background-color: white;
+}
+footer.iv-footer {
+  font-size: 80%;
+  vertical-align: middle;
+}
+footer.iv-footer hr {
+  margin-bottom: 5px;
+}
+footer.iv-footer .iv-github-link {
+  margin-left: 5px;
+}

@@ -5,7 +5,5 @@ services:
   istex-view:
     container_name: istex-view
     image: istex/istex-view:1.2.0
-    volumes:
-      - ./logs/:/var/log/nginx
     ports:
       - 45445:80

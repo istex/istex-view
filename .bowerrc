@@ -1,4 +1,0 @@
-{
-	"directory": "www/libs",
-	"shorthand-resolver": "https://github.com/{{owner}}/{{package}}.git"
-}

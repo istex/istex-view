@@ -1,0 +1,15 @@
+{
+  "short_name": "Istex View",
+  "name": "Visualisation interactive des documents ISTEX",
+  "icons": [
+    {
+      "src": "./images/icon-istex-100x113.png",
+      "sizes": "110x113",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

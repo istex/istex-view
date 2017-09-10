@@ -23,11 +23,11 @@ ISTEX VIEW is also an HTML5 visualisation over the [ISTEX OpenURL feature](https
 
 
 Open a terminal and run [istex-view](https://github.com/istex/istex-view):
-```
-git clone https://github.com/istex/istex-view
+```shell
+git clone git@github.com:istex/istex-view.git
 cd istex-view
-make install
-make run-debug
+npm install
+npm start
 ```
 
 Then web server ready for debugging is available at: http://localhost:45445
@@ -35,6 +35,7 @@ Then web server ready for debugging is available at: http://localhost:45445
 ## Production
 
 ```
+make build
 make run-prod
 ```
 
@@ -48,9 +49,6 @@ Last step is to map the ``http://<server ip>:45445/`` address to ``https://view.
 
 ### How to generate a new istex-view version ?
 
-Just use npm stuff. Ex: ``npm version patch``
+Just use npm stuff.
 
-### How to upgrade libraries ?
-
-- To check if a new version is available: ``bower list``
-- To upgrade: ``bower update``
+Example: ``npm version patch -m "Commentaire sur ma version (Version %s)"``

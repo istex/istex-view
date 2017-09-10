@@ -1,8 +1,6 @@
 .DS_Store
 node_modules
-www/dist/*.js
-www/dist/*.css
-www/src/config.local.js
+public/config.local.js
 token.txt
 tmp/
 
