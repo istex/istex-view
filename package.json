@@ -4,16 +4,20 @@
   "description": "Visualisation interactive des documents ISTEX",
   "private": true,
   "dependencies": {
+    "axios": "^0.16.2",
     "bootstrap": "^3.3.7",
     "jquery": "^3.2.1",
     "pdfjs-dist": "^1.9.528",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1",
+    "react-redux": "^5.0.6",
     "react-router": "^4.1.1",
     "react-router-dom": "^4.1.1",
     "react-scripts": "1.0.13",
-    "react-text-truncate": "^0.8.3"
+    "react-text-truncate": "^0.8.3",
+    "redux": "^3.7.2",
+    "redux-saga": "^0.15.6"
   },
   "scripts": {
     "start": "react-scripts start",
