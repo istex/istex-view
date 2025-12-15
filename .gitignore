@@ -1,0 +1,23 @@
+
+# NPM
+/node_modules
+**/node_modules
+
+# Build
+**/.turbo
+**/*.local
+**/dist
+**/dist-ssr
+**/routeTree.gen.ts
+**/tsconfig.tsbuildinfo
+**/tsconfig.*.tsbuildinfo
+
+
+# Vitest
+**/__screenshots__
+
+# Misc
+**/.DS_Store
+**/*.pem
+**/.env
+**/*.env

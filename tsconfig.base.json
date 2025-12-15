@@ -1,0 +1,24 @@
+{
+	"exclude": ["**/node_modules"],
+	"compilerOptions": {
+		"esModuleInterop": true,
+		"skipLibCheck": true,
+		"strictNullChecks": true,
+		"target": "es2022",
+		"allowJs": true,
+		"resolveJsonModule": true,
+		"moduleDetection": "force",
+		"isolatedModules": true,
+		"verbatimModuleSyntax": false,
+		"strict": true,
+		"noUncheckedIndexedAccess": true,
+		"noImplicitOverride": true,
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"sourceMap": true,
+		"declaration": true,
+		"composite": true,
+		"declarationMap": true,
+		"incremental": true
+	}
+}

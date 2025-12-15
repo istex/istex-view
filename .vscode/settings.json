@@ -1,0 +1,26 @@
+{
+	"editor.formatOnSave": true,
+	"editor.codeActionsOnSave": {
+		"source.fixAll.biome": "always",
+		"source.organizeImports": "never",
+		"source.organizeImports.biome": "always",
+		"source.removeUnusedImports": "always"
+	},
+	"[json]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[jsonc]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescript]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[typescriptreact]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"files.exclude": {
+		"**/.DS_Store": true,
+		"**/.turbo": true,
+		"**/node_modules": true
+	}
+}

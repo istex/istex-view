@@ -1,0 +1,20 @@
+{
+	"name": "@istex/react-tei",
+	"type": "module",
+	"version": "0.1.0",
+	"scripts": {
+		"build": "tsc --build --force tsconfig.lib.json",
+		"test": "vitest run --browser.headless",
+		"test:watch": "vitest watch --browser.headless",
+		"test:browser": "vitest watch",
+		"typecheck": "tsc --noEmit"
+	},
+	"exports": {
+		"./*": "./dist/*"
+	},
+	"dependencies": {
+		"react": "catalog:",
+		"react-dom": "catalog:"
+	},
+	"private": true
+}

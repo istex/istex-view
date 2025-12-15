@@ -1,0 +1,71 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"ui": "tui",
+	"tasks": {
+		"build": {
+			"inputs": ["src/**", "tsconfig.lib.json", "package.json"],
+			"cache": true,
+			"outputs": ["dist/**"],
+			"dependsOn": ["^build"]
+		},
+		"dev": {
+			"inputs": [
+				"src/**",
+				"tsconfig.json",
+				"tsconfig.app.json",
+				"tsconfig.node.json",
+				"package.json"
+			],
+			"outputs": ["dist/**"],
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["^build"]
+		},
+		"test": {
+			"inputs": [
+				"src/**",
+				"migrations/**",
+				"vitest.config.ts",
+				"tsconfig.json",
+				"tsconfig.*.json",
+				"package.json"
+			],
+			"cache": true,
+			"persistent": false,
+			"dependsOn": ["^build"]
+		},
+		"test:watch": {
+			"inputs": [
+				"vitest.config.ts",
+				"tsconfig.json",
+				"tsconfig.*.json",
+				"package.json"
+			],
+			"cache": false,
+			"persistent": true,
+			"interactive": true,
+			"dependsOn": ["^build"]
+		},
+		"test:browser": {
+			"inputs": [
+				"vitest.config.ts",
+				"tsconfig.json",
+				"tsconfig.*.json",
+				"package.json"
+			],
+			"cache": false,
+			"persistent": true,
+			"interactive": true,
+			"dependsOn": ["^build"]
+		},
+		"typecheck": {
+			"dependsOn": ["^build"]
+		},
+		"//#lint:check": {
+			"cache": false
+		},
+		"//#lint:apply": {
+			"cache": false
+		}
+	}
+}
