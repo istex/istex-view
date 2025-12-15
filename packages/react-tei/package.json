@@ -17,7 +17,8 @@
 		"@mui/icons-material": "catalog:",
 		"@mui/material": "catalog:",
 		"react": "catalog:",
-		"react-dom": "catalog:"
+		"react-dom": "catalog:",
+		"fast-xml-parser": "^5.3.3"
 	},
 	"devDependencies": {
 		"@types/node": "catalog:",
