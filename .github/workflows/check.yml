@@ -72,3 +72,27 @@ jobs:
 
       - name: Run Tests
         run: pnpm turbo run test
+
+  e2e:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: '24.x'
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Install dependencies
+        run: pnpm playwright install chromium chromium-headless-shell
+
+      - name: Run Tests
+        run: pnpm turbo run e2e

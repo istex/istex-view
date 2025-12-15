@@ -6,14 +6,34 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"preview": "vite preview --port 8000",
 		"test": "vitest run --browser.headless",
 		"test:watch": "vitest watch --browser.headless",
 		"test:browser": "vitest watch",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
+		"@emotion/react": "catalog:",
+		"@emotion/styled": "catalog:",
+		"@fontsource/roboto": "catalog:",
+		"@istex/react-tei": "workspace:^",
+		"@mui/icons-material": "catalog:",
+		"@mui/material": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:"
 	},
-	"devDependencies": {}
+	"devDependencies": {
+		"@types/node": "catalog:",
+		"@types/react": "catalog:",
+		"@types/react-dom": "catalog:",
+		"@vitejs/plugin-react-swc": "catalog:",
+		"@vitest/browser-playwright": "catalog:",
+		"@vitest/coverage-v8": "catalog:",
+		"typescript": "catalog:",
+		"vite": "catalog:",
+		"vite-plugin-devtools-json": "catalog:",
+		"vite-tsconfig-paths": "catalog:",
+		"vitest": "catalog:",
+		"vitest-browser-react": "catalog:"
+	}
 }

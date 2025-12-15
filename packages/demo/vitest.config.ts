@@ -7,6 +7,7 @@ export default defineConfig({
 	test: {
 		include: ["src/**/*.spec.ts", "src/**/*.spec.tsx"],
 		testTimeout: 2500,
+		setupFiles: ["test/setup.ts"],
 		coverage: {
 			provider: "v8",
 		},
@@ -14,6 +15,7 @@ export default defineConfig({
 			enabled: true,
 			provider: playwright(),
 			instances: [{ browser: "chromium" }],
+			viewport: { width: 1920, height: 1080 },
 		},
 	},
 });
