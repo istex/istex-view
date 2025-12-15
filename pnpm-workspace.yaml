@@ -6,10 +6,10 @@ catalog:
   '@types/node': ^24.10.2
   '@types/react': ^19.2.7
   '@types/react-dom': ^19.2.3
-  '@vitejs/plugin-react': ^5.1.2
   '@vitejs/plugin-react-swc': ^4.2.2
   '@vitest/browser-playwright': ^4.0.15
   '@vitest/coverage-v8': ^4.0.15
+  husky: ^9.1.7
   react: ^19.2.2
   react-dom: ^19.2.2
   playwright: ^1.57.0
@@ -19,6 +19,7 @@ catalog:
   vite-plugin-devtools-json: ^1.0.0
   vite-tsconfig-paths: ^5.1.4
   vitest: ^4.0.15
+  vitest-browser-react: ^2.0.2
 
 minimumReleaseAge: 4320
 trustPolicy: no-downgrade

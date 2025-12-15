@@ -26,7 +26,7 @@ typecheck:								## Run type checks
 	@pnpm turbo run typecheck
 
 lint-check:								## Run lint checks
-	@pnpm turbo run lint:check
+	@pnpm turbo run lint:check --no-cache
 
 lint-apply:								## Apply lint fixes
-	@pnpm turbo run lint:apply
+	@pnpm turbo run lint:apply --no-cache

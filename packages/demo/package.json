@@ -1,18 +1,19 @@
 {
-	"name": "demo",
+	"name": "@istex/viewer-demo",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
+		"test": "vitest run --browser.headless",
+		"test:watch": "vitest watch --browser.headless",
+		"test:browser": "vitest watch",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
 		"react": "catalog:",
 		"react-dom": "catalog:"
 	},
-	"devDependencies": {
-		"@vitejs/plugin-react-swc": "catalog:"
-	}
+	"devDependencies": {}
 }
