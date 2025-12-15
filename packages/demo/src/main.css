@@ -1,0 +1,23 @@
+@import "@fontsource/roboto/300.css";
+@import "@fontsource/roboto/400.css";
+@import "@fontsource/roboto/500.css";
+@import "@fontsource/roboto/700.css";
+
+* {
+	box-sizing: border-box;
+}
+
+html {
+	height: 100%;
+	width: 100%;
+}
+
+body,
+#root {
+	width: 100%;
+	min-height: 100%;
+	height: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: var(--mui-palette-background-default);
+}
