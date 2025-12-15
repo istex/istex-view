@@ -21,6 +21,19 @@
 			"persistent": true,
 			"dependsOn": ["^build"]
 		},
+		"preview": {
+			"inputs": [
+				"src/**",
+				"tsconfig.json",
+				"tsconfig.app.json",
+				"tsconfig.node.json",
+				"package.json"
+			],
+			"outputs": ["dist/**"],
+			"cache": false,
+			"persistent": true,
+			"dependsOn": ["build"]
+		},
 		"test": {
 			"inputs": [
 				"src/**",
@@ -57,6 +70,17 @@
 			"persistent": true,
 			"interactive": true,
 			"dependsOn": ["^build"]
+		},
+		"e2e": {
+			"inputs": ["src", "tsconfig.json", "package.json"],
+			"cache": false,
+			"persistent": false,
+			"dependsOn": ["^build"]
+		},
+		"e2e:ui": {
+			"inputs": ["src", "tsconfig.json", "package.json"],
+			"cache": false,
+			"persistent": true
 		},
 		"typecheck": {
 			"dependsOn": ["^build"]

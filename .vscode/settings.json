@@ -6,6 +6,12 @@
 		"source.organizeImports.biome": "always",
 		"source.removeUnusedImports": "always"
 	},
+	"[css]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
+	"[tailwindcss]": {
+		"editor.defaultFormatter": "biomejs.biome"
+	},
 	"[json]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
@@ -22,5 +28,6 @@
 		"**/.DS_Store": true,
 		"**/.turbo": true,
 		"**/node_modules": true
-	}
+	},
+	"typescript.preferences.autoImportSpecifierExcludeRegexes": ["node:test"]
 }

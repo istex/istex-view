@@ -7,27 +7,17 @@
 	"scripts": {
 		"lint:apply": "biome check --write",
 		"lint:check": "biome check",
-		"prepare": "husky"
+		"prepare": "husky",
+		"typecheck": "tsc --noEmit tsconfig.e2e.json"
 	},
 	"private": true,
-	"dependencies": {},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
+		"@playwright/test": "^1.57.0",
 		"@types/node": "catalog:",
-		"@types/react": "catalog:",
-		"@types/react-dom": "catalog:",
-		"@vitejs/plugin-react-swc": "catalog:",
-		"@vitest/browser-playwright": "catalog:",
-		"@vitest/coverage-v8": "catalog:",
 		"husky": "catalog:",
 		"playwright": "catalog:",
-		"turbo": "catalog:",
-		"typescript": "catalog:",
-		"vite": "catalog:",
-		"vite-plugin-devtools-json": "catalog:",
-		"vite-tsconfig-paths": "catalog:",
-		"vitest": "catalog:",
-		"vitest-browser-react": "catalog:"
+		"turbo": "catalog:"
 	},
 	"packageManager": "pnpm@10.25.0+sha512.5e82639027af37cf832061bcc6d639c219634488e0f2baebe785028a793de7b525ffcd3f7ff574f5e9860654e098fe852ba8ac5dd5cefe1767d23a020a92f501"
 }

@@ -2,10 +2,10 @@
 	"$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
 	"files": {
 		"includes": [
-			"*.{json,md,yaml}",
+			"*.{json,md,ts,yaml}",
 			".github/**/*.{yml,md}",
 			".vscode/*.json",
-			"packages/**/*.{json,ts,tsx}",
+			"{e2e,packages}/**/*.{css,json,ts,tsx}",
 			"!packages/**/dist/*.{js,ts}"
 		]
 	},

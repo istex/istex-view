@@ -22,8 +22,23 @@ test: 									## Run Unit tests
 test-watch: 							## Run Unit tests in watch mode
 	@pnpm turbo watch test:watch
 
+test-browser: 							## Run Unit tests in browser mode
+	@pnpm turbo run test:browser
+
+test-browser-react-tei: 				## Run demo React TEI in browser mode
+	@pnpm turbo run test:browser --filter="@istex/react-tei"
+
+test-browser-demo: 						## Run demo tests in browser mode
+	@pnpm turbo run test:browser --filter="@istex/viewer-demo"
+
+e2e:
+	@pnpm turbo run e2e --no-cache
+
+e2e-ui:
+	@(DEV=1 pnpm playwright test --ui)
+
 typecheck:								## Run type checks
-	@pnpm turbo run typecheck
+	@pnpm turbo run typecheck --no-cache
 
 lint-check:								## Run lint checks
 	@pnpm turbo run lint:check --no-cache
