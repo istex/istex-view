@@ -42,7 +42,6 @@ const XMLNode = ({ name, data }: { name: string; data: any }) => {
 			);
 		}
 		case "teiHeader": {
-			console.log({ teiHeaderData: data });
 			return (
 				<div>
 					<h1>{data.fileDesc.titleStmt.title["#text"]}</h1>
