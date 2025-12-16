@@ -12,5 +12,5 @@ test("open a document", async ({ page }) => {
 		path.join(import.meta.dirname, "../testdata/document.tei"),
 	);
 
-	expect(page.getByText("<TEI></TEI>")).toBeVisible();
+	expect(page.getByText("TEI Test Title")).toBeVisible();
 });
