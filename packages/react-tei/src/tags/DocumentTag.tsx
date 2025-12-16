@@ -6,7 +6,7 @@ export const DocumentTag = ({
 	debug,
 }: {
 	name: string;
-	data: any;
+	data: string | Record<string, unknown> | Record<string, unknown>[] | string[];
 	debug?: boolean;
 }) => {
 	if (Array.isArray(data)) {

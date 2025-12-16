@@ -4,7 +4,12 @@ import { Head } from "./Head.js";
 import { P } from "./P.js";
 import { TeiHeader } from "./TeiHeader.js";
 
-export const tagCatalog: Record<string, ComponentType<any>> = {
+export const tagCatalog: Record<
+	string,
+	ComponentType<{
+		data: any;
+	}>
+> = {
 	p: P,
 	teiHeader: TeiHeader,
 	head: Head,
