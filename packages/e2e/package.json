@@ -13,7 +13,7 @@
 		"@istex/viewer-demo": "workspace:^"
 	},
 	"devDependencies": {
-		"@playwright/test": "^1.57.0",
+		"@playwright/test": "catalog:",
 		"playwright": "catalog:",
 		"typescript": "catalog:"
 	}

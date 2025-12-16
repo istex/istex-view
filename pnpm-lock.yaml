@@ -24,6 +24,9 @@ catalogs:
     '@mui/material':
       specifier: ^7.3.6
       version: 7.3.6
+    '@playwright/test':
+      specifier: ^1.57.0
+      version: 1.57.0
     '@types/node':
       specifier: 24.10.2
       version: 24.10.2
@@ -197,7 +200,7 @@ importers:
         version: link:../demo
     devDependencies:
       '@playwright/test':
-        specifier: ^1.57.0
+        specifier: 'catalog:'
         version: 1.57.0
       playwright:
         specifier: 'catalog:'
