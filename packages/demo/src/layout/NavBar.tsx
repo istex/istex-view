@@ -11,6 +11,7 @@ import {
 	Typography,
 } from "@mui/material";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 const navbarLinks = {
 	istex: {
@@ -41,9 +42,8 @@ const navbarLinks = {
 	],
 } as const;
 
-const t = (key: string) => key; // Placeholder for translation function
-
 export default function Navbar() {
+	const { t } = useTranslation("navbar");
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null,
 	);

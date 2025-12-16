@@ -2,8 +2,6 @@ import { Box, Container, Stack, Typography } from "@mui/material";
 import headerBackground from "../images/header-background.webp";
 import istexSearchLogo from "../images/istex-search.svg";
 
-const t = (key: string, _tags: unknown) => key; // Placeholder for translation function
-
 export default function Header() {
 	return (
 		<Box
