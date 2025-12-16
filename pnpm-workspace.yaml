@@ -1,6 +1,7 @@
 packages:
   - packages/*
 
+catalogMode: prefer
 catalog:
   '@biomejs/biome': ^2.3.8
   '@emotion/react': ^11.14.0

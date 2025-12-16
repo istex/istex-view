@@ -4,6 +4,7 @@ import vitePluginDevtoolsJson from "vite-plugin-devtools-json";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const config = defineConfig({
+	base: "/istex-view/",
 	server: {
 		port: 3000,
 	},
