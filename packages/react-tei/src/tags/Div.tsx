@@ -1,21 +1,29 @@
+import { useMemo } from "react";
 import type { ComponentProps } from "./type.js";
-
 import { Value } from "./Value.js";
 
-export const Div = ({
-	data: { value, attributes },
-	depth = 1,
-}: ComponentProps) => {
+export const Div = ({ data: { value }, depth = 1 }: ComponentProps) => {
 	if (!Array.isArray(value)) {
 		console.warn("Div tag with non-array value:", value);
 		return null;
 	}
 
-	return value.map((value, index) => (
-		<Value
-			key={index}
-			data={value}
-			depth={attributes?.["@type"] === "ElsevierSections" ? depth : depth + 1}
-		/>
-	));
+	const hasHead = useMemo(
+		() =>
+			value.some((item) => {
+				if (typeof item === "object" && item !== null && "tag" in item) {
+					return item.tag === "head";
+				}
+				return false;
+			}),
+		[value],
+	);
+
+	return (
+		<div>
+			{value.map((value, index) => (
+				<Value key={index} data={value} depth={hasHead ? depth + 1 : depth} />
+			))}
+		</div>
+	);
 };
