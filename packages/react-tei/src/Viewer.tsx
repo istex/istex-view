@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { XMLParser } from "fast-xml-parser";
 import { useMemo } from "react";
 
@@ -16,12 +17,14 @@ export const Viewer = ({ document }: { document: string }) => {
 	return (
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<div>
-					<DocumentBody jsonDocument={jsonDocument} />
+				<Box component="main" sx={{ flexGrow: 1, display: "flex" }}>
+					<Box sx={{ maxWidth: "1200px", margin: "auto" }} component="section">
+						<DocumentBody jsonDocument={jsonDocument} />
+					</Box>
 					<DocumentDrawer
 						teiHeader={jsonDocument.TEI.teiHeader as Record<string, unknown>}
 					/>
-				</div>
+				</Box>
 			</DocumentContextProvider>
 		</I18nProvider>
 	);
