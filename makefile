@@ -35,7 +35,7 @@ e2e:
 	@pnpm turbo run e2e --no-cache
 
 e2e-ui:
-	@(DEV=1 pnpm playwright test --ui)
+	@pnpm turbo run e2e:ui
 
 typecheck:								## Run type checks
 	@pnpm turbo run typecheck --no-cache

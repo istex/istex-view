@@ -1,5 +1,6 @@
 {
 	"name": "@istex/vierwer-monorepo",
+	"license": "CeCILL",
 	"version": "0.0.0",
 	"workspaces": [
 		"packages/*"

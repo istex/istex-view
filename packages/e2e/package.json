@@ -1,11 +1,12 @@
 {
 	"name": "@istex/e2e",
+	"license": "CeCILL",
 	"private": true,
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"e2e": "playwright test",
-		"e2e:ui": "playwright test --ui",
+		"e2e:ui": "DEV=1 playwright test --ui",
 		"typecheck": "tsc --noEmit"
 	},
 	"dependencies": {
