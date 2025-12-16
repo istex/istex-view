@@ -1,5 +1,6 @@
 {
 	"name": "@istex/react-tei",
+	"license": "CeCILL",
 	"type": "module",
 	"version": "0.1.0",
 	"scripts": {
