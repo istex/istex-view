@@ -1,10 +1,10 @@
-export const P = ({
-	data,
-}: {
-	data: {
-		"@_xml:id": string;
-		"#text": string;
-	};
-}) => {
-	return <p id={data["@_xml:id"]}>{data["#text"]}</p>;
+import type { DocumentJson } from "../parser/document.js";
+import { DocumentTag } from "./DocumentTag.js";
+
+export const P = ({ data }: { data: DocumentJson }) => {
+	return (
+		<p>
+			<DocumentTag data={data.value ?? []} />
+		</p>
+	);
 };

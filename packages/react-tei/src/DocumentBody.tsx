@@ -1,11 +1,6 @@
+import type { DocumentJsonValue } from "./parser/document.js";
 import { DocumentTag } from "./tags/DocumentTag.js";
 
-export const DocumentBody = ({
-	jsonDocument,
-}: {
-	jsonDocument: {
-		TEI: Record<string, unknown>;
-	};
-}) => {
-	return <DocumentTag name="TEI" data={jsonDocument.TEI} />;
+export const DocumentBody = ({ tei }: { tei: DocumentJsonValue }) => {
+	return <DocumentTag data={tei} />;
 };

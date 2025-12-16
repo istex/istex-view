@@ -1,7 +1,8 @@
 import { createContext } from "react";
+import type { DocumentJsonValue } from "./parser/document.js";
 
 export type DocumentContextType = {
-	jsonDocument: Record<string, unknown> | null;
+	jsonDocument: DocumentJsonValue;
 };
 
 export const DocumentContext = createContext<DocumentContextType | undefined>(
@@ -13,7 +14,7 @@ export function DocumentContextProvider({
 	jsonDocument,
 }: {
 	children: React.ReactNode;
-	jsonDocument: Record<string, unknown> | null;
+	jsonDocument: DocumentJsonValue;
 }) {
 	return (
 		<DocumentContext.Provider
