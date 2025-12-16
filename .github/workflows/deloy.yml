@@ -17,7 +17,7 @@ concurrency:
 
 jobs:
   check:
-    uses: ./.github/workflows/check.yml@main
+    uses: ./.github/workflows/check.yml
 
   deploy:
     runs-on: ubuntu-latest
