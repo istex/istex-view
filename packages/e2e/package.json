@@ -11,5 +11,10 @@
 	},
 	"dependencies": {
 		"@istex/viewer-demo": "workspace:^"
+	},
+	"devDependencies": {
+		"@playwright/test": "catalog:",
+		"playwright": "catalog:",
+		"typescript": "catalog:"
 	}
 }
