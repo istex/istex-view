@@ -11,7 +11,7 @@ function TestFunction() {
 }
 
 describe("I18NProvider", () => {
-	it("should render children with translation context", async () => {
+	it("should translate header.title", async () => {
 		const screen = await render(
 			<I18nProvider>
 				<TestFunction />
