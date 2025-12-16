@@ -14,7 +14,7 @@ build-watch:							## Build the project in watch mode
 	@pnpm turbo watch build
 
 dev:									## Start containers
-	@pnpm turbo run dev
+	@pnpm turbo watch dev --filter="@istex/viewer-demo"
 
 test: 									## Run Unit tests
 	@pnpm turbo run test

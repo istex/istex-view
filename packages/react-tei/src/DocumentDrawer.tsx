@@ -1,7 +1,9 @@
+import type { DocumentJsonValue } from "./parser/document.js";
+
 type DocumentDrawerProps = {
-	teiHeader: Record<string, unknown>;
+	teiHeader: DocumentJsonValue;
 };
 
-export const DocumentDrawer = ({ teiHeader }: DocumentDrawerProps) => {
+export const DocumentDrawer = (_props: DocumentDrawerProps) => {
 	return null;
 };

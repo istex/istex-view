@@ -1,11 +1,16 @@
+import type { JSX } from "react";
+import type { DocumentJson } from "../parser/document.js";
 import { DocumentTag } from "./DocumentTag.js";
 
-export const Head = ({ data }: { data: string | Record<string, unknown> }) => {
-	if (typeof data === "string") {
-		return <h2>{data}</h2>;
-	}
+export const Head = ({ data: { value }, depth = 1 }: HeadProps) => {
+	const headerLevel = Math.max(2, Math.min(6, depth));
+	const Tag = `h${headerLevel}` as keyof JSX.IntrinsicElements;
 
-	return Object.entries(data).map(([key, value]) => (
-		<DocumentTag key={key} name={key} data={value as Record<string, unknown>} />
-	));
+	return (
+		<Tag>
+			<DocumentTag data={value ?? []} />
+		</Tag>
+	);
 };
+
+type HeadProps = { data: DocumentJson; depth?: number };

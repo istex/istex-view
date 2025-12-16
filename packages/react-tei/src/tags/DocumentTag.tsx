@@ -1,76 +1,52 @@
+import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
 import { tagCatalog } from "./tagCatalog.js";
 
 export const DocumentTag = ({
-	name,
 	data,
 	debug,
+	depth = 1,
 }: {
-	name: string;
-	data: string | Record<string, unknown> | Record<string, unknown>[] | string[];
+	data?: DocumentJsonValue;
 	debug?: boolean;
+	depth?: number;
 }) => {
+	if (!data) {
+		return null;
+	}
+
 	if (Array.isArray(data)) {
-		return (
-			<>
-				{data.map((item, index) => (
-					<DocumentTag
-						key={index}
-						name={name}
-						data={item as Record<string, unknown>}
-					/>
-				))}
-			</>
-		);
+		return data.map((item, index) => (
+			<DocumentTag key={index} data={item} depth={depth} />
+		));
 	}
 
 	if (typeof data === "string") {
-		return <p>{data}</p>;
+		return data;
 	}
 
-	const TagComponent = tagCatalog[name];
+	const { tag, value } = data as DocumentJson;
+	if (tag === "#text") {
+		return value as string;
+	}
+
+	const TagComponent = tagCatalog[tag];
 	if (TagComponent) {
-		return <TagComponent data={data} />;
+		return <TagComponent data={data} depth={depth} />;
 	}
 
-	if (["TEI", "text", "body"].includes(name)) {
-		return (
-			<>
-				{Object.entries(data).map(([key, value]) => (
-					<DocumentTag
-						key={key}
-						name={key}
-						data={value as Record<string, unknown>}
-					/>
-				))}
-			</>
-		);
-	}
+	if (["TEI", "text", "body"].includes(tag)) {
+		if (!Array.isArray(value)) {
+			return <DocumentTag data={value} depth={depth} />;
+		}
 
-	console.warn(`Unsupported tag encountered:`, {
-		name,
-		data,
-	});
+		return value.map((value, index) => (
+			<DocumentTag key={index} data={value} depth={depth} />
+		));
+	}
 
 	if (!debug) {
 		return null;
 	}
 
-	if (typeof data === "object" && data !== null) {
-		return (
-			<div>
-				{Object.entries(data as Record<string, unknown>).map(([key, value]) => (
-					<DocumentTag
-						key={key}
-						name={key}
-						data={value as Record<string, unknown>}
-					/>
-				))}
-			</div>
-		);
-	}
-	return (
-		<div>
-			<strong>{name}:</strong> {JSON.stringify(data)}
-		</div>
-	);
+	return <div>{JSON.stringify(data)}</div>;
 };
