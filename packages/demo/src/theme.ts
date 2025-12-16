@@ -1,31 +1,44 @@
 import { createTheme } from "@mui/material/styles";
-import type {} from "@mui/material/themeCssVarsAugmentation";
 
 export default createTheme({
 	typography: {
 		h1: {
-			fontSize: "2rem",
+			font: "montserrat",
+			fontSize: "2.5rem",
 			fontWeight: "bold",
 		},
 		h2: {
-			fontSize: "1.75rem",
+			font: "montserrat",
+			fontSize: "2.25rem",
 			fontWeight: "bold",
 		},
 		h3: {
-			fontSize: "1.5rem",
+			font: "montserrat",
+			fontSize: "2rem",
 			fontWeight: "bold",
 		},
 		h4: {
-			fontSize: "1.25rem",
+			font: "montserrat",
+			fontSize: "1.75rem",
 			fontWeight: "bold",
 		},
 		h5: {
-			fontSize: "1.125rem",
+			font: "montserrat",
+			fontSize: "1.5rem",
 			fontWeight: "bold",
 		},
 		h6: {
-			fontSize: "1rem",
+			font: "montserrat",
+			fontSize: "1.25rem",
 			fontWeight: "bold",
+		},
+		body1: {
+			fontFamily: "open sans, sans-serif",
+			fontSize: "1rem",
+		},
+		body2: {
+			fontFamily: "open sans, sans-serif",
+			fontSize: "1rem",
 		},
 	},
 });

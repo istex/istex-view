@@ -1,3 +1,4 @@
+import { Box } from "@mui/material";
 import { useMemo } from "react";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
@@ -19,11 +20,28 @@ export const Div = ({ data: { value }, depth = 1 }: ComponentProps) => {
 		[value],
 	);
 
+	if (hasHead) {
+		return (
+			<Box
+				component="section"
+				sx={{ mb: 2, display: "flex", flexDirection: "column", gap: 4 }}
+			>
+				{value.map((value, index) => (
+					<DocumentTag
+						key={index}
+						data={value}
+						depth={hasHead ? depth + 1 : depth}
+					/>
+				))}
+			</Box>
+		);
+	}
+
 	return (
-		<div>
+		<>
 			{value.map((value, index) => (
 				<Value key={index} data={value} depth={hasHead ? depth + 1 : depth} />
 			))}
-		</div>
+		</>
 	);
 };

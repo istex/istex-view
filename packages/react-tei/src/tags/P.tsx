@@ -1,10 +1,17 @@
-import type { ComponentProps } from "./type.js";
+import { Typography } from "@mui/material";
+import type { DocumentJson } from "../parser/document.js";
 import { Value } from "./Value.js";
 
-export function P({ data }: ComponentProps) {
+export const P = ({
+	data,
+}: {
+	data: {
+		value: DocumentJson[];
+	};
+}) => {
 	return (
-		<p>
-			<Value data={data.value} />
-		</p>
+		<Typography variant="body1">
+			<Value data={data.value ?? []} />
+		</Typography>
 	);
-}
+};
