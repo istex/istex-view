@@ -4,7 +4,10 @@ on:
   push:
     branches:
       - main
+  
   pull_request:
+
+  workflow_call:
 
 jobs:
   lint:
@@ -94,5 +97,8 @@ jobs:
       - name: Install dependencies
         run: pnpm playwright install chromium chromium-headless-shell
 
+      - name: Build Demo
+        run: pnpm turbo run build --filter="@istex/viewer-demo"
+        
       - name: Run Tests
         run: pnpm turbo run e2e

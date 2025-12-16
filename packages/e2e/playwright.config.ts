@@ -4,8 +4,8 @@ const command = process.env.DEV
 	? 'pnpm turbo run --filter="@istex/viewer-demo" dev'
 	: 'pnpm turbo run --filter="@istex/viewer-demo" preview';
 const baseURL = process.env.DEV
-	? "http://localhost:3000"
-	: "http://localhost:8000";
+	? "http://localhost:3000/istex-view"
+	: "http://localhost:8000/istex-view";
 
 export default defineConfig({
 	testDir: "./src",
@@ -28,7 +28,7 @@ export default defineConfig({
 
 	webServer: {
 		command,
-		url: baseURL,
+		url: `${baseURL}/`,
 		reuseExistingServer: !process.env.CI,
 	},
 });
