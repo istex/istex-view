@@ -30,7 +30,6 @@ const XMLNode = ({ name, data }: { name: string; data: any }) => {
 		case "TEI": {
 			return (
 				<div>
-					<h2>TEI Document</h2>
 					{Object.entries(data).map(([key, value]) => (
 						<XMLNode
 							key={key}
