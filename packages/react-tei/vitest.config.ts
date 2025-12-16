@@ -12,7 +12,11 @@ export default defineConfig({
 		},
 		browser: {
 			enabled: true,
-			provider: playwright(),
+			provider: playwright({
+				contextOptions: {
+					locale: "fr-FR",
+				},
+			}),
 			instances: [{ browser: "chromium" }],
 			viewport: { width: 1920, height: 1080 },
 		},
