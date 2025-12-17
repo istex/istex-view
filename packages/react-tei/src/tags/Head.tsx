@@ -2,7 +2,10 @@ import { Typography, type TypographyVariant } from "@mui/material";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 
-export function Head({ data: { value }, depth = 1 }: ComponentProps) {
+export function Head({
+	data: { value, props = {} },
+	depth = 1,
+}: ComponentProps) {
 	if (!value || (Array.isArray(value) && value.length === 0)) {
 		return null;
 	}
@@ -11,7 +14,7 @@ export function Head({ data: { value }, depth = 1 }: ComponentProps) {
 	const tag = `h${headerLevel}` as TypographyVariant;
 
 	return (
-		<Typography variant={tag}>
+		<Typography variant={tag} {...props}>
 			<Value data={value} />
 		</Typography>
 	);

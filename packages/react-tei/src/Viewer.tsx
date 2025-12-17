@@ -26,7 +26,7 @@ export const Viewer = ({ document }: { document: string }) => {
 	return (
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<Box component="article" sx={{ flexGrow: 1, display: "flex" }}>
+				<Box component="article" sx={{ flexGrow: 1, display: "flex", px: 2 }}>
 					<Box sx={{ maxWidth: "1200px", margin: "auto" }} component="section">
 						<DocumentTitle data={header} />
 						<DocumentBody text={text} />

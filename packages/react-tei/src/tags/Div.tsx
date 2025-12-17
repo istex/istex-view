@@ -1,5 +1,5 @@
 import { Box } from "@mui/material";
-import { useMemo } from "react";
+import { useId, useMemo } from "react";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 
@@ -20,13 +20,35 @@ export function Div({ data: { value }, depth = 1 }: ComponentProps) {
 		[value],
 	);
 
+	const id = useId();
+
+	const updatedValue = useMemo(() => {
+		if (!hasHead) {
+			return value;
+		}
+
+		return value.map((item) => {
+			if (item?.tag !== "head") {
+				return item;
+			}
+
+			return {
+				...item,
+				props: {
+					id,
+				},
+			};
+		});
+	}, [hasHead, value]);
+
 	if (hasHead) {
 		return (
 			<Box
 				component="section"
 				sx={{ mb: 2, display: "flex", flexDirection: "column", gap: 2 }}
+				aria-labelledby={id}
 			>
-				{value.map((value, index) => (
+				{updatedValue.map((value, index) => (
 					<Value key={index} data={value} depth={hasHead ? depth + 1 : depth} />
 				))}
 			</Box>
@@ -34,8 +56,8 @@ export function Div({ data: { value }, depth = 1 }: ComponentProps) {
 	}
 
 	return (
-		<Box>
-			{value.map((value, index) => (
+		<Box sx={{ mb: 2, display: "flex", flexDirection: "column", gap: 2 }}>
+			{updatedValue.map((value, index) => (
 				<Value key={index} data={value} depth={hasHead ? depth + 1 : depth} />
 			))}
 		</Box>

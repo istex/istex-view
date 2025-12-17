@@ -124,4 +124,49 @@ describe("Div", () => {
 
 		consoleWarnSpy.mockRestore();
 	});
+
+	it("should add aria-labelledby to section based on head when present", async () => {
+		const { getByLabelText, getByText } = await render(
+			<Div
+				data={{
+					tag: "div",
+					value: [
+						{
+							tag: "div",
+							value: [
+								{ tag: "head", value: "Section Header 1" },
+								{ tag: "p", value: "Some paragraph 1." },
+							],
+						},
+						{
+							tag: "div",
+							value: [
+								{ tag: "head", value: "Section Header 2" },
+								{ tag: "p", value: "Some paragraph 2." },
+							],
+						},
+					],
+				}}
+			/>,
+		);
+
+		const section1 = getByLabelText("Section Header 1");
+		const section2 = getByLabelText("Section Header 2");
+
+		const head1 = getByText("Section Header 1");
+		const head2 = getByText("Section Header 2");
+
+		const p1 = getByText("Some paragraph 1.");
+		const p2 = getByText("Some paragraph 2.");
+
+		expect(section1).toBeInTheDocument();
+
+		expect(section1).toContainElement(head1);
+		expect(section1).toContainElement(p1);
+
+		expect(section2).toBeInTheDocument();
+
+		expect(section2).toContainElement(head2);
+		expect(section2).toContainElement(p2);
+	});
 });
