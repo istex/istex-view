@@ -102,6 +102,12 @@ export default createTheme(theme, {
 			fontFamily: "open sans, sans-serif",
 			fontSize: "1rem",
 		},
+		button: {
+			fontFamily: "open sans, sans-serif",
+			textTransform: "none",
+			fontSize: "1rem",
+			color: "#458CA5",
+		},
 	},
 	components: {
 		MuiTable: {

@@ -4,6 +4,7 @@ export const fr = {
 	},
 	sidebar: {
 		footNotes: "Notes de bas de page",
+		authors: "Auteurs",
 	},
 };
 

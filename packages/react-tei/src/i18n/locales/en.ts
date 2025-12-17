@@ -6,5 +6,6 @@ export const en: Translation = {
 	},
 	sidebar: {
 		footNotes: "Foot Notes",
+		authors: "Authors",
 	},
 };

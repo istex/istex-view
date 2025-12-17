@@ -1,11 +1,11 @@
 import Box from "@mui/material/Box";
 import { DocumentBody } from "./DocumentBody.js";
 import { DocumentContextProvider } from "./DocumentContextProvider.js";
-import { DocumentSidePanel } from "./DocumentSidePanel.js";
 import { DocumentTitle } from "./DocumentTitle.js";
 import { I18nProvider } from "./i18n/I18nProvider.js";
 import type { DocumentJson } from "./parser/document.js";
 import { useDocumentParser } from "./parser/useDocumentParser.js";
+import { DocumentSidePanel } from "./SidePanel/DocumentSidePanel.js";
 
 export const Viewer = ({
 	document,
