@@ -10,8 +10,41 @@
     <teiHeader>
         <fileDesc>
             <titleStmt>
-                <title level="a" type="main">TEI Test Title</title>
+                <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
             </titleStmt>
         </fileDesc>
     </teiHeader>
+    <text>
+        <body>
+            <div type="ElsevierSections">
+                <div type="1" xml:id="s0001">
+                    <head>Introduction</head>
+                    <p>
+                        Lorem ipsum dolor sit amet, <hi rend="italic">consectetur</hi> adipiscing elit.
+                    </p>
+                </div>
+
+                <div type="2" xml:id="s0002">
+                    <head>Part 1</head>
+                    <p>
+                        Curabitur pretium tempor iaculis. 
+                    </p>
+
+                    <div type="2.1" xml:id="s0002">
+                        <head>Part 1.1</head>
+                        <p>
+                            Integer <hi rend="bold">faucibus eros</hi> eget eleifend convallis. 
+                        </p>
+                    </div>
+                </div>
+
+                 <div xml:id="s0003">
+                    <head>Acknowledgments</head>
+                    <p>
+                        Nunc varius <hi rend="italic bold">hendrerit</hi> sodales.
+                    </p>
+                </div>
+            </div>
+        </body>
+    </text>
 </TEI>

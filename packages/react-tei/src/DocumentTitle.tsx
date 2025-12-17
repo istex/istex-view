@@ -1,11 +1,12 @@
-import { Box, Typography } from "@mui/material";
-import type { DocumentJson } from "../parser/document.js";
+import { Typography } from "@mui/material";
+import type { DocumentJson } from "./parser/document.js";
+import { Value } from "./tags/Value.js";
 
-type TeiHeaderProps = {
+type DocumentTitleProps = {
 	data: DocumentJson;
 };
 
-export const TeiHeader = ({ data: { value } }: TeiHeaderProps) => {
+export function DocumentTitle({ data: { value } }: DocumentTitleProps) {
 	if (!Array.isArray(value)) {
 		console.warn("teiHeader with non-array value:", value);
 		return null;
@@ -24,20 +25,14 @@ export const TeiHeader = ({ data: { value } }: TeiHeaderProps) => {
 	}
 
 	const title = titleStmt.value.find(({ tag }) => tag === "title");
-	if (!title || !Array.isArray(title.value)) {
+	if (!title) {
 		console.warn("teiHeader missing title or invalid value:", titleStmt);
 		return null;
 	}
 
-	const titleText = title.value.find(({ tag }) => tag === "#text");
-	if (typeof titleText?.value !== "string") {
-		console.warn("teiHeader missing titleText or invalid value:", titleText);
-		return null;
-	}
-
 	return (
-		<Box sx={{ margin: 8 }}>
-			<Typography variant="h1">{titleText.value}</Typography>
-		</Box>
+		<Typography variant="h1" sx={{ margin: 8 }}>
+			<Value data={title.value} />
+		</Typography>
 	);
-};
+}
