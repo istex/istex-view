@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 
-export const Div = ({ data: { value }, depth = 1 }: ComponentProps) => {
+export function Div({ data: { value }, depth = 1 }: ComponentProps) {
 	if (!Array.isArray(value)) {
 		console.warn("Div tag with non-array value:", value);
 		return null;
@@ -40,4 +40,4 @@ export const Div = ({ data: { value }, depth = 1 }: ComponentProps) => {
 			))}
 		</Box>
 	);
-};
+}

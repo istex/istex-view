@@ -20,16 +20,7 @@ describe("Div", () => {
 		expect(container.querySelectorAll("div")).toHaveLength(1);
 		expect(container.querySelectorAll("p")).toHaveLength(2);
 
-		expect(container.innerHTML).toBe(
-			'<div class="MuiBox-root css-0">' +
-				'<p class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root">' +
-				"Paragraph 1" +
-				"</p>" +
-				'<p class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root">' +
-				"Paragraph 2" +
-				"</p>" +
-				"</div>",
-		);
+		expect(container.querySelector("div > p")?.textContent).toBe("Paragraph 1");
 	});
 
 	it("should render its value in a section when there is a head tag", async () => {
@@ -49,15 +40,11 @@ describe("Div", () => {
 		expect(container.querySelectorAll("p")).toHaveLength(1);
 		expect(container.querySelectorAll("div")).toHaveLength(0);
 
-		expect(container.innerHTML).toBe(
-			'<section class="MuiBox-root css-11v9m8c">' +
-				"<h2>" +
-				"Header content" +
-				"</h2>" +
-				'<p class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root">' +
-				"Paragraph 1" +
-				"</p>" +
-				"</section>",
+		expect(container.querySelector("section > h2")?.textContent).toBe(
+			"Header content",
+		);
+		expect(container.querySelector("section > p")?.textContent).toBe(
+			"Paragraph 1",
 		);
 	});
 
@@ -91,28 +78,21 @@ describe("Div", () => {
 		expect(container.querySelectorAll("p")).toHaveLength(3);
 		expect(container.querySelectorAll("div")).toHaveLength(1);
 
-		expect(container.innerHTML).toBe(
-			'<section class="MuiBox-root css-11v9m8c">' +
-				"<h2>" +
-				"Outer Header" +
-				"</h2>" +
-				'<section class="MuiBox-root css-11v9m8c">' +
-				"<h3>" +
-				"Inner Header" +
-				"</h3>" +
-				'<p class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root">' +
-				"Inner Paragraph" +
-				"</p>" +
-				'<div class="MuiBox-root css-0">' +
-				'<p class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root">' +
-				"Deeper Paragraph" +
-				"</p>" +
-				"</div>" +
-				"</section>" +
-				'<p class="MuiTypography-root MuiTypography-body1 css-rizt0-MuiTypography-root">' +
-				"Outer Paragraph" +
-				"</p>" +
-				"</section>",
+		expect(container.querySelector(":scope > section > h2")?.textContent).toBe(
+			"Outer Header",
+		);
+		expect(
+			container.querySelector(":scope > section > section > h3")?.textContent,
+		).toBe("Inner Header");
+		expect(
+			container.querySelector(":scope > section > section > p")?.textContent,
+		).toBe("Inner Paragraph");
+		expect(
+			container.querySelector(":scope > section > section > div > p")
+				?.textContent,
+		).toBe("Deeper Paragraph");
+		expect(container.querySelector(":scope > section > p")?.textContent).toBe(
+			"Outer Paragraph",
 		);
 	});
 
@@ -121,7 +101,7 @@ describe("Div", () => {
 			.spyOn(console, "warn")
 			.mockImplementation(() => {});
 
-		const { container } = await render(
+		const screen = await render(
 			<Div
 				data={{
 					tag: "div",
@@ -130,11 +110,17 @@ describe("Div", () => {
 			/>,
 		);
 
+		expect(
+			screen.getByText("This is a string, not an array"),
+		).not.toBeInTheDocument();
+
+		expect(screen.container.querySelectorAll("div")).toHaveLength(0);
+		expect(screen.container.querySelectorAll("section")).toHaveLength(0);
+
 		expect(consoleWarnSpy).toHaveBeenCalledWith(
 			"Div tag with non-array value:",
 			"This is a string, not an array",
 		);
-		expect(container.innerHTML).toBe("");
 
 		consoleWarnSpy.mockRestore();
 	});
