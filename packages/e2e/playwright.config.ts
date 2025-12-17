@@ -1,8 +1,8 @@
 import { defineConfig, devices } from "@playwright/test";
 
 const command = process.env.DEV
-	? 'pnpm turbo run --filter="@istex/viewer-demo" dev --no-cache'
-	: 'pnpm turbo run --filter="@istex/viewer-demo" preview';
+	? 'pnpm turbo run --filter="@istex/viewer-demo" --ui=stream --no-cache dev'
+	: 'pnpm turbo run --filter="@istex/viewer-demo" --ui=stream preview';
 const baseURL = process.env.DEV
 	? "http://localhost:3000/istex-view"
 	: "http://localhost:8000/istex-view";
@@ -32,5 +32,10 @@ export default defineConfig({
 		url: `${baseURL}/`,
 		reuseExistingServer: !process.env.CI,
 		stdout: "pipe",
+		stderr: "pipe",
+		gracefulShutdown: {
+			signal: "SIGTERM",
+			timeout: 5000,
+		},
 	},
 });

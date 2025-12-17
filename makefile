@@ -14,7 +14,7 @@ build-watch:							## Build the project in watch mode
 	@pnpm turbo watch build
 
 dev:									## Start containers
-	@pnpm turbo watch dev --filter="@istex/viewer-demo"
+	@pnpm turbo watch dev --filter="@istex/viewer-demo" --ui="stream"
 
 test: 									## Run Unit tests
 	@pnpm turbo run test
@@ -35,7 +35,7 @@ e2e:
 	@pnpm turbo run e2e --no-cache
 
 e2e-ui:
-	@pnpm turbo run e2e:ui
+	@pnpm turbo run --ui=stream e2e:ui
 
 typecheck:								## Run type checks
 	@pnpm turbo run typecheck --no-cache

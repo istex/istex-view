@@ -52,4 +52,60 @@ describe("Viewer", () => {
 		expect(screen.getByText("This is a test document.")).toBeInTheDocument();
 		expect(screen.getByText("Content of section 1.")).toBeInTheDocument();
 	});
+
+	it("should render a table", async () => {
+		const document = `<?xml version="1.0" encoding="UTF-8"?>
+		<TEI xmlns="http://www.tei-c.org/ns/1.0">
+			<teiHeader>
+				<fileDesc>
+					<titleStmt>
+						<title level="a" type="main">TEI <hi rend="italic">Test</hi> Title</title>
+					</titleStmt>
+				</fileDesc>
+			</teiHeader>
+			<text>
+				<body>
+					<table xml:id="t1">
+						<head type="label">T<sc>able</sc> 1</head>
+						<head>Sample Table</head>
+						<row role="label">
+							<cell>Header 1</cell>
+							<cell>Header 2</cell>
+						</row>
+						<row role="data">
+							<cell>Data 1</cell>
+							<cell>Data 2</cell>
+						</row>
+						<note>
+							<note>This is a table note.</note>
+						</note>
+					</table>
+				</body>
+			</text>
+		</TEI>`;
+
+		const screen = await render(<Viewer document={document} />);
+
+		expect(
+			screen.getByRole("table", {
+				name: "Table 1: Sample Table",
+			}),
+		).toBeVisible();
+
+		expect(screen.getByRole("caption")).toBeVisible();
+		expect(screen.getByRole("caption")).toHaveTextContent(
+			"Table 1: Sample Table",
+		);
+
+		expect(
+			screen.getByRole("columnheader", { name: "Header 1" }),
+		).toBeVisible();
+		expect(
+			screen.getByRole("columnheader", { name: "Header 2" }),
+		).toBeVisible();
+
+		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
+		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
+		expect(screen.getByText("This is a table note.")).toBeVisible();
+	});
 });

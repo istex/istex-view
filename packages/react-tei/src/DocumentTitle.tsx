@@ -1,4 +1,5 @@
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
+
 import type { DocumentJson } from "./parser/document.js";
 import { Value } from "./tags/Value.js";
 
@@ -31,7 +32,10 @@ export function DocumentTitle({ data: { value } }: DocumentTitleProps) {
 	}
 
 	return (
-		<Typography variant="h1" sx={{ margin: 8 }}>
+		<Typography
+			variant="h1"
+			sx={{ paddingBlockStart: 4, paddingBlockEnd: 2, textAlign: "center" }}
+		>
 			<Value data={title.value} />
 		</Typography>
 	);

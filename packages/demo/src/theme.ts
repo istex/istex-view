@@ -47,4 +47,16 @@ export default createTheme({
 			fontSize: "1rem",
 		},
 	},
+	components: {
+		MuiTable: {
+			styleOverrides: {
+				root: {
+					"& caption": {
+						captionSide: "top",
+						fontSize: "1rem",
+					},
+				},
+			},
+		},
+	},
 });

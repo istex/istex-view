@@ -30,9 +30,8 @@ export function UploadPage() {
 	return (
 		<Stack
 			sx={{
-				width: "100%",
+				flexGrow: 1,
 				maxWidth: "sm",
-				minHeight: "100%",
 				alignItems: "center",
 				justifyContent: "center",
 				padding: 2,
