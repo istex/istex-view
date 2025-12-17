@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import type { DocumentJsonValue } from "./parser/document.js";
+import type { DocumentJson } from "./parser/document.js";
 
 export type PanelState = {
 	isOpen: boolean;
@@ -11,7 +11,7 @@ export type PanelState = {
 export type PanelSection = keyof PanelState["sections"];
 
 export type DocumentContextType = {
-	jsonDocument: DocumentJsonValue;
+	jsonDocument: DocumentJson[];
 	panel: {
 		state: PanelState;
 		openPanel: () => void;
@@ -40,7 +40,7 @@ export function DocumentContextProvider({
 	jsonDocument,
 }: {
 	children: React.ReactNode;
-	jsonDocument: DocumentJsonValue;
+	jsonDocument: DocumentJson[];
 }) {
 	const [panelState, dispatch] = useReducer(
 		(state: PanelState, action: PanelAction) => {

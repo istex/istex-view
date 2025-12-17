@@ -37,6 +37,12 @@ function transform(obj: unknown): DocumentJson | DocumentJson[] | string {
 export function useDocumentParser(document: string) {
 	return useMemo(() => {
 		const jsonDocument = parser.parse(document);
-		return transform(jsonDocument);
+		const transformedDocument = transform(jsonDocument);
+
+		if (Array.isArray(transformedDocument)) {
+			return transformedDocument as DocumentJson[];
+		}
+
+		return [transformedDocument as DocumentJson];
 	}, [document]);
 }

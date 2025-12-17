@@ -32,7 +32,7 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 				<Typography variant="button">{t(label)}</Typography>
 			</AccordionSummary>
 
-			<AccordionDetails>{children}</AccordionDetails>
+			<AccordionDetails sx={{ padding: 0 }}>{children}</AccordionDetails>
 		</MuiAccordion>
 	);
 };
