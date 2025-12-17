@@ -3,7 +3,7 @@
 	"include": ["src", "vitest.config.ts"],
 	"compilerOptions": {
 		"types": [],
-		"lib": ["es2024"],
+		"lib": ["es2024", "DOM"],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"noEmit": true,

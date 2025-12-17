@@ -24,24 +24,20 @@ export const Div = ({ data: { value }, depth = 1 }: ComponentProps) => {
 		return (
 			<Box
 				component="section"
-				sx={{ mb: 2, display: "flex", flexDirection: "column", gap: 4 }}
+				sx={{ mb: 2, display: "flex", flexDirection: "column", gap: 2 }}
 			>
 				{value.map((value, index) => (
-					<DocumentTag
-						key={index}
-						data={value}
-						depth={hasHead ? depth + 1 : depth}
-					/>
+					<Value key={index} data={value} depth={hasHead ? depth + 1 : depth} />
 				))}
 			</Box>
 		);
 	}
 
 	return (
-		<>
+		<Box>
 			{value.map((value, index) => (
 				<Value key={index} data={value} depth={hasHead ? depth + 1 : depth} />
 			))}
-		</>
+		</Box>
 	);
 };
