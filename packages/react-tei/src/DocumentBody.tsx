@@ -1,6 +1,6 @@
-import type { DocumentJsonValue } from "./parser/document.js";
-import { DocumentTag } from "./tags/DocumentTag.js";
+import type { DocumentJson } from "./parser/document.js";
+import { Value } from "./tags/Value.js";
 
-export const DocumentBody = ({ tei }: { tei: DocumentJsonValue }) => {
-	return <DocumentTag data={tei} />;
+export const DocumentBody = ({ text }: { text: DocumentJson }) => {
+	return <Value data={text.value} />;
 };

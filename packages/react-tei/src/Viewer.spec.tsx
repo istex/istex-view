@@ -19,14 +19,37 @@ describe("Viewer", () => {
 					<teiHeader>
 						<fileDesc>
 							<titleStmt>
-								<title level="a" type="main">TEI Test Title</title>
+								<title level="a" type="main">TEI <hi rend="italic">Test</hi> Title</title>
 							</titleStmt>
 						</fileDesc>
 					</teiHeader>
+					<text>
+						<body>
+							<div>
+								<head>Introduction</head>
+								<p>This is a test document.</p>
+								<div>
+									<head>Section 1</head>
+									<p>Content of section 1.</p>
+								</div>
+							</div>
+						</body>
+					</text>
 				</TEI>`}
 			/>,
 		);
 
-		expect(screen.getByText("TEI Test Title")).toBeInTheDocument();
+		expect(
+			screen.getByRole("heading", { level: 1, name: "TEI Test Title" }),
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole("heading", { level: 2, name: "Introduction" }),
+		).toBeInTheDocument();
+		expect(
+			screen.getByRole("heading", { level: 3, name: "Section 1" }),
+		).toBeInTheDocument();
+
+		expect(screen.getByText("This is a test document.")).toBeInTheDocument();
+		expect(screen.getByText("Content of section 1.")).toBeInTheDocument();
 	});
 });

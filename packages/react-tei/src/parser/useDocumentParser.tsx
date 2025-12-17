@@ -6,6 +6,7 @@ const parser = new XMLParser({
 	ignoreAttributes: false,
 	attributeNamePrefix: "@",
 	preserveOrder: true,
+	trimValues: false,
 });
 
 function transform(obj: unknown): DocumentJson | DocumentJson[] | string {

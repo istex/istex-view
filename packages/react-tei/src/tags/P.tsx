@@ -1,10 +1,10 @@
-import type { DocumentJson } from "../parser/document.js";
-import { DocumentTag } from "./DocumentTag.js";
+import type { ComponentProps } from "./type.js";
+import { Value } from "./Value.js";
 
-export const P = ({ data }: { data: DocumentJson }) => {
+export function P({ data }: ComponentProps) {
 	return (
 		<p>
-			<DocumentTag data={data.value ?? []} />
+			<Value data={data.value} />
 		</p>
 	);
-};
+}

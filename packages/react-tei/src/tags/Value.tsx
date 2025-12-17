@@ -1,22 +1,22 @@
 import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
 import { tagCatalog } from "./tagCatalog.js";
 
-export const DocumentTag = ({
+const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
+
+export function Value({
 	data,
-	debug,
 	depth = 1,
 }: {
 	data?: DocumentJsonValue;
-	debug?: boolean;
 	depth?: number;
-}) => {
+}) {
 	if (!data) {
 		return null;
 	}
 
 	if (Array.isArray(data)) {
 		return data.map((item, index) => (
-			<DocumentTag key={index} data={item} depth={depth} />
+			<Value key={index} data={item} depth={depth} />
 		));
 	}
 
@@ -24,7 +24,7 @@ export const DocumentTag = ({
 		return data;
 	}
 
-	const { tag, value } = data as DocumentJson;
+	const { tag, attributes, value } = data as DocumentJson;
 	if (tag === "#text") {
 		return value as string;
 	}
@@ -34,19 +34,10 @@ export const DocumentTag = ({
 		return <TagComponent data={data} depth={depth} />;
 	}
 
-	if (["TEI", "text", "body"].includes(tag)) {
-		if (!Array.isArray(value)) {
-			return <DocumentTag data={value} depth={depth} />;
-		}
-
-		return value.map((value, index) => (
-			<DocumentTag key={index} data={value} depth={depth} />
-		));
-	}
-
-	if (!debug) {
+	if (!IS_DEBUG_ENABLED) {
 		return null;
 	}
 
-	return <div>{JSON.stringify(data)}</div>;
-};
+	console.warn(`No component found for tag <${tag}>`, { attributes, value });
+	return <Value data={value} depth={depth} />;
+}
