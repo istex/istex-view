@@ -1,36 +1,13 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../DocumentContextProvider.js";
 import type { DocumentJson } from "../parser/document.js";
-
-const getPathFromDocumentJson = (
-	obj: DocumentJson[],
-	path: string[],
-	result?: DocumentJson,
-): DocumentJson | undefined => {
-	if (path.length === 0) {
-		return result;
-	}
-	if (!obj) {
-		return undefined;
-	}
-
-	if (!Array.isArray(obj)) {
-		return getPathFromDocumentJson([obj], path, result);
-	}
-	const [nextTag, ...restPath] = path;
-	const nextObj = obj.find((item) => item.tag === nextTag);
-	return getPathFromDocumentJson(
-		nextObj && Array.isArray(nextObj.value) ? nextObj.value : [],
-		restPath,
-		nextObj,
-	);
-};
+import { getDocumentJsonAtPath } from "../parser/getDocumentJsonAtPath.js";
 
 export const useAuthors = (): DocumentJson[] => {
 	const { jsonDocument } = useDocumentContext();
 
 	const authors: DocumentJson[] = useMemo(() => {
-		const analytic: DocumentJson | undefined = getPathFromDocumentJson(
+		const analytic: DocumentJson | undefined = getDocumentJsonAtPath(
 			jsonDocument,
 			["TEI", "teiHeader", "fileDesc", "sourceDesc", "biblStruct", "analytic"],
 		);

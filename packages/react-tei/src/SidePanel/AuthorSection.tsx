@@ -9,6 +9,7 @@ export const AuthorSection = () => {
 	if (authors.length === 0) {
 		return null;
 	}
+
 	return (
 		<Accordion name="authors" label="sidePanel.authors">
 			<List dense>
