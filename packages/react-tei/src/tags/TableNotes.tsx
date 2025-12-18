@@ -5,16 +5,7 @@ import { Value } from "./Value.js";
 
 export function TableNotes({ notes }: TableNotesProps) {
 	return (
-		<Stack
-			gap={1}
-			sx={{
-				"& p": {
-					padding: 0,
-					margin: 0,
-					color: "text.secondary",
-				},
-			}}
-		>
+		<Stack gap={1}>
 			{notes.map((note, index) => (
 				<Value key={index} data={note.value} />
 			))}

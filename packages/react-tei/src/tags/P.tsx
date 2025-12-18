@@ -1,25 +1,24 @@
 /** biome-ignore-all lint/performance/noAccumulatingSpread: Array is not big */
 import Typography from "@mui/material/Typography";
 
+import { removeEmptyTextValues } from "../helper/removeEmptyTextValues.js";
 import type { DocumentJson } from "../parser/document.js";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 
-export function groupValuesWitoutTable(values: DocumentJson[]) {
-	return values.reduce<DocumentJson[][]>((groupedValues, item) => {
+export function groupConsecutiveTableAndNonTableValues(values: DocumentJson[]) {
+	const cleanedValues = removeEmptyTextValues(values);
+
+	return cleanedValues.reduce<DocumentJson[][]>((groupedValues, item) => {
+		const lastGroup = groupedValues.at(-1);
+
 		if (item.tag === "table") {
-			const lastGroup = groupedValues[groupedValues.length - 1];
 			if (lastGroup && lastGroup.length > 0 && lastGroup[0]?.tag !== "table") {
 				return [...groupedValues, [item]];
 			}
 			return [...groupedValues, [item]];
 		}
 
-		if (typeof item.value === "string" && item.value.trim() === "") {
-			return groupedValues;
-		}
-
-		const lastGroup = groupedValues[groupedValues.length - 1];
 		if (!lastGroup || lastGroup[0]?.tag === "table") {
 			return [...groupedValues, [item]];
 		}
@@ -37,7 +36,7 @@ export function P({ data }: ComponentProps) {
 		);
 	}
 
-	const groups = groupValuesWitoutTable(data.value);
+	const groups = groupConsecutiveTableAndNonTableValues(data.value);
 
 	return groups.map((group, index) => {
 		if (group.length === 1 && group[0]?.tag === "table") {
