@@ -10,7 +10,7 @@ export const AuthorSection = () => {
 		return null;
 	}
 	return (
-		<Accordion name="authors" label="sidebar.authors">
+		<Accordion name="authors" label="sidePanel.authors">
 			<List dense>
 				{authors.map((author, index) => (
 					<ListItem

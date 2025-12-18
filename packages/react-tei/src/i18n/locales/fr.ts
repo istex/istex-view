@@ -2,7 +2,7 @@ export const fr = {
 	document: {
 		abstract: "Résumé",
 	},
-	sidebar: {
+	sidePanel: {
 		footNotes: "Notes de bas de page",
 		authors: "Auteurs",
 		author: {

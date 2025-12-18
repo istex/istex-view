@@ -57,7 +57,7 @@ export function PersNamePart({ data }: PersNamePartProps) {
 	return (
 		<span
 			aria-description={
-				descriptionType ? t(`sidebar.author.${descriptionType}`) : undefined
+				descriptionType ? t(`sidePanel.author.${descriptionType}`) : undefined
 			}
 		>
 			{data.value.map((item, index) => (

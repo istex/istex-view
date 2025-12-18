@@ -132,7 +132,7 @@ describe("PersNamePart", () => {
 		expect(spanElement).toBeInTheDocument();
 		expect(spanElement).toHaveAttribute(
 			"aria-description",
-			"sidebar.author.forename",
+			"sidePanel.author.forename",
 		);
 	});
 
@@ -216,6 +216,4 @@ describe("PersNamePart", () => {
 
 		consoleWarnSpy.mockRestore();
 	});
-
-	it("");
 });

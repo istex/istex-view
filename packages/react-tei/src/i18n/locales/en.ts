@@ -4,7 +4,7 @@ export const en: Translation = {
 	document: {
 		abstract: "Abstract",
 	},
-	sidebar: {
+	sidePanel: {
 		footNotes: "Foot Notes",
 		authors: "Authors",
 		author: {
