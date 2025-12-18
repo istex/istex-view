@@ -33,6 +33,8 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	nameLink: PersNamePart,
 	orgName: PersNamePart,
 	affiliation: Nothing,
+
 	// Structure tags
 	body: NoOp,
+	"#text": NoOp,
 };

@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 
+import { I18nProvider } from "./i18n/I18nProvider.js";
 import { Viewer } from "./Viewer.js";
 
 describe("Viewer", () => {
@@ -37,6 +38,9 @@ describe("Viewer", () => {
 					</text>
 				</TEI>`}
 			/>,
+			{
+				wrapper: I18nProvider,
+			},
 		);
 
 		expect(
@@ -84,7 +88,9 @@ describe("Viewer", () => {
 			</text>
 		</TEI>`;
 
-		const screen = await render(<Viewer document={document} />);
+		const screen = await render(<Viewer document={document} />, {
+			wrapper: I18nProvider,
+		});
 
 		expect(
 			screen.getByRole("table", {
@@ -107,5 +113,64 @@ describe("Viewer", () => {
 		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
 		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
 		expect(screen.getByText("This is a table note.")).toBeVisible();
+	});
+
+	it("should render the abstract with toggle", async () => {
+		const document = `<?xml version="1.0" encoding="UTF-8"?>
+		<TEI xmlns="http://www.tei-c.org/ns/1.0">
+			<teiHeader>
+				<fileDesc>
+					<titleStmt>
+						<title level="a" type="main">TEI <hi rend="italic">Test</hi> Title</title>
+					</titleStmt>
+				</fileDesc>
+				<profileDesc>
+					<abstract xml:lang="en">
+						<p>This is the English abstract.</p>
+					</abstract>
+					<abstract xml:lang="fr">
+						<p>Ceci est le résumé en français.</p>
+					</abstract>
+				</profileDesc>
+			</teiHeader>
+			<text>
+				<body>
+					<p>Document body content.</p>
+				</body>
+			</text>
+		</TEI>`;
+
+		const screen = await render(<Viewer document={document} />, {
+			wrapper: I18nProvider,
+		});
+
+		const abstractRegion = screen.getByRole("region", {
+			name: "Résumé",
+		});
+		expect(abstractRegion).toBeVisible();
+
+		await abstractRegion.click();
+
+		const tabs = screen.getByRole("tablist");
+		expect(tabs).toBeVisible();
+
+		const englishTab = screen.getByRole("tab", { name: "anglais" });
+		const frenchTab = screen.getByRole("tab", { name: "français" });
+
+		expect(englishTab).toBeVisible();
+		expect(frenchTab).toBeVisible();
+
+		expect(
+			abstractRegion.getByText("This is the English abstract."),
+		).toBeVisible();
+
+		await frenchTab.click();
+
+		expect(
+			abstractRegion.getByText("This is the English abstract."),
+		).not.toBeInTheDocument();
+		expect(
+			abstractRegion.getByText("Ceci est le résumé en français."),
+		).toBeVisible();
 	});
 });

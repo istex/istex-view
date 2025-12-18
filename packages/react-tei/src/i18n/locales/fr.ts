@@ -1,6 +1,7 @@
 export const fr = {
 	document: {
 		abstract: "Résumé",
+		lang: "Langue",
 	},
 	sidePanel: {
 		footNotes: "Notes de bas de page",

@@ -13,12 +13,12 @@ export function ViewerPage() {
 	return (
 		<Stack
 			sx={{
-				maxHeight: `calc(100dvh - 153.5px)`,
+				maxHeight: `calc(100dvh - 49.5px - 118.5px)`,
 				overflowY: "auto",
 				overflowX: "hidden",
 			}}
 		>
-			<Viewer document={document} height="calc(100vh - 49.5px - 104px)" />
+			<Viewer document={document} height="100%" />
 		</Stack>
 	);
 }

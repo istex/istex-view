@@ -27,9 +27,6 @@ export function Value({
 	}
 
 	const { tag, attributes, value } = data as DocumentJson;
-	if (tag === "#text") {
-		return value as string;
-	}
 
 	const TagComponent = tagCatalog[tag];
 	if (TagComponent) {
@@ -42,12 +39,12 @@ export function Value({
 
 	console.warn(`No component found for tag <${tag}>`, { attributes, value });
 
-	if (typeof value === "string") {
-		return value;
-	}
-
 	if (!value) {
 		return null;
+	}
+
+	if (typeof value === "string" || typeof value === "number") {
+		return value;
 	}
 
 	return value.map((data) => <Value data={data} depth={depth} />);

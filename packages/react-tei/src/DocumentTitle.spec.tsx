@@ -36,7 +36,7 @@ describe("DocumentTitle", () => {
 		).toBeInTheDocument();
 	});
 
-	it("shoudl render document title with complex value", async () => {
+	it("should render document title with complex value", async () => {
 		const jsonValue: DocumentJson = {
 			tag: "teiHeader",
 			attributes: {},
