@@ -1,9 +1,11 @@
 import { List, ListItem } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import { Value } from "../tags/Value.js";
 import { Accordion } from "./Accordion.js";
 import { useAuthors } from "./useAuthors.js";
 
 export const AuthorSection = () => {
+	const { t } = useTranslation();
 	const authors = useAuthors();
 
 	if (authors.length === 0) {
@@ -14,10 +16,7 @@ export const AuthorSection = () => {
 		<Accordion name="authors" label="sidePanel.authors">
 			<List dense>
 				{authors.map((author, index) => (
-					<ListItem
-						key={index}
-						aria-label={author.attributes?.["@role"] || "author"}
-					>
+					<ListItem key={index} aria-label={t("sidePanel.author.label")}>
 						<Value data={author.value} />
 					</ListItem>
 				))}

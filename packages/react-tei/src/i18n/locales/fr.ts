@@ -5,10 +5,12 @@ export const fr = {
 	sidePanel: {
 		footNotes: "Notes de bas de page",
 		authors: "Auteurs",
+		open: "Ouvrir le panneau latéral",
+		close: "Fermer le panneau latéral",
 		author: {
+			label: "Auteur",
 			genName: "Génération",
 			nameLink: "Particule",
-			roleName: "Rôle",
 			honorific: "Civilité",
 			degree: "Diplôme",
 			forename: "Prénom",

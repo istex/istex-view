@@ -7,10 +7,12 @@ export const en: Translation = {
 	sidePanel: {
 		footNotes: "Foot Notes",
 		authors: "Authors",
+		open: "Open the side panel",
+		close: "Close the side panel",
 		author: {
+			label: "Author",
 			genName: "Generation",
 			nameLink: "Name Link",
-			roleName: "Role",
 			degree: "Degree",
 			honorific: "Honorific",
 			forename: "First Name",

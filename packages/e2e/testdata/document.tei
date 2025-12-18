@@ -12,6 +12,47 @@
             <titleStmt>
                 <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
             </titleStmt>
+            <sourceDesc>
+                <biblStruct>
+                    <analytic>
+                        <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Mr</roleName>
+                                <forename>Victor</forename>
+                                <surname>Hugo</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <surname>Paul</surname>
+                                <genName>II</genName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <nameLink>De</nameLink>
+                                <surname>La Fontaine</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Dr</roleName>
+                                <forename>Marie</forename>
+                                <surname>Curie</surname>
+                                <roleName type="degree">PhD</roleName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <orgName>Dead Poets Society</orgName>
+                            </persName>
+                        </author>
+                    </analytic>
+                </biblStruct>
+            </sourceDesc>
         </fileDesc>
     </teiHeader>
     <text>
@@ -19,30 +60,25 @@
             <div type="ElsevierSections">
                 <div type="1" xml:id="s0001">
                     <head>Introduction</head>
-                    <p>
-                        Lorem ipsum dolor sit amet, <hi rend="italic">consectetur</hi> adipiscing elit.
-                    </p>
+                    <p> Lorem ipsum dolor sit amet, <hi rend="italic">consectetur</hi> adipiscing
+                        elit. </p>
                 </div>
 
                 <div type="2" xml:id="s0002">
                     <head>Part 1</head>
                     <p>
-                        Curabitur pretium tempor iaculis. 
+                        Curabitur pretium tempor iaculis.
                     </p>
 
                     <div type="2.1" xml:id="s0002">
                         <head>Part 1.1</head>
-                        <p>
-                            Integer <hi rend="bold">faucibus eros</hi> eget eleifend convallis. 
-                        </p>
+                        <p> Integer <hi rend="bold">faucibus eros</hi> eget eleifend convallis. </p>
                     </div>
                 </div>
 
-                 <div xml:id="s0003">
+                <div xml:id="s0003">
                     <head>Acknowledgments</head>
-                    <p>
-                        Nunc varius <hi rend="italic bold">hendrerit</hi> sodales.
-                    </p>
+                    <p> Nunc varius <hi rend="italic bold">hendrerit</hi> sodales. </p>
                 </div>
             </div>
         </body>
