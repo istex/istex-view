@@ -39,7 +39,7 @@ export function Div({ data: { value }, depth = 1 }: ComponentProps) {
 				},
 			};
 		});
-	}, [hasHead, value]);
+	}, [hasHead, value, id]);
 
 	if (hasHead) {
 		return (

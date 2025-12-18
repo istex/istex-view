@@ -12,7 +12,8 @@
 	"linter": {
 		"rules": {
 			"correctness": {
-				"noUnusedImports": "error"
+				"noUnusedImports": "error",
+				"useExhaustiveDependencies": "error"
 			},
 			"nursery": {
 				"useSortedClasses": {
@@ -22,7 +23,13 @@
 				}
 			},
 			"suspicious": {
-				"noUnknownAtRules": "off"
+				"noUnknownAtRules": "off",
+				"noConsole": {
+					"level": "error",
+					"options": {
+						"allow": ["error", "warn"]
+					}
+				}
 			}
 		}
 	},
