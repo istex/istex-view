@@ -7,7 +7,10 @@ export const fr = {
 		authors: "Auteurs",
 		author: {
 			genName: "Génération",
+			nameLink: "Particule",
 			roleName: "Rôle",
+			honorific: "Civilité",
+			degree: "Diplôme",
 			forename: "Prénom",
 			surname: "Nom",
 			addName: "Civilité",

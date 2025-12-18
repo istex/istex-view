@@ -9,7 +9,10 @@ export const en: Translation = {
 		authors: "Authors",
 		author: {
 			genName: "Generation",
+			nameLink: "Name Link",
 			roleName: "Role",
+			degree: "Degree",
+			honorific: "Honorific",
 			forename: "First Name",
 			surname: "Last Name",
 			addName: "Honorific",
