@@ -20,11 +20,12 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 
 	return (
 		<Paper
-			elevation={2}
+			elevation={0}
 			sx={{
 				width: isOpen ? "550px" : "40px",
 				transition: "width 0.3s",
 				overflow: "hidden",
+				borderRadius: 0,
 			}}
 		>
 			<Stack direction="row">
