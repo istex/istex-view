@@ -14,7 +14,7 @@ export const AuthorSection = () => {
 	}
 
 	return (
-		<Accordion name="authors" label="sidePanel.authors">
+		<Accordion name="authors" label="sidePanel.author.title">
 			<List dense>
 				{authors.map((author, index) => (
 					<ListItem key={index} aria-label={t("sidePanel.author.label")}>

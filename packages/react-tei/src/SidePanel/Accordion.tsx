@@ -26,8 +26,19 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 			expanded={panel.state.sections[name]}
 			onChange={() => panel.toggleSection(name)}
 			elevation={0}
+			sx={{
+				"&:before": {
+					backgroundColor: "transparent !important",
+				},
+			}}
 		>
-			<AccordionSummary expandIcon={<ExpandMore />}>
+			<AccordionSummary
+				expandIcon={<ExpandMore />}
+				sx={{
+					borderBottom: "none",
+					borderTop: "none",
+				}}
+			>
 				<Typography variant="button">{t(label)}</Typography>
 			</AccordionSummary>
 

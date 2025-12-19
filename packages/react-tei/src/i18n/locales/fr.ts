@@ -5,10 +5,10 @@ export const fr = {
 	},
 	sidePanel: {
 		footNotes: "Notes de bas de page",
-		authors: "Auteurs",
 		open: "Ouvrir le panneau latéral",
 		close: "Fermer le panneau latéral",
 		author: {
+			title: "Auteurs",
 			label: "Auteur",
 			genName: "Génération",
 			nameLink: "Particule",
@@ -18,6 +18,10 @@ export const fr = {
 			surname: "Nom",
 			addName: "Civilité",
 			orgName: "Organisation",
+		},
+
+		keyword: {
+			title: "Mots-clés",
 		},
 	},
 };

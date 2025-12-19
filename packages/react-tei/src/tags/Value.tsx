@@ -13,6 +13,7 @@ export function Value({
 	depth?: number;
 }) {
 	const tagCatalog = useTagCatalog();
+
 	if (!data) {
 		return null;
 	}

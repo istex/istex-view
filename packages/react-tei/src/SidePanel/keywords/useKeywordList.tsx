@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { useDocumentContext } from "../DocumentContextProvider.js";
-import type { DocumentJson } from "../parser/document.js";
-import { getDocumentJsonAtPath } from "../parser/getDocumentJsonAtPath.js";
+import { useDocumentContext } from "../../DocumentContextProvider.js";
+import type { DocumentJson } from "../../parser/document.js";
+import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath.js";
 
 const isValidKeyword = ({ tag, attributes }: DocumentJson): boolean => {
 	if (tag !== "keywords") {
@@ -23,7 +23,7 @@ const isValidKeyword = ({ tag, attributes }: DocumentJson): boolean => {
 	return true;
 };
 
-export const useKeyWords = (): DocumentJson[] => {
+export const useKeywordList = (): DocumentJson[] => {
 	const { jsonDocument } = useDocumentContext();
 
 	const keywords: DocumentJson[] = useMemo(() => {
@@ -36,7 +36,25 @@ export const useKeyWords = (): DocumentJson[] => {
 			return [];
 		}
 
-		return profileDesc.value.filter(({ tag }) => tag === "textClass");
+		const textClassList = profileDesc.value.filter(
+			({ tag }) => tag === "textClass",
+		);
+
+		if (textClassList.length === 0) {
+			return [];
+		}
+
+		const keywordsList: DocumentJson[] = textClassList.flatMap((textClass) => {
+			if (!Array.isArray(textClass.value)) {
+				return [];
+			}
+
+			const keywords = textClass.value.filter(isValidKeyword);
+
+			return keywords;
+		});
+
+		return keywordsList;
 	}, [jsonDocument]);
 
 	return keywords;
