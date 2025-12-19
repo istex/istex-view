@@ -33,6 +33,9 @@ export default function Header() {
 						sx={{
 							color: "white",
 							fontWeight: "normal",
+							fontSize: "50px",
+							position: "relative",
+							top: "1px",
 						}}
 					>
 						View

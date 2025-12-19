@@ -1,5 +1,6 @@
-import { Box } from "@mui/material";
+import Box from "@mui/material/Box";
 import { useId, useMemo } from "react";
+
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 
@@ -45,7 +46,7 @@ export function Div({ data: { value }, depth = 1 }: ComponentProps) {
 		return (
 			<Box
 				component="section"
-				sx={{ mb: 2, display: "flex", flexDirection: "column", gap: 2 }}
+				sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}
 				aria-labelledby={id}
 			>
 				{updatedValue.map((value, index) => (

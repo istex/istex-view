@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import Stack from "@mui/material/Stack";
 
 import { DocumentBody } from "./DocumentBody.js";
 import { DocumentContextProvider } from "./DocumentContextProvider.js";
@@ -26,13 +26,38 @@ export const Viewer = ({ document }: { document: string }) => {
 	return (
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<Box component="article" sx={{ flexGrow: 1, display: "flex", px: 2 }}>
-					<Box sx={{ maxWidth: "1200px", margin: "auto" }} component="section">
-						<DocumentTitle data={header} />
-						<DocumentBody text={text} />
-					</Box>
+				<Stack
+					component="article"
+					sx={{
+						flexGrow: 1,
+						margin: "auto",
+						py: 2,
+					}}
+				>
+					<Stack
+						sx={{
+							gap: 4,
+							flexGrow: 1,
+							maxWidth: "740px",
+							width: "100%",
+							margin: "auto",
+							py: 2,
+						}}
+					>
+						<Stack
+							sx={{
+								padding: 8,
+								backgroundColor: "white",
+							}}
+							gap={2}
+							component="section"
+						>
+							<DocumentTitle data={header} />
+							<DocumentBody text={text} />
+						</Stack>
+					</Stack>
 					<DocumentDrawer teiHeader={header} />
-				</Box>
+				</Stack>
 			</DocumentContextProvider>
 		</I18nProvider>
 	);

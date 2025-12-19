@@ -5,4 +5,4 @@ export type DocumentJson = {
 	value?: DocumentJsonValue;
 };
 
-export type DocumentJsonValue = DocumentJson | DocumentJson[] | string;
+export type DocumentJsonValue = DocumentJson | DocumentJson[] | string | number;

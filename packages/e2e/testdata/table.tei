@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
+    xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sa="http://www.elsevier.com/xml/common/struct-aff/dtd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd"
+    xml:lang="en"
+>
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+            </titleStmt>
+        </fileDesc>
+    </teiHeader>
+    <text>
+        <body>
+                <div type="1" xml:id="s0001">
+                    <head>Introduction</head>
+                    <p>
+                        Lorem ipsum dolor sit amet, <hi rend="italic">consectetur</hi> adipiscing elit.
+                    </p>
+                </div>
+
+                <div type="2" xml:id="s0002">
+                    <head>Part 1</head>
+                    <p>
+                        Curabitur pretium tempor iaculis. 
+                    </p>
+
+                    <div type="2.1" xml:id="s0002">
+                        <head>Part 1.1</head>
+                        <p>
+                            Integer <hi rend="bold">faucibus eros</hi> eget eleifend convallis.
+                            <table xml:id="t0001">
+                                <row role="label">
+                                    <cell>Header 1</cell>
+                                    <cell>Header 2</cell>
+                                </row>
+                                <row role="data">
+                                    <cell>Data 1</cell>
+                                    <cell>Data 2</cell>
+                                </row>
+                                <row role="data">
+                                    <cell>Data 3</cell>
+                                    <cell>Data 4</cell>
+                                </row>
+                            </table>
+                        </p>
+                    </div>
+                </div>
+        </body>
+    </text>
+</TEI>

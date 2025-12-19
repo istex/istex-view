@@ -1,4 +1,5 @@
 import { Viewer } from "@istex/react-tei/Viewer.js";
+import Stack from "@mui/material/Stack";
 
 import { useViewerContext } from "./useViewerContext";
 
@@ -9,5 +10,15 @@ export function ViewerPage() {
 		return null;
 	}
 
-	return <Viewer document={document} />;
+	return (
+		<Stack
+			sx={{
+				maxHeight: `calc(100dvh - 153.5px)`,
+				overflowY: "auto",
+				overflowX: "hidden",
+			}}
+		>
+			<Viewer document={document} />
+		</Stack>
+	);
 }

@@ -5,6 +5,8 @@ import { Head } from "./Head.js";
 import { Hi } from "./Hi.js";
 import { NoOp } from "./NoOp.js";
 import { P } from "./P.js";
+import { Ref } from "./Ref.js";
+import { Table } from "./Table.js";
 import type { ComponentProps } from "./type.js";
 
 export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
@@ -13,6 +15,9 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	p: P,
 	hi: Hi,
 	head: Head,
+	table: Table,
+	ref: Ref,
+	sc: NoOp,
 
 	// Structure tags
 	body: NoOp,
