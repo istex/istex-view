@@ -3,8 +3,16 @@ import { useDocumentContext } from "../../DocumentContextProvider.js";
 import type { DocumentJson } from "../../parser/document.js";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath.js";
 
-const isValidKeyword = ({ tag, attributes }: DocumentJson): boolean => {
+export const isValidKeyword = ({
+	tag,
+	attributes,
+	value,
+}: DocumentJson): boolean => {
 	if (tag !== "keywords") {
+		return false;
+	}
+
+	if (!Array.isArray(value) || value.length === 0) {
 		return false;
 	}
 
