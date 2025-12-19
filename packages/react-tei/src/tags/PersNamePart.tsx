@@ -1,0 +1,68 @@
+import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
+import type { DocumentJson } from "../parser/document.js";
+import { Value } from "./Value.js";
+
+export const getDescriptionKey = (data: DocumentJson) => {
+	const { tag, attributes } = data;
+
+	if (tag === "roleName") {
+		if (
+			!attributes?.["@type"] ||
+			!["honorific", "degree"].includes(attributes["@type"])
+		) {
+			console.warn("PersNamePart roleName missing or invalid @type:", data);
+			return null;
+		}
+		return attributes["@type"];
+	}
+
+	if (
+		[
+			"genName",
+			"nameLink",
+			"roleName",
+			"forename",
+			"surname",
+			"addName",
+			"orgName",
+		].includes(tag)
+	) {
+		return tag;
+	}
+
+	console.warn("PersNamePart unknown tag:", data);
+	return null;
+};
+
+export type PersNamePartProps = {
+	data: DocumentJson;
+};
+
+export function PersNamePart({ data }: PersNamePartProps) {
+	const { t } = useTranslation();
+	if (!Array.isArray(data.value)) {
+		console.warn("PersName data.value is not an array:", data.value);
+		return null;
+	}
+
+	if (data.value.length === 0) {
+		console.warn("PersNamePart data.value is empty:", data);
+		return null;
+	}
+
+	const descriptionType = useMemo(() => {
+		return getDescriptionKey(data);
+	}, [data]);
+	return (
+		<span
+			aria-description={
+				descriptionType ? t(`sidePanel.author.${descriptionType}`) : undefined
+			}
+		>
+			{data.value.map((item, index) => (
+				<Value key={index} data={item} />
+			))}
+		</span>
+	);
+}

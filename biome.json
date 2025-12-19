@@ -29,7 +29,8 @@
 					"options": {
 						"allow": ["error", "warn"]
 					}
-				}
+				},
+				"useAwait": "error"
 			}
 		}
 	},

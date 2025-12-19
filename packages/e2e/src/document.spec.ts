@@ -6,50 +6,52 @@ test("open a document", async ({ page }) => {
 
 	await uploadFile(page, "document.tei");
 
-	expect(
+	await expect(
 		page.getByRole("heading", {
 			name: "Sample TEI File",
 			level: 1,
 		}),
 	).toBeVisible();
 
-	expect(
+	await expect(
 		page.getByRole("heading", {
 			name: "Introduction",
 			level: 2,
 		}),
 	).toBeVisible();
 
-	expect(
+	await expect(
 		page.getByText("Lorem ipsum dolor sit amet, consectetur adipiscing elit."),
 	).toBeVisible();
 
-	expect(
+	await expect(
 		page.getByRole("heading", {
 			name: "Part 1",
 			level: 2,
 		}),
 	).toBeVisible();
 
-	expect(page.getByText("Curabitur pretium tempor iaculis.")).toBeVisible();
+	await expect(
+		page.getByText("Curabitur pretium tempor iaculis."),
+	).toBeVisible();
 
-	expect(
+	await expect(
 		page.getByRole("heading", {
 			name: "Part 1.1",
 			level: 3,
 		}),
 	).toBeVisible();
 
-	expect(
+	await expect(
 		page.getByText("Integer faucibus eros eget eleifend convallis."),
 	).toBeVisible();
 
-	expect(
+	await expect(
 		page.getByRole("heading", {
 			name: "Acknowledgments",
 			level: 2,
 		}),
 	).toBeVisible();
 
-	expect(page.getByText("Nunc varius hendrerit sodales.")).toBeVisible();
+	await expect(page.getByText("Nunc varius hendrerit sodales.")).toBeVisible();
 });

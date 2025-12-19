@@ -18,7 +18,7 @@ export function ViewerPage() {
 				overflowX: "hidden",
 			}}
 		>
-			<Viewer document={document} />
+			<Viewer document={document} height="calc(100vh - 49.5px - 104px)" />
 		</Stack>
 	);
 }

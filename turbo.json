@@ -80,7 +80,8 @@
 		"e2e:ui": {
 			"inputs": ["src", "tsconfig.json", "package.json"],
 			"cache": false,
-			"persistent": true
+			"persistent": true,
+			"dependsOn": ["^build"]
 		},
 		"typecheck": {
 			"dependsOn": ["^build"]

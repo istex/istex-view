@@ -17,7 +17,6 @@ export function ViewerContextProvider({
 	children: React.ReactNode;
 }) {
 	const [document, setDocument] = useState<string | null>(null);
-
 	const value = useMemo(
 		() => ({
 			document,

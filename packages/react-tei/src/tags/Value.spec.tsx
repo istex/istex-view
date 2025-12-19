@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJsonValue } from "../parser/document.js";
+import type { DocumentJson } from "../parser/document.js";
 import { Value } from "./Value.js";
 
 describe("Value", () => {
 	it("should render text nodes correctly", async () => {
-		const jsonValue: DocumentJsonValue = { tag: "#text", value: "Hello!" };
+		const jsonValue: DocumentJson = { tag: "#text", value: "Hello!" };
 
 		const screen = await render(<Value data={jsonValue} />);
 
@@ -13,7 +13,7 @@ describe("Value", () => {
 	});
 
 	it("should render an array of nodes correctly", async () => {
-		const jsonValue: DocumentJsonValue = [
+		const jsonValue: DocumentJson[] = [
 			{ tag: "#text", value: "Hello, " },
 			{
 				tag: "hi",
@@ -29,7 +29,7 @@ describe("Value", () => {
 	});
 
 	it("should render nested tags correctly", async () => {
-		const jsonValue: DocumentJsonValue = {
+		const jsonValue: DocumentJson = {
 			tag: "p",
 			attributes: {},
 			value: [
@@ -51,7 +51,7 @@ describe("Value", () => {
 	});
 
 	it("should not render unsupported tags when DEBUG is disabled", async () => {
-		const jsonValue: DocumentJsonValue = {
+		const jsonValue: DocumentJson = {
 			tag: "unsupportedTag",
 			attributes: {},
 			value: [{ tag: "#text", value: "This should not be rendered." }],

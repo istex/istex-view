@@ -1,13 +1,15 @@
-import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
+import type { DocumentJson } from "../parser/document.js";
 import { tagCatalog } from "./tagCatalog.js";
 
 const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
+
+export type DocumentJsonValue = DocumentJson | DocumentJson[] | string | number;
 
 export function Value({
 	data,
 	depth = 1,
 }: {
-	data?: DocumentJsonValue;
+	data?: DocumentJsonValue | undefined;
 	depth?: number;
 }) {
 	if (!data) {
@@ -39,5 +41,14 @@ export function Value({
 	}
 
 	console.warn(`No component found for tag <${tag}>`, { attributes, value });
-	return <Value data={value} depth={depth} />;
+
+	if (typeof value === "string") {
+		return value;
+	}
+
+	if (!value) {
+		return null;
+	}
+
+	return value.map((data) => <Value data={data} depth={depth} />);
 }

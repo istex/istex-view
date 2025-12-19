@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
+import type { DocumentJson } from "../parser/document.js";
 import { Head } from "./Head.js";
 
 describe("Head", () => {
@@ -30,7 +30,7 @@ describe("Head", () => {
 	});
 
 	it("should render head tag with nested <hi> elements", async () => {
-		const jsonValue: DocumentJsonValue = {
+		const jsonValue: DocumentJson = {
 			tag: "head",
 			attributes: {},
 			value: [
@@ -56,7 +56,7 @@ describe("Head", () => {
 		{ value: undefined },
 		{ value: "" },
 	])("should not render when value is empty", async ({ value }) => {
-		const jsonValue: DocumentJsonValue = {
+		const jsonValue: DocumentJson = {
 			tag: "head",
 			attributes: {},
 			value,

@@ -1,14 +1,19 @@
-import Stack from "@mui/material/Stack";
-
+import Box from "@mui/material/Box";
 import { DocumentBody } from "./DocumentBody.js";
 import { DocumentContextProvider } from "./DocumentContextProvider.js";
-import { DocumentDrawer } from "./DocumentDrawer.js";
 import { DocumentTitle } from "./DocumentTitle.js";
 import { I18nProvider } from "./i18n/I18nProvider.js";
 import type { DocumentJson } from "./parser/document.js";
 import { useDocumentParser } from "./parser/useDocumentParser.js";
+import { DocumentSidePanel } from "./SidePanel/DocumentSidePanel.js";
 
-export const Viewer = ({ document }: { document: string }) => {
+export const Viewer = ({
+	document,
+	height = "100vh",
+}: {
+	document: string;
+	height?: string;
+}) => {
 	const jsonDocument = useDocumentParser(document);
 
 	const tei: DocumentJson = (Array.isArray(jsonDocument)
@@ -26,38 +31,30 @@ export const Viewer = ({ document }: { document: string }) => {
 	return (
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<Stack
+				<Box
 					component="article"
 					sx={{
 						flexGrow: 1,
-						margin: "auto",
-						py: 2,
+						display: "flex",
+						maxHeight: height,
 					}}
 				>
-					<Stack
+					<Box
 						sx={{
-							gap: 4,
-							flexGrow: 1,
-							maxWidth: "740px",
-							width: "100%",
+							maxWidth: { xs: "100%", sm: "100%", md: "740px" },
 							margin: "auto",
-							py: 2,
+							overflowY: "scroll",
+							maxHeight: height,
+							p: 2,
+							backgroundColor: "white",
 						}}
+						component="section"
 					>
-						<Stack
-							sx={{
-								padding: 8,
-								backgroundColor: "white",
-							}}
-							gap={2}
-							component="section"
-						>
-							<DocumentTitle data={header} />
-							<DocumentBody text={text} />
-						</Stack>
-					</Stack>
-					<DocumentDrawer teiHeader={header} />
-				</Stack>
+						<DocumentTitle data={header} />
+						<DocumentBody text={text} />
+					</Box>
+					<DocumentSidePanel teiHeader={header} />
+				</Box>
 			</DocumentContextProvider>
 		</I18nProvider>
 	);
