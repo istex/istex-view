@@ -1,0 +1,110 @@
+import { describe, expect, it } from "vitest";
+import { render } from "vitest-browser-react";
+import {
+	DocumentContext,
+	DocumentContextProvider,
+} from "../DocumentContextProvider.js";
+import { Accordion } from "./Accordion.js";
+
+describe("Accordion", () => {
+	it("should render accordion open if sections matching name is true (open)", async () => {
+		const { getByText, getByRole } = await render(
+			<Accordion name="authors" label="Test Label">
+				<div>Test Content</div>
+			</Accordion>,
+			{
+				wrapper: ({ children }) => (
+					<DocumentContext.Provider
+						value={{
+							jsonDocument: [],
+							panel: {
+								state: { isOpen: true, sections: { authors: true } },
+								togglePanel: () => {},
+								toggleSection: () => {},
+							},
+						}}
+					>
+						{children}
+					</DocumentContext.Provider>
+				),
+			},
+		);
+		expect(getByText("Test Label")).toBeInTheDocument();
+		expect(getByRole("button", { name: "Test Label" })).toHaveAttribute(
+			"aria-expanded",
+			"true",
+		);
+		expect(getByText("Test Content")).toBeInTheDocument();
+		expect(getByText("Test Content")).toBeVisible();
+	});
+	it("should render accordion closed if sections matching name is false (closed)", async () => {
+		const { getByText, getByRole } = await render(
+			<Accordion name="authors" label="Test Label">
+				<div>Test Content</div>
+			</Accordion>,
+			{
+				wrapper: ({ children }) => (
+					<DocumentContext.Provider
+						value={{
+							jsonDocument: [],
+							panel: {
+								state: { isOpen: true, sections: { authors: false } },
+								togglePanel: () => {},
+								toggleSection: () => {},
+							},
+						}}
+					>
+						{children}
+					</DocumentContext.Provider>
+				),
+			},
+		);
+		expect(getByText("Test Label")).toBeInTheDocument();
+		expect(getByRole("button", { name: "Test Label" })).toHaveAttribute(
+			"aria-expanded",
+			"false",
+		);
+		expect(getByText("Test Content")).toBeInTheDocument();
+		expect(getByText("Test Content")).not.toBeVisible();
+	});
+
+	it("should toggle accordion when clicking on label", async () => {
+		const { getByText, getByRole } = await render(
+			<Accordion name="authors" label="Test Label">
+				<div>Test Content</div>
+			</Accordion>,
+			{
+				wrapper: ({ children }) => (
+					<DocumentContextProvider jsonDocument={[]}>
+						{children}
+					</DocumentContextProvider>
+				),
+			},
+		);
+		expect(getByText("Test Label")).toBeInTheDocument();
+		expect(getByRole("button", { name: "Test Label" })).toHaveAttribute(
+			"aria-expanded",
+			"true",
+		);
+		expect(getByText("Test Content")).toBeInTheDocument();
+		expect(getByText("Test Content")).toBeVisible();
+
+		await getByRole("button", { name: "Test Label" }).click();
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
+		expect(getByRole("button", { name: "Test Label" })).toHaveAttribute(
+			"aria-expanded",
+			"false",
+		);
+		expect(getByText("Test Content")).not.toBeVisible();
+
+		await getByRole("button", { name: "Test Label" }).click();
+		await new Promise((resolve) => setTimeout(resolve, 300));
+
+		expect(getByRole("button", { name: "Test Label" })).toHaveAttribute(
+			"aria-expanded",
+			"true",
+		);
+		expect(getByText("Test Content")).toBeVisible();
+	});
+});
