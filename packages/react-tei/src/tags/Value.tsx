@@ -1,5 +1,5 @@
 import type { DocumentJson } from "../parser/document.js";
-import { tagCatalog } from "./tagCatalog.js";
+import { useTagCatalog } from "./TagCatalogProvider.js";
 
 const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
 
@@ -12,6 +12,7 @@ export function Value({
 	data?: DocumentJsonValue | undefined;
 	depth?: number;
 }) {
+	const tagCatalog = useTagCatalog();
 	if (!data) {
 		return null;
 	}

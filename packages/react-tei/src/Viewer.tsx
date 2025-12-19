@@ -1,6 +1,4 @@
-import Stack from "@mui/material/Stack";
-
-import { DocumentAbstract } from "./DocumentAbstract.js";
+import { Box } from "@mui/material";
 import { DocumentBody } from "./DocumentBody.js";
 import { DocumentContextProvider } from "./DocumentContextProvider.js";
 import { DocumentTitle } from "./DocumentTitle.js";
@@ -9,6 +7,8 @@ import { I18nProvider } from "./i18n/I18nProvider.js";
 import type { DocumentJson } from "./parser/document.js";
 import { useDocumentParser } from "./parser/useDocumentParser.js";
 import { DocumentSidePanel } from "./SidePanel/DocumentSidePanel.js";
+import { TagCatalogProvider } from "./tags/TagCatalogProvider.js";
+import { tagCatalog } from "./tags/tagCatalog.js";
 
 export const Viewer = ({
 	document,
@@ -34,47 +34,35 @@ export const Viewer = ({
 	return (
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<Stack
-					component="article"
-					gap={2}
-					flexGrow={1}
-					height={height}
-					maxHeight={height}
-					width="100%"
-					direction="row"
-				>
-					<Stack
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<Box
+						component="article"
 						sx={{
 							flexGrow: 1,
-							overflowX: "hidden",
-							overflowY: "auto",
+							display: "flex",
+							maxHeight: height,
 						}}
-						component="section"
 					>
-						<Stack
+						<Box
 							marginInline="auto"
-							maxWidth={{ xs: "100%", md: "740px" }}
 							paddingBlock={4}
 							gap={4}
+							sx={{
+								maxWidth: { xs: "100%", sm: "100%", md: "740px" },
+								margin: "auto",
+								overflowY: "scroll",
+								maxHeight: height,
+								p: 8,
+								backgroundColor: "white",
+							}}
+							component="section"
 						>
-							<DocumentAbstract header={header} />
-
-							<Stack
-								component="section"
-								sx={{
-									gap: 4,
-									padding: 8,
-									backgroundColor: "white",
-								}}
-							>
-								<DocumentTitle data={header} />
-								<DocumentBody text={text} />
-							</Stack>
-						</Stack>
-					</Stack>
-
-					<DocumentSidePanel teiHeader={header} />
-				</Stack>
+							<DocumentTitle data={header} />
+							<DocumentBody text={text} />
+						</Box>
+						<DocumentSidePanel teiHeader={header} />
+					</Box>
+				</TagCatalogProvider>
 			</DocumentContextProvider>
 		</I18nProvider>
 	);
