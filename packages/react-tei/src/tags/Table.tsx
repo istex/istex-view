@@ -1,4 +1,5 @@
-import { Box, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import MuiTable from "@mui/material/Table";
 import MuiTableBody from "@mui/material/TableBody";
 import MuiTableHead from "@mui/material/TableHead";

@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import Typography from "@mui/material/Typography";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 

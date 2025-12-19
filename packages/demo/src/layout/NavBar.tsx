@@ -43,7 +43,9 @@ const navbarLinks = {
 } as const;
 
 export default function Navbar() {
-	const { t } = useTranslation("navbar");
+	const { t } = useTranslation(undefined, {
+		keyPrefix: "navbar",
+	});
 	const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(
 		null,
 	);

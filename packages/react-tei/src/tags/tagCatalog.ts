@@ -37,4 +37,5 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 
 	// Structure tags
 	body: NoOp,
+	"#text": NoOp,
 };

@@ -61,52 +61,51 @@ export default createTheme(theme, {
 		h1: {
 			font: "montserrat",
 			fontSize: "2.5rem",
-			lineHeight: "3.75rem",
+			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h2: {
 			font: "montserrat",
 			fontSize: "2.25rem",
-			lineHeight: "3.375rem",
+			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h3: {
 			font: "montserrat",
 			fontSize: "2rem",
-			lineHeight: "3rem",
+			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h4: {
 			font: "montserrat",
 			fontSize: "1.75rem",
-			lineHeight: "2.625rem",
+			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h5: {
 			font: "montserrat",
 			fontSize: "1.5rem",
-			lineHeight: "2.25rem",
+			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h6: {
 			font: "montserrat",
 			fontSize: "1.25rem",
-			lineHeight: "1.875rem",
+			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		body1: {
 			fontFamily: "open sans, sans-serif",
-			fontSize: "1rem",
+			fontSize: "18px",
 		},
 		body2: {
 			fontFamily: "open sans, sans-serif",
-			fontSize: "1rem",
+			fontSize: "16px",
 		},
 		button: {
 			fontFamily: "open sans, sans-serif",
 			textTransform: "none",
-			fontSize: "1rem",
-			color: "#458CA5",
+			fontSize: "18px",
 		},
 	},
 	components: {
@@ -117,6 +116,22 @@ export default createTheme(theme, {
 						captionSide: "top",
 						fontSize: "1rem",
 					},
+				},
+			},
+		},
+		MuiAccordion: {
+			styleOverrides: {
+				root: {
+					boxShadow: "none",
+				},
+			},
+		},
+		MuiAccordionSummary: {
+			styleOverrides: {
+				content: {
+					color: theme.palette.primary.main,
+					fontWeight: "bold",
+					fontSize: "1.25rem",
 				},
 			},
 		},
