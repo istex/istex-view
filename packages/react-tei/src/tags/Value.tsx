@@ -3,11 +3,13 @@ import { tagCatalog } from "./tagCatalog.js";
 
 const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
 
+export type DocumentJsonValue = DocumentJson | DocumentJson[] | string | number;
+
 export function Value({
 	data,
 	depth = 1,
 }: {
-	data?: DocumentJson[] | DocumentJson | string | undefined;
+	data?: DocumentJsonValue | undefined;
 	depth?: number;
 }) {
 	if (!data) {

@@ -1,5 +1,8 @@
 import { ChevronLeft, ChevronRight } from "@mui/icons-material";
-import { Box, IconButton, Paper, Stack } from "@mui/material";
+import Box from "@mui/material/Box";
+import IconButton from "@mui/material/IconButton";
+import Paper from "@mui/material/Paper";
+import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider.js";
 import type { DocumentJson } from "../parser/document.js";
@@ -25,7 +28,6 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 				width: isOpen ? "550px" : "40px",
 				transition: "width 0.3s",
 				overflow: "hidden",
-				borderRadius: 0,
 			}}
 		>
 			<Stack direction="row">

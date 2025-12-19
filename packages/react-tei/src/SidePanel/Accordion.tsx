@@ -1,10 +1,9 @@
 import { ExpandMore } from "@mui/icons-material";
-import {
-	AccordionDetails,
-	AccordionSummary,
-	Accordion as MuiAccordion,
-	Typography,
-} from "@mui/material";
+import MuiAccordion from "@mui/material/Accordion";
+import AccordionDetails from "@mui/material/AccordionDetails";
+import AccordionSummary from "@mui/material/AccordionSummary";
+import Typography from "@mui/material/Typography";
+
 import { useTranslation } from "react-i18next";
 import {
 	type PanelSection,
