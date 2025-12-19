@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { renderHook } from "vitest-browser-react";
-import { DocumentContextProvider } from "../DocumentContextProvider.js";
-import type { DocumentJson } from "../parser/document.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider.js";
+import type { DocumentJson } from "../../parser/document.js";
 import { useAuthors } from "./useAuthors.js";
 
 describe("useAuthors", () => {

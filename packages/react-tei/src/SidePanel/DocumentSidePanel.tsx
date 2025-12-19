@@ -6,7 +6,7 @@ import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider.js";
 import type { DocumentJson } from "../parser/document.js";
-import { AuthorSection } from "./AuthorSection.js";
+import { AuthorSection } from "./authors/AuthorSection.js";
 import { KeywordSection } from "./keywords/KeywordSection.js";
 
 type DocumentDrawerProps = {

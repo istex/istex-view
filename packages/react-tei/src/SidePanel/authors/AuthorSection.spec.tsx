@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentContextProvider } from "../DocumentContextProvider.js";
-import type { DocumentJson } from "../parser/document.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider.js";
+import type { DocumentJson } from "../../parser/document.js";
 import { AuthorSection } from "./AuthorSection.js";
 
 const jsonDocument: DocumentJson[] = [
@@ -535,13 +535,12 @@ describe("AuthorSection", () => {
 		);
 
 		expect(
-			getByRole("button", { name: "sidePanel.authors" }),
+			getByRole("button", { name: "sidePanel.author.title" }),
 		).toBeInTheDocument();
 
-		expect(getByRole("button", { name: "sidePanel.authors" })).toHaveAttribute(
-			"aria-expanded",
-			"true",
-		);
+		expect(
+			getByRole("button", { name: "sidePanel.author.title" }),
+		).toHaveAttribute("aria-expanded", "true");
 
 		expect(getByLabelText("sidePanel.author.label")).toHaveLength(6);
 		expect(getByLabelText("sidePanel.author.label").nth(0)).toHaveTextContent(

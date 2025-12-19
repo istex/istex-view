@@ -1,6 +1,6 @@
 import Typography from "@mui/material/Typography";
-import type { DocumentJson } from "../parser/document.js";
-import { Value } from "./Value.js";
+import type { DocumentJson } from "../../parser/document.js";
+import { Value } from "../../tags/Value.js";
 
 type PersNameProps = {
 	data: DocumentJson;
