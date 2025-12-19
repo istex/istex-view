@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document.js";
 import { Head } from "./Head.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("Head", () => {
 	it.each([
@@ -19,7 +21,13 @@ describe("Head", () => {
 			value: [{ tag: "#text", value: content }],
 		};
 
-		const screen = await render(<Head data={jsonValue} depth={depth} />);
+		const screen = await render(<Head data={jsonValue} depth={depth} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(
 			screen.getByRole("heading", {
@@ -44,7 +52,13 @@ describe("Head", () => {
 			],
 		};
 
-		const screen = await render(<Head data={jsonValue} depth={2} />);
+		const screen = await render(<Head data={jsonValue} depth={2} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		const heading = screen.getByRole("heading", { level: 2 });
 		expect(heading).toBeInTheDocument();
@@ -62,7 +76,13 @@ describe("Head", () => {
 			value,
 		};
 
-		const screen = await render(<Head data={jsonValue} depth={1} />);
+		const screen = await render(<Head data={jsonValue} depth={1} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 		expect(screen.container).toBeEmptyDOMElement();
 	});
 });

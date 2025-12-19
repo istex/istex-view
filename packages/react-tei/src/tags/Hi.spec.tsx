@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document.js";
 import { Hi } from "./Hi.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("Hi", () => {
 	it("should render text", async () => {
@@ -17,7 +19,13 @@ describe("Hi", () => {
 			],
 		};
 
-		const screen = await render(<Hi data={jsonValue} />);
+		const screen = await render(<Hi data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 		expect(screen.getByText("Hello")).toBeInTheDocument();
 	});
 

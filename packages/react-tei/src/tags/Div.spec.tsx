@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { Div } from "./Div.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("Div", () => {
 	it("should render it's value in a div when there is no head tag", async () => {
@@ -14,6 +16,13 @@ describe("Div", () => {
 					],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(container.querySelectorAll("section")).toHaveLength(0);
@@ -34,6 +43,13 @@ describe("Div", () => {
 					],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 		expect(container.querySelectorAll("section")).toHaveLength(1);
 		expect(container.querySelectorAll("h2")).toHaveLength(1);
@@ -70,6 +86,13 @@ describe("Div", () => {
 					],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(container.querySelectorAll("section")).toHaveLength(2);
@@ -108,6 +131,13 @@ describe("Div", () => {
 					value: "This is a string, not an array",
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(
@@ -148,6 +178,13 @@ describe("Div", () => {
 					],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		const section1 = getByLabelText("Section Header 1");

@@ -1,6 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { TableCaption } from "./TableCaption.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("TableCaption", () => {
 	it("should render caption with label and title", async () => {
@@ -10,6 +12,13 @@ describe("TableCaption", () => {
 				label={{ tag: "head", attributes: {}, value: "Table 1" }}
 				title={{ tag: "head", attributes: {}, value: "Sample Table" }}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		const caption = screen.getByRole("caption");
@@ -23,6 +32,13 @@ describe("TableCaption", () => {
 				id="caption2"
 				title={{ tag: "head", attributes: {}, value: "Only Title" }}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		const caption = screen.getByRole("caption");
@@ -36,6 +52,13 @@ describe("TableCaption", () => {
 				id="caption3"
 				label={{ tag: "head", attributes: {}, value: "Only Label" }}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		const caption = screen.getByRole("caption");
@@ -44,7 +67,13 @@ describe("TableCaption", () => {
 	});
 
 	it("should not render caption when neither label nor title is provided", async () => {
-		const screen = await render(<TableCaption id="caption4" />);
+		const screen = await render(<TableCaption id="caption4" />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("caption")).not.toBeInTheDocument();
 	});

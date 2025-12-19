@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentTitle } from "./DocumentTitle.js";
 import type { DocumentJson } from "./parser/document.js";
+import { TagCatalogProvider } from "./tags/TagCatalogProvider.js";
+import { tagCatalog } from "./tags/tagCatalog.js";
 
 describe("DocumentTitle", () => {
 	it("should render document title", async () => {
@@ -29,7 +31,13 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />);
+		const screen = await render(<DocumentTitle data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(
 			screen.getByRole("heading", { level: 1, name: "Sample Document Title" }),
@@ -69,7 +77,13 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />);
+		const screen = await render(<DocumentTitle data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(
 			screen.getByRole("heading", { level: 1, name: "Sample TEI File" }),
@@ -89,7 +103,13 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />);
+		const screen = await render(<DocumentTitle data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.container).toBeEmptyDOMElement();
 	});
