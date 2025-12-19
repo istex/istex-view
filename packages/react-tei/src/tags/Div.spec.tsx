@@ -5,7 +5,7 @@ import { TagCatalogProvider } from "./TagCatalogProvider.js";
 import { tagCatalog } from "./tagCatalog.js";
 
 describe("Div", () => {
-	it("should render it's value in a div when there is no head tag", async () => {
+	it("should render it's value in a div when there is no level in the div", async () => {
 		const { container } = await render(
 			<Div
 				data={{
@@ -32,13 +32,18 @@ describe("Div", () => {
 		expect(container.querySelector("div > p")?.textContent).toBe("Paragraph 1");
 	});
 
-	it("should render its value in a section when there is a head tag", async () => {
+	it("should render its value in a section when there is a level in the div", async () => {
 		const { container } = await render(
 			<Div
 				data={{
 					tag: "div",
+					attributes: { id: "section-1", level: "2" },
 					value: [
-						{ tag: "head", value: "Header content" },
+						{
+							tag: "head",
+							value: "Header content",
+							attributes: { id: "section-1", level: "2" },
+						},
 						{ tag: "p", value: "Paragraph 1" },
 					],
 				}}
@@ -69,12 +74,22 @@ describe("Div", () => {
 			<Div
 				data={{
 					tag: "div",
+					attributes: { id: "section-outer", level: "2" },
 					value: [
-						{ tag: "head", value: "Outer Header" },
+						{
+							tag: "head",
+							value: "Outer Header",
+							attributes: { id: "section-outer", level: "2" },
+						},
 						{
 							tag: "div",
+							attributes: { id: "section-inner", level: "3" },
 							value: [
-								{ tag: "head", value: "Inner Header" },
+								{
+									tag: "head",
+									value: "Inner Header",
+									attributes: { id: "section-inner", level: "3" },
+								},
 								{ tag: "p", value: "Inner Paragraph" },
 								{
 									tag: "div",
@@ -163,15 +178,25 @@ describe("Div", () => {
 					value: [
 						{
 							tag: "div",
+							attributes: { id: "section-1", level: "2" },
 							value: [
-								{ tag: "head", value: "Section Header 1" },
+								{
+									tag: "head",
+									value: "Section Header 1",
+									attributes: { id: "section-1", level: "2" },
+								},
 								{ tag: "p", value: "Some paragraph 1." },
 							],
 						},
 						{
 							tag: "div",
+							attributes: { id: "section-2", level: "2" },
 							value: [
-								{ tag: "head", value: "Section Header 2" },
+								{
+									tag: "head",
+									value: "Section Header 2",
+									attributes: { id: "section-2", level: "2" },
+								},
 								{ tag: "p", value: "Some paragraph 2." },
 							],
 						},

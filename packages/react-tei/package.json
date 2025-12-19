@@ -8,7 +8,7 @@
 		"test": "vitest run --browser.headless",
 		"test:watch": "vitest watch --browser.headless",
 		"test:browser": "vitest watch",
-		"typecheck": "tsc --noEmit"
+		"typecheck": "tsc --noEmit --project tsconfig.lib.json --project tsconfig.test.json"
 	},
 	"exports": {
 		"./*": "./dist/*"

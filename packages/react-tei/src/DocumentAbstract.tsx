@@ -4,7 +4,7 @@ import { findChildrenByName } from "./helper/findChildrenByName.js";
 import { findTagByName } from "./helper/findTagByName.js";
 import type { DocumentJson } from "./parser/document.js";
 
-export function DocumentAbstract({ header }: DocumentAbstractProps) {
+export function DocumentAbstract({ teiHeader: header }: DocumentAbstractProps) {
 	const profileDesc = findTagByName(header, "profileDesc");
 	const abstracts = findChildrenByName(profileDesc, "abstract");
 
@@ -20,5 +20,5 @@ export function DocumentAbstract({ header }: DocumentAbstractProps) {
 }
 
 type DocumentAbstractProps = {
-	header: DocumentJson | undefined;
+	teiHeader: DocumentJson | undefined;
 };

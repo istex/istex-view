@@ -5,15 +5,14 @@ import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider.js";
-import type { DocumentJson } from "../parser/document.js";
 import { AuthorSection } from "./authors/AuthorSection.js";
 import { KeywordSection } from "./keywords/KeywordSection.js";
 
-type DocumentDrawerProps = {
-	teiHeader: DocumentJson;
+type DocumentSidePanelprops = {
+	ref: React.RefObject<HTMLDivElement | null>;
 };
 
-export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
+export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 	const { t } = useTranslation();
 	const {
 		panel: {
@@ -26,11 +25,16 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 		<Paper
 			elevation={0}
 			sx={{
-				width: isOpen ? "550px" : "40px",
+				width: isOpen ? "384px" : "40px",
 				transition: "width 0.3s",
 				overflowX: "hidden",
 				overflowY: "auto",
+				display: {
+					xs: "none",
+					md: "block",
+				},
 			}}
+			ref={ref}
 		>
 			<Stack direction="row">
 				<Box width="40px">
@@ -41,7 +45,7 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 						{isOpen ? <ChevronRight /> : <ChevronLeft />}
 					</IconButton>
 				</Box>
-				<Box width="510px" minWidth="510px">
+				<Box width="344px" minWidth="344px">
 					<AuthorSection />
 					<KeywordSection />
 				</Box>

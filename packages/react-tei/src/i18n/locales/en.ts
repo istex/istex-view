@@ -3,6 +3,7 @@ import type { Translation } from "./fr.js";
 export const en: Translation = {
 	document: {
 		abstract: "Abstract",
+		tableOfContent: "Table of Contents",
 		lang: "Language",
 	},
 	sidePanel: {
