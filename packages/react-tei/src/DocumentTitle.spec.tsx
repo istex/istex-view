@@ -31,7 +31,7 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />, {
+		const screen = await render(<DocumentTitle teiHeader={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					{children}
@@ -77,7 +77,7 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />, {
+		const screen = await render(<DocumentTitle teiHeader={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					{children}
@@ -103,7 +103,7 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />, {
+		const screen = await render(<DocumentTitle teiHeader={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					{children}

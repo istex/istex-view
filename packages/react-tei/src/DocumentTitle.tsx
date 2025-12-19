@@ -4,12 +4,12 @@ import type { DocumentJson } from "./parser/document.js";
 import { Value } from "./tags/Value.js";
 
 type DocumentTitleProps = {
-	data: DocumentJson;
+	teiHeader: DocumentJson;
 };
 
-export function DocumentTitle({ data }: DocumentTitleProps) {
+export function DocumentTitle({ teiHeader }: DocumentTitleProps) {
 	// We need to make sure we select the title from the titleStmt
-	const titleStmt = findTagByName(data, "titleStmt");
+	const titleStmt = findTagByName(teiHeader, "titleStmt");
 	const title = findTagByName(titleStmt, "title");
 
 	if (!title) {

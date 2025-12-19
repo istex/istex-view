@@ -28,7 +28,7 @@ describe("DocumentAbstract", () => {
 			value,
 		};
 
-		const screen = await render(<DocumentAbstract header={headerJson} />, {
+		const screen = await render(<DocumentAbstract teiHeader={headerJson} />, {
 			wrapper: ({ children }) => (
 				<I18nProvider>
 					<TagCatalogProvider tagCatalog={tagCatalog}>
@@ -104,7 +104,7 @@ describe("DocumentAbstract", () => {
 			],
 		};
 
-		const screen = await render(<DocumentAbstract header={headerJson} />, {
+		const screen = await render(<DocumentAbstract teiHeader={headerJson} />, {
 			wrapper: ({ children }) => (
 				<I18nProvider>
 					<TagCatalogProvider tagCatalog={tagCatalog}>
@@ -190,7 +190,7 @@ describe("DocumentAbstract", () => {
 			],
 		};
 
-		const screen = await render(<DocumentAbstract header={headerJson} />, {
+		const screen = await render(<DocumentAbstract teiHeader={headerJson} />, {
 			wrapper: ({ children }) => (
 				<I18nProvider>
 					<TagCatalogProvider tagCatalog={tagCatalog}>

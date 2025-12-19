@@ -5,13 +5,7 @@ const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
 
 export type DocumentJsonValue = DocumentJson | DocumentJson[] | string | number;
 
-export function Value({
-	data,
-	depth = 1,
-}: {
-	data?: DocumentJsonValue | undefined;
-	depth?: number;
-}) {
+export function Value({ data }: { data?: DocumentJsonValue | undefined }) {
 	const tagCatalog = useTagCatalog();
 
 	if (!data) {
@@ -19,9 +13,7 @@ export function Value({
 	}
 
 	if (Array.isArray(data)) {
-		return data.map((item, index) => (
-			<Value key={index} data={item} depth={depth} />
-		));
+		return data.map((item, index) => <Value key={index} data={item} />);
 	}
 
 	if (typeof data === "string" || typeof data === "number") {
@@ -32,7 +24,7 @@ export function Value({
 
 	const TagComponent = tagCatalog[tag];
 	if (TagComponent) {
-		return <TagComponent data={data} depth={depth} />;
+		return <TagComponent data={data} />;
 	}
 
 	if (!IS_DEBUG_ENABLED) {
@@ -49,5 +41,5 @@ export function Value({
 		return value;
 	}
 
-	return value.map((data) => <Value data={data} depth={depth} />);
+	return value.map((data) => <Value data={data} />);
 }
