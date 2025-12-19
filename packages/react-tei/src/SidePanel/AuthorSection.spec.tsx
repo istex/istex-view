@@ -460,6 +460,15 @@ const jsonDocument: DocumentJson[] = [
 														tag: "#text",
 														value: "\n                    ",
 													},
+													{
+														tag: "author",
+														value: [
+															{
+																tag: "name",
+																value: [{ tag: "#text", value: "Anonymous" }],
+															},
+														],
+													},
 												],
 											},
 											{
@@ -534,7 +543,7 @@ describe("AuthorSection", () => {
 			"true",
 		);
 
-		expect(getByLabelText("sidePanel.author.label")).toHaveLength(5);
+		expect(getByLabelText("sidePanel.author.label")).toHaveLength(6);
 		expect(getByLabelText("sidePanel.author.label").nth(0)).toHaveTextContent(
 			"Mr Victor Hugo",
 		);
@@ -549,6 +558,9 @@ describe("AuthorSection", () => {
 		);
 		expect(getByLabelText("sidePanel.author.label").nth(4)).toHaveTextContent(
 			"Dead Poets Society",
+		);
+		expect(getByLabelText("sidePanel.author.label").nth(5)).toHaveTextContent(
+			"Anonymous",
 		);
 
 		expect(getByText("Mr", { exact: true })).toHaveAttribute(

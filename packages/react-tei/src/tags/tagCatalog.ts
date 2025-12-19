@@ -3,6 +3,7 @@ import type { ComponentType } from "react";
 import { Div } from "./Div.js";
 import { Head } from "./Head.js";
 import { Hi } from "./Hi.js";
+import { Name } from "./Name.js";
 import { NoOp } from "./NoOp.js";
 import { Nothing } from "./Nothing.js";
 import { P } from "./P.js";
@@ -21,7 +22,8 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	table: Table,
 	ref: Ref,
 	sc: NoOp,
-
+	// author tags
+	name: Name,
 	persName: PersName,
 	forename: PersNamePart,
 	surname: PersNamePart,
