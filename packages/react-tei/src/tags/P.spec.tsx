@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document.js";
-import { groupConsecutiveTableAndNonTableValues, P } from "./P.js";
+import { groupConsecutiveNonTableValues, P } from "./P.js";
 
-describe("groupConsecutiveTableAndNonTableValues", () => {
+describe("groupConsecutiveNonTableValues", () => {
 	it("should return a single group when there are no tables", () => {
 		const values: DocumentJson[] = [
 			{ tag: "#text", value: "This is a paragraph." },
@@ -14,7 +14,7 @@ describe("groupConsecutiveTableAndNonTableValues", () => {
 			},
 		];
 
-		const grouped = groupConsecutiveTableAndNonTableValues(values);
+		const grouped = groupConsecutiveNonTableValues(values);
 
 		expect(grouped).toEqual([values]);
 	});
@@ -35,7 +35,7 @@ describe("groupConsecutiveTableAndNonTableValues", () => {
 			{ tag: "#text", value: "This is after the table." },
 		];
 
-		const grouped = groupConsecutiveTableAndNonTableValues(values);
+		const grouped = groupConsecutiveNonTableValues(values);
 
 		expect(grouped).toEqual([
 			[
@@ -72,7 +72,7 @@ describe("groupConsecutiveTableAndNonTableValues", () => {
 			},
 		];
 
-		const grouped = groupConsecutiveTableAndNonTableValues(values);
+		const grouped = groupConsecutiveNonTableValues(values);
 
 		expect(grouped).toEqual([
 			[
@@ -108,7 +108,7 @@ describe("groupConsecutiveTableAndNonTableValues", () => {
 			{ tag: "#text", value: "Text after tables." },
 		];
 
-		const grouped = groupConsecutiveTableAndNonTableValues(values);
+		const grouped = groupConsecutiveNonTableValues(values);
 
 		expect(grouped).toEqual([
 			[

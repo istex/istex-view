@@ -6,7 +6,7 @@ import type { DocumentJson } from "../parser/document.js";
 import type { ComponentProps } from "./type.js";
 import { Value } from "./Value.js";
 
-export function groupConsecutiveTableAndNonTableValues(values: DocumentJson[]) {
+export function groupConsecutiveNonTableValues(values: DocumentJson[]) {
 	const cleanedValues = removeEmptyTextValues(values);
 
 	return cleanedValues.reduce<DocumentJson[][]>((groupedValues, item) => {
@@ -36,7 +36,7 @@ export function P({ data }: ComponentProps) {
 		);
 	}
 
-	const groups = groupConsecutiveTableAndNonTableValues(data.value);
+	const groups = groupConsecutiveNonTableValues(data.value);
 
 	return groups.map((group, index) => {
 		if (group.length === 1 && group[0]?.tag === "table") {
