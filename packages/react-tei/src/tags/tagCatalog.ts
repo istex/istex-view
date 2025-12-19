@@ -22,6 +22,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	table: Table,
 	ref: Ref,
 	sc: NoOp,
+
 	// author tags
 	name: Name,
 	persName: PersName,
@@ -33,6 +34,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	nameLink: PersNamePart,
 	orgName: PersNamePart,
 	affiliation: Nothing,
+
 	// Structure tags
 	body: NoOp,
 };
