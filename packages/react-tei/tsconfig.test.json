@@ -1,9 +1,0 @@
-{
-	"extends": "../../tsconfig.base.json",
-	"include": ["src", "vitest.config.ts"],
-	"compilerOptions": {
-		"types": ["vite/client"],
-		"lib": ["es2024", "DOM"],
-		"jsx": "react-jsx"
-	}
-}

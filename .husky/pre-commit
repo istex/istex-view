@@ -1,1 +1,1 @@
-pnpm turbo run lint:apply --no-cache
+pnpm lint:apply
