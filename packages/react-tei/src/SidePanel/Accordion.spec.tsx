@@ -20,7 +20,7 @@ describe("Accordion", () => {
 							panel: {
 								state: {
 									isOpen: true,
-									sections: { authors: true, keywords: true },
+									sections: { authors: true, keywords: true, source: true },
 								},
 								togglePanel: () => {},
 								toggleSection: () => {},
@@ -53,7 +53,7 @@ describe("Accordion", () => {
 							panel: {
 								state: {
 									isOpen: true,
-									sections: { authors: false, keywords: true },
+									sections: { authors: false, keywords: true, source: true },
 								},
 								togglePanel: () => {},
 								toggleSection: () => {},

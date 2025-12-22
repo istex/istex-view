@@ -19,7 +19,9 @@ export const fr = {
 			addName: "Civilité",
 			orgName: "Organisation",
 		},
-
+		source: {
+			title: "Source",
+		},
 		keyword: {
 			title: "Mots-clés",
 		},
