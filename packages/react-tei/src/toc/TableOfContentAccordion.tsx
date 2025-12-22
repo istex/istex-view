@@ -9,7 +9,7 @@ import type { Heading } from "./useTableOfContent.js";
 export function TableOfContentAccordion({
 	tableOfContent,
 }: TableOfContentAccordionProps) {
-	const { t } = useTranslation("document.toc");
+	const { t } = useTranslation();
 
 	if (!tableOfContent?.length) {
 		return null;
