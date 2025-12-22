@@ -8,9 +8,10 @@ describe("withSection", () => {
 
 		const updatedContext = withSection(initialContext, newSection);
 
-		expect(updatedContext).toEqual({
+		expect(updatedContext).toStrictEqual({
+			transformers: {},
 			section: newSection,
 		});
-		expect(initialContext).toEqual({ section: null }); // Ensure immutability
+		expect(initialContext).toStrictEqual({ transformers: {}, section: null }); // Ensure immutability
 	});
 });

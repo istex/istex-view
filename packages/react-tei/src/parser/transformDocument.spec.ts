@@ -339,11 +339,11 @@ describe("transformAbstract", () => {
 
 		expect(transformAbstract(body)).toStrictEqual({
 			tag: "div",
-			attributes: { id: expect.any(String), level: "2" },
+			attributes: { id: expect.any(String), level: "4" },
 			value: [
 				{
 					tag: "head",
-					attributes: { id: expect.any(String), level: "2" },
+					attributes: { id: expect.any(String), level: "4" },
 					value: "Section 1",
 				},
 				{
@@ -353,11 +353,11 @@ describe("transformAbstract", () => {
 				},
 				{
 					tag: "div",
-					attributes: { id: expect.any(String), level: "3" },
+					attributes: { id: expect.any(String), level: "5" },
 					value: [
 						{
 							tag: "head",
-							attributes: { id: expect.any(String), level: "3" },
+							attributes: { id: expect.any(String), level: "5" },
 							value: "Subsection 1.1",
 						},
 						{
