@@ -6,6 +6,7 @@ export type PanelState = {
 	sections: {
 		authors: boolean;
 		keywords: boolean;
+		source: boolean;
 	};
 };
 
@@ -58,6 +59,7 @@ export function DocumentContextProvider({
 			sections: {
 				authors: true,
 				keywords: true,
+				source: true,
 			},
 		} satisfies PanelState,
 	);

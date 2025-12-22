@@ -24,5 +24,8 @@ export const en: Translation = {
 		keyword: {
 			title: "Keywords",
 		},
+		source: {
+			title: "Source",
+		},
 	},
 };

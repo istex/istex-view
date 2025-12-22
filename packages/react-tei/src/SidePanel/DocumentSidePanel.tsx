@@ -8,6 +8,7 @@ import { useDocumentContext } from "../DocumentContextProvider.js";
 import type { DocumentJson } from "../parser/document.js";
 import { AuthorSection } from "./authors/AuthorSection.js";
 import { KeywordSection } from "./keywords/KeywordSection.js";
+import { SourceSection } from "./source/SourceSection.js";
 
 type DocumentDrawerProps = {
 	teiHeader: DocumentJson;
@@ -44,6 +45,7 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 				<Box width="510px" minWidth="510px">
 					<AuthorSection />
 					<KeywordSection />
+					<SourceSection />
 				</Box>
 			</Stack>
 		</Paper>

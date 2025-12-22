@@ -1,30 +1,35 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider.js";
+import type { DocumentJson } from "../../parser/document.js";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath.js";
 
-export const useDocumentSource = () => {
+export const useDocumentSources = (): DocumentJson[] => {
 	const { jsonDocument } = useDocumentContext();
 
 	return useMemo(() => {
 		const monogr = getDocumentJsonAtPath(jsonDocument, [
 			"TEI",
 			"teiHeader",
+			"fileDesc",
 			"sourceDesc",
 			"biblStruct",
 			"monogr",
 		]);
+
 		if (!monogr || !Array.isArray(monogr.value)) {
-			return null;
+			return [];
 		}
 		const titles = monogr.value.filter(({ tag }) => tag === "title");
 
 		const mainTitles = titles.filter(
-			({ attributes }) =>
+			({ attributes, value }) =>
 				attributes &&
 				attributes["@type"] === "main" &&
 				["m", "j"].includes(
 					typeof attributes["@level"] === "string" ? attributes["@level"] : "",
-				),
+				) &&
+				Array.isArray(value) &&
+				value.length > 0,
 		);
 
 		if (mainTitles.length > 1) {
@@ -35,16 +40,18 @@ export const useDocumentSource = () => {
 
 		const mainTitle = mainTitles[0];
 		if (!mainTitle) {
-			return null;
+			return [];
 		}
 
 		const subTitles = titles.filter(
-			({ attributes }) =>
+			({ attributes, value }) =>
 				attributes &&
 				attributes["@type"] === "sub" &&
 				["m", "j"].includes(
 					typeof attributes["@level"] === "string" ? attributes["@level"] : "",
-				),
+				) &&
+				Array.isArray(value) &&
+				value.length > 0,
 		);
 
 		if (subTitles.length > 1) {
