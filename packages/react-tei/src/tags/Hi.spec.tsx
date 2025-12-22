@@ -49,7 +49,13 @@ describe("Hi", () => {
 			],
 		};
 
-		const screen = await render(<Hi data={jsonValue} />);
+		const screen = await render(<Hi data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 		const element = screen.getByText("Formatted Text");
 		expect(element).toBeInTheDocument();
 		expect(element.element().tagName.toLowerCase()).toBe(expectedTag);
@@ -68,7 +74,13 @@ describe("Hi", () => {
 			],
 		};
 
-		const screen = await render(<Hi data={jsonValue} />);
+		const screen = await render(<Hi data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 		const element = screen.getByText("Bold Italic Text");
 		expect(element).toBeInTheDocument();
 		expect(element.element().tagName.toLowerCase()).toBe("em");

@@ -1,4 +1,5 @@
-import { Box } from "@mui/material";
+import { Stack } from "@mui/material";
+import { DocumentAbstract } from "./DocumentAbstract.js";
 import { DocumentBody } from "./DocumentBody.js";
 import { DocumentContextProvider } from "./DocumentContextProvider.js";
 import { DocumentTitle } from "./DocumentTitle.js";
@@ -35,33 +36,47 @@ export const Viewer = ({
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<Box
+					<Stack
 						component="article"
-						sx={{
-							flexGrow: 1,
-							display: "flex",
-							maxHeight: height,
-						}}
+						gap={2}
+						flexGrow={1}
+						height={height}
+						maxHeight={height}
+						width="100%"
+						direction="row"
 					>
-						<Box
-							marginInline="auto"
-							paddingBlock={4}
-							gap={4}
+						<Stack
 							sx={{
-								maxWidth: { xs: "100%", sm: "100%", md: "740px" },
-								margin: "auto",
-								overflowY: "scroll",
-								maxHeight: height,
-								p: 8,
-								backgroundColor: "white",
+								flexGrow: 1,
+								overflowX: "hidden",
+								overflowY: "auto",
 							}}
 							component="section"
 						>
-							<DocumentTitle data={header} />
-							<DocumentBody text={text} />
-						</Box>
+							<Stack
+								marginInline="auto"
+								maxWidth={{ xs: "100%", md: "740px" }}
+								paddingBlock={4}
+								gap={4}
+							>
+								<DocumentAbstract header={header} />
+
+								<Stack
+									component="section"
+									sx={{
+										gap: 4,
+										padding: 8,
+										backgroundColor: "white",
+									}}
+								>
+									<DocumentTitle data={header} />
+									<DocumentBody text={text} />
+								</Stack>
+							</Stack>
+						</Stack>
+
 						<DocumentSidePanel teiHeader={header} />
-					</Box>
+					</Stack>
 				</TagCatalogProvider>
 			</DocumentContextProvider>
 		</I18nProvider>

@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../i18n/I18nProvider.js";
 import type { DocumentJson } from "../parser/document.js";
+import { TagCatalogProvider } from "../tags/TagCatalogProvider.js";
+import { tagCatalog } from "../tags/tagCatalog.js";
 import { SingleAbstract } from "./SingleAbstract.js";
 
 describe("SingleAbstract", () => {
@@ -34,7 +36,13 @@ describe("SingleAbstract", () => {
 		};
 
 		const screen = await render(<SingleAbstract abstract={abstractJson} />, {
-			wrapper: I18nProvider,
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
 		});
 
 		const section = screen.getByRole("region", {
@@ -103,7 +111,13 @@ describe("SingleAbstract", () => {
 		};
 
 		const screen = await render(<SingleAbstract abstract={abstractJson} />, {
-			wrapper: I18nProvider,
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
 		});
 
 		const section = screen.getByRole("region", {
@@ -148,7 +162,13 @@ describe("SingleAbstract", () => {
 		};
 
 		const screen = await render(<SingleAbstract abstract={abstractJson} />, {
-			wrapper: I18nProvider,
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
 		});
 
 		const section = screen.getByRole("region", {
@@ -206,7 +226,13 @@ describe("SingleAbstract", () => {
 		};
 
 		const screen = await render(<SingleAbstract abstract={abstractJson} />, {
-			wrapper: I18nProvider,
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
 		});
 
 		const section = screen.getByRole("region", {

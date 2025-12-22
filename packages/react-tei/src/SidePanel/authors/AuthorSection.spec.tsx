@@ -2,7 +2,9 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider.js";
 import type { DocumentJson } from "../../parser/document.js";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
 import { AuthorSection } from "./AuthorSection.js";
+import { authorTagCatalogs } from "./authorsTagCatalog.js";
 
 const jsonDocument: DocumentJson[] = [
 	{
@@ -528,7 +530,9 @@ describe("AuthorSection", () => {
 			{
 				wrapper: ({ children }) => (
 					<DocumentContextProvider jsonDocument={jsonDocument}>
-						{children}
+						<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+							{children}
+						</TagCatalogProvider>
 					</DocumentContextProvider>
 				),
 			},
@@ -592,7 +596,9 @@ describe("AuthorSection", () => {
 		const { container } = await render(<AuthorSection />, {
 			wrapper: ({ children }) => (
 				<DocumentContextProvider jsonDocument={[]}>
-					{children}
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
 				</DocumentContextProvider>
 			),
 		});
