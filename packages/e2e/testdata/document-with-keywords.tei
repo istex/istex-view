@@ -8,52 +8,6 @@
     xml:lang="en"
 >
     <teiHeader>
-        <fileDesc>
-            <titleStmt>
-                <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
-            </titleStmt>
-            <sourceDesc>
-                <biblStruct>
-                    <analytic>
-                        <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
-                        <author>
-                            <persName>
-                                <roleName type="honorific">Mr</roleName>
-                                <forename>Victor</forename>
-                                <surname>Hugo</surname>
-                            </persName>
-                        </author>
-                        <author>
-                            <persName>
-                                <forename>Jean</forename>
-                                <surname>Paul</surname>
-                                <genName>II</genName>
-                            </persName>
-                        </author>
-                        <author>
-                            <persName>
-                                <forename>Jean</forename>
-                                <nameLink>De</nameLink>
-                                <surname>La Fontaine</surname>
-                            </persName>
-                        </author>
-                        <author>
-                            <persName>
-                                <roleName type="honorific">Dr</roleName>
-                                <forename>Marie</forename>
-                                <surname>Curie</surname>
-                                <roleName type="degree">PhD</roleName>
-                            </persName>
-                        </author>
-                        <author>
-                            <persName>
-                                <orgName>Dead Poets Society</orgName>
-                            </persName>
-                        </author>
-                    </analytic>
-                </biblStruct>
-            </sourceDesc>
-        </fileDesc>
         <profileDesc>
             <textClass>
                 <keywords>
@@ -65,7 +19,6 @@
                     <list>
                         <head>Subject Areas</head>
                         <item>
-
                             <term>Literature</term>
                         </item>
                         <item>

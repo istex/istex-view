@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJson } from "../parser/document.js";
+import type { DocumentJson } from "../../parser/document.js";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
+import { authorTagCatalogs } from "./authorsTagCatalog.js";
 import { PersName } from "./PersName.js";
 
 describe("PersName", () => {
@@ -15,6 +17,13 @@ describe("PersName", () => {
 					],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 		expect(getByText("John")).toBeInTheDocument();
 		expect(getByText("John")).toHaveAttribute(
@@ -37,6 +46,13 @@ describe("PersName", () => {
 					value: "Not an array" as unknown as DocumentJson[],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(container).toBeEmptyDOMElement();
@@ -61,6 +77,13 @@ describe("PersName", () => {
 					value: [],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(container).toBeEmptyDOMElement();

@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { uploadFile } from "./support/upload";
 
-test("open a document", async ({ page }) => {
+test("document sidePanel authors section", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "document.tei");
@@ -83,4 +83,39 @@ test("open a document", async ({ page }) => {
 	expect(
 		page.getByRole("button", { name: "Ouvrir le panneau latéral" }),
 	).toBeVisible();
+});
+
+test("document sidePanel keywords section", async ({ page }) => {
+	await page.goto("/");
+
+	await uploadFile(page, "document-with-keywords.tei");
+
+	await expect(
+		page.getByRole("button", { name: "Fermer le panneau latéral" }),
+	).toBeVisible();
+
+	await expect(page.getByRole("button", { name: "Mots-clés" })).toHaveAttribute(
+		"aria-expanded",
+		"true",
+	);
+
+	await expect(page.getByText("TEI")).toBeVisible();
+	await expect(page.getByText("XML")).toBeVisible();
+	await expect(page.getByText("Sample Document")).toBeVisible();
+	await expect(page.getByText("Literature")).toBeVisible();
+	await expect(page.getByText("Mathematics")).toBeVisible();
+	await expect(page.getByText("Physics")).toBeVisible();
+
+	await page.getByRole("button", { name: "Mots-clés" }).click();
+	await expect(page.getByRole("button", { name: "Mots-clés" })).toHaveAttribute(
+		"aria-expanded",
+		"false",
+	);
+
+	await expect(page.getByText("TEI")).not.toBeVisible();
+	await expect(page.getByText("XML")).not.toBeVisible();
+	await expect(page.getByText("Sample Document")).not.toBeVisible();
+	await expect(page.getByText("Literature")).not.toBeVisible();
+	await expect(page.getByText("Mathematics")).not.toBeVisible();
+	await expect(page.getByText("Physics")).not.toBeVisible();
 });

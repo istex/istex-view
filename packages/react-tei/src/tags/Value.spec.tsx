@@ -1,13 +1,21 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 import { Value } from "./Value.js";
 
 describe("Value", () => {
 	it("should render text nodes correctly", async () => {
 		const jsonValue: DocumentJson = { tag: "#text", value: "Hello!" };
 
-		const screen = await render(<Value data={jsonValue} />);
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByText("Hello!")).toBeInTheDocument();
 	});
@@ -23,7 +31,13 @@ describe("Value", () => {
 			{ tag: "#text", value: "!" },
 		];
 
-		const screen = await render(<Value data={jsonValue} />);
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByText("Hello, world!")).toBeInTheDocument();
 	});
@@ -43,7 +57,13 @@ describe("Value", () => {
 			],
 		};
 
-		const screen = await render(<Value data={jsonValue} />);
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent(
 			"This is a nested value.",
@@ -57,7 +77,13 @@ describe("Value", () => {
 			value: [{ tag: "#text", value: "This should not be rendered." }],
 		};
 
-		const screen = await render(<Value data={jsonValue} />);
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 		expect(screen.container).toBeEmptyDOMElement();
 	});
 });

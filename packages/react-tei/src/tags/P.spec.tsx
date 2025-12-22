@@ -2,6 +2,8 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document.js";
 import { groupConsecutiveNonTableValues, P } from "./P.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("groupConsecutiveNonTableValues", () => {
 	it("should return a single group when there are no tables", () => {
@@ -149,7 +151,13 @@ describe("P", () => {
 			],
 		};
 
-		const screen = await render(<P data={jsonValue} />);
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent(
 			"This is a paragraph with italic text.",
@@ -170,7 +178,13 @@ describe("P", () => {
 				},
 			],
 		};
-		const screen = await render(<P data={jsonValue} />);
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("table")).toBeInTheDocument();
 		expect(screen.getByRole("table")).toHaveAttribute("id", "table_test");
@@ -193,7 +207,13 @@ describe("P", () => {
 				},
 			],
 		};
-		const screen = await render(<P data={jsonValue} />);
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent(
 			"Text before table.",
@@ -217,7 +237,13 @@ describe("P", () => {
 				{ tag: "#text", value: "" },
 			],
 		};
-		const screen = await render(<P data={jsonValue} />);
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent("Valid text");
 	});

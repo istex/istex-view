@@ -7,10 +7,10 @@ export const en: Translation = {
 	},
 	sidePanel: {
 		footNotes: "Foot Notes",
-		authors: "Authors",
 		open: "Open the side panel",
 		close: "Close the side panel",
 		author: {
+			title: "Authors",
 			label: "Author",
 			genName: "Generation",
 			nameLink: "Name Link",
@@ -20,6 +20,9 @@ export const en: Translation = {
 			surname: "Last Name",
 			addName: "Honorific",
 			orgName: "Organization",
+		},
+		keyword: {
+			title: "Keywords",
 		},
 	},
 };

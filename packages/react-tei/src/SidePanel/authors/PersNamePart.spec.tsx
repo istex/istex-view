@@ -1,6 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJson } from "../parser/document.js";
+import type { DocumentJson } from "../../parser/document.js";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
+import { authorTagCatalogs } from "./authorsTagCatalog.js";
 import { getDescriptionKey, PersNamePart } from "./PersNamePart.js";
 
 describe("PersNamePart", () => {
@@ -126,6 +128,13 @@ describe("PersNamePart", () => {
 					value: [{ tag: "#text", value: "John" }],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		const spanElement = getByText("John");
@@ -148,6 +157,13 @@ describe("PersNamePart", () => {
 					value: [{ tag: "#text", value: "Unknown Role" }],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		const spanElement = getByText("Unknown Role");
@@ -178,6 +194,13 @@ describe("PersNamePart", () => {
 					value: "Not an array" as unknown as DocumentJson[],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(container).toBeEmptyDOMElement();
@@ -202,6 +225,13 @@ describe("PersNamePart", () => {
 					value: [],
 				}}
 			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
 		);
 
 		expect(container).toBeEmptyDOMElement();

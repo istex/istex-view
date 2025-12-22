@@ -11,6 +11,15 @@ describe("getDocumentJsonAtPath", () => {
 					value: [
 						{
 							tag: "fileDesc",
+							value: [
+								{
+									tag: "titleStmt",
+									value: [{ tag: "title", value: "Content of title" }],
+								},
+							],
+						},
+						{
+							tag: "fileDesc",
 							value: [{ tag: "author", value: "Content of fileDesc" }],
 						},
 						{
@@ -48,10 +57,22 @@ describe("getDocumentJsonAtPath", () => {
 			{ tag: "author", value: "Content of fileDesc" },
 		],
 		[
+			["TEI", "teiHeader", "fileDesc", "titleStmt"],
+			{
+				tag: "titleStmt",
+				value: [{ tag: "title", value: "Content of title" }],
+			},
+		],
+		[
 			["TEI", "teiHeader", "fileDesc"],
 			{
 				tag: "fileDesc",
-				value: [{ tag: "author", value: "Content of fileDesc" }],
+				value: [
+					{
+						tag: "titleStmt",
+						value: [{ tag: "title", value: "Content of title" }],
+					},
+				],
 			},
 		],
 		[

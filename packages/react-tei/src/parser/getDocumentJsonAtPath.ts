@@ -16,10 +16,18 @@ export const getDocumentJsonAtPath = (
 		return getDocumentJsonAtPath([obj], path, result);
 	}
 	const [nextTag, ...restPath] = path;
-	const nextObj = obj.find((item) => item.tag === nextTag);
-	return getDocumentJsonAtPath(
-		nextObj && Array.isArray(nextObj.value) ? nextObj.value : [],
-		restPath,
-		nextObj,
-	);
+	const nextObjList = obj.filter((item) => item.tag === nextTag);
+
+	for (const nextObj of nextObjList) {
+		const found = getDocumentJsonAtPath(
+			nextObj && Array.isArray(nextObj.value) ? nextObj.value : [],
+			restPath,
+			nextObj,
+		);
+		if (found) {
+			return found;
+		}
+	}
+
+	return undefined;
 };

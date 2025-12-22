@@ -26,7 +26,7 @@ describe("DocumentContextProvider", () => {
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
-				sections: { authors: true },
+				sections: { authors: true, keywords: true },
 			});
 		});
 
@@ -44,20 +44,20 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
-					sections: { authors: true },
+					sections: { authors: true, keywords: true },
 				});
 				result.current.panel.togglePanel();
 				await new Promise((resolve) => setTimeout(resolve, 100));
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
-					sections: { authors: true },
+					sections: { authors: true, keywords: true },
 				});
 				result.current.panel.togglePanel();
 				await new Promise((resolve) => setTimeout(resolve, 100));
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
-					sections: { authors: true },
+					sections: { authors: true, keywords: true },
 				});
 			});
 
@@ -75,7 +75,7 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
-					sections: { authors: false },
+					sections: { authors: false, keywords: true },
 				});
 
 				result.current.panel.togglePanel();
@@ -83,7 +83,7 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
-					sections: { authors: false },
+					sections: { authors: false, keywords: true },
 				});
 			});
 		});
@@ -101,14 +101,14 @@ describe("DocumentContextProvider", () => {
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
-				sections: { authors: true },
+				sections: { authors: true, keywords: true },
 			});
 			result.current.panel.toggleSection("authors");
 			await new Promise((resolve) => setTimeout(resolve, 100));
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
-				sections: { authors: false },
+				sections: { authors: false, keywords: true },
 			});
 		});
 
@@ -129,7 +129,7 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
-					sections: { authors: false },
+					sections: { authors: false, keywords: true },
 				});
 
 				// Now, toggle the 'authors' section (which is currently open)
@@ -138,7 +138,7 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
-					sections: { authors: true },
+					sections: { authors: true, keywords: true },
 				});
 			});
 
@@ -156,7 +156,7 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
-					sections: { authors: true },
+					sections: { authors: true, keywords: true },
 				});
 
 				result.current.panel.toggleSection("authors");
@@ -164,7 +164,7 @@ describe("DocumentContextProvider", () => {
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
-					sections: { authors: false },
+					sections: { authors: false, keywords: true },
 				});
 			});
 		});

@@ -3,6 +3,8 @@ import { render } from "vitest-browser-react";
 
 import type { DocumentJson } from "../parser/document.js";
 import { Table } from "./Table.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("Table", () => {
 	it("should render a table with caption, header, rows, and notes", async () => {
@@ -44,7 +46,13 @@ describe("Table", () => {
 			],
 		};
 
-		const screen = await render(<Table data={jsonDocument} />);
+		const screen = await render(<Table data={jsonDocument} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(
 			screen.getByRole("table", {
@@ -97,7 +105,13 @@ describe("Table", () => {
 			],
 		};
 
-		const screen = await render(<Table data={jsonDocument} />);
+		const screen = await render(<Table data={jsonDocument} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(screen.getByRole("table")).toBeVisible();
 

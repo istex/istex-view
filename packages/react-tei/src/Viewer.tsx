@@ -1,5 +1,4 @@
-import Stack from "@mui/material/Stack";
-
+import { Stack } from "@mui/material";
 import { DocumentAbstract } from "./DocumentAbstract.js";
 import { DocumentBody } from "./DocumentBody.js";
 import { DocumentContextProvider } from "./DocumentContextProvider.js";
@@ -9,6 +8,8 @@ import { I18nProvider } from "./i18n/I18nProvider.js";
 import type { DocumentJson } from "./parser/document.js";
 import { useDocumentParser } from "./parser/useDocumentParser.js";
 import { DocumentSidePanel } from "./SidePanel/DocumentSidePanel.js";
+import { TagCatalogProvider } from "./tags/TagCatalogProvider.js";
+import { tagCatalog } from "./tags/tagCatalog.js";
 
 export const Viewer = ({
 	document,
@@ -34,47 +35,49 @@ export const Viewer = ({
 	return (
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<Stack
-					component="article"
-					gap={2}
-					flexGrow={1}
-					height={height}
-					maxHeight={height}
-					width="100%"
-					direction="row"
-				>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
 					<Stack
-						sx={{
-							flexGrow: 1,
-							overflowX: "hidden",
-							overflowY: "auto",
-						}}
-						component="section"
+						component="article"
+						gap={2}
+						flexGrow={1}
+						height={height}
+						maxHeight={height}
+						width="100%"
+						direction="row"
 					>
 						<Stack
-							marginInline="auto"
-							maxWidth={{ xs: "100%", md: "740px" }}
-							paddingBlock={4}
-							gap={4}
+							sx={{
+								flexGrow: 1,
+								overflowX: "hidden",
+								overflowY: "auto",
+							}}
+							component="section"
 						>
-							<DocumentAbstract header={header} />
-
 							<Stack
-								component="section"
-								sx={{
-									gap: 4,
-									padding: 8,
-									backgroundColor: "white",
-								}}
+								marginInline="auto"
+								maxWidth={{ xs: "100%", md: "740px" }}
+								paddingBlock={4}
+								gap={4}
 							>
-								<DocumentTitle data={header} />
-								<DocumentBody text={text} />
+								<DocumentAbstract header={header} />
+
+								<Stack
+									component="section"
+									sx={{
+										gap: 4,
+										padding: 8,
+										backgroundColor: "white",
+									}}
+								>
+									<DocumentTitle data={header} />
+									<DocumentBody text={text} />
+								</Stack>
 							</Stack>
 						</Stack>
-					</Stack>
 
-					<DocumentSidePanel teiHeader={header} />
-				</Stack>
+						<DocumentSidePanel teiHeader={header} />
+					</Stack>
+				</TagCatalogProvider>
 			</DocumentContextProvider>
 		</I18nProvider>
 	);

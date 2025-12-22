@@ -3,6 +3,8 @@ import { render } from "vitest-browser-react";
 import { DocumentAbstract } from "./DocumentAbstract.js";
 import { I18nProvider } from "./i18n/I18nProvider.js";
 import type { DocumentJson, DocumentJsonValue } from "./parser/document.js";
+import { TagCatalogProvider } from "./tags/TagCatalogProvider.js";
+import { tagCatalog } from "./tags/tagCatalog.js";
 
 describe("DocumentAbstract", () => {
 	it.each<DocumentJsonValue>([
@@ -26,7 +28,15 @@ describe("DocumentAbstract", () => {
 			value,
 		};
 
-		const screen = await render(<DocumentAbstract header={headerJson} />);
+		const screen = await render(<DocumentAbstract header={headerJson} />, {
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
+		});
 		expect(screen.container).toBeEmptyDOMElement();
 	});
 
@@ -94,7 +104,15 @@ describe("DocumentAbstract", () => {
 			],
 		};
 
-		const screen = await render(<DocumentAbstract header={headerJson} />);
+		const screen = await render(<DocumentAbstract header={headerJson} />, {
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
+		});
 
 		const section = screen.getByRole("region", {
 			name: "Abstract",
@@ -173,7 +191,13 @@ describe("DocumentAbstract", () => {
 		};
 
 		const screen = await render(<DocumentAbstract header={headerJson} />, {
-			wrapper: I18nProvider,
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
 		});
 
 		const abstractRegion = screen.getByRole("region", {

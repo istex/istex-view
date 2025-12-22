@@ -5,6 +5,7 @@ export type PanelState = {
 	isOpen: boolean;
 	sections: {
 		authors: boolean;
+		keywords: boolean;
 	};
 };
 
@@ -56,6 +57,7 @@ export function DocumentContextProvider({
 			isOpen: true,
 			sections: {
 				authors: true,
+				keywords: true,
 			},
 		} satisfies PanelState,
 	);

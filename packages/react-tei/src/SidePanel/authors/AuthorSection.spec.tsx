@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentContextProvider } from "../DocumentContextProvider.js";
-import type { DocumentJson } from "../parser/document.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider.js";
+import type { DocumentJson } from "../../parser/document.js";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
 import { AuthorSection } from "./AuthorSection.js";
+import { authorTagCatalogs } from "./authorsTagCatalog.js";
 
 const jsonDocument: DocumentJson[] = [
 	{
@@ -528,20 +530,21 @@ describe("AuthorSection", () => {
 			{
 				wrapper: ({ children }) => (
 					<DocumentContextProvider jsonDocument={jsonDocument}>
-						{children}
+						<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+							{children}
+						</TagCatalogProvider>
 					</DocumentContextProvider>
 				),
 			},
 		);
 
 		expect(
-			getByRole("button", { name: "sidePanel.authors" }),
+			getByRole("button", { name: "sidePanel.author.title" }),
 		).toBeInTheDocument();
 
-		expect(getByRole("button", { name: "sidePanel.authors" })).toHaveAttribute(
-			"aria-expanded",
-			"true",
-		);
+		expect(
+			getByRole("button", { name: "sidePanel.author.title" }),
+		).toHaveAttribute("aria-expanded", "true");
 
 		expect(getByLabelText("sidePanel.author.label")).toHaveLength(6);
 		expect(getByLabelText("sidePanel.author.label").nth(0)).toHaveTextContent(
@@ -593,7 +596,9 @@ describe("AuthorSection", () => {
 		const { container } = await render(<AuthorSection />, {
 			wrapper: ({ children }) => (
 				<DocumentContextProvider jsonDocument={[]}>
-					{children}
+					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+						{children}
+					</TagCatalogProvider>
 				</DocumentContextProvider>
 			),
 		});

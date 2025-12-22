@@ -18,7 +18,10 @@ describe("Accordion", () => {
 						value={{
 							jsonDocument: [],
 							panel: {
-								state: { isOpen: true, sections: { authors: true } },
+								state: {
+									isOpen: true,
+									sections: { authors: true, keywords: true },
+								},
 								togglePanel: () => {},
 								toggleSection: () => {},
 							},
@@ -48,7 +51,10 @@ describe("Accordion", () => {
 						value={{
 							jsonDocument: [],
 							panel: {
-								state: { isOpen: true, sections: { authors: false } },
+								state: {
+									isOpen: true,
+									sections: { authors: false, keywords: true },
+								},
 								togglePanel: () => {},
 								toggleSection: () => {},
 							},

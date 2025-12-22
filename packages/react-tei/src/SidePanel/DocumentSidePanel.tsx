@@ -6,7 +6,8 @@ import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider.js";
 import type { DocumentJson } from "../parser/document.js";
-import { AuthorSection } from "./AuthorSection.js";
+import { AuthorSection } from "./authors/AuthorSection.js";
+import { KeywordSection } from "./keywords/KeywordSection.js";
 
 type DocumentDrawerProps = {
 	teiHeader: DocumentJson;
@@ -27,7 +28,8 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 			sx={{
 				width: isOpen ? "550px" : "40px",
 				transition: "width 0.3s",
-				overflow: "hidden",
+				overflowX: "hidden",
+				overflowY: "auto",
 			}}
 		>
 			<Stack direction="row">
@@ -41,6 +43,7 @@ export const DocumentSidePanel = (_props: DocumentDrawerProps) => {
 				</Box>
 				<Box width="510px" minWidth="510px">
 					<AuthorSection />
+					<KeywordSection />
 				</Box>
 			</Stack>
 		</Paper>

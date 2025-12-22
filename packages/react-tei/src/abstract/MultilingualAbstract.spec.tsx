@@ -2,6 +2,8 @@ import { beforeEach, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../i18n/I18nProvider.js";
 import type { DocumentJson } from "../parser/document.js";
+import { TagCatalogProvider } from "../tags/TagCatalogProvider.js";
+import { tagCatalog } from "../tags/tagCatalog.js";
 import { MultilingualAbstract } from "./MultilingualAbstract.js";
 
 const abstracts: DocumentJson[] = [
@@ -55,7 +57,13 @@ const abstracts: DocumentJson[] = [
 
 async function renderMultilingualAbstract() {
 	const screen = await render(<MultilingualAbstract abstracts={abstracts} />, {
-		wrapper: I18nProvider,
+		wrapper: ({ children }) => (
+			<I18nProvider>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			</I18nProvider>
+		),
 	});
 
 	const section = screen.getByRole("region", {

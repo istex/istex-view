@@ -3,6 +3,8 @@ import { render } from "vitest-browser-react";
 
 import type { DocumentJson } from "../parser/document.js";
 import { TableNotes } from "./TableNotes.js";
+import { TagCatalogProvider } from "./TagCatalogProvider.js";
+import { tagCatalog } from "./tagCatalog.js";
 
 describe("TableNotes", () => {
 	it("should render a list of notes", async () => {
@@ -43,7 +45,13 @@ describe("TableNotes", () => {
 			},
 		];
 
-		const screen = await render(<TableNotes notes={notes} />);
+		const screen = await render(<TableNotes notes={notes} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(
 			screen.getByRole("paragraph").filter({
@@ -94,7 +102,13 @@ describe("TableNotes", () => {
 			},
 		];
 
-		const screen = await render(<TableNotes notes={notes} />);
+		const screen = await render(<TableNotes notes={notes} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
 
 		expect(
 			screen.getByRole("paragraph").filter({

@@ -1,7 +1,7 @@
 import { useMemo } from "react";
-import { useDocumentContext } from "../DocumentContextProvider.js";
-import type { DocumentJson } from "../parser/document.js";
-import { getDocumentJsonAtPath } from "../parser/getDocumentJsonAtPath.js";
+import { useDocumentContext } from "../../DocumentContextProvider.js";
+import type { DocumentJson } from "../../parser/document.js";
+import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath.js";
 
 export const useAuthors = (): DocumentJson[] => {
 	const { jsonDocument } = useDocumentContext();
