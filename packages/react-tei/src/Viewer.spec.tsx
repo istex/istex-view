@@ -173,4 +173,61 @@ describe("Viewer", () => {
 			abstractRegion.getByText("Ceci est le résumé en français."),
 		).toBeVisible();
 	});
+
+	it("should render table of contents", async () => {
+		const document = `<?xml version="1.0" encoding="UTF-8"?>
+		<TEI xmlns="http://www.tei-c.org/ns/1.0">
+			<teiHeader>
+				<fileDesc>
+					<titleStmt>
+						<title level="a" type="main">TEI <hi rend="italic">Test</hi> Title</title>
+					</titleStmt>
+				</fileDesc>
+			</teiHeader>
+			<text>
+				<body>
+					<div>
+						<head>Heading 1</head>
+						<p>Content of section 1.</p>
+						<div>
+							<head>Heading 1.1</head>
+							<p>Content of subsection 1.1.</p>
+						</div>
+						<div>
+							<head>Heading 1.2</head>
+							<p>Content of subsection 1.2.</p>
+						</div>
+					</div>
+					<div>
+						<head>Heading 2</head>
+						<p>Content of section 2.</p>
+					</div>
+				</body>
+			</text>
+		</TEI>`;
+
+		const screen = await render(<Viewer document={document} />, {
+			wrapper: I18nProvider,
+		});
+
+		const root = screen.getByRole("tree", {
+			name: "Table des matières",
+		});
+
+		expect(
+			root.getByRole("treeitem", { name: "Heading 1", exact: true }),
+		).toBeInTheDocument();
+
+		const childList = root.getByRole("group");
+		expect(
+			childList.getByRole("treeitem", { name: "Heading 1.1" }),
+		).toBeInTheDocument();
+		expect(
+			childList.getByRole("treeitem", { name: "Heading 1.2" }),
+		).toBeInTheDocument();
+
+		expect(
+			root.getByRole("treeitem", { name: "Heading 2" }),
+		).toBeInTheDocument();
+	});
 });

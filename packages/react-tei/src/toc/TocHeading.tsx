@@ -1,11 +1,13 @@
 import { ListItemText } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
+import { useTranslation } from "react-i18next";
 import { useDocumentNavigation } from "../navigation/useNavigateToSection.js";
 import { Value } from "../tags/Value.js";
 import type { Heading } from "./useTableOfContent.js";
 
 export function TocHeading({ headings, isChild = false }: TocHeadingProps) {
+	const { t } = useTranslation();
 	const { navigateToHeading } = useDocumentNavigation();
 	return (
 		<List
@@ -13,6 +15,8 @@ export function TocHeading({ headings, isChild = false }: TocHeadingProps) {
 			sx={{
 				paddingInlineStart: isChild ? 2 : 0,
 			}}
+			role={isChild ? "group" : "tree"}
+			aria-label={!isChild ? t("document.tableOfContent") : undefined}
 		>
 			{headings.map((heading) => (
 				<ListItem
@@ -38,6 +42,7 @@ export function TocHeading({ headings, isChild = false }: TocHeadingProps) {
 						onClick={() => {
 							navigateToHeading(heading.id);
 						}}
+						role="treeitem"
 					>
 						<Value data={heading.content} />
 					</ListItemText>
