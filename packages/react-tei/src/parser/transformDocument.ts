@@ -42,9 +42,15 @@ export function transformDocument(
 }
 
 export function transformAbstract(document: DocumentJson) {
-	return transformDocument(
+	return recursiveTransform(
 		{
-			div: transformDiv,
+			transformers: {
+				div: transformDiv,
+			},
+			section: {
+				id: "abstract",
+				level: "3",
+			},
 		},
 		document,
 	);
