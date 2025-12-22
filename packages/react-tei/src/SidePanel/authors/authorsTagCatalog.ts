@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { NoOp } from "../../tags/NoOp.js";
 import { Nothing } from "../../tags/Nothing.js";
 import type { ComponentProps } from "../../tags/type.js";
 import { Name } from "./Name.js";
@@ -19,4 +20,5 @@ export const authorTagCatalogs: Record<
 	orgName: PersNamePart,
 	name: Name,
 	affiliation: Nothing,
+	"#text": NoOp,
 };

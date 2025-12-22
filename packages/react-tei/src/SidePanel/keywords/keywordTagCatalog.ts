@@ -9,4 +9,5 @@ export const keywordTagCatalog = {
 	list: NoOp,
 	head: Nothing,
 	item: NoOp,
+	"#text": NoOp,
 };
