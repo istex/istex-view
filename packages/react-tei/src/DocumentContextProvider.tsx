@@ -7,6 +7,7 @@ export type PanelState = {
 		authors: boolean;
 		keywords: boolean;
 		source: boolean;
+		footnotes: boolean;
 	};
 };
 
@@ -60,6 +61,7 @@ export function DocumentContextProvider({
 				authors: true,
 				keywords: true,
 				source: true,
+				footnotes: true,
 			},
 		} satisfies PanelState,
 	);

@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { AuthorSection } from "./authors/AuthorSection";
+import { FootnotesSection } from "./footNotes/FootnotesSection";
 import { KeywordSection } from "./keywords/KeywordSection";
 import { SourceSection } from "./source/SourceSection";
 
@@ -51,6 +52,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<AuthorSection />
 					<KeywordSection />
 					<SourceSection />
+					<FootnotesSection />
 				</Box>
 			</Stack>
 		</Paper>

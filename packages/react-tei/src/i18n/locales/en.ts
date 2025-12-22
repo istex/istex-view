@@ -28,5 +28,8 @@ export const en: Translation = {
 		source: {
 			title: "Source",
 		},
+		footnotes: {
+			title: "Footnotes",
+		},
 	},
 };

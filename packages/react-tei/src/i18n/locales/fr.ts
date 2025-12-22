@@ -26,6 +26,9 @@ export const fr = {
 		keyword: {
 			title: "Mots-clés",
 		},
+		footnotes: {
+			title: "Notes de bas de page",
+		},
 	},
 };
 
