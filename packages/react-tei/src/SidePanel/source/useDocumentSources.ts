@@ -39,9 +39,6 @@ export const useDocumentSources = (): DocumentJson[] => {
 		}
 
 		const mainTitle = mainTitles[0];
-		if (!mainTitle) {
-			return [];
-		}
 
 		const subTitles = titles.filter(
 			({ attributes, value }) =>
@@ -58,6 +55,9 @@ export const useDocumentSources = (): DocumentJson[] => {
 			console.warn("Multiple sub titles found in document monogr", {
 				subTitles,
 			});
+		}
+		if (!mainTitle) {
+			return [];
 		}
 
 		const subTitle = subTitles[0];
