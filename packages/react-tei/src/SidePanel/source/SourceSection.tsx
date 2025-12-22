@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
-import { Value } from "../../tags/Value.js";
-import { Accordion } from "../Accordion.js";
-import { useDocumentSources } from "./useDocumentSources.js";
+import { Value } from "../../tags/Value";
+import { Accordion } from "../Accordion";
+import { useDocumentSources } from "./useDocumentSources";
 
 export const SourceSection = () => {
 	const { t } = useTranslation();
