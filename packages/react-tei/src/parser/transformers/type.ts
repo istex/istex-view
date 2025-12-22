@@ -1,4 +1,4 @@
-import type { DocumentJson } from "../document.js";
+import type { DocumentJson } from "../document";
 
 export type SectionContext = {
 	id: string;

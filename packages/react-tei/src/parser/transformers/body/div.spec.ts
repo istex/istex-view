@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import type { DocumentJson } from "../../document.js";
-import type { SectionContext } from "../type.js";
-import { transformDiv } from "./div.js";
+import type { DocumentJson } from "../../document";
+import type { SectionContext } from "../type";
+import { transformDiv } from "./div";
 
 describe("transformDiv", () => {
 	it("should add an id and level to div attributes if div has an head", () => {

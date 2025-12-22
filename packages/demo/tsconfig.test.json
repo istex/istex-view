@@ -4,8 +4,6 @@
 	"compilerOptions": {
 		"types": [],
 		"lib": ["es2024"],
-		"module": "nodenext",
-		"moduleResolution": "nodenext",
 		"noEmit": true,
 		"jsx": "react-jsx"
 	}

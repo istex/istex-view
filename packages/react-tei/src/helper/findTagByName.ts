@@ -1,4 +1,4 @@
-import type { DocumentJson } from "../parser/document.js";
+import type { DocumentJson } from "../parser/document";
 
 const MAX_DEPTH = 5;
 

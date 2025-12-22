@@ -1,9 +1,9 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { DocumentJson } from "../parser/document.js";
-import { transformAbstract } from "../parser/transformDocument.js";
-import { Value } from "../tags/Value.js";
-import { AbstractAccordion } from "./AbstractAccordion.js";
+import type { DocumentJson } from "../parser/document";
+import { transformAbstract } from "../parser/transformDocument";
+import { Value } from "../tags/Value";
+import { AbstractAccordion } from "./AbstractAccordion";
 
 export function SingleAbstract({ abstract }: SingleAbstractProps) {
 	const { t } = useTranslation();

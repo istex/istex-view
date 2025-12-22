@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
+import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 
 export function extractHeadingsFromBody(
 	currentValue: DocumentJsonValue,

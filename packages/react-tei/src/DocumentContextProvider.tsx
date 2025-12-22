@@ -1,5 +1,5 @@
 import { createContext, useContext, useReducer } from "react";
-import type { DocumentJson } from "./parser/document.js";
+import type { DocumentJson } from "./parser/document";
 
 export type PanelState = {
 	isOpen: boolean;

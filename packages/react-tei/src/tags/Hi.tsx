@@ -1,7 +1,7 @@
 import { Typography } from "@mui/material";
 import { type ReactNode, useMemo } from "react";
-import type { ComponentProps } from "./type.js";
-import { Value } from "./Value.js";
+import type { ComponentProps } from "./type";
+import { Value } from "./Value";
 
 function RecursiveHi({
 	rendList: [format, ...rest],

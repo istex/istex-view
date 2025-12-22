@@ -18,8 +18,7 @@
 			],
 			"outputs": ["dist/**"],
 			"cache": false,
-			"persistent": true,
-			"dependsOn": ["^build"]
+			"persistent": true
 		},
 		"preview": {
 			"inputs": [
@@ -74,18 +73,14 @@
 		"e2e": {
 			"inputs": ["src", "tsconfig.json", "package.json"],
 			"cache": false,
-			"persistent": false,
-			"dependsOn": ["^build"]
+			"persistent": false
 		},
 		"e2e:ui": {
 			"inputs": ["src", "tsconfig.json", "package.json"],
 			"cache": false,
-			"persistent": true,
-			"dependsOn": ["^build"]
+			"persistent": true
 		},
-		"typecheck": {
-			"dependsOn": ["^build"]
-		},
+		"typecheck": {},
 		"//#lint:check": {
 			"cache": false
 		},

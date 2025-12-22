@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 
-import type { DocumentJson } from "../parser/document.js";
-import { findTagByName } from "./findTagByName.js";
+import type { DocumentJson } from "../parser/document";
+import { findTagByName } from "./findTagByName";
 
 const ABSTRACT: DocumentJson = {
 	tag: "abstract",

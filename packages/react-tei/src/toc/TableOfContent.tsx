@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
-import { TocHeading } from "./TocHeading.js";
-import type { Heading } from "./useTableOfContent.js";
+import { TocHeading } from "./TocHeading";
+import type { Heading } from "./useTableOfContent";
 
 export function TableOfContent({ tableOfContent }: TableOfContentProps) {
 	return (

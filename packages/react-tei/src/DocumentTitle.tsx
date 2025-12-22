@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
-import { findTagByName } from "./helper/findTagByName.js";
-import type { DocumentJson } from "./parser/document.js";
-import { Value } from "./tags/Value.js";
+import { findTagByName } from "./helper/findTagByName";
+import type { DocumentJson } from "./parser/document";
+import { Value } from "./tags/Value";
 
 type DocumentTitleProps = {
 	teiHeader: DocumentJson;

@@ -1,7 +1,7 @@
-import { NoOp } from "../../tags/NoOp.js";
-import { Nothing } from "../../tags/Nothing.js";
-import { Keywords } from "./Keywords.js";
-import { Term } from "./Term.js";
+import { NoOp } from "../../tags/NoOp";
+import { Nothing } from "../../tags/Nothing";
+import { Keywords } from "./Keywords";
+import { Term } from "./Term";
 
 export const keywordTagCatalog = {
 	keywords: Keywords,

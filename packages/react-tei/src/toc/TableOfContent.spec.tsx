@@ -1,11 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import { I18nProvider } from "../i18n/I18nProvider.js";
-import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext.js";
-import { TagCatalogProvider } from "../tags/TagCatalogProvider.js";
-import { tagCatalog } from "../tags/tagCatalog.js";
-import { TableOfContent } from "./TableOfContent.js";
-import type { Heading } from "./useTableOfContent.js";
+import { I18nProvider } from "../i18n/I18nProvider";
+import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext";
+import { TagCatalogProvider } from "../tags/TagCatalogProvider";
+import { tagCatalog } from "../tags/tagCatalog";
+import { TableOfContent } from "./TableOfContent";
+import type { Heading } from "./useTableOfContent";
 
 describe("TableOfContent", () => {
 	it("should render children as a tree", async () => {

@@ -1,8 +1,8 @@
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
-import { Value } from "../../tags/Value.js";
-import { Accordion } from "../Accordion.js";
-import { keywordTagCatalog } from "./keywordTagCatalog.js";
-import { useKeywordList } from "./useKeywordList.js";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { Value } from "../../tags/Value";
+import { Accordion } from "../Accordion";
+import { keywordTagCatalog } from "./keywordTagCatalog";
+import { useKeywordList } from "./useKeywordList";
 
 export const KeywordSection = () => {
 	const keywordList = useKeywordList();

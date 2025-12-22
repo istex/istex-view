@@ -3,8 +3,8 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { useTranslation } from "react-i18next";
-import { TocHeading } from "./TocHeading.js";
-import type { Heading } from "./useTableOfContent.js";
+import { TocHeading } from "./TocHeading";
+import type { Heading } from "./useTableOfContent";
 
 export function TableOfContentAccordion({
 	tableOfContent,

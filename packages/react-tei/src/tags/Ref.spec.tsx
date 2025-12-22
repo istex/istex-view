@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 
-import type { DocumentJson } from "../parser/document.js";
-import { Ref } from "./Ref.js";
-import { TagCatalogProvider } from "./TagCatalogProvider.js";
-import { tagCatalog } from "./tagCatalog.js";
+import type { DocumentJson } from "../parser/document";
+import { Ref } from "./Ref";
+import { TagCatalogProvider } from "./TagCatalogProvider";
+import { tagCatalog } from "./tagCatalog";
 
 describe("Ref", () => {
 	it("should render text", async () => {

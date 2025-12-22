@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 
-import type { DocumentJson } from "../parser/document.js";
-import { Table } from "./Table.js";
-import { TagCatalogProvider } from "./TagCatalogProvider.js";
-import { tagCatalog } from "./tagCatalog.js";
+import type { DocumentJson } from "../parser/document";
+import { Table } from "./Table";
+import { TagCatalogProvider } from "./TagCatalogProvider";
+import { tagCatalog } from "./tagCatalog";
 
 describe("Table", () => {
 	it("should render a table with caption, header, rows, and notes", async () => {

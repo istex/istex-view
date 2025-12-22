@@ -1,10 +1,10 @@
 import type { ComponentType } from "react";
-import { NoOp } from "../../tags/NoOp.js";
-import { Nothing } from "../../tags/Nothing.js";
-import type { ComponentProps } from "../../tags/type.js";
-import { Name } from "./Name.js";
-import { PersName } from "./PersName.js";
-import { PersNamePart } from "./PersNamePart.js";
+import { NoOp } from "../../tags/NoOp";
+import { Nothing } from "../../tags/Nothing";
+import type { ComponentProps } from "../../tags/type";
+import { Name } from "./Name";
+import { PersName } from "./PersName";
+import { PersNamePart } from "./PersNamePart";
 
 export const authorTagCatalogs: Record<
 	string,

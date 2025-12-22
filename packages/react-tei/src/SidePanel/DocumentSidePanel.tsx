@@ -4,9 +4,9 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
-import { useDocumentContext } from "../DocumentContextProvider.js";
-import { AuthorSection } from "./authors/AuthorSection.js";
-import { KeywordSection } from "./keywords/KeywordSection.js";
+import { useDocumentContext } from "../DocumentContextProvider";
+import { AuthorSection } from "./authors/AuthorSection";
+import { KeywordSection } from "./keywords/KeywordSection";
 
 type DocumentSidePanelprops = {
 	ref: React.RefObject<HTMLDivElement | null>;

@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
-import { useViewerContext } from "../viewer/useViewerContext.js";
-import { UploadPage } from "./UploadPage.js";
+import { useViewerContext } from "../viewer/useViewerContext";
+import { UploadPage } from "./UploadPage";
 
 vi.mock("../viewer/useViewerContext");
 

@@ -3,8 +3,8 @@ import { render } from "vitest-browser-react";
 import {
 	DocumentContext,
 	DocumentContextProvider,
-} from "../DocumentContextProvider.js";
-import { Accordion } from "./Accordion.js";
+} from "../DocumentContextProvider";
+import { Accordion } from "./Accordion";
 
 describe("Accordion", () => {
 	it("should render accordion open if sections matching name is true (open)", async () => {

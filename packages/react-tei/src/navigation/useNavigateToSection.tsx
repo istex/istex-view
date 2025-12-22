@@ -2,7 +2,7 @@ import { useContext } from "react";
 import {
 	DocumentNavigationContext,
 	type DocumentNavigationContextValue,
-} from "./DocumentNavigationContext.js";
+} from "./DocumentNavigationContext";
 
 const defaultContextValue: DocumentNavigationContextValue = {
 	navigateToHeading: (headingId: string) => {

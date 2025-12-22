@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { withSection } from "./context.js";
+import { withSection } from "./context";
 
 describe("withSection", () => {
 	it("should create a new TransformContext with the given SectionContext", () => {

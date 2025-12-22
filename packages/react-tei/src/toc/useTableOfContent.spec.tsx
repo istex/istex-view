@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
-import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
+import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import {
 	extractHeadingsFromBody,
 	useTableOfContent,
-} from "./useTableOfContent.js";
+} from "./useTableOfContent";
 
 describe("extractHeadingsFromBody", () => {
 	it("should extract headings correctly", () => {

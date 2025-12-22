@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import {
 	type PanelSection,
 	useDocumentContext,
-} from "../DocumentContextProvider.js";
+} from "../DocumentContextProvider";
 
 type AccordionProps = {
 	name: PanelSection;

@@ -2,9 +2,9 @@ import { ListItemText } from "@mui/material";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import { useTranslation } from "react-i18next";
-import { useDocumentNavigation } from "../navigation/useNavigateToSection.js";
-import { Value } from "../tags/Value.js";
-import type { Heading } from "./useTableOfContent.js";
+import { useDocumentNavigation } from "../navigation/useNavigateToSection";
+import { Value } from "../tags/Value";
+import type { Heading } from "./useTableOfContent";
 
 export function TocHeading({ headings, isChild = false }: TocHeadingProps) {
 	const { t } = useTranslation();

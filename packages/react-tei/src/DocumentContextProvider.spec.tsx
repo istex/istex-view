@@ -3,7 +3,7 @@ import { renderHook } from "vitest-browser-react";
 import {
 	DocumentContextProvider,
 	useDocumentContext,
-} from "./DocumentContextProvider.js";
+} from "./DocumentContextProvider";
 
 describe("DocumentContextProvider", () => {
 	describe("useDocumentContext", () => {
