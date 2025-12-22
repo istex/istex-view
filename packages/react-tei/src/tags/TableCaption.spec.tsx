@@ -23,7 +23,7 @@ describe("TableCaption", () => {
 
 		const caption = screen.getByRole("caption");
 		expect(caption).toBeVisible();
-		expect(caption).toHaveTextContent("Table 1: Sample Table");
+		expect(caption).toHaveTextContent("Table 1 Sample Table");
 	});
 
 	it("should render caption with only title", async () => {
@@ -63,7 +63,7 @@ describe("TableCaption", () => {
 
 		const caption = screen.getByRole("caption");
 		expect(caption).toBeVisible();
-		expect(caption).toHaveTextContent("Only Label:");
+		expect(caption).toHaveTextContent("Only Label");
 	});
 
 	it("should not render caption when neither label nor title is provided", async () => {

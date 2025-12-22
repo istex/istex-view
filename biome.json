@@ -2,11 +2,8 @@
 	"$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
 	"files": {
 		"includes": [
-			"*.{json,md,ts,yaml}",
-			".github/**/*.{yml,md}",
-			".vscode/*.json",
-			"{e2e,packages}/**/*.{css,json,ts,tsx}",
-			"!packages/**/dist/*.{js,ts}"
+			"**/*.{css,json,md,ts,tsx,yaml,yml}",
+			"!**/{.turbo,dist,playwright-report,test-results}"
 		]
 	},
 	"linter": {

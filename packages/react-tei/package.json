@@ -7,7 +7,7 @@
 		"test": "vitest run --browser.headless",
 		"test:watch": "vitest watch --browser.headless",
 		"test:browser": "vitest watch",
-		"typecheck": "tsc --noEmit --project tsconfig.lib.json --project tsconfig.test.json"
+		"typecheck": "tsc --noEmit"
 	},
 	"exports": {
 		"./*": "./src/*"
@@ -28,14 +28,10 @@
 		"@types/react": "catalog:",
 		"@types/react-dom": "catalog:",
 		"@vitejs/plugin-react-swc": "catalog:",
-		"@vitest/browser-playwright": "catalog:",
-		"@vitest/coverage-v8": "catalog:",
-		"playwright": "catalog:",
 		"typescript": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-devtools-json": "catalog:",
 		"vite-tsconfig-paths": "catalog:",
-		"vitest": "catalog:",
 		"vitest-browser-react": "catalog:"
 	},
 	"private": true

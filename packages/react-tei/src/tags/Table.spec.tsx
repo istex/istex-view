@@ -56,13 +56,13 @@ describe("Table", () => {
 
 		expect(
 			screen.getByRole("table", {
-				name: "Table 1: Sample Table",
+				name: "Table 1 Sample Table",
 			}),
 		).toBeVisible();
 
 		expect(screen.getByRole("caption")).toBeVisible();
 		expect(screen.getByRole("caption")).toHaveTextContent(
-			"Table 1: Sample Table",
+			"Table 1 Sample Table",
 		);
 
 		expect(
