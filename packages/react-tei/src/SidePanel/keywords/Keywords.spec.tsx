@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
-import { Keywords } from "./Keywords.js";
-import { keywordTagCatalog } from "./keywordTagCatalog.js";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { Keywords } from "./Keywords";
+import { keywordTagCatalog } from "./keywordTagCatalog";
 
 describe("Keywords", () => {
 	it("should render keywords correctly", async () => {

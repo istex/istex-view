@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 
-import type { ComponentProps } from "./type.js";
-import { Value } from "./Value.js";
+import type { ComponentProps } from "./type";
+import { Value } from "./Value";
 
 export function Div({ data: { value, attributes } }: ComponentProps) {
 	if (!Array.isArray(value)) {

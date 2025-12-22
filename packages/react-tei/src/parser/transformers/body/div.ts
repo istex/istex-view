@@ -1,5 +1,5 @@
-import { withSection } from "../context.js";
-import type { TransformFn } from "../type.js";
+import { withSection } from "../context";
+import type { TransformFn } from "../type";
 
 export const transformDiv: TransformFn = (context, node) => {
 	const hasHead = Array.isArray(node.value)

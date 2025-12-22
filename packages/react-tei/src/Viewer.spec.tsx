@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 
-import { I18nProvider } from "./i18n/I18nProvider.js";
-import { Viewer } from "./Viewer.js";
+import { I18nProvider } from "./i18n/I18nProvider";
+import { Viewer } from "./Viewer";
 
 describe("Viewer", () => {
 	it("should display the document as text", async () => {

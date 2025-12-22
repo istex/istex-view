@@ -4,8 +4,8 @@ import {
 	transformAbstract,
 	transformBody,
 	transformDocument,
-} from "./transformDocument.js";
-import { bodyTransformers } from "./transformers/body/transformers.js";
+} from "./transformDocument";
+import { bodyTransformers } from "./transformers/body/transformers";
 
 describe("recursiveTransform", () => {
 	it("should return the same node if no transformer is found", () => {

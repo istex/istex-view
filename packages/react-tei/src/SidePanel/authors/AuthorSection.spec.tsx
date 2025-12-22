@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentContextProvider } from "../../DocumentContextProvider.js";
-import type { DocumentJson } from "../../parser/document.js";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
-import { AuthorSection } from "./AuthorSection.js";
-import { authorTagCatalogs } from "./authorsTagCatalog.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
+import type { DocumentJson } from "../../parser/document";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { AuthorSection } from "./AuthorSection";
+import { authorTagCatalogs } from "./authorsTagCatalog";
 
 const jsonDocument: DocumentJson[] = [
 	{

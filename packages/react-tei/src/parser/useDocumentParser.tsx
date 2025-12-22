@@ -1,6 +1,6 @@
 import { XMLParser } from "fast-xml-parser";
 import { useMemo } from "react";
-import type { DocumentJson } from "./document.js";
+import type { DocumentJson } from "./document";
 
 const parser = new XMLParser({
 	ignoreAttributes: false,

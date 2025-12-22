@@ -1,7 +1,7 @@
 import List from "@mui/material/List";
 import { useMemo } from "react";
-import type { ComponentProps } from "../../tags/type.js";
-import { Value } from "../../tags/Value.js";
+import type { ComponentProps } from "../../tags/type";
+import { Value } from "../../tags/Value";
 
 export const Keywords = ({ data }: ComponentProps) => {
 	const value = useMemo(() => {

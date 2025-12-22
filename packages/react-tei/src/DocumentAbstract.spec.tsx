@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentAbstract } from "./DocumentAbstract.js";
-import { I18nProvider } from "./i18n/I18nProvider.js";
-import type { DocumentJson, DocumentJsonValue } from "./parser/document.js";
-import { TagCatalogProvider } from "./tags/TagCatalogProvider.js";
-import { tagCatalog } from "./tags/tagCatalog.js";
+import { DocumentAbstract } from "./DocumentAbstract";
+import { I18nProvider } from "./i18n/I18nProvider";
+import type { DocumentJson, DocumentJsonValue } from "./parser/document";
+import { TagCatalogProvider } from "./tags/TagCatalogProvider";
+import { tagCatalog } from "./tags/tagCatalog";
 
 describe("DocumentAbstract", () => {
 	it.each<DocumentJsonValue>([

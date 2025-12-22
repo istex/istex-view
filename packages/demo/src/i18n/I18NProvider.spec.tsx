@@ -2,7 +2,7 @@ import { useTranslation } from "react-i18next";
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 
-import { I18nProvider } from "./I18nProvider.js";
+import { I18nProvider } from "./I18nProvider";
 
 function TestFunction() {
 	const { t } = useTranslation();

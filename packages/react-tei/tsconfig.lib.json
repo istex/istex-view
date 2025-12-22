@@ -7,8 +7,6 @@
 		"jsx": "react-jsx",
 		"outDir": "dist",
 		"rootDir": "src",
-		"lib": ["es2024", "DOM"],
-		"module": "nodenext",
-		"moduleResolution": "nodenext"
+		"lib": ["es2024", "DOM"]
 	}
 }

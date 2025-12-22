@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 
-import type { DocumentJson } from "../parser/document.js";
-import { TableNotes } from "./TableNotes.js";
-import { TagCatalogProvider } from "./TagCatalogProvider.js";
-import { tagCatalog } from "./tagCatalog.js";
+import type { DocumentJson } from "../parser/document";
+import { TableNotes } from "./TableNotes";
+import { TagCatalogProvider } from "./TagCatalogProvider";
+import { tagCatalog } from "./tagCatalog";
 
 describe("TableNotes", () => {
 	it("should render a list of notes", async () => {

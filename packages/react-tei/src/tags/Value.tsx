@@ -1,5 +1,5 @@
-import type { DocumentJson } from "../parser/document.js";
-import { useTagCatalog } from "./TagCatalogProvider.js";
+import type { DocumentJson } from "../parser/document";
+import { useTagCatalog } from "./TagCatalogProvider";
 
 const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
 

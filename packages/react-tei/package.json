@@ -4,14 +4,13 @@
 	"type": "module",
 	"version": "0.1.0",
 	"scripts": {
-		"build": "tsc --build --force tsconfig.lib.json",
 		"test": "vitest run --browser.headless",
 		"test:watch": "vitest watch --browser.headless",
 		"test:browser": "vitest watch",
 		"typecheck": "tsc --noEmit --project tsconfig.lib.json --project tsconfig.test.json"
 	},
 	"exports": {
-		"./*": "./dist/*"
+		"./*": "./src/*"
 	},
 	"dependencies": {
 		"@mui/icons-material": "catalog:",

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { TableCaption } from "./TableCaption.js";
-import { TagCatalogProvider } from "./TagCatalogProvider.js";
-import { tagCatalog } from "./tagCatalog.js";
+import { TableCaption } from "./TableCaption";
+import { TagCatalogProvider } from "./TagCatalogProvider";
+import { tagCatalog } from "./tagCatalog";
 
 describe("TableCaption", () => {
 	it("should render caption with label and title", async () => {

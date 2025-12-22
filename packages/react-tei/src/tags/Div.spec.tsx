@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import { Div } from "./Div.js";
-import { TagCatalogProvider } from "./TagCatalogProvider.js";
-import { tagCatalog } from "./tagCatalog.js";
+import { Div } from "./Div";
+import { TagCatalogProvider } from "./TagCatalogProvider";
+import { tagCatalog } from "./tagCatalog";
 
 describe("Div", () => {
 	it("should render it's value in a div when there is no level in the div", async () => {

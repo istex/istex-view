@@ -4,9 +4,6 @@
 	"compilerOptions": {
 		"types": ["vite/client"],
 		"lib": ["es2024", "DOM"],
-		"module": "nodenext",
-		"moduleResolution": "nodenext",
-		"noEmit": true,
 		"jsx": "react-jsx"
 	}
 }

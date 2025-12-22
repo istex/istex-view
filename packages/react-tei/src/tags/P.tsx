@@ -1,10 +1,10 @@
 /** biome-ignore-all lint/performance/noAccumulatingSpread: Array is not big */
 import Typography from "@mui/material/Typography";
 
-import { removeEmptyTextValues } from "../helper/removeEmptyTextValues.js";
-import type { DocumentJson } from "../parser/document.js";
-import type { ComponentProps } from "./type.js";
-import { Value } from "./Value.js";
+import { removeEmptyTextValues } from "../helper/removeEmptyTextValues";
+import type { DocumentJson } from "../parser/document";
+import type { ComponentProps } from "./type";
+import { Value } from "./Value";
 
 export function groupConsecutiveNonTableValues(values: DocumentJson[]) {
 	const cleanedValues = removeEmptyTextValues(values);

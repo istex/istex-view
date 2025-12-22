@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJson } from "../parser/document.js";
-import { TagCatalogProvider } from "./TagCatalogProvider.js";
-import { tagCatalog } from "./tagCatalog.js";
-import { Value } from "./Value.js";
+import type { DocumentJson } from "../parser/document";
+import { TagCatalogProvider } from "./TagCatalogProvider";
+import { tagCatalog } from "./tagCatalog";
+import { Value } from "./Value";
 
 describe("Value", () => {
 	it("should render text nodes correctly", async () => {

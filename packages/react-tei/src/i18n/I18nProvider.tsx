@@ -1,7 +1,7 @@
 import type { i18n } from "i18next";
 import { I18nextProvider } from "react-i18next";
 
-import defaultI18n from "./i18n.js";
+import defaultI18n from "./i18n";
 
 export function I18nProvider({
 	i18n = defaultI18n,

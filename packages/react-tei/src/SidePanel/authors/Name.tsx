@@ -1,6 +1,6 @@
 import { Typography } from "@mui/material";
-import type { ComponentProps } from "../../tags/type.js";
-import { Value } from "../../tags/Value.js";
+import type { ComponentProps } from "../../tags/type";
+import { Value } from "../../tags/Value";
 
 export function Name({ data }: ComponentProps) {
 	return (

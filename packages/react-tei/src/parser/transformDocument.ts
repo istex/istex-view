@@ -1,7 +1,7 @@
-import type { DocumentJson } from "./document.js";
-import { transformDiv } from "./transformers/body/div.js";
-import { bodyTransformers } from "./transformers/body/transformers.js";
-import type { TransformContext, TransformFn } from "./transformers/type.js";
+import type { DocumentJson } from "./document";
+import { transformDiv } from "./transformers/body/div";
+import { bodyTransformers } from "./transformers/body/transformers";
+import type { TransformContext, TransformFn } from "./transformers/type";
 
 export const noOpTransformer: TransformFn = (context, node) => ({
 	node,

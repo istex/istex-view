@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import type { DocumentJson } from "../../parser/document.js";
-import { Value } from "../../tags/Value.js";
+import type { DocumentJson } from "../../parser/document";
+import { Value } from "../../tags/Value";
 
 export const getDescriptionKey = (data: DocumentJson) => {
 	const { tag, attributes } = data;

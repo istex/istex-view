@@ -4,7 +4,7 @@ import { render } from "vitest-browser-react";
 import {
 	FileSelectorButton,
 	type FileSelectorButtonProps,
-} from "./FileSelectorButton.js";
+} from "./FileSelectorButton";
 
 describe("FileSelectorButton", () => {
 	it("should display a file picker", async () => {

@@ -1,4 +1,4 @@
-import type { Translation } from "./fr.js";
+import type { Translation } from "./fr";
 
 export const en: Translation = {
 	document: {

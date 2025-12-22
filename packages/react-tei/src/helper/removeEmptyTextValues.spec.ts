@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { removeEmptyTextValues } from "./removeEmptyTextValues.js";
+import { removeEmptyTextValues } from "./removeEmptyTextValues";
 
 describe("removeEmptyTextValues", () => {
 	it("should remove documents with empty text values", () => {

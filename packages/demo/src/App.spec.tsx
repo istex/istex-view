@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
-import App from "./App.js";
+import App from "./App";
 
 describe("App", () => {
 	it("should render the upload button", async () => {

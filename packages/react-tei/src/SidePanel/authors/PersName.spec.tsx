@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJson } from "../../parser/document.js";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
-import { authorTagCatalogs } from "./authorsTagCatalog.js";
-import { PersName } from "./PersName.js";
+import type { DocumentJson } from "../../parser/document";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { authorTagCatalogs } from "./authorsTagCatalog";
+import { PersName } from "./PersName";
 
 describe("PersName", () => {
 	it("should render PersName value", async () => {
