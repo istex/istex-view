@@ -32,6 +32,9 @@ export const fr = {
 			title_one: "Mots-clé ({{count}})",
 			title_other: "Mots-clés ({{count}})",
 		},
+		footnotes: {
+			title: "Notes de bas de page",
+		},
 	},
 };
 
