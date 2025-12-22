@@ -1,4 +1,4 @@
-name: 'Check'
+name: "Check"
 
 on:
   pull_request:
@@ -16,7 +16,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.x'
+          node-version: "24.x"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -37,7 +37,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.x'
+          node-version: "24.x"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -58,7 +58,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.x'
+          node-version: "24.x"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -70,7 +70,7 @@ jobs:
         run: pnpm playwright install chromium chromium-headless-shell
 
       - name: Run Tests
-        run: pnpm turbo run test
+        run: pnpm run test
 
   e2e:
     runs-on: ubuntu-latest
@@ -82,7 +82,7 @@ jobs:
       - name: Set up Node
         uses: actions/setup-node@v3
         with:
-          node-version: '24.x'
+          node-version: "24.x"
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -95,6 +95,6 @@ jobs:
 
       - name: Build Demo
         run: pnpm turbo run build --filter="@istex/viewer-demo"
-        
+
       - name: Run Tests
         run: pnpm turbo run e2e

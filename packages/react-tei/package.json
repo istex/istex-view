@@ -35,9 +35,7 @@
 		"typescript": "catalog:",
 		"vite": "catalog:",
 		"vite-plugin-devtools-json": "catalog:",
-		"vite-tsconfig-paths": "catalog:",
-		"vitest": "catalog:",
-		"vitest-browser-react": "catalog:"
+		"vite-tsconfig-paths": "catalog:"
 	},
 	"private": true
 }
