@@ -14,8 +14,7 @@ export function TableOfContent({ tableOfContent }: TableOfContentProps) {
 				maxHeight: "100%",
 				overflowX: "hidden",
 				overflowY: "auto",
-				paddingBlock: 2,
-				paddingInline: 4,
+				padding: 4,
 			}}
 		>
 			<Box
