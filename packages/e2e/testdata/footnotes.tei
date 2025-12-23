@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
+    xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sa="http://www.elsevier.com/xml/common/struct-aff/dtd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd"
+    xml:lang="en"
+>
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+            </titleStmt>
+            <sourceDesc>
+                <biblStruct>
+                    <analytic>
+                        <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Mr</roleName>
+                                <forename>Victor</forename>
+                                <surname>Hugo</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <surname>Paul</surname>
+                                <genName>II</genName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <nameLink>De</nameLink>
+                                <surname>La Fontaine</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Dr</roleName>
+                                <forename>Marie</forename>
+                                <surname>Curie</surname>
+                                <roleName type="degree">PhD</roleName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <orgName>Dead Poets Society</orgName>
+                            </persName>
+                        </author>
+                    </analytic>
+                </biblStruct>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <textClass>
+                <keywords>
+                    <term>TEI</term>
+                    <term>XML</term>
+                    <term>Sample Document</term>
+                </keywords>
+                <keywords>
+                    <list>
+                        <head>Subject Areas</head>
+                        <item>
+
+                            <term>Literature</term>
+                        </item>
+                        <item>
+                            <term>Mathematics</term>
+                        </item>
+                        <item>
+                            <term>Physics</term>
+                        </item>
+                    </list>
+                </keywords>
+                <keywords rend="tocHeading1">
+                    <term>ignored</term>
+                    <term>tocHeading1</term>
+                    <term>keywords</term>
+                </keywords>
+                <keywords scheme="heading">
+                    <term>ignored</term>
+                    <term>heading</term>
+                    <term>keywords</term>
+                </keywords>
+            </textClass>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div type="ElsevierSections">
+                <div type="1" xml:id="s0001">
+                    <head>Introduction</head>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia
+                        suscipit justo, quis eleifend odio rutrum tincidunt. Sed quis leo eu nibh
+                        auctor aliquam eget a sem. Quisque convallis nisi vel dictum pulvinar. Nulla
+                        facilisi. In lectus lorem, porta eu elit at, molestie vestibulum velit.
+                        Nullam eu est placerat, tempus sem id, dignissim nisl. Vivamus non semper
+                        sapien, a tincidunt quam. Nunc id luctus sapien,
+                        a eleifend leo. Etiam id lacus tellus. Nunc
+                        ullamcorper vel ipsum in gravida. Sed vel urna placerat, faucibus velit a,
+                        gravida ligula.</p>
+                </div>
+
+                <div type="2" xml:id="s0002">
+                    <head>Part 1</head>
+                    <p>Donec porttitor pretium<ref type="fn" n="1">1</ref> tortor, ac elementum
+                        ligula cursus vitae. Aliquam ac condimentum orci. Cras nec imperdiet libero.
+                        Proin sit amet tortor sit amet mauris posuere pretium ut non purus. Aenean
+                        sollicitudin lectus at augue congue, in egestas sapien dapibus. Maecenas
+                        rhoncus tincidunt arcu sed pretium. Integer eget viverra metus. Cras id
+                        euismod ex, in viverra arcu. Etiam bibendum, sapien vitae vulputate
+                        sollicitudin, diam lectus aliquam est, a rhoncus sapien dolor ac lorem.
+                        Donec mollis dictum risus id tempus.</p>
+
+                    <div type="2.1" xml:id="s00021">
+                        <head>Part 1.1</head>
+                        <p>Donec porttitor pretium tortor, ac elementum ligula cursus vitae. Aliquam
+                            ac condimentum orci. Cras nec imperdiet libero. Proin sit amet tortor
+                            sit amet mauris posuere pretium ut non purus. Aenean sollicitudin lectus
+                            at augue congue, in egestas sapien dapibus. Maecenas rhoncus tincidunt
+                            arcu sed pretium. Integer<ref type="fn" n="2">2</ref> eget viverra
+                            metus. Cras id euismod ex, in viverra arcu. Etiam bibendum, sapien vitae
+                            vulputate sollicitudin, diam lectus aliquam est, a rhoncus sapien dolor
+                            ac lorem. Donec mollis dictum risus id tempus.</p>
+                    </div>
+                </div>
+
+                <div xml:id="s0003">
+                    <head>Acknowledgments</head>
+                    <p> Nunc<ref type="fn" n="3">3</ref> in eleifend urna. Aenean lacinia, sem quis
+                        viverra mollis, orci leo aliquet dolor, nec condimentum magna est quis sem.
+                        Quisque scelerisque a velit at euismod. Ut interdum eros ut diam fermentum,
+                        eu vulputate orci tincidunt. Ut imperdiet dui nec consectetur gravida.
+                        Suspendisse suscipit a est vitae gravida. Quisque dui leo, egestas eu
+                        pharetra vitae, pretium vel risus. Nam malesuada iaculis metus id volutpat.
+                        Curabitur ut dignissim risus. Ut sodales ante ipsum, eu blandit ex mattis
+                        non. Vestibulum mollis justo posuere urna tempus vulputate.</p>
+                </div>
+            </div>
+        </body>
+        <back>
+            <div type="fn-group">
+                <note type="fn" n="1" xml:id="fn1">
+                    <p>The latin word for Prettier proving the roman already understood the
+                        importance of linting</p>
+                </note>
+                <note type="fn" n="2" xml:id="fn2">
+                    <p>May need to be cast first</p>
+                </note>
+                <note type="fn" n="3" xml:id="fn3">
+                    <p>Like a nun but with a c</p>
+                </note>
+            </div>
+        </back>
+    </text>
+</TEI>
