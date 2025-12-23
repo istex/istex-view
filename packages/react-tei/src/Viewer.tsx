@@ -90,6 +90,7 @@ export const Viewer = ({
 										maxHeight: height,
 									}}
 									component="section"
+									aria-role="document"
 								>
 									<Stack
 										marginInline={{

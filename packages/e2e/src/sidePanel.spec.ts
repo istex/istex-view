@@ -14,58 +14,117 @@ test("document sidePanel authors section", async ({ page }) => {
 		page.getByRole("button", { name: "Auteurs (5)" }),
 	).toHaveAttribute("aria-expanded", "true");
 
-	await expect(page.getByLabel("Auteur")).toHaveCount(5);
+	await expect(
+		page.getByLabel("Auteur", {
+			exact: true,
+		}),
+	).toHaveCount(5);
 	await expect(page.getByText("Mr Victor Hugo")).toBeVisible();
 	await expect(page.getByText("Jean Paul II")).toBeVisible();
 	await expect(page.getByText("Jean De La Fontaine")).toBeVisible();
 	await expect(page.getByText("Dr Marie Curie PhD")).toBeVisible();
 	await expect(page.getByText("Dead Poets Society")).toBeVisible();
-	await expect(page.getByLabel("Auteur").nth(0)).toHaveText("Mr Victor Hugo");
 	await expect(
-		page.getByLabel("Auteur").nth(0).getByText("Victor"),
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.nth(0),
+	).toHaveText("Mr Victor Hugo");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.nth(0)
+			.getByText("Victor"),
 	).toBeVisible();
-	await expect(page.getByLabel("Auteur").nth(1)).toHaveText("Jean Paul II");
-	await expect(page.getByLabel("Auteur").nth(2)).toHaveText(
-		"Jean De La Fontaine",
-	);
-	await expect(page.getByLabel("Auteur").nth(3)).toHaveText(
-		"Dr Marie Curie PhD",
-	);
-	await expect(page.getByLabel("Auteur").nth(4)).toHaveText(
-		"Dead Poets Society",
-	);
-
-	await expect(page.getByLabel("Auteur").getByText("Victor")).toHaveAttribute(
-		"aria-description",
-		"Prénom",
-	);
-	await expect(page.getByLabel("Auteur").getByText("Hugo")).toHaveAttribute(
-		"aria-description",
-		"Nom",
-	);
-	await expect(page.getByLabel("Auteur").getByText("Mr")).toHaveAttribute(
-		"aria-description",
-		"Civilité",
-	);
-	await expect(page.getByLabel("Auteur").getByText("Dr")).toHaveAttribute(
-		"aria-description",
-		"Civilité",
-	);
-	await expect(page.getByLabel("Auteur").getByText("PhD")).toHaveAttribute(
-		"aria-description",
-		"Diplôme",
-	);
-	await expect(page.getByLabel("Auteur").getByText("II")).toHaveAttribute(
-		"aria-description",
-		"Génération",
-	);
 	await expect(
-		page.getByLabel("Auteur").getByText("De", {
-			exact: true,
-		}),
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.nth(1),
+	).toHaveText("Jean Paul II");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.nth(2),
+	).toHaveText("Jean De La Fontaine");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.nth(3),
+	).toHaveText("Dr Marie Curie PhD");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.nth(4),
+	).toHaveText("Dead Poets Society");
+
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("Victor"),
+	).toHaveAttribute("aria-description", "Prénom");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("Hugo"),
+	).toHaveAttribute("aria-description", "Nom");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("Mr"),
+	).toHaveAttribute("aria-description", "Civilité");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("Dr"),
+	).toHaveAttribute("aria-description", "Civilité");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("PhD"),
+	).toHaveAttribute("aria-description", "Diplôme");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("II"),
+	).toHaveAttribute("aria-description", "Génération");
+	await expect(
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("De", {
+				exact: true,
+			}),
 	).toHaveAttribute("aria-description", "Particule");
 	await expect(
-		page.getByLabel("Auteur").getByText("Dead Poets Society"),
+		page
+			.getByLabel("Auteur", {
+				exact: true,
+			})
+			.getByText("Dead Poets Society"),
 	).toHaveAttribute("aria-description", "Organisation");
 
 	await page.getByRole("button", { name: "Auteurs" }).click();
