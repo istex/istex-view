@@ -28,7 +28,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 		<Paper
 			elevation={0}
 			sx={{
-				width: isOpen ? "384px" : "40px",
+				width: isOpen ? "512px" : "40px",
 				transition: "width 0.3s",
 				overflowX: "hidden",
 				overflowY: "auto",
@@ -48,7 +48,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 						{isOpen ? <ChevronRight /> : <ChevronLeft />}
 					</IconButton>
 				</Box>
-				<Box width="344px" minWidth="344px">
+				<Box width="472px" minWidth="472px">
 					<AuthorSection />
 					<KeywordSection />
 					<SourceSection />
