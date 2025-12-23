@@ -19,7 +19,6 @@ export type DocumentContextType = {
 		state: PanelState;
 		togglePanel: () => void;
 		toggleSection: (section: keyof PanelState["sections"]) => void;
-		openSection: (section: keyof PanelState["sections"]) => void;
 	};
 };
 
@@ -29,8 +28,7 @@ export const DocumentContext = createContext<DocumentContextType | undefined>(
 
 type PanelAction =
 	| { type: "TOGGLE_PANEL" }
-	| { type: "TOGGLE_SECTION"; section: keyof PanelState["sections"] }
-	| { type: "OPEN_SECTION"; section: keyof PanelState["sections"] };
+	| { type: "TOGGLE_SECTION"; section: keyof PanelState["sections"] };
 
 export function DocumentContextProvider({
 	children,
@@ -53,15 +51,6 @@ export function DocumentContextProvider({
 							[action.section]: !state.sections[action.section],
 						},
 					};
-				case "OPEN_SECTION":
-					return {
-						...state,
-						isOpen: true,
-						sections: {
-							...state.sections,
-							[action.section]: true,
-						},
-					};
 				default:
 					return state;
 			}
@@ -81,10 +70,6 @@ export function DocumentContextProvider({
 		dispatch({ type: "TOGGLE_PANEL" });
 	};
 
-	const openSection = (section: keyof PanelState["sections"]) => {
-		dispatch({ type: "OPEN_SECTION", section });
-	};
-
 	const toggleSection = (section: keyof PanelState["sections"]) => {
 		dispatch({ type: "TOGGLE_SECTION", section });
 	};
@@ -97,7 +82,6 @@ export function DocumentContextProvider({
 					state: panelState,
 					togglePanel,
 					toggleSection,
-					openSection,
 				},
 			}}
 		>

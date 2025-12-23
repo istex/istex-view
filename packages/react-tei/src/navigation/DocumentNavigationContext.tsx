@@ -4,7 +4,7 @@ import { useDocumentContext } from "../DocumentContextProvider";
 export type DocumentNavigationContextValue = {
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
-	navigateToDocumentRef(id: string): void;
+	navigateToFootnoteRef(id: string): void;
 };
 
 export const DocumentNavigationContext =
@@ -44,21 +44,21 @@ export function DocumentNavigationContextProvider({
 			if (currentSelector !== querySelector) {
 				setCurrentSelector(querySelector);
 			}
-			setCurrentElementIndex((prevIndex) => {
-				if (currentSelector !== querySelector) {
-					return 0;
-				}
-				return (prevIndex + 1) % targetElements.length;
-			});
+			const index =
+				currentSelector !== querySelector
+					? 0
+					: (currentElementIndex + 1) % targetElements.length;
 
-			if (!targetElements[currentElementIndex]) {
+			setCurrentElementIndex(index);
+
+			if (!targetElements[index]) {
 				console.error(
 					`Target element with querySelector '${querySelector}' and index '${currentElementIndex}' not found`,
 				);
 				return;
 			}
 
-			targetElements[currentElementIndex].scrollIntoView({
+			targetElements[index].scrollIntoView({
 				behavior: "smooth",
 			});
 		},
@@ -97,22 +97,22 @@ export function DocumentNavigationContextProvider({
 	);
 
 	const navigateToFootnote = useCallback(
-		(footnoteId: string) => {
+		(n: string) => {
 			if (!panel.state.isOpen || !panel.state.sections.footnotes) {
-				panel.openSection("footnotes");
+				panel.toggleSection("footnotes");
 				setTimeout(() => {
-					navigateToPanelTargetSelector(`#${footnoteId}`);
+					navigateToPanelTargetSelector(`[data-fn-id='${n}']`);
 				}, 600);
 				return;
 			}
-			return navigateToPanelTargetSelector(`#${footnoteId}`);
+			return navigateToPanelTargetSelector(`[data-fn-id='${n}']`);
 		},
 		[navigateToPanelTargetSelector, panel],
 	);
 
-	const navigateToDocumentRef = useCallback(
+	const navigateToFootnoteRef = useCallback(
 		(id: string) => {
-			return navigateToBodyTargetSelector(`[data-id='${id}']`);
+			return navigateToBodyTargetSelector(`[data-fn-id='${id}']`);
 		},
 		[navigateToBodyTargetSelector],
 	);
@@ -121,9 +121,9 @@ export function DocumentNavigationContextProvider({
 		() => ({
 			navigateToHeading,
 			navigateToFootnote,
-			navigateToDocumentRef,
+			navigateToFootnoteRef,
 		}),
-		[navigateToHeading, navigateToFootnote, navigateToDocumentRef],
+		[navigateToHeading, navigateToFootnote, navigateToFootnoteRef],
 	);
 
 	return (

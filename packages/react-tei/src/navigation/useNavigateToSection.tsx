@@ -15,7 +15,7 @@ const defaultContextValue: DocumentNavigationContextValue = {
 			`navigateToFootnote called with footnoteId: ${footnoteId}, but no provider is set.`,
 		);
 	},
-	navigateToDocumentRef: (id: string) => {
+	navigateToFootnoteRef: (id: string) => {
 		console.error(
 			`navigateToDocumentRef called with id: ${id}, but no provider is set.`,
 		);
