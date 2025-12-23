@@ -1,11 +1,9 @@
-import type { DocumentJson } from "../parser/document";
+import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { useTagCatalog } from "./TagCatalogProvider";
 
 const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
 
-export type DocumentJsonValue = DocumentJson | DocumentJson[] | string | number;
-
-export function Value({ data }: { data?: DocumentJsonValue | undefined }) {
+export function Value({ data }: ValueProps) {
 	const tagCatalog = useTagCatalog();
 
 	if (!data) {
@@ -16,7 +14,7 @@ export function Value({ data }: { data?: DocumentJsonValue | undefined }) {
 		return data.map((item, index) => <Value key={index} data={item} />);
 	}
 
-	if (typeof data === "string" || typeof data === "number") {
+	if (typeof data === "string") {
 		return data;
 	}
 
@@ -37,9 +35,13 @@ export function Value({ data }: { data?: DocumentJsonValue | undefined }) {
 		return null;
 	}
 
-	if (typeof value === "string" || typeof value === "number") {
+	if (typeof value === "string") {
 		return value;
 	}
 
 	return value.map((data) => <Value data={data} />);
 }
+
+type ValueProps = {
+	data: DocumentJson | DocumentJsonValue;
+};

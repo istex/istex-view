@@ -80,7 +80,7 @@ describe("Viewer", () => {
 							<cell>Data 1</cell>
 							<cell>Data 2</cell>
 						</row>
-						<note>
+						<note type="table-wrap-foot">
 							<note>This is a table note.</note>
 						</note>
 					</table>
@@ -112,7 +112,11 @@ describe("Viewer", () => {
 
 		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
 		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
-		expect(screen.getByText("This is a table note.")).toBeVisible();
+		expect(
+			screen.getByRole("note").filter({
+				hasText: "This is a table note.",
+			}),
+		).toBeVisible();
 	});
 
 	it("should render the abstract with toggle", async () => {

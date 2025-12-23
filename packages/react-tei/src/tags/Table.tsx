@@ -21,7 +21,7 @@ export function Table({ data: { value, attributes } }: ComponentProps) {
 		return item.attributes?.["@type"] === "label";
 	});
 
-	const tableTitle = heads.find((item) => {
+	const tableTitles = heads.filter((item) => {
 		return item.attributes?.["@type"] == null;
 	});
 
@@ -34,8 +34,7 @@ export function Table({ data: { value, attributes } }: ComponentProps) {
 
 	const captionId = `table_caption_${attributes?.["@xml:id"]}`;
 
-	const notesGroup = value.find((item) => item.tag === "note");
-	const notes = Array.isArray(notesGroup?.value) ? notesGroup.value : [];
+	const notesGroup = value.filter((item) => item.tag === "note");
 
 	return (
 		<Stack gap={1}>
@@ -60,7 +59,11 @@ export function Table({ data: { value, attributes } }: ComponentProps) {
 						},
 					}}
 				>
-					<TableCaption id={captionId} label={tableLabel} title={tableTitle} />
+					<TableCaption
+						id={captionId}
+						label={tableLabel}
+						titles={tableTitles}
+					/>
 					<MuiTableHead>
 						{tableHead.map((row, rowIndex) => (
 							<TableRow key={rowIndex} data={row} />
@@ -73,7 +76,7 @@ export function Table({ data: { value, attributes } }: ComponentProps) {
 					</MuiTableBody>
 				</MuiTable>
 			</Box>
-			<TableNotes notes={notes} />
+			<TableNotes notes={notesGroup} />
 		</Stack>
 	);
 }

@@ -1,3 +1,9 @@
-import { vi } from "vitest";
+import { afterEach, beforeEach, vi } from "vitest";
 
-vi.resetAllMocks();
+beforeEach(() => {
+	vi.spyOn(console, "warn").mockImplementation(() => {});
+});
+
+afterEach(() => {
+	vi.restoreAllMocks();
+});
