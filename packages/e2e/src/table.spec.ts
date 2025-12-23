@@ -28,12 +28,12 @@ test("render a table with caption and notes", async ({ page }) => {
 
 	await expect(
 		page.getByRole("table", {
-			name: "Table 1: Sample Table",
+			name: "Table 1 Sample Table",
 		}),
 	).toBeVisible();
 
 	await expect(page.getByRole("caption")).toBeVisible();
-	await expect(page.getByRole("caption")).toHaveText("Table 1: Sample Table");
+	await expect(page.getByRole("caption")).toHaveText("Table 1 Sample Table");
 
 	await expect(
 		page.getByRole("columnheader", { name: "Header 1" }),

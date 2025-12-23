@@ -1,6 +1,6 @@
 import ListItem from "@mui/material/ListItem";
-import type { ComponentProps } from "../../tags/type.js";
-import { Value } from "../../tags/Value.js";
+import type { ComponentProps } from "../../tags/type";
+import { Value } from "../../tags/Value";
 
 export const Term = ({ data }: ComponentProps) => {
 	return (

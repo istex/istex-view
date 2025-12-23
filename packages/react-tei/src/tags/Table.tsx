@@ -4,10 +4,10 @@ import MuiTable from "@mui/material/Table";
 import MuiTableBody from "@mui/material/TableBody";
 import MuiTableHead from "@mui/material/TableHead";
 
-import { TableCaption } from "./TableCaption.js";
-import { TableNotes } from "./TableNotes.js";
-import { TableRow } from "./TableRow.js";
-import type { ComponentProps } from "./type.js";
+import { TableCaption } from "./TableCaption";
+import { TableNotes } from "./TableNotes";
+import { TableRow } from "./TableRow";
+import type { ComponentProps } from "./type";
 
 export function Table({ data: { value, attributes } }: ComponentProps) {
 	if (!Array.isArray(value)) {

@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
-import { DocumentContextProvider } from "../../DocumentContextProvider.js";
-import type { DocumentJson } from "../../parser/document.js";
-import { isValidKeyword, useKeywordList } from "./useKeywordList.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
+import type { DocumentJson } from "../../parser/document";
+import { isValidKeyword, useKeywordList } from "./useKeywordList";
 
 describe("useKeywordList", () => {
 	it('should return an array of keywords found in the document under "teiHeader/profileDesc/textClass/keywords/term"', async () => {

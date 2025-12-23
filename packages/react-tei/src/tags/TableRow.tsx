@@ -1,8 +1,8 @@
 import MuiTableCell from "@mui/material/TableCell";
 import MuiTableRow from "@mui/material/TableRow";
 
-import type { ComponentProps } from "./type.js";
-import { Value } from "./Value.js";
+import type { ComponentProps } from "./type";
+import { Value } from "./Value";
 
 export function TableRow({ data }: ComponentProps) {
 	if (!Array.isArray(data.value)) {

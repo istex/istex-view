@@ -1,10 +1,10 @@
-import { MultilingualAbstract } from "./abstract/MultilingualAbstract.js";
-import { SingleAbstract } from "./abstract/SingleAbstract.js";
-import { findChildrenByName } from "./helper/findChildrenByName.js";
-import { findTagByName } from "./helper/findTagByName.js";
-import type { DocumentJson } from "./parser/document.js";
+import { MultilingualAbstract } from "./abstract/MultilingualAbstract";
+import { SingleAbstract } from "./abstract/SingleAbstract";
+import { findChildrenByName } from "./helper/findChildrenByName";
+import { findTagByName } from "./helper/findTagByName";
+import type { DocumentJson } from "./parser/document";
 
-export function DocumentAbstract({ header }: DocumentAbstractProps) {
+export function DocumentAbstract({ teiHeader: header }: DocumentAbstractProps) {
 	const profileDesc = findTagByName(header, "profileDesc");
 	const abstracts = findChildrenByName(profileDesc, "abstract");
 
@@ -20,5 +20,5 @@ export function DocumentAbstract({ header }: DocumentAbstractProps) {
 }
 
 type DocumentAbstractProps = {
-	header: DocumentJson | undefined;
+	teiHeader: DocumentJson | undefined;
 };

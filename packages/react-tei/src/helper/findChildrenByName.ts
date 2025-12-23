@@ -1,4 +1,4 @@
-import type { DocumentJson } from "../parser/document.js";
+import type { DocumentJson } from "../parser/document";
 
 export function findChildrenByName(
 	document: DocumentJson | undefined,

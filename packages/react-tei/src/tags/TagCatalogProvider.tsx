@@ -1,5 +1,5 @@
 import { type ComponentType, createContext, useContext } from "react";
-import type { ComponentProps } from "./type.js";
+import type { ComponentProps } from "./type";
 
 export const TagCatalogContext = createContext<Record<
 	string,

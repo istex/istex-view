@@ -1,7 +1,12 @@
 {
-	"files": [],
-	"references": [
-		{ "path": "./tsconfig.lib.json" },
-		{ "path": "./tsconfig.test.json" }
-	]
+	"extends": "../../tsconfig.base.json",
+	"include": ["src"],
+	"exclude": ["src/**/*.spec.ts", "src/**/*.spec.tsx"],
+	"compilerOptions": {
+		"types": ["vite/client"],
+		"jsx": "react-jsx",
+		"outDir": "dist",
+		"rootDir": "src",
+		"lib": ["es2024", "DOM"]
+	}
 }

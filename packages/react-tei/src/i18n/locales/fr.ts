@@ -1,6 +1,7 @@
 export const fr = {
 	document: {
 		abstract: "Résumé",
+		tableOfContent: "Table des matières",
 		lang: "Langue",
 	},
 	sidePanel: {

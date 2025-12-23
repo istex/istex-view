@@ -1,5 +1,7 @@
 default: help
 
+.PHONY: test
+
 help:									## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(firstword $(MAKEFILE_LIST)) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
@@ -20,19 +22,13 @@ preview:								## Preview the demo package
 	@pnpm turbo run preview --filter="@istex/viewer-demo"
 
 test: 									## Run Unit tests
-	@pnpm turbo run test
+	@pnpm test
 
 test-watch: 							## Run Unit tests in watch mode
-	@pnpm turbo watch test:watch
+	@pnpm test:watch
 
 test-browser: 							## Run Unit tests in browser mode
-	@pnpm turbo run test:browser
-
-test-browser-react-tei: 				## Run demo React TEI in browser mode
-	@pnpm turbo run test:browser --filter="@istex/react-tei"
-
-test-browser-demo: 						## Run demo tests in browser mode
-	@pnpm turbo run test:browser --filter="@istex/viewer-demo"
+	@pnpm test:browser
 
 e2e:
 	@pnpm turbo run e2e --no-cache
@@ -44,7 +40,7 @@ typecheck:								## Run type checks
 	@pnpm turbo run typecheck --no-cache
 
 lint-check:								## Run lint checks
-	@pnpm turbo run lint:check --no-cache
+	@pnpm lint:check
 
 lint-apply:								## Apply lint fixes
-	@pnpm turbo run lint:apply --no-cache
+	@pnpm lint:apply

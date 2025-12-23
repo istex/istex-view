@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentContextProvider } from "../../DocumentContextProvider.js";
-import { KeywordSection } from "./KeywordSection.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
+import { KeywordSection } from "./KeywordSection";
 
 describe("KeywordSection", () => {
 	it("should render list of keywords taken from the document", async () => {

@@ -1,9 +1,9 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import type { DocumentJson } from "../../parser/document.js";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
-import { authorTagCatalogs } from "./authorsTagCatalog.js";
-import { getDescriptionKey, PersNamePart } from "./PersNamePart.js";
+import type { DocumentJson } from "../../parser/document";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { authorTagCatalogs } from "./authorsTagCatalog";
+import { getDescriptionKey, PersNamePart } from "./PersNamePart";
 
 describe("PersNamePart", () => {
 	describe("getDescriptionKey", () => {

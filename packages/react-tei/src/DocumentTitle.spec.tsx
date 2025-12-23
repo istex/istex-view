@@ -1,9 +1,9 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentTitle } from "./DocumentTitle.js";
-import type { DocumentJson } from "./parser/document.js";
-import { TagCatalogProvider } from "./tags/TagCatalogProvider.js";
-import { tagCatalog } from "./tags/tagCatalog.js";
+import { DocumentTitle } from "./DocumentTitle";
+import type { DocumentJson } from "./parser/document";
+import { TagCatalogProvider } from "./tags/TagCatalogProvider";
+import { tagCatalog } from "./tags/tagCatalog";
 
 describe("DocumentTitle", () => {
 	it("should render document title", async () => {
@@ -31,7 +31,7 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />, {
+		const screen = await render(<DocumentTitle teiHeader={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					{children}
@@ -77,7 +77,7 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />, {
+		const screen = await render(<DocumentTitle teiHeader={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					{children}
@@ -103,7 +103,7 @@ describe("DocumentTitle", () => {
 			],
 		};
 
-		const screen = await render(<DocumentTitle data={jsonValue} />, {
+		const screen = await render(<DocumentTitle teiHeader={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					{children}

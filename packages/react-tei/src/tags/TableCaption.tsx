@@ -1,7 +1,7 @@
 import Typography from "@mui/material/Typography";
 
-import type { DocumentJson } from "../parser/document.js";
-import { Value } from "./Value.js";
+import type { DocumentJson } from "../parser/document";
+import { Value } from "./Value";
 
 export function TableCaption({ id, label, title }: TableCaptionProps) {
 	if (!label?.value && !title?.value) {
@@ -15,7 +15,7 @@ export function TableCaption({ id, label, title }: TableCaptionProps) {
 					component="span"
 					sx={{ fontWeight: "bold", marginRight: 1 }}
 				>
-					<Value data={label.value} />:{" "}
+					<Value data={label.value} />{" "}
 				</Typography>
 			)}
 			{title?.value && <Value data={title.value} />}

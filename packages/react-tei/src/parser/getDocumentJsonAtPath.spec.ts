@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { getDocumentJsonAtPath } from "./getDocumentJsonAtPath.js";
+import { getDocumentJsonAtPath } from "./getDocumentJsonAtPath";
 
 describe("getDocumentJsonAtPath", () => {
 	const documentJson = [

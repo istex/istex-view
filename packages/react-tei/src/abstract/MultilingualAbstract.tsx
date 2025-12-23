@@ -2,9 +2,9 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import type { DocumentJson, DocumentJsonValue } from "../parser/document.js";
-import { Value } from "../tags/Value.js";
-import { AbstractAccordion } from "./AbstractAccordion.js";
+import type { DocumentJson, DocumentJsonValue } from "../parser/document";
+import { Value } from "../tags/Value";
+import { AbstractAccordion } from "./AbstractAccordion";
 
 export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 	const { t, i18n } = useTranslation();

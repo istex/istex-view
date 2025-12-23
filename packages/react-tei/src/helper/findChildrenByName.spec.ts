@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { findChildrenByName } from "./findChildrenByName.js";
+import { findChildrenByName } from "./findChildrenByName";
 
 describe("findChildrenByName", () => {
 	it("should return an empty array when document is undefined", () => {

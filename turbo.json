@@ -18,8 +18,7 @@
 			],
 			"outputs": ["dist/**"],
 			"cache": false,
-			"persistent": true,
-			"dependsOn": ["^build"]
+			"persistent": true
 		},
 		"preview": {
 			"inputs": [
@@ -34,63 +33,26 @@
 			"persistent": true,
 			"dependsOn": ["build"]
 		},
-		"test": {
-			"inputs": [
-				"src/**",
-				"migrations/**",
-				"vitest.config.ts",
-				"tsconfig.json",
-				"tsconfig.*.json",
-				"package.json"
-			],
-			"cache": true,
-			"persistent": false,
-			"dependsOn": ["^build"]
-		},
-		"test:watch": {
-			"inputs": [
-				"vitest.config.ts",
-				"tsconfig.json",
-				"tsconfig.*.json",
-				"package.json"
-			],
-			"cache": false,
-			"persistent": true,
-			"interactive": true,
-			"dependsOn": ["^build"]
-		},
-		"test:browser": {
-			"inputs": [
-				"vitest.config.ts",
-				"tsconfig.json",
-				"tsconfig.*.json",
-				"package.json"
-			],
-			"cache": false,
-			"persistent": true,
-			"interactive": true,
-			"dependsOn": ["^build"]
-		},
 		"e2e": {
-			"inputs": ["src", "tsconfig.json", "package.json"],
+			"inputs": [
+				"src",
+				"package.json",
+				"playwright.config.ts",
+				"tsconfig.json"
+			],
 			"cache": false,
-			"persistent": false,
-			"dependsOn": ["^build"]
+			"persistent": false
 		},
 		"e2e:ui": {
-			"inputs": ["src", "tsconfig.json", "package.json"],
+			"inputs": [
+				"src",
+				"package.json",
+				"playwright.config.ts",
+				"tsconfig.json"
+			],
 			"cache": false,
-			"persistent": true,
-			"dependsOn": ["^build"]
+			"persistent": true
 		},
-		"typecheck": {
-			"dependsOn": ["^build"]
-		},
-		"//#lint:check": {
-			"cache": false
-		},
-		"//#lint:apply": {
-			"cache": false
-		}
+		"typecheck": {}
 	}
 }

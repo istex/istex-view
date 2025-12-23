@@ -1,7 +1,7 @@
 import Stack from "@mui/material/Stack";
 
-import type { DocumentJson } from "../parser/document.js";
-import { Value } from "./Value.js";
+import type { DocumentJson } from "../parser/document";
+import { Value } from "./Value";
 
 export function TableNotes({ notes }: TableNotesProps) {
 	return (
