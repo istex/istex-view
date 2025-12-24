@@ -93,10 +93,9 @@ test("document sidePanel keywords section", async ({ page }) => {
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),
 	).toBeVisible();
 
-	await expect(page.getByRole("button", { name: "Mots-clés" })).toHaveAttribute(
-		"aria-expanded",
-		"true",
-	);
+	await expect(
+		page.getByRole("button", { name: "Mots-clés (6)" }),
+	).toHaveAttribute("aria-expanded", "true");
 
 	await expect(page.getByText("TEI")).toBeVisible();
 	await expect(page.getByText("XML")).toBeVisible();
@@ -105,11 +104,10 @@ test("document sidePanel keywords section", async ({ page }) => {
 	await expect(page.getByText("Mathematics")).toBeVisible();
 	await expect(page.getByText("Physics")).toBeVisible();
 
-	await page.getByRole("button", { name: "Mots-clés" }).click();
-	await expect(page.getByRole("button", { name: "Mots-clés" })).toHaveAttribute(
-		"aria-expanded",
-		"false",
-	);
+	await page.getByRole("button", { name: "Mots-clés (6)" }).click();
+	await expect(
+		page.getByRole("button", { name: "Mots-clés (6)" }),
+	).toHaveAttribute("aria-expanded", "false");
 
 	await expect(page.getByText("TEI")).not.toBeVisible();
 	await expect(page.getByText("XML")).not.toBeVisible();

@@ -24,7 +24,8 @@ export const en: Translation = {
 			orgName: "Organization",
 		},
 		keyword: {
-			title: "Keywords",
+			title_one: "Keyword ({{count}})",
+			title_other: "Keywords ({{count}})",
 		},
 		source: {
 			title: "Source",

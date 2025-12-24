@@ -25,7 +25,8 @@ export const fr = {
 			title: "Source",
 		},
 		keyword: {
-			title: "Mots-clés",
+			title_one: "Mots-clé ({{count}})",
+			title_other: "Mots-clés ({{count}})",
 		},
 	},
 };
