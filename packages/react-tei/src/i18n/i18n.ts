@@ -7,6 +7,7 @@ import { en } from "./locales/en";
 import { fr } from "./locales/fr";
 
 i18n
+	.createInstance()
 	.use(
 		resourcesToBackend({
 			en: { translation: en },
