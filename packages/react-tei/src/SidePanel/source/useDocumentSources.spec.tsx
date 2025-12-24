@@ -4,7 +4,7 @@ import { DocumentContextProvider } from "../../DocumentContextProvider.js";
 import { useDocumentSources } from "./useDocumentSources.js";
 
 describe("useDocumentSources", () => {
-	it("should return the main and sub title separated by a color", async () => {
+	it("should return the main and sub title", async () => {
 		const jsonDocument = [
 			{
 				tag: "TEI",
@@ -70,7 +70,6 @@ describe("useDocumentSources", () => {
 				},
 				value: [{ tag: "#text", value: "Main Title" }],
 			},
-			{ tag: "#text", value: ", " },
 			{
 				tag: "title",
 				attributes: {
@@ -658,7 +657,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={invalidJsonDocument}>
+				<DocumentContextProvider jsonDocument={invalidJsonDocument as any}>
 					{children}
 				</DocumentContextProvider>
 			),
@@ -808,7 +807,6 @@ describe("useDocumentSources", () => {
 				},
 				value: [{ tag: "#text", value: "Main Title 1" }],
 			},
-			{ tag: "#text", value: ", " },
 			{
 				tag: "title",
 				attributes: {

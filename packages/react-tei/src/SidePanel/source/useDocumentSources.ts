@@ -63,7 +63,7 @@ export const useDocumentSources = (): DocumentJson[] => {
 		const subTitle = subTitles[0];
 
 		if (subTitle) {
-			return [mainTitle, { tag: "#text", value: ", " }, subTitle];
+			return [mainTitle, subTitle];
 		}
 
 		return [mainTitle];
