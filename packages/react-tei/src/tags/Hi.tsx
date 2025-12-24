@@ -19,7 +19,16 @@ function RecursiveHi({
 		case "italic":
 			return <Typography component="em">{recursiveChildren}</Typography>;
 		case "bold":
-			return <Typography component="strong">{recursiveChildren}</Typography>;
+			return (
+				<Typography
+					component="strong"
+					sx={{
+						fontWeight: "bold",
+					}}
+				>
+					{recursiveChildren}
+				</Typography>
+			);
 		case "underline":
 			return (
 				<Typography

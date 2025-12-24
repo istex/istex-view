@@ -1,16 +1,12 @@
-import Stack from "@mui/material/Stack";
-
 import type { DocumentJson } from "../parser/document";
-import { Value } from "./Value";
+import { TableNote } from "./TableNote";
 
 export function TableNotes({ notes }: TableNotesProps) {
-	return (
-		<Stack gap={1}>
-			{notes.map((note, index) => (
-				<Value key={index} data={note.value} />
-			))}
-		</Stack>
-	);
+	if (!Array.isArray(notes) || notes.length === 0) {
+		return null;
+	}
+
+	return notes.map((note, index) => <TableNote key={index} note={note} />);
 }
 
 type TableNotesProps = {

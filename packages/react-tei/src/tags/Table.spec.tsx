@@ -32,7 +32,9 @@ describe("Table", () => {
 				},
 				{
 					tag: "note",
-					attributes: {},
+					attributes: {
+						"@type": "table-wrap-foot",
+					},
 					value: [
 						{
 							tag: "note",
@@ -75,10 +77,8 @@ describe("Table", () => {
 		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
 		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
 
-		expect(screen.getByRole("paragraph")).toBeVisible();
-		expect(screen.getByRole("paragraph")).toHaveTextContent(
-			"This is a table note.",
-		);
+		expect(screen.getByRole("note")).toBeVisible();
+		expect(screen.getByRole("note")).toHaveTextContent("This is a table note.");
 	});
 
 	it("should render a table without caption and notes", async () => {

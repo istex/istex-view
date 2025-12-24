@@ -10,7 +10,7 @@ describe("TableCaption", () => {
 			<TableCaption
 				id="caption1"
 				label={{ tag: "head", attributes: {}, value: "Table 1" }}
-				title={{ tag: "head", attributes: {}, value: "Sample Table" }}
+				titles={[{ tag: "head", attributes: {}, value: "Sample Table" }]}
 			/>,
 			{
 				wrapper: ({ children }) => (
@@ -30,7 +30,7 @@ describe("TableCaption", () => {
 		const screen = await render(
 			<TableCaption
 				id="caption2"
-				title={{ tag: "head", attributes: {}, value: "Only Title" }}
+				titles={[{ tag: "head", attributes: {}, value: "Only Title" }]}
 			/>,
 			{
 				wrapper: ({ children }) => (
@@ -44,6 +44,29 @@ describe("TableCaption", () => {
 		const caption = screen.getByRole("caption");
 		expect(caption).toBeVisible();
 		expect(caption).toHaveTextContent("Only Title");
+	});
+
+	it("should render caption with title as array", async () => {
+		const screen = await render(
+			<TableCaption
+				id="caption5"
+				titles={[
+					{ tag: "head", attributes: {}, value: "Title Part 1" },
+					{ tag: "head", attributes: {}, value: "Title Part 2" },
+				]}
+			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			},
+		);
+
+		const caption = screen.getByRole("caption");
+		expect(caption).toBeVisible();
+		expect(caption).toHaveTextContent("Title Part 1Title Part 2");
 	});
 
 	it("should render caption with only label", async () => {

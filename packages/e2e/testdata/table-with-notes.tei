@@ -48,8 +48,8 @@
                                     <cell>Data 3</cell>
                                     <cell>Data 4</cell>
                                 </row>
-                                <note>
-                                    <note>This is a table note.</note>
+                                <note type="table-wrap-foot">
+                                    <note type="inline">This is a table note.</note>
                                 </note>
                             </table>
                         </p>

@@ -1,24 +1,38 @@
+import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 
 import type { DocumentJson } from "../parser/document";
 import { Value } from "./Value";
 
-export function TableCaption({ id, label, title }: TableCaptionProps) {
-	if (!label?.value && !title?.value) {
+export function TableCaption({ id, label, titles }: TableCaptionProps) {
+	if (!label?.value && !titles?.length) {
 		return null;
 	}
 
+	const title = titles && titles.length > 0 ? titles[0] : undefined;
+	const rest = titles && titles.length > 1 ? titles.slice(1) : [];
+
 	return (
 		<Typography component="caption" id={id}>
-			{label?.value && (
-				<Typography
-					component="span"
-					sx={{ fontWeight: "bold", marginRight: 1 }}
-				>
-					<Value data={label.value} />{" "}
-				</Typography>
-			)}
-			{title?.value && <Value data={title.value} />}
+			<Stack gap={1}>
+				<Box component="span">
+					{label?.value && (
+						<Typography
+							component="span"
+							sx={{ fontWeight: "bold", marginRight: 1 }}
+						>
+							<Value data={label.value} />{" "}
+						</Typography>
+					)}
+					{title?.value && <Value data={title.value} />}
+				</Box>
+				{rest.map((t, index) => (
+					<Box component="div" key={index}>
+						<Value data={t.value} />
+					</Box>
+				))}
+			</Stack>
 		</Typography>
 	);
 }
@@ -26,5 +40,5 @@ export function TableCaption({ id, label, title }: TableCaptionProps) {
 export type TableCaptionProps = {
 	id: string;
 	label?: DocumentJson;
-	title?: DocumentJson;
+	titles?: DocumentJson[];
 };
