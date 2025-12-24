@@ -2,7 +2,11 @@ import type { Translation } from "./fr";
 
 export const en: Translation = {
 	document: {
-		abstract: "Abstract",
+		abstract: {
+			title: "Abstract",
+			nextLanguage: "Next Language",
+			previousLanguage: "Previous Language",
+		},
 		tableOfContent: "Table of Contents",
 		lang: "Language",
 	},

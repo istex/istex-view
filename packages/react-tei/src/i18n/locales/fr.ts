@@ -1,6 +1,10 @@
 export const fr = {
 	document: {
-		abstract: "Résumé",
+		abstract: {
+			title: "Résumé",
+			nextLanguage: "Langue suivante",
+			previousLanguage: "Langue précédente",
+		},
 		tableOfContent: "Table des matières",
 		lang: "Langue",
 	},
