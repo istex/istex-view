@@ -10,10 +10,10 @@ test("document footnotes panel", async ({ page }) => {
 	).toBeVisible();
 
 	await expect(
-		page.getByRole("button", { name: "Notes de bas de page" }),
+		page.getByRole("button", { name: "Notes de bas de page (3)" }),
 	).toHaveAttribute("aria-expanded", "true");
 
-	const footNoteSection = page.getByLabel("Notes de bas de page");
+	const footNoteSection = page.getByLabel("Notes de bas de page (3)");
 
 	await expect(
 		footNoteSection.getByText(
@@ -37,9 +37,9 @@ test("document footnotes panel", async ({ page }) => {
 	await expect(
 		footNoteSection.getByText("Like a nun but with a c"),
 	).not.toBeInViewport();
-	await page.getByRole("button", { name: "Notes de bas de page" }).click();
+	await page.getByRole("button", { name: "Notes de bas de page (3)" }).click();
 	await expect(
-		page.getByRole("button", { name: "Notes de bas de page" }),
+		page.getByRole("button", { name: "Notes de bas de page (3)" }),
 	).toHaveAttribute("aria-expanded", "false");
 
 	await expect(
