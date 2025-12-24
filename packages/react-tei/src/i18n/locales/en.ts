@@ -35,7 +35,8 @@ export const en: Translation = {
 			title: "Source",
 		},
 		footnotes: {
-			title: "Footnotes",
+			title_one: "Footnote ({{count}})",
+			title_other: "Footnotes ({{count}})",
 		},
 	},
 };
