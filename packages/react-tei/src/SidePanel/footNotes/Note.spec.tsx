@@ -3,9 +3,26 @@ import { render } from "vitest-browser-react";
 import { DocumentNavigationContext } from "../../navigation/DocumentNavigationContext";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { footnotesTagCatalog } from "./footnotesTagCatalog";
-import { Note } from "./Note";
+import { getNoteId, Note } from "./Note";
 
 describe("Note", () => {
+	describe("getNoteId", () => {
+		it("should return n attribute when present", () => {
+			const attributes = { "@n": "7", "@xml:id": "note-7" };
+			const noteId = getNoteId(attributes);
+			expect(noteId).toBe("7");
+		});
+		it("should return xml:id attribute when n is missing", () => {
+			const attributes = { "@xml:id": "note-15" };
+			const noteId = getNoteId(attributes);
+			expect(noteId).toBe("note-15");
+		});
+		it("should return null when neither n nor xml:id are present", () => {
+			const attributes = {};
+			const noteId = getNoteId(attributes);
+			expect(noteId).toBeNull();
+		});
+	});
 	it("should render the note value with a link toward n-<value> when n attribute is present", async () => {
 		const navigateToFootnoteRef = vi.fn();
 		const { getByText, getByRole } = await render(

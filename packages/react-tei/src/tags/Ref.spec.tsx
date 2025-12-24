@@ -2,11 +2,58 @@ import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext";
 import type { DocumentJson } from "../parser/document";
-import { Ref } from "./Ref";
+import { getNoteRefId, Ref } from "./Ref";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
 
 describe("Ref", () => {
+	describe("getNoteRefId", () => {
+		it("should return n attribute when present", () => {
+			const attributes = { "@n": "5", "@target": "#note-5" };
+			const noteId = getNoteRefId(attributes);
+			expect(noteId).toBe("5");
+		});
+
+		it("should warn when n attribute has several values and return the first one", () => {
+			const consoleWarnSpy = vi
+				.spyOn(console, "warn")
+				.mockImplementation(() => {});
+			const attributes = { "@n": "4 6", "@target": "#note-4" };
+			const noteId = getNoteRefId(attributes);
+			expect(noteId).toBe("4");
+			expect(console.warn).toHaveBeenCalledWith(
+				"Multiple n attributes found for footnote reference, only the first one will be used",
+				{ attributes },
+			);
+			consoleWarnSpy.mockRestore();
+		});
+
+		it("should return target attribute without # when n is missing", () => {
+			const attributes = { "@target": "#note-10" };
+			const noteId = getNoteRefId(attributes);
+			expect(noteId).toBe("note-10");
+		});
+
+		it("should warn when target attribute has several values and return the first one", () => {
+			const consoleWarnSpy = vi
+				.spyOn(console, "warn")
+				.mockImplementation(() => {});
+			const attributes = { "@target": "#note-8 #note-9" };
+			const noteId = getNoteRefId(attributes);
+			expect(noteId).toBe("note-8");
+			expect(console.warn).toHaveBeenCalledWith(
+				"Multiple target attributes found for footnote reference, only the first one will be used",
+				{ attributes },
+			);
+			consoleWarnSpy.mockRestore();
+		});
+
+		it("should return null when neither n nor target are present", () => {
+			const attributes = {};
+			const noteId = getNoteRefId(attributes);
+			expect(noteId).toBeNull();
+		});
+	});
 	it('should render a link that navigates to the footnote when type="fn" and n attribute is present', async () => {
 		const navigateToFootnote = vi.fn();
 		const jsonValue: DocumentJson = {
@@ -43,7 +90,79 @@ describe("Ref", () => {
 		expect(navigateToFootnote).toHaveBeenCalledWith("3");
 	});
 
-	it('should render text with no link when type="fn" but n attribute is missing', async () => {
+	it('should render a link that navigates to the footnote when type="fn" and target attribute is present', async () => {
+		const navigateToFootnote = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "fn", "@target": "#note-7" },
+			value: [{ tag: "#text", value: "See footnote 7" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<DocumentNavigationContext.Provider
+						value={{
+							navigateToFootnote,
+							navigateToFootnoteRef: () => {
+								throw new Error("navigateToFootnoteRef has been called");
+							},
+							navigateToHeading: () => {
+								throw new Error("navigateToHeading has been called");
+							},
+						}}
+					>
+						{children}
+					</DocumentNavigationContext.Provider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See footnote 7")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See footnote 7" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-fn-id", "note-7");
+
+		await link.click();
+		expect(navigateToFootnote).toHaveBeenCalledWith("note-7");
+	});
+
+	it('should render a link that navigates to the footnote when type="fn" and target attribute is present', async () => {
+		const navigateToFootnote = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "fn", "@target": "#note-7" },
+			value: [{ tag: "#text", value: "See footnote 7" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<DocumentNavigationContext.Provider
+						value={{
+							navigateToFootnote,
+							navigateToFootnoteRef: () => {
+								throw new Error("navigateToFootnoteRef has been called");
+							},
+							navigateToHeading: () => {
+								throw new Error("navigateToHeading has been called");
+							},
+						}}
+					>
+						{children}
+					</DocumentNavigationContext.Provider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See footnote 7")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See footnote 7" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-fn-id", "note-7");
+
+		await link.click();
+		expect(navigateToFootnote).toHaveBeenCalledWith("note-7");
+	});
+
+	it('should render text with no link when type="fn" but n and target attributes are missing', async () => {
 		const consoleWarnSpy = vi
 			.spyOn(console, "warn")
 			.mockImplementation(() => {});
@@ -77,7 +196,7 @@ describe("Ref", () => {
 		expect(getByRole("button")).not.toBeInTheDocument();
 		expect(navigateToFootnote).not.toHaveBeenCalled();
 		expect(console.warn).toHaveBeenCalledWith(
-			"No n attribute found for footnote reference",
+			"No n nor target attribute found for footnote reference",
 			{
 				attributes: { "@type": "fn" },
 				value: [{ tag: "#text", value: "See footnote" }],

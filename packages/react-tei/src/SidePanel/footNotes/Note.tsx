@@ -4,29 +4,46 @@ import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
 
+export const getNoteId = (
+	attributes: { "@n"?: string; "@xml:id"?: string } | undefined,
+) => {
+	if (!attributes) {
+		return null;
+	}
+	if (attributes["@n"]) {
+		return attributes["@n"];
+	}
+
+	if (attributes["@xml:id"]) {
+		return attributes["@xml:id"];
+	}
+
+	return null;
+};
+
 export const Note = ({ data }: ComponentProps) => {
-	const n = useMemo(() => data.attributes?.["@n"], [data.attributes]);
+	const noteId = useMemo(() => getNoteId(data.attributes), [data.attributes]);
 	const { navigateToFootnoteRef } = useDocumentNavigation();
 
 	return (
 		<Stack direction="row" gap={1}>
-			{n && (
+			{noteId && (
 				<Link
 					component="button"
-					data-fn-id={n}
+					data-fn-id={noteId}
 					onClick={() => {
-						if (!n) {
+						if (!noteId) {
 							console.warn("No n attribute found for note");
 							return;
 						}
-						navigateToFootnoteRef(n);
+						navigateToFootnoteRef(noteId);
 					}}
 					sx={{
 						justifySelf: "start",
 						alignSelf: "start",
 					}}
 				>
-					{data.attributes?.["@n"]}
+					{noteId}
 				</Link>
 			)}
 			<div>
