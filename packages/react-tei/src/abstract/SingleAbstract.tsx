@@ -33,7 +33,7 @@ export function SingleAbstract({ abstract }: SingleAbstractProps) {
 
 	return (
 		<AbstractAccordion
-			title={head ? <Value data={head?.value} /> : t("document.abstract")}
+			title={head ? <Value data={head?.value} /> : t("document.abstract.title")}
 		>
 			<Value data={content} />
 		</AbstractAccordion>
