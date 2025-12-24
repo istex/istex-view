@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentContextProvider } from "../../DocumentContextProvider.js";
-import { I18nProvider } from "../../i18n/I18nProvider.js";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider.js";
-import { tagCatalog } from "../../tags/tagCatalog.js";
-import { SourceSection } from "./SourceSection.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
+import { I18nProvider } from "../../i18n/I18nProvider";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { tagCatalog } from "../../tags/tagCatalog";
+import { SourceSection } from "./SourceSection";
 
 describe("SourceSection", () => {
 	const jsonDocument = [

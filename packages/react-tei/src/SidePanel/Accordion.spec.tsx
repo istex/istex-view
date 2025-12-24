@@ -20,10 +20,16 @@ describe("Accordion", () => {
 							panel: {
 								state: {
 									isOpen: true,
-									sections: { authors: true, keywords: true, source: true },
+									sections: {
+										authors: true,
+										keywords: true,
+										source: true,
+										footnotes: true,
+									},
 								},
 								togglePanel: () => {},
 								toggleSection: () => {},
+								openSection: () => {},
 							},
 						}}
 					>
@@ -53,10 +59,16 @@ describe("Accordion", () => {
 							panel: {
 								state: {
 									isOpen: true,
-									sections: { authors: false, keywords: true, source: true },
+									sections: {
+										authors: false,
+										keywords: true,
+										source: true,
+										footnotes: true,
+									},
 								},
 								togglePanel: () => {},
 								toggleSection: () => {},
+								openSection: () => {},
 							},
 						}}
 					>

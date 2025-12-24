@@ -10,6 +10,16 @@ const defaultContextValue: DocumentNavigationContextValue = {
 			`navigateToHeading called with headingId: ${headingId}, but no provider is set.`,
 		);
 	},
+	navigateToFootnote: (footnoteId: string) => {
+		console.error(
+			`navigateToFootnote called with footnoteId: ${footnoteId}, but no provider is set.`,
+		);
+	},
+	navigateToFootnoteRef: (id: string) => {
+		console.error(
+			`navigateToDocumentRef called with id: ${id}, but no provider is set.`,
+		);
+	},
 };
 
 export function useDocumentNavigation() {
