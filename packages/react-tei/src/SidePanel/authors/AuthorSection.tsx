@@ -17,7 +17,10 @@ export const AuthorSection = () => {
 
 	return (
 		<TagCatalogProvider tagCatalog={authorTagCatalogs}>
-			<Accordion name="authors" label="sidePanel.author.title">
+			<Accordion
+				name="authors"
+				label={t("sidePanel.author.title", { count: authors.length })}
+			>
 				<List dense>
 					{authors.map((author, index) => (
 						<ListItem key={index} aria-label={t("sidePanel.author.label")}>

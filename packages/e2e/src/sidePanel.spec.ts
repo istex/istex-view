@@ -10,10 +10,9 @@ test("document sidePanel authors section", async ({ page }) => {
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),
 	).toBeVisible();
 
-	await expect(page.getByRole("button", { name: "Auteurs" })).toHaveAttribute(
-		"aria-expanded",
-		"true",
-	);
+	await expect(
+		page.getByRole("button", { name: "Auteurs (5)" }),
+	).toHaveAttribute("aria-expanded", "true");
 
 	await expect(page.getByLabel("Auteur")).toHaveCount(5);
 	await expect(page.getByText("Mr Victor Hugo")).toBeVisible();
