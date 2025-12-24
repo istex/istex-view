@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
+import { countTags } from "../../parser/countTags";
 import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
 
@@ -12,7 +13,7 @@ export const isValidKeyword = ({
 		return false;
 	}
 
-	if (!Array.isArray(value) || value.length === 0) {
+	if (countTags({ tag, value, attributes }, "term") === 0) {
 		return false;
 	}
 
@@ -31,10 +32,13 @@ export const isValidKeyword = ({
 	return true;
 };
 
-export const useKeywordList = (): DocumentJson[] => {
+export const useKeywordList = (): {
+	keywordList: DocumentJson[];
+	count: number;
+} => {
 	const { jsonDocument } = useDocumentContext();
 
-	const keywords: DocumentJson[] = useMemo(() => {
+	const keywordList: DocumentJson[] = useMemo(() => {
 		const profileDesc: DocumentJson | undefined = getDocumentJsonAtPath(
 			jsonDocument,
 			["TEI", "teiHeader", "profileDesc"],
@@ -65,5 +69,9 @@ export const useKeywordList = (): DocumentJson[] => {
 		return keywordsList;
 	}, [jsonDocument]);
 
-	return keywords;
+	const count = keywordList.reduce((acc, keyword) => {
+		return acc + countTags(keyword, "term");
+	}, 0);
+
+	return { keywordList, count };
 };

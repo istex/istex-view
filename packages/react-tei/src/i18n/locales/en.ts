@@ -11,7 +11,8 @@ export const en: Translation = {
 		open: "Open the side panel",
 		close: "Close the side panel",
 		author: {
-			title: "Authors",
+			title_one: "Author",
+			title_other: "Authors",
 			label: "Author",
 			genName: "Generation",
 			nameLink: "Name Link",
@@ -23,7 +24,8 @@ export const en: Translation = {
 			orgName: "Organization",
 		},
 		keyword: {
-			title: "Keywords",
+			title_one: "Keyword ({{count}})",
+			title_other: "Keywords ({{count}})",
 		},
 		source: {
 			title: "Source",

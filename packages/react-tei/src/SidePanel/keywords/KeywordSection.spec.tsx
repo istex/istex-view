@@ -341,4 +341,51 @@ describe("KeywordSection", () => {
 
 		expect(container).toBeEmptyDOMElement();
 	});
+
+	it("should render nothing if keywords tags have no term children", async () => {
+		const jsonDocument = [
+			{
+				tag: "TEI",
+				value: [
+					{
+						tag: "teiHeader",
+						value: [
+							{
+								tag: "profileDesc",
+								value: [
+									{
+										tag: "textClass",
+										value: [
+											{
+												tag: "keywords",
+												value: [
+													{
+														tag: "head",
+														value: [{ tag: "#text", value: "Keywords" }],
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+					{
+						tag: "text",
+						value: [],
+					},
+				],
+			},
+		];
+		const { container } = await render(<KeywordSection />, {
+			wrapper: ({ children }) => (
+				<DocumentContextProvider jsonDocument={jsonDocument}>
+					{children}
+				</DocumentContextProvider>
+			),
+		});
+
+		expect(container).toBeEmptyDOMElement();
+	});
 });

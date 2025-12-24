@@ -4,7 +4,6 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 
-import { useTranslation } from "react-i18next";
 import {
 	type PanelSection,
 	useDocumentContext,
@@ -17,8 +16,6 @@ type AccordionProps = {
 };
 
 export const Accordion = ({ name, label, children }: AccordionProps) => {
-	const { t } = useTranslation();
-
 	const { panel } = useDocumentContext();
 
 	return (
@@ -39,7 +36,7 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 					borderTop: "none",
 				}}
 			>
-				<Typography variant="button">{t(label)}</Typography>
+				<Typography variant="button">{label}</Typography>
 			</AccordionSummary>
 
 			<AccordionDetails sx={{ padding: 0 }}>{children}</AccordionDetails>
