@@ -6,6 +6,7 @@ import { NoOp } from "./NoOp";
 import { P } from "./P";
 import { Ref } from "./Ref";
 import { Table } from "./Table";
+import { Title } from "./Title";
 import type { ComponentProps } from "./type";
 
 export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
@@ -20,5 +21,5 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	// Structure tags
 	body: NoOp,
 	"#text": NoOp,
-	title: NoOp,
+	title: Title,
 };

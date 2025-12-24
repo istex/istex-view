@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { Value } from "../../tags/Value.js";
 import { Accordion } from "../Accordion.js";
 import { useDocumentSources } from "./useDocumentSources.js";
@@ -12,9 +11,7 @@ export const SourceSection = () => {
 
 	return (
 		<Accordion name="source" label="sidePanel.source.title">
-			<Typography>
-				<Value data={documentSources} />
-			</Typography>
+			<Value data={documentSources} />
 		</Accordion>
 	);
 };

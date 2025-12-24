@@ -83,18 +83,16 @@ describe("SourceSection", () => {
 			"aria-expanded",
 			"true",
 		);
-		expect(
-			getByText("Main Title of the Document, Subtitle of the Document"),
-		).toBeVisible();
+		expect(getByText("Main Title of the Document")).toBeVisible();
+		expect(getByText("Subtitle of the Document")).toBeVisible();
 		await getByRole("button", { name: "Source" }).click();
 		await new Promise((resolve) => setTimeout(resolve, 300));
 		expect(getByRole("button", { name: "Source" })).toHaveAttribute(
 			"aria-expanded",
 			"false",
 		);
-		expect(
-			getByText("Main Title of the Document, Subtitle of the Document"),
-		).not.toBeVisible();
+		expect(getByText("Main Title of the Document")).not.toBeVisible();
+		expect(getByText("Subtitle of the Document")).not.toBeVisible();
 	});
 
 	it("should not render source section if no title is present", async () => {
