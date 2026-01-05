@@ -35,7 +35,8 @@ export const useAuthors = (): DocumentJson[] => {
 						({ tag }) => tag !== "#text",
 					),
 				};
-			});
+			})
+			.slice(0, 10); // Limit to 10 authors
 	}, [jsonDocument]);
 
 	return authors;
