@@ -1,25 +1,20 @@
-import i18n from "i18next";
+import { createInstance, type i18n } from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import resourcesToBackend from "i18next-resources-to-backend";
-import { initReactI18next } from "react-i18next";
 
 import { en } from "./locales/en";
 import { fr } from "./locales/fr";
 
-i18n
-	.use(
-		resourcesToBackend({
-			en: { translation: en },
-			fr: { translation: fr },
-		}),
-	)
-	.use(LanguageDetector)
-	.use(initReactI18next)
-	.init({
-		fallbackLng: "en",
-		interpolation: {
-			escapeValue: false,
-		},
-	});
+const i18nInstance: i18n = createInstance({
+	fallbackLng: "en",
+	interpolation: {
+		escapeValue: false,
+	},
+	resources: {
+		en: { translation: en },
+		fr: { translation: fr },
+	},
+}).use(LanguageDetector);
 
-export default i18n;
+i18nInstance.init();
+
+export default i18nInstance;
