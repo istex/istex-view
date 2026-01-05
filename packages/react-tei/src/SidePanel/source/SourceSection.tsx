@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Value } from "../../tags/Value.js";
 import { Accordion } from "../Accordion.js";
@@ -14,9 +13,7 @@ export const SourceSection = () => {
 
 	return (
 		<Accordion name="source" label={t("sidePanel.source.title")}>
-			<Typography>
-				<Value data={documentSources} />
-			</Typography>
+			<Value data={documentSources} />
 		</Accordion>
 	);
 };
