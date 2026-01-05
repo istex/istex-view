@@ -45,9 +45,11 @@ function RecursiveHi({
 				<Typography
 					component="sup"
 					sx={{
-						verticalAlign: "super",
+						/* we use baseline and relative position to avoid line spacing issues */
+						verticalAlign: "baseline",
 						fontSize: "smaller",
-						marginLeft: "-0.25em",
+						position: "relative",
+						top: "-0.5em",
 					}}
 				>
 					{recursiveChildren}
@@ -58,9 +60,11 @@ function RecursiveHi({
 				<Typography
 					component="sub"
 					sx={{
-						verticalAlign: "sub",
+						/* we use baseline and relative position to avoid line spacing issues */
+						verticalAlign: "baseline",
 						fontSize: "smaller",
-						marginLeft: "-0.25em",
+						position: "relative",
+						top: "0.33em",
 					}}
 				>
 					{recursiveChildren}

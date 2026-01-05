@@ -1,6 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
+import type { DocumentJson } from "../../parser/document.js";
 import { useDocumentSources } from "./useDocumentSources";
 
 describe("useDocumentSources", () => {
@@ -395,7 +396,7 @@ describe("useDocumentSources", () => {
 	});
 
 	it("should return an empty array when document is empty", async () => {
-		const jsonDocument: any[] = [];
+		const jsonDocument: DocumentJson[] = [];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
 				<DocumentContextProvider jsonDocument={jsonDocument}>
@@ -607,7 +608,7 @@ describe("useDocumentSources", () => {
 	});
 
 	it("should ignore titles that do not have value as an array", async () => {
-		const invalidJsonDocument = [
+		const invalidJsonDocument: DocumentJson[] = [
 			{
 				tag: "TEI",
 				value: [
@@ -640,7 +641,7 @@ describe("useDocumentSources", () => {
 																	"@type": "main",
 																	"@level": "m",
 																},
-																value: 42,
+																value: "42",
 															},
 														],
 													},
@@ -657,7 +658,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={invalidJsonDocument as any}>
+				<DocumentContextProvider jsonDocument={invalidJsonDocument}>
 					{children}
 				</DocumentContextProvider>
 			),
