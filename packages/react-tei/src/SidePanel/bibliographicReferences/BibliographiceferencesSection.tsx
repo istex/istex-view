@@ -1,7 +1,9 @@
+import { List } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { Value } from "../../tags/Value";
 import { Accordion } from "../Accordion";
+import { bibliographicReferencesTagCatalog } from "./bibliographicReferencesTagCatalog";
 import { useDocumentBibliographicReferences } from "./useDocumentBibliographicReferences";
 
 export const BibliographicReferencesSection = () => {
@@ -14,12 +16,14 @@ export const BibliographicReferencesSection = () => {
 	}
 
 	return (
-		<TagCatalogProvider tagCatalog={{}}>
+		<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
 			<Accordion
 				name="bibliographicReferences"
 				label={t("sidePanel.bibliographicReferences.title", { count })}
 			>
-				<Value data={bibliographicReferences} />
+				<List>
+					<Value data={bibliographicReferences} />
+				</List>
 			</Accordion>
 		</TagCatalogProvider>
 	);
