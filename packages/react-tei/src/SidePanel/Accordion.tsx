@@ -4,6 +4,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Typography from "@mui/material/Typography";
 
+import { useId } from "react";
+
 import {
 	type PanelSection,
 	useDocumentContext,
@@ -17,6 +19,7 @@ type AccordionProps = {
 
 export const Accordion = ({ name, label, children }: AccordionProps) => {
 	const { panel } = useDocumentContext();
+	const id = useId();
 
 	return (
 		<MuiAccordion
@@ -35,11 +38,14 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 					borderBottom: "none",
 					borderTop: "none",
 				}}
+				id={id}
 			>
 				<Typography variant="button">{label}</Typography>
 			</AccordionSummary>
 
-			<AccordionDetails sx={{ padding: 0 }}>{children}</AccordionDetails>
+			<AccordionDetails aria-labelledby={id} sx={{ padding: 0 }}>
+				{children}
+			</AccordionDetails>
 		</MuiAccordion>
 	);
 };

@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { renderHook } from "vitest-browser-react";
-import { DocumentContextProvider } from "../../DocumentContextProvider.js";
-import { useDocumentSources } from "./useDocumentSources.js";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
+import { useDocumentSources } from "./useDocumentSources";
 
 describe("useDocumentSources", () => {
 	it("should return the main and sub title", async () => {
