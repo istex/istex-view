@@ -9,7 +9,8 @@ export const fr = {
 		open: "Ouvrir le panneau latéral",
 		close: "Fermer le panneau latéral",
 		author: {
-			title: "Auteurs",
+			title_one: "Auteur ({{count}})",
+			title_other: "Auteurs ({{count}})",
 			label: "Auteur",
 			genName: "Génération",
 			nameLink: "Particule",
@@ -24,7 +25,8 @@ export const fr = {
 			title: "Source",
 		},
 		keyword: {
-			title: "Mots-clés",
+			title_one: "Mots-clé ({{count}})",
+			title_other: "Mots-clés ({{count}})",
 		},
 	},
 };
