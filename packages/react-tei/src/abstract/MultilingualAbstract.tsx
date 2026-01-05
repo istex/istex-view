@@ -1,10 +1,13 @@
+import { ChevronLeft, ChevronRight } from "@mui/icons-material";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { Value } from "../tags/Value";
 import { AbstractAccordion } from "./AbstractAccordion";
+
+const MAX_VISIBLE_TABS = 4;
 
 export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 	const { t, i18n } = useTranslation();
@@ -31,16 +34,46 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 	const [selectedLang, setSelectedLang] = useState<string>(
 		tabs?.at(0)?.lang ?? "",
 	);
+	const [startIndex, setStartIndex] = useState<number>(0);
+
+	const visibleTabs = useMemo(
+		() => tabs.slice(startIndex, startIndex + MAX_VISIBLE_TABS),
+		[startIndex, tabs],
+	);
+	const canGoPrevious = startIndex > 0;
+	const canGoNext = startIndex + MAX_VISIBLE_TABS < tabs.length;
+
+	const handlePrevious = () => {
+		if (canGoPrevious) {
+			setStartIndex((prev) => prev - 1);
+		}
+	};
+
+	const handleNext = () => {
+		if (canGoNext) {
+			setStartIndex((prev) => prev + 1);
+		}
+	};
 
 	if (!tabs.length) {
 		console.warn("No valid abstracts to display.", abstracts);
 		return null;
 	}
-
 	return (
-		<AbstractAccordion title={t("document.abstract")}>
+		<AbstractAccordion title={t("document.abstract.title")}>
 			<ButtonGroup role="tablist" aria-label={t("document.lang")}>
-				{tabs.map((tab, index) => {
+				{tabs.length > 4 && (
+					<Button
+						onClick={handlePrevious}
+						disabled={!canGoPrevious}
+						variant="outlined"
+						title={t("document.abstract.previousLanguage")}
+						aria-label={t("document.abstract.previousLanguage")}
+					>
+						<ChevronLeft />
+					</Button>
+				)}
+				{visibleTabs.map((tab) => {
 					const label = Intl.DisplayNames
 						? new Intl.DisplayNames([i18n.language], {
 								type: "language",
@@ -51,7 +84,6 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 						<Button
 							key={tab.lang}
 							role="tab"
-							tabIndex={index}
 							aria-selected={selectedLang === tab.lang}
 							onClick={() => setSelectedLang(tab.lang)}
 							variant={selectedLang === tab.lang ? "contained" : "outlined"}
@@ -60,6 +92,17 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 						</Button>
 					);
 				})}
+				{tabs.length > 4 && (
+					<Button
+						onClick={handleNext}
+						disabled={!canGoNext}
+						variant="outlined"
+						title={t("document.abstract.nextLanguage")}
+						aria-label={t("document.abstract.nextLanguage")}
+					>
+						<ChevronRight />
+					</Button>
+				)}
 			</ButtonGroup>
 
 			{tabs.map((tab) => {
