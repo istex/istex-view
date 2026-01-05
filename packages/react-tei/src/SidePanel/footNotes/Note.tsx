@@ -32,10 +32,6 @@ export const Note = ({ data }: ComponentProps) => {
 					component="button"
 					data-fn-id={noteId}
 					onClick={() => {
-						if (!noteId) {
-							console.warn("No n attribute found for note");
-							return;
-						}
 						navigateToFootnoteRef(noteId);
 					}}
 					sx={{
