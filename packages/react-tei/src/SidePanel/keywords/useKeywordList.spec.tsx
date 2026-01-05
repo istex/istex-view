@@ -63,34 +63,37 @@ describe("useKeywordList", () => {
 			),
 		});
 
-		expect(result.result.current).toEqual([
-			{
-				tag: "keywords",
-				value: [
-					{
-						tag: "term",
-						value: [{ tag: "#text", value: "Keyword 1" }],
-					},
-					{
-						tag: "term",
-						value: [{ tag: "#text", value: "Keyword 2" }],
-					},
-				],
-			},
-			{
-				tag: "keywords",
-				value: [
-					{
-						tag: "term",
-						value: [{ tag: "#text", value: "Keyword A" }],
-					},
-					{
-						tag: "term",
-						value: [{ tag: "#text", value: "Keyword B" }],
-					},
-				],
-			},
-		]);
+		expect(result.result.current).toEqual({
+			keywordList: [
+				{
+					tag: "keywords",
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword 1" }],
+						},
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword 2" }],
+						},
+					],
+				},
+				{
+					tag: "keywords",
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword A" }],
+						},
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword B" }],
+						},
+					],
+				},
+			],
+			count: 4,
+		});
 	});
 
 	it("should return an empty array if there is no keyword in the document", async () => {
@@ -109,7 +112,7 @@ describe("useKeywordList", () => {
 			),
 		});
 
-		expect(result.result.current).toEqual([]);
+		expect(result.result.current).toEqual({ keywordList: [], count: 0 });
 	});
 
 	it("should ignore keywords sections with no term children", async () => {
@@ -157,17 +160,20 @@ describe("useKeywordList", () => {
 			),
 		});
 
-		expect(result.result.current).toEqual([
-			{
-				tag: "keywords",
-				value: [
-					{
-						tag: "term",
-						value: [{ tag: "#text", value: "Keyword Valid" }],
-					},
-				],
-			},
-		]);
+		expect(result.result.current).toEqual({
+			keywordList: [
+				{
+					tag: "keywords",
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword Valid" }],
+						},
+					],
+				},
+			],
+			count: 1,
+		});
 	});
 
 	it("should ignore keywords sections with invalid attributes", async () => {
@@ -231,17 +237,20 @@ describe("useKeywordList", () => {
 			),
 		});
 
-		expect(result.result.current).toEqual([
-			{
-				tag: "keywords",
-				value: [
-					{
-						tag: "term",
-						value: [{ tag: "#text", value: "Keyword Valid" }],
-					},
-				],
-			},
-		]);
+		expect(result.result.current).toEqual({
+			keywordList: [
+				{
+					tag: "keywords",
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword Valid" }],
+						},
+					],
+				},
+			],
+			count: 1,
+		});
 	});
 
 	describe("isValidKeyword", () => {
@@ -258,9 +267,41 @@ describe("useKeywordList", () => {
 				{
 					tag: "keywords",
 					attributes: {},
-					value: [{ tag: "list", value: [] }],
+					value: [
+						{
+							tag: "list",
+							value: [
+								{
+									tag: "item",
+									value: [{ tag: "term", value: [] }],
+								},
+							],
+						},
+					],
 				},
 				true,
+			],
+			[
+				{
+					tag: "keywordsWithoutTerm",
+					attributes: {},
+					value: [
+						{
+							tag: "list",
+							value: [
+								{
+									tag: "item",
+									value: [{ tag: "#text", value: [] }],
+								},
+							],
+						},
+						{
+							tag: "anotherTag",
+							value: [],
+						},
+					],
+				},
+				false,
 			],
 			[
 				{
