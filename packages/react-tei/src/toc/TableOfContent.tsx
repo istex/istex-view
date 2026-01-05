@@ -20,6 +20,11 @@ export function TableOfContent({ tableOfContent }: TableOfContentProps) {
 			<Box
 				sx={{
 					maxWidth: "256px",
+					width: "100%",
+					height: "fit-content",
+					borderInlineStart: (theme) => `1px solid ${theme.palette.divider}`,
+					paddingInlineStart: 2,
+					position: "relative",
 				}}
 			>
 				<TocHeading headings={tableOfContent} />

@@ -84,24 +84,24 @@ export const Viewer = ({
 										overflowY: "auto",
 										paddingInline: {
 											xs: 2,
-											lg: 0,
+											xl: 0,
 										},
 										height,
 										maxHeight: height,
 									}}
 									component="section"
-									aria-role="document"
+									role="document"
+									ref={documentRef}
 								>
 									<Stack
 										marginInline={{
-											sx: "auto",
-											xl: "0 auto",
+											xs: "auto",
+											xl: "8px auto",
 										}}
 										paddingBlock={4}
 										maxWidth={{ xs: "100%", md: "732px" }}
 										gap={4}
 										position="relative"
-										ref={documentRef}
 									>
 										<DocumentAbstract teiHeader={teiHeader} />
 
@@ -118,6 +118,7 @@ export const Viewer = ({
 												padding: 8,
 												backgroundColor: "white",
 											}}
+											id="document-content"
 										>
 											<DocumentTitle teiHeader={teiHeader} />
 											<DocumentBody body={body} />

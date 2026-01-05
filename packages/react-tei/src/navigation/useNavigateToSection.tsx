@@ -5,6 +5,7 @@ import {
 } from "./DocumentNavigationContext";
 
 const defaultContextValue: DocumentNavigationContextValue = {
+	currentHeadingId: null,
 	navigateToHeading: (headingId: string) => {
 		console.error(
 			`navigateToHeading called with headingId: ${headingId}, but no provider is set.`,

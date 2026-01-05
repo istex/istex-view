@@ -1,7 +1,14 @@
-import { createContext, useCallback, useMemo, useState } from "react";
+import {
+	createContext,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 
 export type DocumentNavigationContextValue = {
+	currentHeadingId: string | null;
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
 	navigateToFootnoteRef(id: string): void;
@@ -23,6 +30,9 @@ export function DocumentNavigationContextProvider({
 	children,
 }: DocumentNavigationContextProviderProps) {
 	const { panel } = useDocumentContext();
+
+	const [currentHeadingId, setCurrentHeadingId] = useState<string | null>(null);
+
 	const [currentSelector, setCurrentSelector] = useState<string>("");
 	const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
 	const navigateToBodyTargetSelector = useCallback(
@@ -117,13 +127,69 @@ export function DocumentNavigationContextProvider({
 		[navigateToBodyTargetSelector],
 	);
 
+	useEffect(() => {
+		if (!documentRef.current) {
+			return;
+		}
+
+		const observer = new IntersectionObserver(
+			(intersectingElements) => {
+				if (!documentRef.current) {
+					return;
+				}
+
+				const intersectingElement = intersectingElements
+					.filter((e) => e.isIntersecting)
+					.toSorted((a, b) => {
+						return a.intersectionRatio - b.intersectionRatio;
+					})
+					.at(0);
+
+				if (!intersectingElement) {
+					return;
+				}
+
+				window.requestAnimationFrame(() => {
+					const id =
+						intersectingElement.target.nodeName === "SECTION"
+							? intersectingElement.target.getAttribute("aria-labelledby")
+							: intersectingElement.target.id;
+
+					setCurrentHeadingId(id);
+				});
+			},
+			{
+				root: documentRef.current,
+				threshold: 0,
+			},
+		);
+
+		documentRef.current
+			.querySelectorAll<HTMLElement>(
+				"#document-content section[aria-labelledby]:has(> h2, > h3)",
+			)
+			.forEach((element) => {
+				observer.observe(element);
+			});
+
+		return () => {
+			observer.disconnect();
+		};
+	}, [documentRef]);
+
 	const value = useMemo(
 		() => ({
+			currentHeadingId,
 			navigateToHeading,
 			navigateToFootnote,
 			navigateToFootnoteRef,
 		}),
-		[navigateToHeading, navigateToFootnote, navigateToFootnoteRef],
+		[
+			currentHeadingId,
+			navigateToHeading,
+			navigateToFootnote,
+			navigateToFootnoteRef,
+		],
 	);
 
 	return (
