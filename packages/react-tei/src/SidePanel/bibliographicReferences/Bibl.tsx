@@ -4,7 +4,7 @@ import type { DocumentJson } from "../../parser/document";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
 
-const getTagOrder = (tag: DocumentJson): number => {
+export const getTagOrder = (tag: DocumentJson): number => {
 	switch (tag.tag) {
 		case "title":
 			if (tag.attributes?.["@level"] === "a") {
