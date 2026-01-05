@@ -11,7 +11,7 @@ describe("groupConsecutiveNonTableValues", () => {
 			{ tag: "#text", value: "This is a paragraph." },
 			{
 				tag: "hi",
-				attributes: { rend: "italic" },
+				attributes: { "@rend": "italic" },
 				value: [{ tag: "#text", value: " with italic text." }],
 			},
 		];
@@ -26,7 +26,7 @@ describe("groupConsecutiveNonTableValues", () => {
 			{ tag: "#text", value: "This is a paragraph." },
 			{
 				tag: "hi",
-				attributes: { rend: "italic" },
+				attributes: { "@rend": "italic" },
 				value: [{ tag: "#text", value: " with italic text." }],
 			},
 			{
@@ -44,7 +44,7 @@ describe("groupConsecutiveNonTableValues", () => {
 				{ tag: "#text", value: "This is a paragraph." },
 				{
 					tag: "hi",
-					attributes: { rend: "italic" },
+					attributes: { "@rend": "italic" },
 					value: [{ tag: "#text", value: " with italic text." }],
 				},
 			],
@@ -64,7 +64,7 @@ describe("groupConsecutiveNonTableValues", () => {
 			{ tag: "#text", value: "This is a paragraph." },
 			{
 				tag: "hi",
-				attributes: { rend: "italic" },
+				attributes: { "@rend": "italic" },
 				value: [{ tag: "#text", value: " with italic text." }],
 			},
 			{
@@ -81,7 +81,7 @@ describe("groupConsecutiveNonTableValues", () => {
 				{ tag: "#text", value: "This is a paragraph." },
 				{
 					tag: "hi",
-					attributes: { rend: "italic" },
+					attributes: { "@rend": "italic" },
 					value: [{ tag: "#text", value: " with italic text." }],
 				},
 			],
@@ -141,7 +141,7 @@ describe("P", () => {
 				{ tag: "#text", value: "This is a paragraph" },
 				{
 					tag: "hi",
-					attributes: { rend: "italic" },
+					attributes: { "@rend": "italic" },
 					value: [{ tag: "#text", value: " with italic text" }],
 				},
 				{
@@ -161,6 +161,56 @@ describe("P", () => {
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent(
 			"This is a paragraph with italic text.",
+		);
+	});
+
+	it("should render paragraph tag with multiple <hi> tags formatted", async () => {
+		const jsonValue: DocumentJson = {
+			tag: "p",
+			attributes: {},
+			value: [
+				{ tag: "#text", value: "This is a paragraph with " },
+				{
+					tag: "hi",
+					attributes: { "@rend": "italic" },
+					value: [{ tag: "#text", value: "italic text" }],
+				},
+				{ tag: "#text", value: " and " },
+				{
+					tag: "hi",
+					attributes: { "@rend": "bold" },
+					value: [{ tag: "#text", value: "bold text" }],
+				},
+				{
+					tag: "#text",
+					value: ".",
+				},
+			],
+		};
+
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.getByRole("paragraph")).toHaveTextContent(
+			"This is a paragraph with italic text and bold text.",
+		);
+
+		expect(screen.container.querySelector("em")).toHaveTextContent(
+			"italic text",
+			{
+				normalizeWhitespace: true,
+			},
+		);
+		expect(screen.container.querySelector("strong")).toHaveTextContent(
+			"bold text",
+			{
+				normalizeWhitespace: true,
+			},
 		);
 	});
 
@@ -231,7 +281,7 @@ describe("P", () => {
 				{ tag: "#text", value: "\n   " },
 				{
 					tag: "hi",
-					attributes: { rend: "italic" },
+					attributes: { "@rend": "italic" },
 					value: [{ tag: "#text", value: "Valid text" }],
 				},
 				{ tag: "#text", value: "" },
