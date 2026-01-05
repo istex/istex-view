@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
+import { DocumentNavigationContext } from "../../navigation/DocumentNavigationContext";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { Bibl, BiblValue, getTagOrder } from "./Bibl";
 import { bibliographicReferencesTagCatalog } from "./bibliographicReferencesTagCatalog";
@@ -149,7 +150,8 @@ describe("Bibl", () => {
 	});
 
 	describe("Bibl", () => {
-		it("should render bibl with data-bibref-id attribute", async () => {
+		it("should render bibl with data-bibref-id attribute and link toward target when present", async () => {
+			const navigateToBibliographicReferenceRef = vi.fn();
 			const screen = await render(
 				<Bibl
 					data={{
@@ -166,9 +168,31 @@ describe("Bibl", () => {
 				/>,
 				{
 					wrapper: ({ children }) => (
-						<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
-							{children}
-						</TagCatalogProvider>
+						<DocumentNavigationContext.Provider
+							value={{
+								navigateToBibliographicReferenceRef,
+								navigateToFootnoteRef: () => {
+									throw new Error("navigateToFootnoteRef has been called");
+								},
+								navigateToFootnote: () => {
+									throw new Error("navigateToFootnote has been called");
+								},
+								navigateToHeading: () => {
+									throw new Error("navigateToHeading has been called");
+								},
+								navigateToBibliographicReference: () => {
+									throw new Error(
+										"navigateToBibliographicReference has been called",
+									);
+								},
+							}}
+						>
+							<TagCatalogProvider
+								tagCatalog={bibliographicReferencesTagCatalog}
+							>
+								{children}
+							</TagCatalogProvider>
+						</DocumentNavigationContext.Provider>
 					),
 				},
 			);
@@ -178,9 +202,14 @@ describe("Bibl", () => {
 				"bib1",
 			);
 			expect(screen.getByText("An Interesting Article")).toBeInTheDocument();
+
+			await screen.getByRole("listitem").click();
+			screen.debug();
+			expect(navigateToBibliographicReferenceRef).toHaveBeenCalledWith("bib1");
 		});
 
 		it("should render only top level reference when encountering nested bibl", async () => {
+			const navigateToBibliographicReferenceRef = vi.fn();
 			const screen = await render(
 				<Bibl
 					data={{
@@ -218,9 +247,31 @@ describe("Bibl", () => {
 				/>,
 				{
 					wrapper: ({ children }) => (
-						<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
-							{children}
-						</TagCatalogProvider>
+						<DocumentNavigationContext.Provider
+							value={{
+								navigateToBibliographicReferenceRef,
+								navigateToFootnoteRef: () => {
+									throw new Error("navigateToFootnoteRef has been called");
+								},
+								navigateToFootnote: () => {
+									throw new Error("navigateToFootnote has been called");
+								},
+								navigateToHeading: () => {
+									throw new Error("navigateToHeading has been called");
+								},
+								navigateToBibliographicReference: () => {
+									throw new Error(
+										"navigateToBibliographicReference has been called",
+									);
+								},
+							}}
+						>
+							<TagCatalogProvider
+								tagCatalog={bibliographicReferencesTagCatalog}
+							>
+								{children}
+							</TagCatalogProvider>
+						</DocumentNavigationContext.Provider>
 					),
 				},
 			);
@@ -237,6 +288,9 @@ describe("Bibl", () => {
 			).toBeNull();
 			expect(screen.getByText("Nested Article 1")).toBeInTheDocument();
 			expect(screen.getByText("Nested Article 2")).toBeInTheDocument();
+
+			await screen.getByRole("listitem").click();
+			expect(navigateToBibliographicReferenceRef).toHaveBeenCalledWith("bib1");
 		});
 	});
 
@@ -303,7 +357,7 @@ describe("Bibl", () => {
 		consoleWarnSpy.mockRestore();
 	});
 
-	it("should ignore #test tags when processing nested bibl", async () => {
+	it("should ignore #text tags when processing nested bibl", async () => {
 		const consoleWarnSpy = vi
 			.spyOn(console, "warn")
 			.mockImplementation(() => {});

@@ -127,7 +127,14 @@ export const Bibl = ({ data }: ComponentProps) => {
 	return (
 		<ListItem
 			data-bibref-id={attributes?.["@xml:id"] || undefined}
-			onClick={() => {}}
+			onClick={() => {
+				const referenceId = attributes?.["@xml:id"];
+				if (!referenceId) {
+					console.warn("No n attribute found for bibliographic reference");
+					return;
+				}
+				navigateToBibliographicReferenceRef(referenceId);
+			}}
 		>
 			<BiblValue data={data} />
 		</ListItem>
