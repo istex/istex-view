@@ -1,5 +1,6 @@
 import { ListItem } from "@mui/material";
 import { useMemo } from "react";
+import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { DocumentJson } from "../../parser/document";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
@@ -72,6 +73,7 @@ export const BiblValue = ({ data: { value } }: ComponentProps) => {
 };
 
 export const Bibl = ({ data }: ComponentProps) => {
+	const { navigateToBibliographicReferenceRef } = useDocumentNavigation();
 	const { attributes, value } = data;
 	const cleanedValues = useMemo(() => {
 		if (!Array.isArray(value)) {
@@ -104,7 +106,14 @@ export const Bibl = ({ data }: ComponentProps) => {
 		return (
 			<ListItem
 				data-bibref-id={attributes?.["@xml:id"] || undefined}
-				onClick={() => {}}
+				onClick={() => {
+					const referenceId = attributes?.["@xml:id"];
+					if (!referenceId) {
+						console.warn("No n attribute found for bibliographic reference");
+						return;
+					}
+					navigateToBibliographicReferenceRef(referenceId);
+				}}
 			>
 				{nestedBibls.map((bibl, index) => (
 					<div key={index}>

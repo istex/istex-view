@@ -12,6 +12,8 @@ export type DocumentNavigationContextValue = {
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
 	navigateToFootnoteRef(id: string): void;
+	navigateToBibliographicReference(id: string): void;
+	navigateToBibliographicReferenceRef(id: string): void;
 };
 
 export const DocumentNavigationContext =
@@ -120,6 +122,23 @@ export function DocumentNavigationContextProvider({
 		[navigateToPanelTargetSelector, panel],
 	);
 
+	const navigateToBibliographicReference = useCallback(
+		(id: string) => {
+			if (
+				!panel.state.isOpen ||
+				!panel.state.sections.bibliographicReferences
+			) {
+				panel.toggleSection("bibliographicReferences");
+				setTimeout(() => {
+					navigateToPanelTargetSelector(`[data-bibref-id='${id}']`);
+				}, 600);
+				return;
+			}
+			return navigateToPanelTargetSelector(`[data-bibref-id='${id}']`);
+		},
+		[navigateToPanelTargetSelector, panel],
+	);
+
 	const navigateToFootnoteRef = useCallback(
 		(id: string) => {
 			return navigateToBodyTargetSelector(`[data-fn-id='${id}']`);
@@ -177,18 +196,29 @@ export function DocumentNavigationContextProvider({
 		};
 	}, [documentRef]);
 
+	const navigateToBibliographicReferenceRef = useCallback(
+		(id: string) => {
+			return navigateToBodyTargetSelector(`[data-bibref-id='${id}']`);
+		},
+		[navigateToBodyTargetSelector],
+	);
+
 	const value = useMemo(
 		() => ({
 			currentHeadingId,
 			navigateToHeading,
 			navigateToFootnote,
 			navigateToFootnoteRef,
+			navigateToBibliographicReference,
+			navigateToBibliographicReferenceRef,
 		}),
 		[
 			currentHeadingId,
 			navigateToHeading,
 			navigateToFootnote,
 			navigateToFootnoteRef,
+			navigateToBibliographicReference,
+			navigateToBibliographicReferenceRef,
 		],
 	);
 
