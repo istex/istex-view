@@ -8,6 +8,7 @@ export type PanelState = {
 		keywords: boolean;
 		source: boolean;
 		footnotes: boolean;
+		bibliographicReferences?: boolean;
 	};
 };
 
@@ -62,6 +63,7 @@ export function DocumentContextProvider({
 				keywords: true,
 				source: true,
 				footnotes: true,
+				bibliographicReferences: true,
 			},
 		} satisfies PanelState,
 	);

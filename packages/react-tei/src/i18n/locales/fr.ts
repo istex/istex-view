@@ -36,6 +36,10 @@ export const fr = {
 			title_one: "Note de bas de page ({{count}})",
 			title_other: "Notes de bas de page ({{count}})",
 		},
+		bibliographicReferences: {
+			title_one: "Référence bibliographique ({{count}})",
+			title_other: "Références bibliographiques ({{count}})",
+		},
 	},
 };
 

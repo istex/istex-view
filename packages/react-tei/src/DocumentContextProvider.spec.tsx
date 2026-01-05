@@ -31,6 +31,7 @@ describe("DocumentContextProvider", () => {
 					keywords: true,
 					source: true,
 					footnotes: true,
+					bibliographicReferences: true,
 				},
 			});
 		});
@@ -54,6 +55,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 				result.current.panel.togglePanel();
@@ -66,6 +68,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 				result.current.panel.togglePanel();
@@ -77,6 +80,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 			});
@@ -100,6 +104,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 
@@ -113,6 +118,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 			});
@@ -136,6 +142,7 @@ describe("DocumentContextProvider", () => {
 					keywords: true,
 					source: true,
 					footnotes: true,
+					bibliographicReferences: true,
 				},
 			});
 			result.current.panel.toggleSection("authors");
@@ -148,6 +155,7 @@ describe("DocumentContextProvider", () => {
 					keywords: true,
 					source: true,
 					footnotes: true,
+					bibliographicReferences: true,
 				},
 			});
 		});
@@ -174,6 +182,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 
@@ -188,6 +197,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 			});
@@ -211,6 +221,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 
@@ -224,6 +235,7 @@ describe("DocumentContextProvider", () => {
 						keywords: true,
 						source: true,
 						footnotes: true,
+						bibliographicReferences: true,
 					},
 				});
 			});
