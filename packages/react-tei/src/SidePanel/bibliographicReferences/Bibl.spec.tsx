@@ -54,14 +54,13 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("listitem")).toHaveAttribute(
+			expect(screen.getByRole("button")).toHaveAttribute(
 				"data-bibref-id",
 				"bib1",
 			);
 			expect(screen.getByText("An Interesting Article")).toBeInTheDocument();
 
-			await screen.getByRole("listitem").click();
-			screen.debug();
+			await screen.getByRole("button").click();
 			expect(navigateToBibliographicReferenceRef).toHaveBeenCalledWith("bib1");
 		});
 
@@ -124,13 +123,84 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("listitem")).toHaveAttribute(
+			expect(screen.getByRole("button")).toHaveAttribute(
 				"data-bibref-id",
 				"bib1",
 			);
 			expect(
 				screen.getByText("John Doe, An interesting Article (Approved)"),
 			).toBeInTheDocument();
+		});
+
+		it("should render hi elements inside bibl", async () => {
+			const navigateToBibliographicReferenceRef = vi.fn();
+			const screen = await render(
+				<Bibl
+					data={{
+						tag: "bibl",
+						attributes: { "@xml:id": "bib1" },
+						value: [
+							{
+								tag: "title",
+								attributes: { "@level": "a" },
+								value: [
+									{
+										tag: "hi",
+										attributes: { "@rend": "italic" },
+										value: "Emphasized Title",
+									},
+									{
+										tag: "#text",
+										value: " with normal text",
+									},
+								],
+							},
+						],
+					}}
+				/>,
+				{
+					wrapper: ({ children }) => (
+						<DocumentNavigationContext.Provider
+							value={{
+								navigateToBibliographicReferenceRef,
+								navigateToFootnoteRef: () => {
+									throw new Error("navigateToFootnoteRef has been called");
+								},
+								navigateToFootnote: () => {
+									throw new Error("navigateToFootnote has been called");
+								},
+								navigateToHeading: () => {
+									throw new Error("navigateToHeading has been called");
+								},
+								navigateToBibliographicReference: () => {
+									throw new Error(
+										"navigateToBibliographicReference has been called",
+									);
+								},
+							}}
+						>
+							<TagCatalogProvider
+								tagCatalog={bibliographicReferencesTagCatalog}
+							>
+								{children}
+							</TagCatalogProvider>
+						</DocumentNavigationContext.Provider>
+					),
+				},
+			);
+
+			expect(screen.getByRole("button")).toHaveAttribute(
+				"data-bibref-id",
+				"bib1",
+			);
+			expect(
+				screen.getByText("emphasized Title with normal text"),
+			).toBeInTheDocument();
+
+			expect(screen.container.querySelector("em")).toBeInTheDocument();
+			expect(screen.container.querySelector("em")).toHaveTextContent(
+				"Emphasized Title",
+			);
 		});
 
 		it("should render only top level reference when encountering nested bibl", async () => {
@@ -201,7 +271,7 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("listitem")).toHaveAttribute(
+			expect(screen.getByRole("button")).toHaveAttribute(
 				"data-bibref-id",
 				"bib1",
 			);
@@ -214,7 +284,7 @@ describe("Bibl", () => {
 			expect(screen.getByText("Nested Article 1")).toBeInTheDocument();
 			expect(screen.getByText("Nested Article 2")).toBeInTheDocument();
 
-			await screen.getByRole("listitem").click();
+			await screen.getByRole("button").click();
 			expect(navigateToBibliographicReferenceRef).toHaveBeenCalledWith("bib1");
 		});
 	});

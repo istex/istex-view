@@ -1,4 +1,4 @@
-import { ListItem } from "@mui/material";
+import { Button, ListItem } from "@mui/material";
 import { useMemo } from "react";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
@@ -37,6 +37,11 @@ export const Bibl = ({ data }: ComponentProps) => {
 
 		return (
 			<ListItem
+				component={Button}
+				sx={{
+					fontSize: "1rem",
+				}}
+				size="small"
 				data-bibref-id={attributes?.["@xml:id"] || undefined}
 				onClick={() => {
 					const referenceId = attributes?.["@xml:id"];
@@ -58,6 +63,11 @@ export const Bibl = ({ data }: ComponentProps) => {
 
 	return (
 		<ListItem
+			component={Button}
+			sx={{
+				fontSize: "1rem",
+			}}
+			size="small"
 			data-bibref-id={attributes?.["@xml:id"] || undefined}
 			onClick={() => {
 				const referenceId = attributes?.["@xml:id"];

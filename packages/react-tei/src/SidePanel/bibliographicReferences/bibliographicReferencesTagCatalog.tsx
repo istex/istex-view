@@ -1,3 +1,4 @@
+import { Hi } from "../../tags/Hi";
 import { NoOp } from "../../tags/NoOp";
 import { Bibl } from "./Bibl";
 import { DateTag } from "./DateTag";
@@ -17,5 +18,6 @@ export const bibliographicReferencesTagCatalog = {
 	date: DateTag,
 	biblScope: NoOp,
 	publisher: NoOp,
+	hi: Hi,
 	"#text": NoOp,
 };
