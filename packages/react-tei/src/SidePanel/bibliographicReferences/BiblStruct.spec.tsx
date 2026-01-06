@@ -240,7 +240,7 @@ describe("BiblStruct", () => {
 				value: {
 					tag: "title",
 					attributes: {
-						["@type"]: "a",
+						"@type": "a",
 					},
 				},
 				expected: 3,
@@ -249,7 +249,7 @@ describe("BiblStruct", () => {
 				value: {
 					tag: "title",
 					attributes: {
-						["@type"]: "nota",
+						"@type": "nota",
 					},
 				},
 				expected: 6,
@@ -379,7 +379,7 @@ describe("BiblStruct", () => {
 			});
 
 			expect(screen.container.textContent).toBe(
-				"BrandonSanderson, 2006, The final empire, Mistborn, 1, 2, 647",
+				"Sanderson Brandon, 2006, The final empire, Mistborn, 1, 2, 647",
 			);
 		});
 	});
