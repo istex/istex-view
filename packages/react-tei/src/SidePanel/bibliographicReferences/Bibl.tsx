@@ -1,14 +1,47 @@
 import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
 import ListItem from "@mui/material/ListItem";
-import { useMemo } from "react";
+import { type ReactNode, useMemo } from "react";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
 
-export const Bibl = ({ data }: ComponentProps) => {
+export const BiblLink = ({
+	data,
+	children,
+}: ComponentProps & {
+	children: ReactNode;
+}) => {
 	const { navigateToBibliographicReferenceRef } = useDocumentNavigation();
-	const { attributes, value } = data;
+	const { attributes } = data;
+
+	const referenceId = useMemo(() => {
+		return attributes?.["@xml:id"] || null;
+	}, [attributes]);
+
+	if (!referenceId) {
+		console.warn("No xml:id attribute found for bibliographic reference");
+		return children;
+	}
+
+	return (
+		<ListItem
+			component={Button}
+			sx={{
+				fontSize: "1rem",
+			}}
+			size="small"
+			data-bibref-id={referenceId}
+			onClick={() => {
+				navigateToBibliographicReferenceRef(referenceId);
+			}}
+		>
+			{children}
+		</ListItem>
+	);
+};
+
+export const Bibl = ({ data }: ComponentProps) => {
+	const { value } = data;
 
 	const cleanedValues = useMemo(() => {
 		if (!Array.isArray(value)) {
@@ -38,54 +71,19 @@ export const Bibl = ({ data }: ComponentProps) => {
 		}
 
 		return (
-			<ListItem
-				component={Link}
-				role="button"
-				href="#"
-				data-bibref-id={attributes?.["@xml:id"] || undefined}
-				onClick={(e) => {
-					e.preventDefault();
-
-					const referenceId = attributes?.["@xml:id"];
-					if (!referenceId) {
-						console.warn("No n attribute found for bibliographic reference");
-						return;
-					}
-					navigateToBibliographicReferenceRef(referenceId);
-				}}
-				sx={{
-					textDecoration: "underline",
-					textDecorationColor: "var(--Link-underlineColor)",
-					"& :hover": { textDecorationColor: "inherit" },
-				}}
-			>
+			<BiblLink data={data}>
 				{nestedBibls.map((bibl, index) => (
 					<div>
 						<Value key={index} data={bibl.value} />
 					</div>
 				))}
-			</ListItem>
+			</BiblLink>
 		);
 	}
 
 	return (
-		<ListItem
-			component={Button}
-			sx={{
-				fontSize: "1rem",
-			}}
-			size="small"
-			data-bibref-id={attributes?.["@xml:id"] || undefined}
-			onClick={() => {
-				const referenceId = attributes?.["@xml:id"];
-				if (!referenceId) {
-					console.warn("No n attribute found for bibliographic reference");
-					return;
-				}
-				navigateToBibliographicReferenceRef(referenceId);
-			}}
-		>
+		<BiblLink data={data}>
 			<Value data={value} />
-		</ListItem>
+		</BiblLink>
 	);
 };

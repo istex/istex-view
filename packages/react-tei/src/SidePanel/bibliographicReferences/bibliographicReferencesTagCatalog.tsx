@@ -1,10 +1,12 @@
 import { Hi } from "../../tags/Hi";
 import { NoOp } from "../../tags/NoOp";
 import { Bibl } from "./Bibl";
+import { BiblStruct } from "./BiblStruct";
 import { DateTag } from "./DateTag";
 
 export const bibliographicReferencesTagCatalog = {
 	bibl: Bibl,
+	biblStruct: BiblStruct,
 	title: NoOp,
 	author: NoOp,
 	persName: NoOp,
@@ -20,4 +22,7 @@ export const bibliographicReferencesTagCatalog = {
 	publisher: NoOp,
 	hi: Hi,
 	"#text": NoOp,
+	monogr: NoOp,
+	analytic: NoOp,
+	imprint: NoOp,
 };

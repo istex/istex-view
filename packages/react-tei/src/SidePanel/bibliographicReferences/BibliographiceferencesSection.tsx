@@ -10,7 +10,6 @@ export const BibliographicReferencesSection = () => {
 	const { t } = useTranslation();
 	const { bibliographicReferences, count } =
 		useDocumentBibliographicReferences();
-
 	if (count === 0) {
 		return null;
 	}
