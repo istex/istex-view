@@ -25,6 +25,9 @@ export function TableOfContent({ tableOfContent }: TableOfContentProps) {
 					borderInlineStart: (theme) => `1px solid ${theme.palette.divider}`,
 					paddingInlineStart: 2,
 					position: "relative",
+					"& .MuiTypography-root": {
+						fontSize: "0.875rem",
+					},
 				}}
 			>
 				<TocHeading headings={tableOfContent} />
