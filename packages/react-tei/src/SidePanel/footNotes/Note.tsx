@@ -8,21 +8,26 @@ export const getNoteId = (
 	attributes: { "@n"?: string; "@xml:id"?: string } | undefined,
 ) => {
 	if (!attributes) {
-		return null;
-	}
-	if (attributes["@n"]) {
-		return attributes["@n"];
-	}
-
-	if (attributes["@xml:id"]) {
-		return attributes["@xml:id"];
+		return {
+			id: null,
+			label: null,
+		};
 	}
 
-	return null;
+	const id = attributes["@xml:id"] || attributes["@n"] || null;
+	const label = attributes["@n"] || attributes["@xml:id"] || null;
+
+	return {
+		id,
+		label,
+	};
 };
 
 export const Note = ({ data }: ComponentProps) => {
-	const noteId = useMemo(() => getNoteId(data.attributes), [data.attributes]);
+	const { id: noteId, label } = useMemo(
+		() => getNoteId(data.attributes),
+		[data.attributes],
+	);
 	const { navigateToFootnoteRef } = useDocumentNavigation();
 
 	return (
@@ -39,7 +44,7 @@ export const Note = ({ data }: ComponentProps) => {
 						alignSelf: "start",
 					}}
 				>
-					{noteId}
+					{label ?? noteId}
 				</Link>
 			)}
 			<div>

@@ -144,14 +144,14 @@
         </body>
         <back>
             <div type="fn-group">
-                <note type="fn" n="1" xml:id="fn1">
+                <note type="fn" n="1">
                     <p>The latin word for Prettier proving the roman already understood the
                         importance of linting</p>
                 </note>
-                <note type="fn" n="2" xml:id="fn2">
+                <note type="fn" n="2">
                     <p>May need to be cast first</p>
                 </note>
-                <note type="fn" n="3" xml:id="fn3">
+                <note type="fn" n="3">
                     <p>Like a nun but with a c</p>
                 </note>
             </div>

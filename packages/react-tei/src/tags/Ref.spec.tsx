@@ -2,9 +2,22 @@ import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
-import { getNoteRefId, Ref, UriRef } from "./Ref";
+import { getNoteRefId, isURI, Ref, UriRef } from "./Ref";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
+
+describe("isURI", () => {
+	it("should return true for valid URIs", () => {
+		expect(isURI("https://example.com")).toBe(true);
+		expect(isURI("http://example.com")).toBe(true);
+	});
+
+	it("should return false for invalid URIs", () => {
+		expect(isURI("not a uri")).toBe(false);
+		expect(isURI("")).toBe(false);
+		expect(isURI(null)).toBe(false);
+	});
+});
 
 describe("UriRef", () => {
 	it.each<DocumentJsonValue[]>([
@@ -99,8 +112,14 @@ describe("UriRef", () => {
 
 describe("Ref", () => {
 	describe("getNoteRefId", () => {
-		it("should return n attribute when present", () => {
+		it("should return favor target attribute before n attribute", () => {
 			const attributes = { "@n": "5", "@target": "#note-5" };
+			const noteId = getNoteRefId(attributes);
+			expect(noteId).toBe("note-5");
+		});
+
+		it("should return n attribute when no target present", () => {
+			const attributes = { "@n": "5" };
 			const noteId = getNoteRefId(attributes);
 			expect(noteId).toBe("5");
 		});
@@ -109,7 +128,7 @@ describe("Ref", () => {
 			const consoleWarnSpy = vi
 				.spyOn(console, "warn")
 				.mockImplementation(() => {});
-			const attributes = { "@n": "4 6", "@target": "#note-4" };
+			const attributes = { "@n": "4 6" };
 			const noteId = getNoteRefId(attributes);
 			expect(noteId).toBe("4");
 			expect(console.warn).toHaveBeenCalledWith(
@@ -119,7 +138,7 @@ describe("Ref", () => {
 			consoleWarnSpy.mockRestore();
 		});
 
-		it("should return target attribute without # when n is missing", () => {
+		it("should return target attribute without #", () => {
 			const attributes = { "@target": "#note-10" };
 			const noteId = getNoteRefId(attributes);
 			expect(noteId).toBe("note-10");
@@ -294,6 +313,42 @@ describe("Ref", () => {
 								throw new Error(
 									"navigateToBibliographicReferenceRef has been called",
 								);
+							},
+						}}
+					>
+						{children}
+					</DocumentNavigationContext.Provider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See footnote 7")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See footnote 7" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-fn-id", "note-7");
+
+		await link.click();
+		expect(navigateToFootnote).toHaveBeenCalledWith("note-7");
+	});
+
+	it("should render a link that navigates to the footnote when there is no type and target attribute starts with a #", async () => {
+		const navigateToFootnote = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@target": "#note-7" },
+			value: [{ tag: "#text", value: "See footnote 7" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<DocumentNavigationContext.Provider
+						value={{
+							navigateToFootnote,
+							navigateToFootnoteRef: () => {
+								throw new Error("navigateToFootnoteRef has been called");
+							},
+							navigateToHeading: () => {
+								throw new Error("navigateToHeading has been called");
 							},
 						}}
 					>
@@ -587,10 +642,30 @@ describe("Ref", () => {
 		expect(link).toHaveAttribute("href", "https://example.com");
 	});
 
-	it("should render an URI with a link in @target attribute", async () => {
+	it("should render an URI with a link with type uri", async () => {
 		const document: DocumentJson = {
 			tag: "ref",
 			attributes: { "@type": "uri", "@target": "https://example.com" },
+			value: [{ tag: "#text", value: "Example link" }],
+		};
+
+		const screen = await render(<Ref data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		const link = screen.getByRole("link", { name: "Example link" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", "https://example.com");
+	});
+
+	it("should render an URI with a uri in @target attribute", async () => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@target": "https://example.com" },
 			value: [{ tag: "#text", value: "Example link" }],
 		};
 
