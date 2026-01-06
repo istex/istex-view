@@ -1,5 +1,6 @@
-import Button from "@mui/material/Button";
-import ListItem from "@mui/material/ListItem";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 import { type ReactNode, useMemo } from "react";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
@@ -23,18 +24,25 @@ export const BiblLink = ({
 	}
 
 	return (
-		<ListItem
-			component={Button}
+		<Stack
 			sx={{
 				fontSize: "1rem",
 			}}
-			size="small"
-			data-bibref-id={referenceId}
-			onClick={() => {
-				navigateToBibliographicReferenceRef(referenceId);
-			}}
+			direction="row"
+			gap={1}
 		>
-			{children}
-		</ListItem>
+			<IconButton
+				data-bibref-id={referenceId}
+				sx={{ alignSelf: "start", padding: 0 }}
+				onClick={() => {
+					navigateToBibliographicReferenceRef(referenceId);
+				}}
+				color="primary"
+				aria-labelledby={`bibl-ref-${referenceId}`}
+			>
+				<ManageSearchIcon />
+			</IconButton>
+			<div id={`bibl-ref-${referenceId}`}>{children}</div>
+		</Stack>
 	);
 };
