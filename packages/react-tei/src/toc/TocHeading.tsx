@@ -56,9 +56,6 @@ export function TocHeading({
 							marginBottom: 0,
 							cursor: "pointer",
 							height: ITEM_TEXT_HEIGHT,
-							"& .MuiTypography-root": {
-								fontSize: "0.875rem",
-							},
 						}}
 						data-navigate-to={heading.id}
 						onClick={() => {
