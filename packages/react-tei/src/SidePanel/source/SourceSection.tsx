@@ -1,3 +1,4 @@
+import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 import { Value } from "../../tags/Value";
 import { Accordion } from "../Accordion";
@@ -13,7 +14,13 @@ export const SourceSection = () => {
 
 	return (
 		<Accordion name="source" label={t("sidePanel.source.title")}>
-			<Value data={documentSources} />
+			<Box
+				sx={{
+					paddingInline: 2,
+				}}
+			>
+				<Value data={documentSources} />
+			</Box>
 		</Accordion>
 	);
 };

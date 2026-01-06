@@ -393,18 +393,22 @@ describe("DocumentNavigationContextProvider", () => {
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
 			// Second call
-			result.current.navigateToBibliographicReferenceRef("bibref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-1");
+			});
 			expect(scrollIntoView2).toHaveBeenCalledTimes(1);
 
 			// Third call
-			result.current.navigateToBibliographicReferenceRef("bibref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-1");
+			});
+
 			expect(scrollIntoView3).toHaveBeenCalledTimes(1);
 
 			// Fourth call should cycle back to the first
-			result.current.navigateToBibliographicReferenceRef("bibref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-1");
+			});
 			expect(scrollIntoView1).toHaveBeenCalledTimes(2);
 		});
 
@@ -437,21 +441,24 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			// First call
-			result.current.navigateToBibliographicReferenceRef("bibref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-1");
+			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				"[data-bibref-id='bibref-1']",
 			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
 			// Second call
-			result.current.navigateToBibliographicReferenceRef("bibref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-1");
+			});
 			expect(scrollIntoView2).toHaveBeenCalledTimes(1);
 
 			// Now navigate to a different selector
-			result.current.navigateToBibliographicReferenceRef("bibref-2");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-2");
+			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				"[data-bibref-id='bibref-2']",
 			);
@@ -492,7 +499,9 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			result.current.navigateToBibliographicReference("ref-1");
+			act(() => {
+				result.current.navigateToBibliographicReference("ref-1");
+			});
 			expect(querySelector).toHaveBeenCalledWith("[data-bibref-id='ref-1']");
 			expect(scrollIntoView).toHaveBeenCalled();
 			expect(toggleSection).not.toHaveBeenCalled();
@@ -527,8 +536,9 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			result.current.navigateToBibliographicReference("ref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReference("ref-1");
+			});
 			expect(toggleSection).toHaveBeenCalledWith("bibliographicReferences");
 			expect(querySelector).not.toHaveBeenCalled();
 			expect(scrollIntoView).not.toHaveBeenCalled();

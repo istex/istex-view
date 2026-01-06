@@ -1,10 +1,101 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext";
-import type { DocumentJson } from "../parser/document";
-import { getNoteRefId, Ref } from "./Ref";
+import type { DocumentJson, DocumentJsonValue } from "../parser/document";
+import { getNoteRefId, Ref, UriRef } from "./Ref";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
+
+describe("UriRef", () => {
+	it.each<DocumentJsonValue[]>([
+		[[{ tag: "#text", value: "https://example.com" }]],
+		[
+			[
+				{ tag: "#text", value: "\n" },
+				{ tag: "#text", value: "https://example.com" },
+				{ tag: "#text", value: " " },
+			],
+		],
+	])("should render an URI with a link in value", async (value) => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "uri" },
+			value,
+		};
+
+		const screen = await render(<UriRef data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		const link = screen.getByRole("link", { name: "https://example.com" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", "https://example.com");
+	});
+
+	it("should render an URI with a link in @target attribute", async () => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "uri", "@target": "https://example.com" },
+			value: [{ tag: "#text", value: "Example link" }],
+		};
+
+		const screen = await render(<UriRef data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		const link = screen.getByRole("link", { name: "Example link" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", "https://example.com");
+	});
+
+	it("should render value and warn when no URI is found", async () => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "uri" },
+			value: [{ tag: "#text", value: "No link here" }],
+		};
+
+		const screen = await render(<UriRef data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.getByText("No link here")).toBeInTheDocument();
+
+		expect(console.warn).toHaveBeenCalledOnce();
+	});
+
+	it("should render value and warn when ref is empty", async () => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "uri" },
+			value: [],
+		};
+
+		const screen = await render(<UriRef data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.container).toBeEmptyDOMElement();
+
+		expect(console.warn).toHaveBeenCalledOnce();
+	});
+});
 
 describe("Ref", () => {
 	describe("getNoteRefId", () => {
@@ -465,5 +556,54 @@ describe("Ref", () => {
 			{ attributes: { "@type": "fn", "@n": "4 5" } },
 		);
 		consoleWarnSpy.mockRestore();
+	});
+
+	it.each<DocumentJsonValue[]>([
+		[[{ tag: "#text", value: "https://example.com" }]],
+		[
+			[
+				{ tag: "#text", value: "\n" },
+				{ tag: "#text", value: "https://example.com" },
+				{ tag: "#text", value: " " },
+			],
+		],
+	])("should render an URI with a link in value", async (value) => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "uri" },
+			value,
+		};
+
+		const screen = await render(<Ref data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		const link = screen.getByRole("link", { name: "https://example.com" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", "https://example.com");
+	});
+
+	it("should render an URI with a link in @target attribute", async () => {
+		const document: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "uri", "@target": "https://example.com" },
+			value: [{ tag: "#text", value: "Example link" }],
+		};
+
+		const screen = await render(<Ref data={document} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		const link = screen.getByRole("link", { name: "Example link" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("href", "https://example.com");
 	});
 });

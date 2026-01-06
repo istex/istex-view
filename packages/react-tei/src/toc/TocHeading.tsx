@@ -56,7 +56,7 @@ export function TocHeading({
 							marginBottom: 0,
 							cursor: "pointer",
 							height: ITEM_TEXT_HEIGHT,
-							cotain: "strict",
+							contain: "strict",
 							"& .MuiTypography-root": {
 								fontSize: "0.875rem",
 							},

@@ -21,7 +21,7 @@ export const BibliographicReferencesSection = () => {
 				name="bibliographicReferences"
 				label={t("sidePanel.bibliographicReferences.title", { count })}
 			>
-				<List>
+				<List dense>
 					<Value data={bibliographicReferences} />
 				</List>
 			</Accordion>

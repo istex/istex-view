@@ -105,12 +105,64 @@ export function BibliographicReferenceRef({
 	);
 }
 
+export function UriRef({ data }: ComponentProps) {
+	const uri = useMemo(() => {
+		if (data.attributes?.["@target"]) {
+			return data.attributes?.["@target"];
+		}
+
+		if (typeof data.value === "string") {
+			return data.value;
+		}
+
+		const textNode = Array.isArray(data.value)
+			? data.value
+					.filter((node) => {
+						if (node.tag === "#text") {
+							return typeof node.value === "string" && !!node.value?.trim();
+						}
+
+						return false;
+					})
+					.at(0)
+			: null;
+
+		const value = (textNode?.value as string) ?? null;
+		if (!value) {
+			return null;
+		}
+
+		try {
+			// Validate URL
+			new URL(value);
+			return value;
+		} catch {
+			return null;
+		}
+	}, [data]);
+
+	if (!uri) {
+		console.warn("No URI found for uri reference", { data });
+		return <Value data={data.value} />;
+	}
+
+	return (
+		<Link href={uri} target="_blank" rel="noopener noreferrer">
+			<Value data={data.value} />
+		</Link>
+	);
+}
+
 export function Ref({ data }: ComponentProps) {
-	switch (data.attributes?.["@type"]) {
+	const type = data.attributes?.["@type"];
+
+	switch (type) {
 		case "bibr":
 			return <BibliographicReferenceRef data={data} />;
 		case "fn":
 			return <FootNoteRef data={data} />;
+		case "uri":
+			return <UriRef data={data} />;
 		default:
 			return <Value data={data.value} />;
 	}

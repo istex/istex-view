@@ -15,7 +15,7 @@ export const Keywords = ({ data }: ComponentProps) => {
 		return null;
 	}
 	return (
-		<List>
+		<List dense>
 			<Value data={value} />
 		</List>
 	);

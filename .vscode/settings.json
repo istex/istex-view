@@ -4,7 +4,7 @@
 		"source.fixAll.biome": "always",
 		"source.organizeImports": "never",
 		"source.organizeImports.biome": "always",
-		"source.removeUnusedImports": "always"
+		"source.removeUnusedImports": "never"
 	},
 	"files.associations": {
 		".tei": "xml"
