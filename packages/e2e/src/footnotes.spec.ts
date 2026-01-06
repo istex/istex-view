@@ -24,7 +24,7 @@ test("document footnotes panel", async ({ page }) => {
 		footNoteSection.getByText(
 			"The latin word for Prettier proving the roman already understood the importance of linting",
 		),
-	).not.toBeInViewport();
+	).toBeInViewport();
 	await expect(
 		footNoteSection.getByText("May need to be cast first"),
 	).toBeVisible();

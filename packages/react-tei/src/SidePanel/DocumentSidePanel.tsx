@@ -37,11 +37,14 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					xs: "none",
 					md: "block",
 				},
+				"& .MuiTypography-body1": {
+					fontSize: "1rem",
+				},
 			}}
 			ref={ref}
 		>
 			<Stack direction="row">
-				<Box width="40px">
+				<Box width="40px" position="relative" top="1rem">
 					<IconButton
 						onClick={togglePanel}
 						aria-label={isOpen ? t("sidePanel.close") : t("sidePanel.open")}
@@ -49,7 +52,17 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 						{isOpen ? <ChevronRight /> : <ChevronLeft />}
 					</IconButton>
 				</Box>
-				<Box width="472px" minWidth="472px">
+				<Box
+					width="472px"
+					minWidth="472px"
+					sx={{
+						"& .MuiList-root": {
+							listStyle: "disc",
+							paddingLeft: "2rem",
+							paddingRight: "2rem",
+						},
+					}}
+				>
 					<AuthorSection />
 					<KeywordSection />
 					<SourceSection />

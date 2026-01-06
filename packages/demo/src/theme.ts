@@ -97,6 +97,7 @@ export default createTheme(theme, {
 		body1: {
 			fontFamily: "open sans, sans-serif",
 			fontSize: "18px",
+			fontWeight: "inherit",
 		},
 		body2: {
 			fontFamily: "open sans, sans-serif",
@@ -132,6 +133,28 @@ export default createTheme(theme, {
 					color: theme.palette.primary.main,
 					fontWeight: "bold",
 					fontSize: "1.25rem",
+				},
+			},
+		},
+		MuiList: {
+			styleOverrides: {
+				dense: {
+					paddingTop: 0,
+					paddingBottom: 0,
+				},
+			},
+		},
+		MuiListItem: {
+			styleOverrides: {
+				root: {
+					display: "list-item",
+					paddingLeft: 0,
+					paddingRight: 0,
+				},
+				dense: {
+					paddingTop: 0,
+					paddingBottom: 0,
+					fontSize: "1rem",
 				},
 			},
 		},

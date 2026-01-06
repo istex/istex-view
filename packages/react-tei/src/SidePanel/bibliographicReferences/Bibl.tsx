@@ -1,4 +1,6 @@
-import { Button, ListItem } from "@mui/material";
+import Button from "@mui/material/Button";
+import Link from "@mui/material/Link";
+import ListItem from "@mui/material/ListItem";
 import { useMemo } from "react";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
@@ -37,19 +39,24 @@ export const Bibl = ({ data }: ComponentProps) => {
 
 		return (
 			<ListItem
-				component={Button}
-				sx={{
-					fontSize: "1rem",
-				}}
-				size="small"
+				component={Link}
+				role="button"
+				href="#"
 				data-bibref-id={attributes?.["@xml:id"] || undefined}
-				onClick={() => {
+				onClick={(e) => {
+					e.preventDefault();
+
 					const referenceId = attributes?.["@xml:id"];
 					if (!referenceId) {
 						console.warn("No n attribute found for bibliographic reference");
 						return;
 					}
 					navigateToBibliographicReferenceRef(referenceId);
+				}}
+				sx={{
+					textDecoration: "underline",
+					textDecorationColor: "var(--Link-underlineColor)",
+					"& :hover": { textDecorationColor: "inherit" },
 				}}
 			>
 				{nestedBibls.map((bibl, index) => (

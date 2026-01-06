@@ -1,3 +1,4 @@
+import Box from "@mui/material/Box";
 import { useTranslation } from "react-i18next";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { Value } from "../../tags/Value";
@@ -18,7 +19,13 @@ export const FootnotesSection = () => {
 				name="footnotes"
 				label={t("sidePanel.footnotes.title", { count: footnotes.length })}
 			>
-				<Value data={footnotes} />
+				<Box
+					sx={{
+						paddingInline: 2,
+					}}
+				>
+					<Value data={footnotes} />
+				</Box>
 			</Accordion>
 		</TagCatalogProvider>
 	);

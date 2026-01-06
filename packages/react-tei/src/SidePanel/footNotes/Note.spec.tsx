@@ -120,4 +120,44 @@ describe("Note", () => {
 		).toBeInTheDocument();
 		expect(getByRole("button")).not.toBeInTheDocument();
 	});
+
+	it("should support nested ref", async () => {
+		const { getByText } = await render(
+			<Note
+				data={{
+					tag: "note",
+					value: [
+						{
+							tag: "ref",
+							attributes: { "@type": "uri" },
+							value: [{ tag: "#text", value: "https://www.lodex.fr/" }],
+						},
+					],
+				}}
+			/>,
+			{
+				wrapper: ({ children }) => (
+					<DocumentNavigationContext.Provider
+						value={{
+							navigateToFootnoteRef: () => {
+								throw new Error("navigateToFootnoteRef has been called");
+							},
+							navigateToFootnote: () => {
+								throw new Error("navigateToFootnote has been called");
+							},
+							navigateToHeading: () => {
+								throw new Error("navigateToHeading has been called");
+							},
+						}}
+					>
+						<TagCatalogProvider tagCatalog={footnotesTagCatalog}>
+							{children}
+						</TagCatalogProvider>
+					</DocumentNavigationContext.Provider>
+				),
+			},
+		);
+
+		expect(getByText("https://www.lodex.fr/")).toBeInTheDocument();
+	});
 });
