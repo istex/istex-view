@@ -22,7 +22,5 @@ export const bibliographicReferencesTagCatalog = {
 	publisher: NoOp,
 	hi: Hi,
 	"#text": NoOp,
-	monogr: NoOp,
-	analytic: NoOp,
-	imprint: NoOp,
+	name: NoOp,
 };
