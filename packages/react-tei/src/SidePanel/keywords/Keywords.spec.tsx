@@ -76,23 +76,6 @@ describe("Keywords", () => {
 		expect(container).toBeEmptyDOMElement();
 	});
 
-	it("should render nothing when keywords value is a number", async () => {
-		const data = {
-			tag: "keywords",
-			value: 42,
-		};
-
-		const { container } = await render(<Keywords data={data} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={keywordTagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
-		});
-
-		expect(container).toBeEmptyDOMElement();
-	});
-
 	it("should render nothing when keywords value contain only #text tag", async () => {
 		const data = {
 			tag: "keywords",

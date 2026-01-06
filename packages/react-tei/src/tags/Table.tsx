@@ -9,6 +9,15 @@ import { TableNotes } from "./TableNotes";
 import { TableRow } from "./TableRow";
 import type { ComponentProps } from "./type";
 
+export function getTableId(
+	xmlId: string | null | undefined,
+): string | undefined {
+	if (!xmlId) {
+		return undefined;
+	}
+	return `table-${xmlId}`;
+}
+
 export function Table({ data: { value, attributes } }: ComponentProps) {
 	if (!Array.isArray(value)) {
 		console.warn("Table tag with non-array value:", value);
@@ -47,7 +56,7 @@ export function Table({ data: { value, attributes } }: ComponentProps) {
 			>
 				<MuiTable
 					aria-labelledby={captionId}
-					id={`table_${attributes?.["@xml:id"]}`}
+					id={getTableId(attributes?.["@xml:id"])}
 					sx={{
 						"& caption": {
 							color(theme) {

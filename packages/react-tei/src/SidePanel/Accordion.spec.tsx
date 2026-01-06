@@ -29,7 +29,6 @@ describe("Accordion", () => {
 								},
 								togglePanel: () => {},
 								toggleSection: () => {},
-								openSection: () => {},
 							},
 						}}
 					>
@@ -68,7 +67,6 @@ describe("Accordion", () => {
 								},
 								togglePanel: () => {},
 								toggleSection: () => {},
-								openSection: () => {},
 							},
 						}}
 					>

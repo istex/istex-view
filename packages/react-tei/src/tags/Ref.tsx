@@ -1,6 +1,8 @@
 import { Link } from "@mui/material";
 import { useMemo } from "react";
 import { useDocumentNavigation } from "../navigation/useNavigateToSection";
+import { getTableId } from "./Table";
+import { getTableNoteId } from "./TableNote";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
@@ -130,6 +132,36 @@ export function BibliographicReferenceRef({
 	);
 }
 
+type ElementIdFn = (target: string | null | undefined) => string | undefined;
+
+export function DocumentRef({
+	data,
+	elementIdFn,
+}: ComponentProps & {
+	elementIdFn: ElementIdFn;
+}) {
+	const { navigateToBodyTargetSelector } = useDocumentNavigation();
+
+	const target = elementIdFn(
+		data.attributes?.["@target"]?.replace(/^#/, "") ?? null,
+	);
+
+	if (!target) {
+		console.warn("No target attribute found for table reference", { data });
+		return <Value data={data.value} />;
+	}
+
+	return (
+		<Link
+			component="button"
+			onClick={() => navigateToBodyTargetSelector(`#${target}`)}
+			data-target={`#${target}`}
+		>
+			{<Value data={data.value} />}
+		</Link>
+	);
+}
+
 export function UriRef({ data }: ComponentProps) {
 	const uri = useMemo(() => {
 		if (data.attributes?.["@target"]) {
@@ -189,6 +221,9 @@ export function RefFallback({ data }: ComponentProps) {
 	return <Value data={data.value} />;
 }
 
+const tableIdFn: ElementIdFn = (target) => getTableId(target);
+const tableFnIdFn: ElementIdFn = (target) => getTableNoteId(target);
+
 export function Ref({ data }: ComponentProps) {
 	const type = data.attributes?.["@type"];
 
@@ -197,8 +232,18 @@ export function Ref({ data }: ComponentProps) {
 			return <BibliographicReferenceRef data={data} />;
 		case "fn":
 			return <FootNoteRef data={data} />;
+		case "url":
 		case "uri":
 			return <UriRef data={data} />;
+		case "fig":
+		case "figure":
+			// Figure are not rendered so we do not displate anything for their references
+			// TODO: implement figure reference once figure rendering is implemented
+			return <Value data={data.value} />;
+		case "table":
+			return <DocumentRef data={data} elementIdFn={tableIdFn} />;
+		case "table-fn":
+			return <DocumentRef data={data} elementIdFn={tableFnIdFn} />;
 		default:
 			return <RefFallback data={data} />;
 	}

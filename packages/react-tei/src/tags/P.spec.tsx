@@ -237,7 +237,7 @@ describe("P", () => {
 		});
 
 		expect(screen.getByRole("table")).toBeInTheDocument();
-		expect(screen.getByRole("table")).toHaveAttribute("id", "table_test");
+		expect(screen.getByRole("table")).toHaveAttribute("id", "table-test");
 
 		expect(screen.getByRole("paragraph")).not.toBeInTheDocument();
 	});
@@ -270,7 +270,7 @@ describe("P", () => {
 		);
 
 		expect(screen.getByRole("table")).toBeInTheDocument();
-		expect(screen.getByRole("table")).toHaveAttribute("id", "table_test");
+		expect(screen.getByRole("table")).toHaveAttribute("id", "table-test");
 	});
 
 	it("should not render empty text nodes inside paragraph", async () => {

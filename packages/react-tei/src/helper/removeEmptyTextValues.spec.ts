@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { DocumentJson } from "../parser/document";
 import { removeEmptyTextValues } from "./removeEmptyTextValues";
 
 describe("removeEmptyTextValues", () => {
@@ -19,7 +20,7 @@ describe("removeEmptyTextValues", () => {
 	});
 
 	it("should remove documents recursively", () => {
-		const documents = [
+		const documents: DocumentJson[] = [
 			{ tag: "#text", value: "   " },
 			{
 				tag: "p",
@@ -36,7 +37,7 @@ describe("removeEmptyTextValues", () => {
 						tag: "p",
 						value: [
 							{ tag: "#text", value: "" },
-							{ tag: "#text", value: 4.5 },
+							{ tag: "#text", value: "4.5" },
 						],
 					},
 				],
@@ -49,7 +50,7 @@ describe("removeEmptyTextValues", () => {
 			{ tag: "p", value: [{ tag: "#text", value: "Valid text" }] },
 			{
 				tag: "div",
-				value: [{ tag: "p", value: [{ tag: "#text", value: 4.5 }] }],
+				value: [{ tag: "p", value: [{ tag: "#text", value: "4.5" }] }],
 			},
 		]);
 	});

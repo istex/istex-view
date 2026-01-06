@@ -11,6 +11,11 @@ const defaultContextValue: DocumentNavigationContextValue = {
 			`navigateToHeading called with headingId: ${headingId}, but no provider is set.`,
 		);
 	},
+	navigateToBodyTargetSelector: (querySelector: string) => {
+		console.error(
+			`navigateToBodyTargetSelector called with querySelector: ${querySelector}, but no provider is set.`,
+		);
+	},
 	navigateToFootnote: (footnoteId: string) => {
 		console.error(
 			`navigateToFootnote called with footnoteId: ${footnoteId}, but no provider is set.`,
