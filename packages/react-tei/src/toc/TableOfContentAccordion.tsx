@@ -45,7 +45,7 @@ export function TableOfContentAccordion({
 					gap: 2,
 				}}
 			>
-				<TocHeading headings={tableOfContent} />
+				<TocHeading headings={tableOfContent} isMobile />
 			</AccordionDetails>
 		</Accordion>
 	);

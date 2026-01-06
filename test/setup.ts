@@ -1,5 +1,11 @@
 import { afterEach, beforeEach, vi } from "vitest";
 
+window.IS_REACT_ACT_ENVIRONMENT = true;
+
+declare global {
+	var IS_REACT_ACT_ENVIRONMENT: boolean;
+}
+
 beforeEach(() => {
 	vi.spyOn(console, "warn").mockImplementation(() => {});
 });

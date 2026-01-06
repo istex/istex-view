@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
+    xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sa="http://www.elsevier.com/xml/common/struct-aff/dtd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd"
+    xml:lang="en"
+>
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+            </titleStmt>
+            <sourceDesc>
+                <biblStruct>
+                    <analytic>
+                        <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Mr</roleName>
+                                <forename>Victor</forename>
+                                <surname>Hugo</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <surname>Paul</surname>
+                                <genName>II</genName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <nameLink>De</nameLink>
+                                <surname>La Fontaine</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Dr</roleName>
+                                <forename>Marie</forename>
+                                <surname>Curie</surname>
+                                <roleName type="degree">PhD</roleName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <orgName>Dead Poets Society</orgName>
+                            </persName>
+                        </author>
+                    </analytic>
+                </biblStruct>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <textClass>
+                <keywords>
+                    <term>TEI</term>
+                    <term>XML</term>
+                    <term>Sample Document</term>
+                </keywords>
+                <keywords>
+                    <list>
+                        <head>Subject Areas</head>
+                        <item>
+
+                            <term>Literature</term>
+                        </item>
+                        <item>
+                            <term>Mathematics</term>
+                        </item>
+                        <item>
+                            <term>Physics</term>
+                        </item>
+                    </list>
+                </keywords>
+                <keywords rend="tocHeading1">
+                    <term>ignored</term>
+                    <term>tocHeading1</term>
+                    <term>keywords</term>
+                </keywords>
+                <keywords scheme="heading">
+                    <term>ignored</term>
+                    <term>heading</term>
+                    <term>keywords</term>
+                </keywords>
+            </textClass>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div type="ElsevierSections">
+                <div type="1" xml:id="s0001">
+                    <head>Introduction</head>
+                    
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam malesuada lectus dictum erat vehicula vehicula. Fusce sollicitudin non dui eu eleifend. Duis ultricies, mauris vitae lobortis auctor, urna orci laoreet sapien, vitae gravida lectus libero eget lectus. Aliquam nulla elit, feugiat eget augue eu, fermentum sollicitudin lorem. Nam bibendum ligula ut eros tristique congue. Nam sodales porttitor nunc, ac laoreet tellus vulputate ut. Ut blandit orci sit amet libero auctor iaculis. Cras pharetra quam non nibh cursus, nec elementum ligula commodo. Nam vulputate tellus eget vulputate sodales. Vestibulum tristique condimentum nisl, in efficitur odio porta eu. Nunc molestie felis in justo malesuada tristique. Ut vel diam non quam venenatis fringilla. Interdum et malesuada fames ac ante ipsum primis in faucibus.
+                    </p>
+
+                    <p>
+                        In sollicitudin efficitur placerat. Praesent a velit quis magna finibus tristique. Pellentesque ligula leo, euismod quis risus ornare, maximus imperdiet mi. Fusce eget lobortis nunc. In gravida ante nec quam varius, eget molestie lorem scelerisque. Sed porta neque sed ultrices imperdiet. Donec malesuada urna eu magna congue, in lacinia dui pulvinar. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Duis quis posuere ex.
+                    </p>
+
+                    <p>
+                        Fusce odio augue, ultricies nec tempor non, malesuada iaculis sem. Ut eget augue placerat, lobortis tortor scelerisque, tincidunt orci. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Praesent interdum justo nec elit varius, in interdum augue faucibus. Donec bibendum lectus non mi posuere, eget mattis lectus vestibulum. Donec urna lorem, porttitor ut volutpat vel, pellentesque vel lacus. Praesent in cursus nunc, vitae pulvinar nunc. Maecenas tempus purus auctor convallis aliquam. Quisque nisi augue, egestas eu nisi id, commodo egestas lacus. Pellentesque nec nunc malesuada, pretium dui in, vehicula purus. Morbi sed odio a lectus accumsan euismod. Duis et libero quis erat vulputate rutrum eget vitae sem. Sed pulvinar ultrices lacus, quis finibus massa condimentum at. Maecenas pulvinar eu felis quis vehicula.
+                    </p>
+                </div>
+
+                <div type="2" xml:id="s0002">
+                    <head>Part 1</head>
+                    <p>
+                        Morbi hendrerit eros lorem, in fringilla lacus luctus in. Quisque sit amet tortor metus. Cras vitae consequat mi. Nulla tincidunt gravida consectetur. Aliquam ullamcorper aliquam nibh ac sodales. Quisque accumsan vestibulum augue eget tempus. Nunc fringilla tellus neque. Vivamus egestas vehicula est. Curabitur velit felis, varius a scelerisque finibus, convallis ut mi. Morbi lacinia risus nec fringilla mollis. Donec mollis blandit laoreet. Mauris aliquet, nisl eu iaculis porttitor, sapien turpis molestie justo, id mollis lacus mauris non arcu.
+                    </p>
+
+                    <p>
+                        Nulla at velit ac justo lobortis ultricies eu in urna. Praesent bibendum lacus vitae dui malesuada accumsan. Morbi dignissim euismod libero, nec dictum urna vestibulum non. Pellentesque varius, felis in aliquam placerat, neque sapien fringilla odio, in vestibulum felis tellus nec arcu. Maecenas maximus ac arcu ac sodales. Suspendisse maximus felis enim, eu pellentesque elit ultricies et. Phasellus maximus ornare suscipit. Etiam egestas metus et tempor imperdiet. Vivamus sed ultrices diam. Sed felis tellus, lacinia sit amet scelerisque quis, eleifend in elit. Donec et diam ac elit pulvinar rhoncus non sed dolor. Fusce commodo, mi id porttitor rhoncus, leo sapien tristique ipsum, sit amet dignissim leo nisl eget mi. Morbi nec eros sit amet ligula porta volutpat vel ultricies massa. Curabitur ipsum ligula, tincidunt vitae sapien sit amet, auctor fringilla augue. Suspendisse potenti. Curabitur vehicula elementum ipsum eu varius.
+                    </p>
+
+                    <p>
+                        Nam id leo ipsum. Mauris aliquam dolor et lacus pulvinar, sed tempor mi scelerisque. Aliquam porttitor nulla nec accumsan volutpat. Nulla ligula sapien, vulputate eget vehicula vitae, interdum ac augue. Donec eu congue nunc. Quisque sed eros at dolor dignissim viverra. Aliquam eu augue interdum lorem tempor venenatis a gravida massa. Aliquam condimentum est sapien, eu dictum augue placerat nec. Etiam nec efficitur nisi. Curabitur commodo tincidunt tristique. Donec lectus orci, varius at nisi sit amet, tristique facilisis felis. Sed aliquet arcu quis molestie semper. Nulla nec vulputate nulla. Morbi malesuada mi nec urna eleifend sodales.
+                    </p>
+
+                    <div type="2.1" xml:id="s0002">
+                        <head>Part 1.1</head>
+                        <p> Integer <hi rend="bold">faucibus eros</hi> eget eleifend convallis. </p>
+                    </div>
+                </div>
+
+                <div xml:id="s0003">
+                    <head>Acknowledgments</head>
+                    <p> Nunc varius <hi rend="italic bold">hendrerit</hi> sodales. </p>
+                </div>
+            </div>
+        </body>
+    </text>
+</TEI>

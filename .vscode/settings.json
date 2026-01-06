@@ -6,6 +6,9 @@
 		"source.organizeImports.biome": "always",
 		"source.removeUnusedImports": "always"
 	},
+	"files.associations": {
+		".tei": "xml"
+	},
 	"[css]": {
 		"editor.defaultFormatter": "biomejs.biome"
 	},
