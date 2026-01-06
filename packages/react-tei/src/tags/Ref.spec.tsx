@@ -54,6 +54,34 @@ describe("Ref", () => {
 			expect(noteId).toBeNull();
 		});
 	});
+
+	describe("getTargetId", () => {
+		it("should return target attribute without # when present", () => {
+			const attributes = { "@target": "#ref-12" };
+			const id = getNoteRefId(attributes);
+			expect(id).toBe("ref-12");
+		});
+
+		it("should warn when target attribute has several values and return the first one", () => {
+			const consoleWarnSpy = vi
+				.spyOn(console, "warn")
+				.mockImplementation(() => {});
+			const attributes = { "@target": "#ref-3 #ref-4" };
+			const id = getNoteRefId(attributes);
+			expect(id).toBe("ref-3");
+			expect(console.warn).toHaveBeenCalledWith(
+				"Multiple target attributes found for footnote reference, only the first one will be used",
+				{ attributes },
+			);
+			consoleWarnSpy.mockRestore();
+		});
+
+		it("should return null when target is not present", () => {
+			const attributes = {};
+			const id = getNoteRefId(attributes);
+			expect(id).toBeNull();
+		});
+	});
 	it('should render a link that navigates to the footnote when type="fn" and n attribute is present', async () => {
 		const navigateToFootnote = vi.fn();
 		const jsonValue: DocumentJson = {
@@ -73,6 +101,16 @@ describe("Ref", () => {
 							},
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
+							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
 							},
 						}}
 					>
@@ -110,6 +148,16 @@ describe("Ref", () => {
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
 							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
+							},
 						}}
 					>
 						{children}
@@ -145,6 +193,16 @@ describe("Ref", () => {
 							},
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
+							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
 							},
 						}}
 					>
@@ -185,6 +243,16 @@ describe("Ref", () => {
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
 							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
+							},
 						}}
 					>
 						{children}
@@ -205,7 +273,102 @@ describe("Ref", () => {
 		consoleWarnSpy.mockRestore();
 	});
 
-	it('should render text and ignore n attribute when type is not "fn"', async () => {
+	it('should render a link that navigates to the bibliographic reference when type="bibr" and target attribute is present', async () => {
+		const navigateToBibliographicReference = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "bibr", "@target": "#bib-2" },
+			value: [{ tag: "#text", value: "See bibliographic reference 2" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<DocumentNavigationContext.Provider
+						value={{
+							navigateToBibliographicReference,
+							navigateToFootnote: () => {
+								throw new Error("navigateToFootnote has been called");
+							},
+							navigateToFootnoteRef: () => {
+								throw new Error("navigateToFootnoteRef has been called");
+							},
+							navigateToHeading: () => {
+								throw new Error("navigateToHeading has been called");
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
+							},
+						}}
+					>
+						{children}
+					</DocumentNavigationContext.Provider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See bibliographic reference 2")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See bibliographic reference 2" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-bibref-id", "bib-2");
+
+		await link.click();
+		expect(navigateToBibliographicReference).toHaveBeenCalledWith("bib-2");
+	});
+
+	it('should render text with no link when type="bibr" but target attribute is missing', async () => {
+		const consoleWarnSpy = vi
+			.spyOn(console, "warn")
+			.mockImplementation(() => {});
+		const navigateToBibliographicReference = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "bibr" },
+			value: [{ tag: "#text", value: "See bibliographic reference" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<DocumentNavigationContext.Provider
+						value={{
+							navigateToBibliographicReference,
+							navigateToFootnote: () => {
+								throw new Error("navigateToFootnote has been called");
+							},
+							navigateToFootnoteRef: () => {
+								throw new Error("navigateToFootnoteRef has been called");
+							},
+							navigateToHeading: () => {
+								throw new Error("navigateToHeading has been called");
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
+							},
+						}}
+					>
+						{children}
+					</DocumentNavigationContext.Provider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See bibliographic reference")).toBeInTheDocument();
+		expect(getByRole("button")).not.toBeInTheDocument();
+		expect(navigateToBibliographicReference).not.toHaveBeenCalled();
+		expect(console.warn).toHaveBeenCalledWith(
+			"No target attribute found for bibliographic reference",
+			{
+				attributes: { "@type": "bibr" },
+				value: [{ tag: "#text", value: "See bibliographic reference" }],
+			},
+		);
+		consoleWarnSpy.mockRestore();
+	});
+
+	it('should render text and ignore n attribute when type is not "fn" nor "bibr"', async () => {
 		const jsonValue: DocumentJson = {
 			tag: "ref",
 			attributes: {
@@ -272,6 +435,16 @@ describe("Ref", () => {
 							},
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
+							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
 							},
 						}}
 					>

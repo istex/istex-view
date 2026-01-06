@@ -44,6 +44,16 @@ describe("Note", () => {
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
 							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
+							},
 						}}
 					>
 						<TagCatalogProvider tagCatalog={footnotesTagCatalog}>
@@ -84,6 +94,16 @@ describe("Note", () => {
 							},
 							navigateToHeading: () => {
 								throw new Error("navigateToHeading has been called");
+							},
+							navigateToBibliographicReference: () => {
+								throw new Error(
+									"navigateToBibliographicReference has been called",
+								);
+							},
+							navigateToBibliographicReferenceRef: () => {
+								throw new Error(
+									"navigateToBibliographicReferenceRef has been called",
+								);
 							},
 						}}
 					>

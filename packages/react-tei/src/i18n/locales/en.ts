@@ -38,5 +38,9 @@ export const en: Translation = {
 			title_one: "Footnote ({{count}})",
 			title_other: "Footnotes ({{count}})",
 		},
+		bibliographicReferences: {
+			title_one: "Référence bibliographique ({{count}})",
+			title_other: "Références bibliographiques ({{count}})",
+		},
 	},
 };

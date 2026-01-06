@@ -21,6 +21,16 @@ const defaultContextValue: DocumentNavigationContextValue = {
 			`navigateToDocumentRef called with id: ${id}, but no provider is set.`,
 		);
 	},
+	navigateToBibliographicReference: (id: string) => {
+		console.error(
+			`navigateToBibliographicReference called with id: ${id}, but no provider is set.`,
+		);
+	},
+	navigateToBibliographicReferenceRef: (id: string) => {
+		console.error(
+			`navigateToBibliographicReferenceRef called with id: ${id}, but no provider is set.`,
+		);
+	},
 };
 
 export function useDocumentNavigation() {
