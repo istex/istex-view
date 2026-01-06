@@ -409,39 +409,31 @@ describe("DocumentNavigationContextProvider", () => {
 		});
 
 		it("should restart from 0 when navigating to a different selector", async () => {
+			const { documentElement, wrapper } = createDocumentWrapper();
+
 			const scrollIntoView1 = vi.fn();
 			const scrollIntoView2 = vi.fn();
 			const scrollIntoView3 = vi.fn();
-			const querySelectorAll = vi
-				.fn()
-				.mockImplementation(() => [
-					{ scrollIntoView: scrollIntoView1 },
-					{ scrollIntoView: scrollIntoView2 },
-					{ scrollIntoView: scrollIntoView3 },
-				]);
+
+			const querySelectorAll = vi.fn().mockImplementation(() => {
+				const span1 = document.createElement("span");
+				span1.scrollIntoView = scrollIntoView1;
+
+				const span2 = document.createElement("span");
+				span2.scrollIntoView = scrollIntoView2;
+
+				const span3 = document.createElement("span");
+				span3.scrollIntoView = scrollIntoView3;
+
+				return [span1, span2, span3];
+			});
+
+			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
+			);
+
 			const { result } = await renderHook(() => useDocumentNavigation(), {
-				wrapper: ({ children }) => (
-					<DocumentContextProvider jsonDocument={[]}>
-						<DocumentNavigationContextProvider
-							documentRef={
-								{
-									current: {
-										querySelectorAll,
-									},
-								} as any
-							}
-							sidePanelRef={
-								{
-									current: {
-										querySelector: vi.fn(),
-									},
-								} as any
-							}
-						>
-							{children}
-						</DocumentNavigationContextProvider>
-					</DocumentContextProvider>
-				),
+				wrapper,
 			});
 
 			// First call
