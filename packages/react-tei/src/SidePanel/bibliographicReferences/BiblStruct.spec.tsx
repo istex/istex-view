@@ -379,7 +379,7 @@ describe("BiblStruct", () => {
 			});
 
 			expect(screen.container.textContent).toBe(
-				"Sanderson Brandon, 2006, The final empire, Mistborn, 1, 2, 647",
+				"Brandon Sanderson, 2006, The final empire, Mistborn, 1, 2, 647",
 			);
 		});
 	});
