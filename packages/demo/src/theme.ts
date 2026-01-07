@@ -124,15 +124,27 @@ export default createTheme(theme, {
 			styleOverrides: {
 				root: {
 					boxShadow: "none",
+					"&.Mui-expanded": {
+						margin: "0",
+					},
 				},
 			},
 		},
 		MuiAccordionSummary: {
 			styleOverrides: {
+				root: {
+					minHeight: "48px",
+					"&.Mui-expanded": {
+						minHeight: "48px",
+					},
+				},
 				content: {
 					color: theme.palette.primary.main,
 					fontWeight: "bold",
 					fontSize: "1.25rem",
+					"&.Mui-expanded": {
+						margin: "12px 0",
+					},
 				},
 			},
 		},
