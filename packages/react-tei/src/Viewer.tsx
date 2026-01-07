@@ -1,3 +1,4 @@
+import { lime } from "@mui/material/colors";
 import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -73,6 +74,14 @@ export const Viewer = ({
 							maxHeight={height}
 							width="100%"
 							direction="row"
+							sx={{
+								"& *": {
+									transition: "background-color 0.3s ease-in-out",
+								},
+								"& .highlighted": {
+									backgroundColor: lime[100],
+								},
+							}}
 						>
 							<Stack direction="row" flexGrow={1} justifyContent="center">
 								{!isSmallScreen && (

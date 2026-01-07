@@ -27,6 +27,19 @@ type DocumentNavigationContextProviderProps = {
 	sidePanelRef: React.RefObject<HTMLDivElement | null>;
 };
 
+const HIGHLIGHT_DELAY = 500;
+const HIGHLIGHT_DURATION = 1500;
+const PANEL_HIGHLIGHT_DURATION = 1000;
+
+function highlightElement(element: HTMLElement, duration = HIGHLIGHT_DURATION) {
+	setTimeout(() => {
+		element.classList.add("highlighted");
+		setTimeout(() => {
+			element.classList.remove("highlighted");
+		}, duration);
+	}, HIGHLIGHT_DELAY);
+}
+
 export function DocumentNavigationContextProvider({
 	documentRef,
 	sidePanelRef,
@@ -74,6 +87,8 @@ export function DocumentNavigationContextProvider({
 			targetElements[index].scrollIntoView({
 				behavior: "smooth",
 			});
+
+			highlightElement(targetElements[index]);
 		},
 		[documentRef, currentElementIndex, currentSelector],
 	);
@@ -105,6 +120,8 @@ export function DocumentNavigationContextProvider({
 			targetElement.scrollIntoView({
 				behavior: "smooth",
 			});
+
+			highlightElement(targetElement, PANEL_HIGHLIGHT_DURATION);
 		},
 		[sidePanelRef],
 	);

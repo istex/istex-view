@@ -79,7 +79,7 @@ describe("Note", () => {
 
 		expect(getByText("This is another footnote.")).toBeInTheDocument();
 		expect(getByRole("button", { name: "2" })).toBeInTheDocument();
-		expect(getByText("2")).toHaveAttribute("data-fn-id", "2");
+		expect(getByRole("note", { name: "2" })).toHaveAttribute("data-fn-id", "2");
 
 		await getByText("2").click();
 		expect(navigateToFootnoteRef).toHaveBeenCalledWith("2");

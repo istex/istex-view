@@ -16,7 +16,8 @@ export const SourceSection = () => {
 		<Accordion name="source" label={t("sidePanel.source.title")}>
 			<Box
 				sx={{
-					paddingInline: 2,
+					paddingInlineStart: 2,
+					paddingInlineEnd: 4,
 				}}
 			>
 				<Value data={documentSources} />

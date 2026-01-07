@@ -21,7 +21,8 @@ export const FootnotesSection = () => {
 			>
 				<Box
 					sx={{
-						paddingInline: 2,
+						paddingInlineStart: 2,
+						paddingInlineEnd: 4,
 					}}
 				>
 					<Value data={footnotes} />
