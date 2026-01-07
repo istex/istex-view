@@ -21,11 +21,17 @@ export const isValidKeyword = ({
 		return true;
 	}
 
-	if ("@rend" in attributes && ["tocHeading1"].includes(attributes["@rend"])) {
+	if (
+		"@rend" in attributes &&
+		["tocHeading1"].includes(attributes["@rend"] as string)
+	) {
 		return false;
 	}
 
-	if ("@scheme" in attributes && ["heading"].includes(attributes["@scheme"])) {
+	if (
+		"@scheme" in attributes &&
+		["heading"].includes(attributes["@scheme"] as string)
+	) {
 		return false;
 	}
 

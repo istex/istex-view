@@ -1,6 +1,6 @@
 export type DocumentJson = {
 	tag: string;
-	attributes?: Record<string, string>;
+	attributes?: Record<string, string | undefined>;
 	props?: Record<string, unknown>;
 	value?: DocumentJsonValue;
 };

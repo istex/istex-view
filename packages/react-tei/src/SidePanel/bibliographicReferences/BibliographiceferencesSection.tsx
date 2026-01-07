@@ -1,4 +1,4 @@
-import { List } from "@mui/material";
+import Stack from "@mui/material/Stack";
 import { useTranslation } from "react-i18next";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { Value } from "../../tags/Value";
@@ -10,7 +10,6 @@ export const BibliographicReferencesSection = () => {
 	const { t } = useTranslation();
 	const { bibliographicReferences, count } =
 		useDocumentBibliographicReferences();
-
 	if (count === 0) {
 		return null;
 	}
@@ -21,9 +20,14 @@ export const BibliographicReferencesSection = () => {
 				name="bibliographicReferences"
 				label={t("sidePanel.bibliographicReferences.title", { count })}
 			>
-				<List dense>
+				<Stack
+					sx={{
+						paddingInline: 2,
+					}}
+					gap={1}
+				>
 					<Value data={bibliographicReferences} />
-				</List>
+				</Stack>
 			</Accordion>
 		</TagCatalogProvider>
 	);

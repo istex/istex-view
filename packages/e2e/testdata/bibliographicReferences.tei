@@ -154,7 +154,7 @@
                                     <forename type="first">Gandalf</forename>
                                     <surname>The Gray</surname>
                                 </persName>
-                            </author>,
+                            </author>
                             (<date
                                 when="1954" />) <title level="j" type="main">Lord of the ring</title>
                         <biblScope
@@ -172,7 +172,7 @@
                                     <surname>Harmony</surname>
                                 </persName>
                             </author>
-                            , <date
+                            <date
                                 when="1997" />
                         <biblScope unit="vol">2</biblScope>:<biblScope
                                 unit="page"

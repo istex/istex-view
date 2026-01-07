@@ -36,8 +36,8 @@ export const useDocumentBibliographicReferences = () => {
 			};
 		}
 
-		const bibliographicReferences = listBibl.value.filter(
-			({ tag }) => tag === "bibl",
+		const bibliographicReferences = listBibl.value.filter(({ tag }) =>
+			["bibl", "biblStruct"].includes(tag),
 		);
 
 		return {

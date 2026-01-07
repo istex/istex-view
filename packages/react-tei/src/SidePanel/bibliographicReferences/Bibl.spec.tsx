@@ -42,6 +42,7 @@ describe("Bibl", () => {
 										"navigateToBibliographicReference has been called",
 									);
 								},
+								currentHeadingId: null,
 							}}
 						>
 							<TagCatalogProvider
@@ -111,6 +112,7 @@ describe("Bibl", () => {
 										"navigateToBibliographicReference has been called",
 									);
 								},
+								currentHeadingId: null,
 							}}
 						>
 							<TagCatalogProvider
@@ -177,6 +179,7 @@ describe("Bibl", () => {
 										"navigateToBibliographicReference has been called",
 									);
 								},
+								currentHeadingId: null,
 							}}
 						>
 							<TagCatalogProvider
@@ -259,6 +262,7 @@ describe("Bibl", () => {
 										"navigateToBibliographicReference has been called",
 									);
 								},
+								currentHeadingId: null,
 							}}
 						>
 							<TagCatalogProvider

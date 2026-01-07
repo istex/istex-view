@@ -1,14 +1,10 @@
-import Button from "@mui/material/Button";
-import Link from "@mui/material/Link";
-import ListItem from "@mui/material/ListItem";
 import { useMemo } from "react";
-import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
+import { BiblLink } from "./BiblLink";
 
 export const Bibl = ({ data }: ComponentProps) => {
-	const { navigateToBibliographicReferenceRef } = useDocumentNavigation();
-	const { attributes, value } = data;
+	const { value } = data;
 
 	const cleanedValues = useMemo(() => {
 		if (!Array.isArray(value)) {
@@ -38,54 +34,19 @@ export const Bibl = ({ data }: ComponentProps) => {
 		}
 
 		return (
-			<ListItem
-				component={Link}
-				role="button"
-				href="#"
-				data-bibref-id={attributes?.["@xml:id"] || undefined}
-				onClick={(e) => {
-					e.preventDefault();
-
-					const referenceId = attributes?.["@xml:id"];
-					if (!referenceId) {
-						console.warn("No n attribute found for bibliographic reference");
-						return;
-					}
-					navigateToBibliographicReferenceRef(referenceId);
-				}}
-				sx={{
-					textDecoration: "underline",
-					textDecorationColor: "var(--Link-underlineColor)",
-					"& :hover": { textDecorationColor: "inherit" },
-				}}
-			>
+			<BiblLink data={data}>
 				{nestedBibls.map((bibl, index) => (
 					<div>
 						<Value key={index} data={bibl.value} />
 					</div>
 				))}
-			</ListItem>
+			</BiblLink>
 		);
 	}
 
 	return (
-		<ListItem
-			component={Button}
-			sx={{
-				fontSize: "1rem",
-			}}
-			size="small"
-			data-bibref-id={attributes?.["@xml:id"] || undefined}
-			onClick={() => {
-				const referenceId = attributes?.["@xml:id"];
-				if (!referenceId) {
-					console.warn("No n attribute found for bibliographic reference");
-					return;
-				}
-				navigateToBibliographicReferenceRef(referenceId);
-			}}
-		>
+		<BiblLink data={data}>
 			<Value data={value} />
-		</ListItem>
+		</BiblLink>
 	);
 };
