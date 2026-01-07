@@ -7,20 +7,49 @@ import { getNoteId, Note } from "./Note";
 
 describe("Note", () => {
 	describe("getNoteId", () => {
-		it("should return n attribute when present", () => {
+		it("should favor xml:id attribute over n attribute for id", () => {
 			const attributes = { "@n": "7", "@xml:id": "note-7" };
 			const noteId = getNoteId(attributes);
-			expect(noteId).toBe("7");
+			expect(noteId).toStrictEqual({
+				id: "note-7",
+				label: "7",
+			});
 		});
-		it("should return xml:id attribute when n is missing", () => {
+
+		it("should favor n attribute over xml:id attribute for label", () => {
+			const attributes = { "@n": "7", "@xml:id": "note-7" };
+			const noteId = getNoteId(attributes);
+			expect(noteId).toStrictEqual({
+				id: "note-7",
+				label: "7",
+			});
+		});
+
+		it("should return n attribute when no target attribute is present", () => {
+			const attributes = { "@n": "7" };
+			const noteId = getNoteId(attributes);
+			expect(noteId).toStrictEqual({
+				id: "7",
+				label: "7",
+			});
+		});
+
+		it("should return xml:id attribute as label when n is missing", () => {
 			const attributes = { "@xml:id": "note-15" };
 			const noteId = getNoteId(attributes);
-			expect(noteId).toBe("note-15");
+			expect(noteId).toStrictEqual({
+				id: "note-15",
+				label: "note-15",
+			});
 		});
+
 		it("should return null when neither n nor xml:id are present", () => {
 			const attributes = {};
 			const noteId = getNoteId(attributes);
-			expect(noteId).toBeNull();
+			expect(noteId).toStrictEqual({
+				id: null,
+				label: null,
+			});
 		});
 	});
 	it("should render the note value with a link toward n-<value> when n attribute is present", async () => {

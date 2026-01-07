@@ -4,6 +4,20 @@ import { useDocumentNavigation } from "../navigation/useNavigateToSection";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
+export const isURI = (value: string | null): value is string => {
+	if (!value) {
+		return false;
+	}
+
+	try {
+		// Validate URL
+		new URL(value);
+		return true;
+	} catch {
+		return false;
+	}
+};
+
 export const getTargetId = (
 	attributes: { "@n"?: string; "@target"?: string } | undefined,
 ) => {
@@ -31,6 +45,11 @@ export const getNoteRefId = (
 	if (!attributes) {
 		return null;
 	}
+
+	if (attributes["@target"]) {
+		return getTargetId(attributes);
+	}
+
 	if (attributes["@n"]) {
 		const nValues = attributes["@n"].split(" ");
 		if (nValues.length > 1) {
@@ -42,7 +61,7 @@ export const getNoteRefId = (
 		return nValues[0];
 	}
 
-	return getTargetId(attributes);
+	return null;
 };
 
 export function FootNoteRef({ data: { value, attributes } }: ComponentProps) {
@@ -67,6 +86,12 @@ export function FootNoteRef({ data: { value, attributes } }: ComponentProps) {
 					return;
 				}
 				navigateToFootnote(noteId);
+			}}
+			sx={{
+				verticalAlign: "baseline",
+				fontSize: "smaller",
+				position: "relative",
+				top: "-0.5em",
 			}}
 		>
 			<Value data={value} />
@@ -117,7 +142,7 @@ export function UriRef({ data }: ComponentProps) {
 
 		const textNode = Array.isArray(data.value)
 			? data.value
-					.filter((node) => {
+					.filter((node): node is { tag: string; value: string } => {
 						if (node.tag === "#text") {
 							return typeof node.value === "string" && !!node.value?.trim();
 						}
@@ -127,18 +152,11 @@ export function UriRef({ data }: ComponentProps) {
 					.at(0)
 			: null;
 
-		const value = (textNode?.value as string) ?? null;
-		if (!value) {
+		const value = textNode?.value ?? null;
+		if (!isURI(value)) {
 			return null;
 		}
-
-		try {
-			// Validate URL
-			new URL(value);
-			return value;
-		} catch {
-			return null;
-		}
+		return value;
 	}, [data]);
 
 	if (!uri) {
@@ -153,6 +171,24 @@ export function UriRef({ data }: ComponentProps) {
 	);
 }
 
+export function RefFallback({ data }: ComponentProps) {
+	const type = data.attributes?.["@type"] || null;
+	const target = data.attributes?.["@target"] || null;
+
+	if (!type && target?.startsWith("#")) {
+		console.warn(
+			"Ref tag with target attribute starting with # but no type attribute. Assuming footnote reference.",
+			{ data },
+		);
+		return <FootNoteRef data={data} />;
+	}
+
+	if (isURI(target)) {
+		return <UriRef data={data} />;
+	}
+	return <Value data={data.value} />;
+}
+
 export function Ref({ data }: ComponentProps) {
 	const type = data.attributes?.["@type"];
 
@@ -164,6 +200,6 @@ export function Ref({ data }: ComponentProps) {
 		case "uri":
 			return <UriRef data={data} />;
 		default:
-			return <Value data={data.value} />;
+			return <RefFallback data={data} />;
 	}
 }
