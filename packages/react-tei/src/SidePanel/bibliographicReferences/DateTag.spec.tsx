@@ -1,30 +1,61 @@
 import { describe, expect, it, vi } from "vitest";
+import { render } from "vitest-browser-react";
+import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { bibliographicReferencesTagCatalog } from "./bibliographicReferencesTagCatalog";
 import { DateTag } from "./DateTag";
 
 describe("DateTag", () => {
-	it("should return the @when attribute if present", () => {
-		const data = { tag: "date", attributes: { "@when": "2023-10-05" } };
-		const result = DateTag({ data });
-		expect(result).toBe("2023-10-05");
+	it("should render DateTag value", async () => {
+		const data = {
+			tag: "date",
+			value: [
+				{
+					tag: "#text",
+					value: "2023-10-05",
+				},
+			],
+		};
+		const screen = await render(<DateTag data={data} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+		expect(screen.container.textContent).toBe("2023-10-05");
+	});
+	it("should return the @when attribute when no value", async () => {
+		const data = {
+			tag: "date",
+			attributes: { "@when": "2022" },
+		};
+		const screen = await render(<DateTag data={data} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+		expect(screen.container.textContent).toBe("2022");
 	});
 
-	it("should return null and log a warning if @when attribute is missing", () => {
-		const data = { tag: "date", attributes: {} };
-		console.warn = vi.fn();
-		const result = DateTag({ data });
-		expect(result).toBeNull();
-		expect(console.warn).toHaveBeenCalledWith(
-			"Date tag missing @when attribute:",
-			data,
-		);
-	});
-	it("should return null and log a warning if attributes are missing", () => {
-		const data = { tag: "date" };
-		console.warn = vi.fn();
-		const result = DateTag({ data });
-		expect(result).toBeNull();
-		expect(console.warn).toHaveBeenCalledWith(
-			"Date tag missing @when attribute:",
+	it("should return null and log a warning if no value and @when attribute is missing", async () => {
+		const consoleWarnSpy = vi
+			.spyOn(console, "warn")
+			.mockImplementation(() => {});
+		const data = {
+			tag: "date",
+		};
+		const screen = await render(<DateTag data={data} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+		expect(screen.container).toBeEmptyDOMElement();
+		expect(consoleWarnSpy).toHaveBeenCalledWith(
+			"Date tag with no value nor @when attribute encountered:",
 			data,
 		);
 	});
