@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext";
+import { TestDocumentNavigationContextProvider } from "../navigation/TestDocumentNavigationContextProvider";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
-import { getNoteRefId, isURI, Ref, UriRef } from "./Ref";
+import { DocumentRef, getNoteRefId, isURI, Ref, UriRef } from "./Ref";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
 
@@ -110,6 +110,44 @@ describe("UriRef", () => {
 	});
 });
 
+describe("DocumentRef", () => {
+	it("should render a link that navigates to the targeted element on click", async () => {
+		const navigateToBodyTargetSelector = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "table", "@target": "#2" },
+			value: [{ tag: "#text", value: "See Table 2" }],
+		};
+
+		const { getByText, getByRole } = await render(
+			<DocumentRef
+				data={jsonValue}
+				elementIdFn={(target) => `table-${target}`}
+			/>,
+			{
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						<TestDocumentNavigationContextProvider
+							value={{
+								navigateToBodyTargetSelector,
+							}}
+						>
+							{children}
+						</TestDocumentNavigationContextProvider>
+					</TagCatalogProvider>
+				),
+			},
+		);
+		expect(getByText("See Table 2")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See Table 2" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-target", "#table-2");
+
+		await link.click();
+		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith("#table-2");
+	});
+});
+
 describe("Ref", () => {
 	describe("getNoteRefId", () => {
 		it("should return favor target attribute before n attribute", () => {
@@ -203,29 +241,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnote,
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -249,29 +271,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnote,
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -295,29 +301,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnote,
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -341,19 +331,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnote,
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -380,29 +364,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnote,
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -430,27 +398,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToBibliographicReference,
-							navigateToFootnote: () => {
-								throw new Error("navigateToFootnote has been called");
-							},
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -477,27 +431,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToBibliographicReference,
-							navigateToFootnote: () => {
-								throw new Error("navigateToFootnote has been called");
-							},
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -573,29 +513,13 @@ describe("Ref", () => {
 		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnote,
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						{children}
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				</TagCatalogProvider>
 			),
 		});
@@ -680,5 +604,65 @@ describe("Ref", () => {
 		const link = screen.getByRole("link", { name: "Example link" });
 		expect(link).toBeInTheDocument();
 		expect(link).toHaveAttribute("href", "https://example.com");
+	});
+
+	it('should renter table reference when type="table"', async () => {
+		const navigateToBodyTargetSelector = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "table", "@target": "#2" },
+			value: [{ tag: "#text", value: "See Table 2" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<TestDocumentNavigationContextProvider
+						value={{
+							navigateToBodyTargetSelector,
+						}}
+					>
+						{children}
+					</TestDocumentNavigationContextProvider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See Table 2")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See Table 2" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-target", "#table-2");
+
+		await link.click();
+		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith("#table-2");
+	});
+
+	it("should render table fn reference when type is table-fn", async () => {
+		const navigateToBodyTargetSelector = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "table-fn", "@target": "#3" },
+			value: [{ tag: "#text", value: "See Table Footnote 3" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<TestDocumentNavigationContextProvider
+						value={{
+							navigateToBodyTargetSelector,
+						}}
+					>
+						{children}
+					</TestDocumentNavigationContextProvider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See Table Footnote 3")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See Table Footnote 3" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-target", "#table-note-3");
+
+		await link.click();
+		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith("#table-note-3");
 	});
 });

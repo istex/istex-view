@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import { DocumentNavigationContext } from "../../navigation/DocumentNavigationContext";
+import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { footnotesTagCatalog } from "./footnotesTagCatalog";
 import { getNoteId, Note } from "./Note";
@@ -64,31 +64,15 @@ describe("Note", () => {
 			/>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentNavigationContext.Provider
+					<TestDocumentNavigationContextProvider
 						value={{
 							navigateToFootnoteRef,
-							navigateToFootnote: () => {
-								throw new Error("navigateToFootnote has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
 						}}
 					>
 						<TagCatalogProvider tagCatalog={footnotesTagCatalog}>
 							{children}
 						</TagCatalogProvider>
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				),
 			},
 		);
@@ -113,33 +97,11 @@ describe("Note", () => {
 			/>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentNavigationContext.Provider
-						value={{
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToFootnote: () => {
-								throw new Error("navigateToFootnote has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-							navigateToBibliographicReference: () => {
-								throw new Error(
-									"navigateToBibliographicReference has been called",
-								);
-							},
-							navigateToBibliographicReferenceRef: () => {
-								throw new Error(
-									"navigateToBibliographicReferenceRef has been called",
-								);
-							},
-						}}
-					>
+					<TestDocumentNavigationContextProvider>
 						<TagCatalogProvider tagCatalog={footnotesTagCatalog}>
 							{children}
 						</TagCatalogProvider>
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				),
 			},
 		);
@@ -166,23 +128,11 @@ describe("Note", () => {
 			/>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentNavigationContext.Provider
-						value={{
-							navigateToFootnoteRef: () => {
-								throw new Error("navigateToFootnoteRef has been called");
-							},
-							navigateToFootnote: () => {
-								throw new Error("navigateToFootnote has been called");
-							},
-							navigateToHeading: () => {
-								throw new Error("navigateToHeading has been called");
-							},
-						}}
-					>
+					<TestDocumentNavigationContextProvider>
 						<TagCatalogProvider tagCatalog={footnotesTagCatalog}>
 							{children}
 						</TagCatalogProvider>
-					</DocumentNavigationContext.Provider>
+					</TestDocumentNavigationContextProvider>
 				),
 			},
 		);

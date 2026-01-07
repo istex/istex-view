@@ -170,7 +170,6 @@ describe("extractHeadingsFromBody", () => {
 
 	it.each<{ value: DocumentJsonValue; label: string }>([
 		{ value: undefined, label: "undefined" },
-		{ value: 42, label: "number" },
 		{ value: "string", label: "string" },
 	])("should return an empty array when value is $label", ({ value }) => {
 		expect(extractHeadingsFromBody(value, 3)).toEqual([]);

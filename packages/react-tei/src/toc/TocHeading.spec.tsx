@@ -1,7 +1,7 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../i18n/I18nProvider";
-import { DocumentNavigationContext } from "../navigation/DocumentNavigationContext";
+import { TestDocumentNavigationContextProvider } from "../navigation/TestDocumentNavigationContextProvider";
 import { TagCatalogProvider } from "../tags/TagCatalogProvider";
 import { tagCatalog } from "../tags/tagCatalog";
 import { TocHeading } from "./TocHeading";
@@ -28,9 +28,13 @@ describe("TocHeading", () => {
 				return (
 					<I18nProvider>
 						<TagCatalogProvider tagCatalog={tagCatalog}>
-							<DocumentNavigationContext.Provider value={{ navigateToHeading }}>
+							<TestDocumentNavigationContextProvider
+								value={{
+									navigateToHeading,
+								}}
+							>
 								{props.children}
-							</DocumentNavigationContext.Provider>
+							</TestDocumentNavigationContextProvider>
 						</TagCatalogProvider>
 					</I18nProvider>
 				);
@@ -72,9 +76,13 @@ describe("TocHeading", () => {
 				return (
 					<I18nProvider>
 						<TagCatalogProvider tagCatalog={tagCatalog}>
-							<DocumentNavigationContext.Provider value={{ navigateToHeading }}>
+							<TestDocumentNavigationContextProvider
+								value={{
+									navigateToHeading,
+								}}
+							>
 								{props.children}
-							</DocumentNavigationContext.Provider>
+							</TestDocumentNavigationContextProvider>
 						</TagCatalogProvider>
 					</I18nProvider>
 				);

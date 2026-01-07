@@ -9,6 +9,7 @@ import { useDocumentContext } from "../DocumentContextProvider";
 
 export type DocumentNavigationContextValue = {
 	currentHeadingId: string | null;
+	navigateToBodyTargetSelector(querySelector: string): void;
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
 	navigateToFootnoteRef(id: string): void;
@@ -206,6 +207,7 @@ export function DocumentNavigationContextProvider({
 	const value = useMemo(
 		() => ({
 			currentHeadingId,
+			navigateToBodyTargetSelector,
 			navigateToHeading,
 			navigateToFootnote,
 			navigateToFootnoteRef,
@@ -214,6 +216,7 @@ export function DocumentNavigationContextProvider({
 		}),
 		[
 			currentHeadingId,
+			navigateToBodyTargetSelector,
 			navigateToHeading,
 			navigateToFootnote,
 			navigateToFootnoteRef,
