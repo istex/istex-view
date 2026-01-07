@@ -17,25 +17,25 @@ test("document bibliographic references panel", async ({ page }) => {
 
 	await expect(
 		bibRefSection.getByText(
-			"The Fellowship of the Ring By The Gray Gandalf , (1954) Lord of the ring 1 321 -322",
+			"The Fellowship of the Ring By Gandalf The Gray (1954) Lord of the ring 1 321 -322",
 		),
 	).toBeVisible();
 	await expect(
 		bibRefSection.getByText(
-			"The Fellowship of the Ring By The Gray Gandalf , (1954) Lord of the ring 1 321 -322",
+			"The Fellowship of the Ring By Gandalf The Gray (1954) Lord of the ring 1 321 -322",
 		),
 	).toBeInViewport();
 	await expect(
-		bibRefSection.getByText("Gummo, Harmony Korine , 1997 2:423-424"),
+		bibRefSection.getByText("Gummo, Korine Harmony 1997 2:423-424"),
 	).toBeVisible();
 	await expect(
-		bibRefSection.getByText("Gummo, Harmony Korine , 1997 2:423-424"),
+		bibRefSection.getByText("Gummo, Korine Harmony 1997 2:423-424"),
 	).not.toBeInViewport();
 	await expect(
-		bibRefSection.getByText("Foundation Aasimov Isaac 1957 GnomePress 5"),
+		bibRefSection.getByText("Foundation Isaac Aasimov 1957 GnomePress 5"),
 	).toBeVisible();
 	await expect(
-		bibRefSection.getByText("Foundation Aasimov Isaac 1957 GnomePress 5"),
+		bibRefSection.getByText("Foundation Isaac Aasimov 1957 GnomePress 5"),
 	).not.toBeInViewport();
 	await page
 		.getByRole("button", { name: "Références bibliographiques (3)" })
@@ -46,11 +46,11 @@ test("document bibliographic references panel", async ({ page }) => {
 
 	await expect(
 		bibRefSection.getByText(
-			"The Fellowship of the Ring By The Gray Gandalf , (1954) Lord of the ring 1 321 -322",
+			"The Fellowship of the Ring By Gandalf The Gray (1954) Lord of the ring 1 321 -322",
 		),
 	).not.toBeVisible();
 	await expect(
-		bibRefSection.getByText("Gummo, Harmony Korine , 1997 2:423-424"),
+		bibRefSection.getByText("Gummo, Korine Harmony 1997 2:423-424"),
 	).not.toBeVisible();
 
 	await page.getByLabel("Fermer le panneau latéral").click();
@@ -65,20 +65,20 @@ test("document bibliographic references panel", async ({ page }) => {
 
 	await expect(
 		bibRefSection.getByText(
-			"The Fellowship of the Ring By The Gray Gandalf , (1954) Lord of the ring 1 321 -322",
+			"The Fellowship of the Ring By Gandalf The Gray (1954) Lord of the ring 1 321 -322",
 		),
 	).toBeVisible();
 
 	await expect(
 		bibRefSection.getByText(
-			"The Fellowship of the Ring By The Gray Gandalf , (1954) Lord of the ring 1 321 -322",
+			"The Fellowship of the Ring By Gandalf The Gray (1954) Lord of the ring 1 321 -322",
 		),
 	).toBeInViewport();
 	await expect(
-		bibRefSection.getByText("Gummo, Harmony Korine , 1997 2:423-424"),
+		bibRefSection.getByText("Gummo, Korine Harmony 1997 2:423-424"),
 	).toBeVisible();
 	await expect(
-		bibRefSection.getByText("Foundation Aasimov Isaac 1957 GnomePress 5"),
+		bibRefSection.getByText("Foundation Isaac Aasimov 1957 GnomePress 5"),
 	).toBeVisible();
 
 	await expect(
@@ -88,7 +88,7 @@ test("document bibliographic references panel", async ({ page }) => {
 		page.getByText("Life is great without it you'd be dead."),
 	).not.toBeInViewport();
 
-	await page.getByLabel("Gummo, Harmony Korine , 1997 2:423-424").click();
+	await page.getByLabel("Gummo, Korine Harmony 1997 2:423-424").click();
 	await expect(
 		page.getByText("Life is great without it you'd be dead."),
 	).toBeInViewport();

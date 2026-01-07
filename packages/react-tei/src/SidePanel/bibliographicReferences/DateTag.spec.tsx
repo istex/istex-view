@@ -24,6 +24,21 @@ describe("DateTag", () => {
 		});
 		expect(screen.container.textContent).toBe("2023-10-05");
 	});
+	it("should return the @when attribute when value is empty", async () => {
+		const data = {
+			tag: "date",
+			value: [],
+			attributes: { "@when": "2022" },
+		};
+		const screen = await render(<DateTag data={data} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+		expect(screen.container.textContent).toBe("2022");
+	});
 	it("should return the @when attribute when no value", async () => {
 		const data = {
 			tag: "date",
