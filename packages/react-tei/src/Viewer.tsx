@@ -20,9 +20,11 @@ import { useTableOfContent } from "./toc/useTableOfContent";
 
 export const Viewer = ({
 	document,
+	unitexEnrichment,
 	height = "100vh",
 }: {
 	document: string;
+	unitexEnrichment?: string | null;
 	height?: string;
 }) => {
 	const theme = useTheme();

@@ -12,4 +12,9 @@ export const en: Translation = {
 		istexTdm: "ISTEX TDM",
 		loterre: "Istex Loterre",
 	},
+	upload: {
+		selectTeiFile: "Select a TEI File to View",
+		selectUnitexEnrichment:
+			"Select an Unitex Enrichment File to Apply (Optional)",
+	},
 };

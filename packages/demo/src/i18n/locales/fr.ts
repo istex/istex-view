@@ -10,6 +10,11 @@ export const fr = {
 		istexTdm: "ISTEX TDM",
 		loterre: "Istex Loterre",
 	},
+	upload: {
+		selectTeiFile: "Sélectionner un fichier TEI à visualiser",
+		selectUnitexEnrichment:
+			"Sélectionner un fichier d'enrichissement Unitex à appliquer (optionnel)",
+	},
 };
 
 export type Translation = typeof fr;
