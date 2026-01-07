@@ -1,9 +1,10 @@
 import test, { expect } from "@playwright/test";
-import { uploadFile } from "./support/upload";
+import { launchViewer, uploadFile } from "./support/upload";
 
 test("document bibliographic references panel", async ({ page }) => {
 	await page.goto("/");
 	await uploadFile(page, "bibliographicReferences.tei");
+	await launchViewer(page);
 
 	await expect(
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),

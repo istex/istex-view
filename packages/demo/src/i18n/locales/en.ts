@@ -13,8 +13,12 @@ export const en: Translation = {
 		loterre: "Istex Loterre",
 	},
 	upload: {
+		launchViewer: "Launch Viewer",
 		selectTeiFile: "Select a TEI File to View",
 		selectUnitexEnrichment:
 			"Select an Unitex Enrichment File to Apply (Optional)",
+		noFileSelected: "No File Selected",
+		teiFile: "TEI File:",
+		unitexFile: "Unitex Enrichment File:",
 	},
 };

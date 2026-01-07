@@ -5,7 +5,9 @@ import { ViewerPage } from "./ViewerPage";
 vi.mock("./useViewerContext", () => {
 	return {
 		useViewerContext: vi.fn().mockReturnValue({
-			document: `<?xml version="1.0" encoding="UTF-8"?>
+			viewerLaunched: true,
+			document: {
+				content: `<?xml version="1.0" encoding="UTF-8"?>
 				<TEI xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
 					xmlns="http://www.tei-c.org/ns/1.0"
 					xmlns:tei="http://www.tei-c.org/ns/1.0"
@@ -22,14 +24,50 @@ vi.mock("./useViewerContext", () => {
 						</fileDesc>
 					</teiHeader>
 				</TEI>`,
+			},
 		}),
 	};
 });
 
 describe("ViewerPage", () => {
-	it("should render Viewer when document is provided", async () => {
+	it("should render Viewer when document is provided and viewerLaunched is true", async () => {
 		const screen = await render(<ViewerPage />);
 
 		expect(screen.getByText("TEI Test Title")).toBeInTheDocument();
+	});
+
+	it("should not render Viewer when document is not provided", async () => {
+		const { useViewerContext } = await import("./useViewerContext");
+		(useViewerContext as ReturnType<typeof vi.fn>).mockReturnValue({
+			viewerLaunched: true,
+			document: null,
+		});
+
+		const screen = await render(<ViewerPage />);
+
+		expect(screen.getByText("TEI Test Title")).not.toBeInTheDocument();
+	});
+
+	it("should not render Viewer when viewerLaunched is false", async () => {
+		const { useViewerContext } = await import("./useViewerContext");
+		(useViewerContext as ReturnType<typeof vi.fn>).mockReturnValue({
+			viewerLaunched: false,
+			document: {
+				content: `<?xml version="1.0" encoding="UTF-8"?>
+				<TEI>
+					<teiHeader>
+						<fileDesc>
+							<titleStmt>
+								<title level="a" type="main">TEI Test Title</title>		
+							</titleStmt>
+						</fileDesc>
+					</teiHeader>
+				</TEI>`,
+			},
+		});
+
+		const screen = await render(<ViewerPage />);
+
+		expect(screen.getByText("TEI Test Title")).not.toBeInTheDocument();
 	});
 });

@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { uploadFile } from "./support/upload";
+import { launchViewer, uploadFile } from "./support/upload";
 
 test("renders a table of contents and allows navigation", async ({ page }) => {
 	await page.setViewportSize({ width: 1920, height: 1080 });
 	await page.goto("/");
 	await uploadFile(page, "toc.tei");
+	await launchViewer(page);
 
 	await expect(page.getByRole("tree")).toBeVisible();
 
@@ -38,6 +39,7 @@ test("render current element", async ({ page }) => {
 	await page.setViewportSize({ width: 1920, height: 1080 });
 	await page.goto("/");
 	await uploadFile(page, "toc.tei");
+	await launchViewer(page);
 
 	await expect(page.getByRole("tree")).toBeVisible();
 

@@ -8,11 +8,13 @@ describe("App", () => {
 		const screen = await render(<App />);
 
 		expect(
-			screen.getByRole("button", { name: "Select a TEI File to View" }),
+			screen.getByRole("button", {
+				name: "Sélectionner un fichier TEI à visualiser",
+			}),
 		).toBeInTheDocument();
 	});
 
-	it("should render the XML document when a file is uploaded", async () => {
+	it("should render the XML document when a tei file is uploaded", async () => {
 		const screen = await render(<App />);
 
 		const file = new File(
@@ -41,9 +43,11 @@ describe("App", () => {
 			},
 		);
 
-		const input = screen.getByTestId("file-selector-input");
+		const input = screen.getByTestId("tei-file-selector-input");
 
 		await userEvent.upload(input, file);
+
+		await screen.getByRole("button", { name: "Lancer la visionneuse" }).click();
 
 		await vi.waitFor(() => {
 			expect(screen.getByText("TEI Test Title")).toBeInTheDocument();

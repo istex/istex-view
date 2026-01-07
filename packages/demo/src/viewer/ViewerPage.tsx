@@ -11,8 +11,8 @@ export function ViewerPage() {
 
 	return (
 		<Viewer
-			document={document}
-			unitexEnrichment={unitexEnrichment}
+			document={document.content}
+			unitexEnrichment={unitexEnrichment?.content}
 			height="calc(100dvh - 49.5px - 118.5px)"
 		/>
 	);

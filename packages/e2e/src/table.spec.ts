@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { uploadFile } from "./support/upload";
+import { launchViewer, uploadFile } from "./support/upload";
 
 test("render a table", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "table.tei");
+	await launchViewer(page);
 
 	await expect(page.getByRole("table")).toBeVisible();
 
@@ -25,6 +26,7 @@ test("render a table with caption and notes", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "table-with-notes.tei");
+	await launchViewer(page);
 
 	await expect(
 		page.getByRole("table", {

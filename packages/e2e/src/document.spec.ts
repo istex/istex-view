@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { uploadFile } from "./support/upload";
+import { launchViewer, uploadFile } from "./support/upload";
 
 test("open a document", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "document.tei");
+	await launchViewer(page);
 
 	await expect(
 		page.getByRole("heading", {

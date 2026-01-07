@@ -4,6 +4,7 @@ import { useRef } from "react";
 export function FileSelectorButton({
 	label,
 	onChange,
+	dataTestId,
 }: FileSelectorButtonProps) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
@@ -38,7 +39,7 @@ export function FileSelectorButton({
 				ref={inputRef}
 				onChange={handleChange}
 				accept="*.tei"
-				data-testid="file-selector-input"
+				data-testid={dataTestId}
 				tabIndex={-1}
 				aria-hidden="true"
 			/>
@@ -49,4 +50,5 @@ export function FileSelectorButton({
 export type FileSelectorButtonProps = {
 	label: string;
 	onChange(file: File | null): void;
+	dataTestId?: string;
 };
