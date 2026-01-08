@@ -5,17 +5,11 @@ import {
 	DocumentContextProvider,
 	useDocumentContext,
 } from "./DocumentContextProvider";
+import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
+import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
 
 describe("DocumentContextProvider", () => {
-	describe("useDocumentContext", () => {
-		it("should throw an error when used outside of DocumentContextProvider", async () => {
-			await expect(() =>
-				renderHook(() => useDocumentContext()),
-			).rejects.toThrowError(
-				"useDocumentContext must be used within a DocumentContextProvider",
-			);
-		});
-
+	describe("panel", () => {
 		it("should initialize panel state with isOpen true and authors section open", async () => {
 			const { result } = await renderHook(() => useDocumentContext(), {
 				wrapper: ({ children }) => (
@@ -42,121 +36,119 @@ describe("DocumentContextProvider", () => {
 			});
 		});
 
-		describe("togglePanel", () => {
-			it("should allow to toggle panelState.isOpen", async () => {
-				const { result } = await renderHook(() => useDocumentContext(), {
-					wrapper: ({ children }) => (
-						<DocumentContextProvider jsonDocument={[]}>
-							{children}
-						</DocumentContextProvider>
-					),
-				});
-
-				expect(result.current.panel).toHaveProperty("togglePanel");
-
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: true,
-					sections: {
-						authors: true,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
-				act(() => {
-					result.current.panel.togglePanel();
-				});
-
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: false,
-					sections: {
-						authors: true,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
-				act(() => {
-					result.current.panel.togglePanel();
-				});
-
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: true,
-					sections: {
-						authors: true,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
+		it("should expose togglePanel function to toggle panelState.isOpen", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: ({ children }) => (
+					<DocumentContextProvider jsonDocument={[]}>
+						{children}
+					</DocumentContextProvider>
+				),
 			});
 
-			it("should keep sections state unchanged when toggling panel", async () => {
-				const { result } = await renderHook(() => useDocumentContext(), {
-					wrapper: ({ children }) => (
-						<DocumentContextProvider jsonDocument={[]}>
-							{children}
-						</DocumentContextProvider>
-					),
-				});
+			expect(result.current.panel).toHaveProperty("togglePanel");
 
-				act(() => {
-					result.current.panel.toggleSection("authors");
-				});
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: true,
+				sections: {
+					authors: true,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
+			act(() => {
+				result.current.panel.togglePanel();
+			});
 
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: true,
-					sections: {
-						authors: false,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: false,
+				sections: {
+					authors: true,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
+			act(() => {
+				result.current.panel.togglePanel();
+			});
 
-				act(() => {
-					result.current.panel.togglePanel();
-				});
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: true,
+				sections: {
+					authors: true,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
+		});
 
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: false,
-					sections: {
-						authors: false,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
+		it("should keep sections state unchanged when toggling panel", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: ({ children }) => (
+					<DocumentContextProvider jsonDocument={[]}>
+						{children}
+					</DocumentContextProvider>
+				),
+			});
+
+			act(() => {
+				result.current.panel.toggleSection("authors");
+			});
+
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: true,
+				sections: {
+					authors: false,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
+
+			act(() => {
+				result.current.panel.togglePanel();
+			});
+
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: false,
+				sections: {
+					authors: false,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
 			});
 		});
 
@@ -207,112 +199,250 @@ describe("DocumentContextProvider", () => {
 			});
 		});
 
-		describe("toggleSection", () => {
-			it(" should open the panel when toggling a section from closed to open", async () => {
-				const { result } = await renderHook(() => useDocumentContext(), {
-					wrapper: ({ children }) => (
-						<DocumentContextProvider jsonDocument={[]}>
-							{children}
-						</DocumentContextProvider>
-					),
-				});
-
-				// First, close the panel
-				act(() => {
-					result.current.panel.togglePanel();
-				});
-
-				act(() => {
-					result.current.panel.toggleSection("authors");
-				});
-
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: false,
-					sections: {
-						authors: false,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
-
-				// Now, toggle the 'authors' section (which is currently open)
-				act(() => {
-					result.current.panel.toggleSection("authors");
-				});
-
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: true,
-					sections: {
-						authors: true,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
+		it("should open the panel when toggling a section from closed to open", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: ({ children }) => (
+					<DocumentContextProvider jsonDocument={[]}>
+						{children}
+					</DocumentContextProvider>
+				),
 			});
 
-			it("should not update the panel isOpen when toggling a section from open to closed", async () => {
-				const { result } = await renderHook(() => useDocumentContext(), {
-					wrapper: ({ children }) => (
-						<DocumentContextProvider jsonDocument={[]}>
-							{children}
-						</DocumentContextProvider>
-					),
-				});
+			// First, close the panel
+			act(() => {
+				result.current.panel.togglePanel();
+			});
 
-				act(() => {
-					result.current.panel.togglePanel();
-				});
+			act(() => {
+				result.current.panel.toggleSection("authors");
+			});
 
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: false,
-					sections: {
-						authors: true,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: false,
+				sections: {
+					authors: false,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
 
-				act(() => {
-					result.current.panel.toggleSection("authors");
-				});
+			// Now, toggle the 'authors' section (which is currently open)
+			act(() => {
+				result.current.panel.toggleSection("authors");
+			});
 
-				expect(result.current.panel.state).toStrictEqual({
-					isOpen: false,
-					sections: {
-						authors: false,
-						keywords: true,
-						source: true,
-						footnotes: true,
-						bibliographicReferences: true,
-						unitext_date: true,
-						unitext_orgName: true,
-						unitext_persName: true,
-						unitext_placeName: true,
-						unitext_geogName: true,
-					},
-				});
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: true,
+				sections: {
+					authors: true,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
 			});
 		});
+
+		it("should not update the panel isOpen when toggling a section from open to closed", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: ({ children }) => (
+					<DocumentContextProvider jsonDocument={[]}>
+						{children}
+					</DocumentContextProvider>
+				),
+			});
+
+			act(() => {
+				result.current.panel.togglePanel();
+			});
+
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: false,
+				sections: {
+					authors: true,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
+
+			act(() => {
+				result.current.panel.toggleSection("authors");
+			});
+
+			expect(result.current.panel.state).toStrictEqual({
+				isOpen: false,
+				sections: {
+					authors: false,
+					keywords: true,
+					source: true,
+					footnotes: true,
+					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
+				},
+			});
+		});
+	});
+
+	describe("unitexEnrichment", () => {
+		const enrichments = {
+			date: [{ term: "2021", frequency: 3, displayed: true }],
+			placeName: [
+				{ term: "Paris", frequency: 2, displayed: true },
+				{ term: "London", frequency: 1, displayed: true },
+			],
+		} satisfies Partial<Record<UnitexAnnotationBlockType, TermStatistic[]>>;
+
+		const Wrapper = ({ children }: { children: React.ReactNode }) => (
+			<DocumentContextProvider
+				jsonDocument={[]}
+				jsonUnitexEnrichment={enrichments}
+			>
+				{children}
+			</DocumentContextProvider>
+		);
+
+		it("should be undefined if no unitex document is provided", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper({ children }: { children: React.ReactNode }) {
+					return (
+						<DocumentContextProvider jsonDocument={[]}>
+							{children}
+						</DocumentContextProvider>
+					);
+				},
+			});
+
+			expect(result.current.unitexEnrichment).toBeUndefined();
+		});
+
+		it("should contain the unitex document if provided", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: Wrapper,
+			});
+
+			expect(result.current.unitexEnrichment?.document).toStrictEqual(
+				enrichments,
+			);
+		});
+
+		it('should expose toggleBlock function that updates the "displayed" property of all terms in the block', async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: Wrapper,
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.placeName?.every(
+					(annotation) => annotation.displayed,
+				),
+			).toBe(true);
+
+			act(() => {
+				result.current.unitexEnrichment?.toggleBlock("placeName");
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.placeName?.every(
+					(annotation) => !annotation.displayed,
+				),
+			).toBe(true);
+
+			act(() => {
+				result.current.unitexEnrichment?.toggleBlock("placeName");
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.placeName?.every(
+					(annotation) => annotation.displayed,
+				),
+			).toBe(true);
+		});
+
+		it("should display all terms when toggling a block with some hidden terms", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: Wrapper,
+			});
+
+			// First, hide one term
+			act(() => {
+				result.current.unitexEnrichment?.toggleTerm("placeName", "London");
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.placeName?.find(
+					(annotation) => annotation.term === "London",
+				)?.displayed,
+			).toBe(false);
+
+			// Now, toggle the block
+			act(() => {
+				result.current.unitexEnrichment?.toggleBlock("placeName");
+			});
+
+			// All terms should be displayed
+			expect(
+				result.current.unitexEnrichment?.document.placeName?.every(
+					(annotation) => annotation.displayed,
+				),
+			).toBe(true);
+		});
+
+		it('should expose toggleTerm function that updates the "displayed" property of the term', async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper: Wrapper,
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.date?.[0]?.displayed,
+			).toBe(true);
+
+			act(() => {
+				result.current.unitexEnrichment?.toggleTerm("date", "2021");
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.date?.[0]?.displayed,
+			).toBe(false);
+
+			act(() => {
+				result.current.unitexEnrichment?.toggleTerm("date", "2021");
+			});
+
+			expect(
+				result.current.unitexEnrichment?.document.date?.[0]?.displayed,
+			).toBe(true);
+		});
+	});
+});
+
+describe("useDocumentContext", () => {
+	it("should throw an error when used outside of DocumentContextProvider", async () => {
+		await expect(() =>
+			renderHook(() => useDocumentContext()),
+		).rejects.toThrowError(
+			"useDocumentContext must be used within a DocumentContextProvider",
+		);
 	});
 });

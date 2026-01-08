@@ -49,7 +49,7 @@ export const getAnnotationFrequency = (
 		? parseInt(numericTag.attributes["@value"], 10)
 		: null;
 
-	if (frequency === null || isNaN(frequency)) {
+	if (frequency === null || Number.isNaN(frequency)) {
 		console.warn("Invalid frequency value in numeric tag", numericTag);
 		return null;
 	}

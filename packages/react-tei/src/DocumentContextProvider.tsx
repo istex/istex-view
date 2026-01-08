@@ -1,4 +1,10 @@
-import { createContext, useContext, useReducer } from "react";
+import {
+	createContext,
+	useCallback,
+	useContext,
+	useMemo,
+	useReducer,
+} from "react";
 import type { DocumentJson } from "./parser/document";
 import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
 import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
@@ -22,13 +28,19 @@ export type PanelState = {
 
 export type PanelSection = keyof PanelState["sections"];
 
+export type JsonUnitexEnrichment = Partial<Record<string, TermStatistic[]>>;
+
 export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: Record<string, TermStatistic[]>;
 	panel: {
 		state: PanelState;
 		togglePanel: () => void;
 		toggleSection: (section: keyof PanelState["sections"]) => void;
+	};
+	unitexEnrichment?: {
+		document: JsonUnitexEnrichment;
+		toggleBlock: (block: UnitexAnnotationBlockType) => void;
+		toggleTerm: (block: UnitexAnnotationBlockType, term: string) => void;
 	};
 };
 
@@ -40,18 +52,24 @@ type PanelAction =
 	| { type: "TOGGLE_PANEL" }
 	| { type: "TOGGLE_SECTION"; section: keyof PanelState["sections"] };
 
+type UnitexEnrichmentAction =
+	| { type: "TOGGLE_BLOCK"; block: UnitexAnnotationBlockType }
+	| {
+			type: "TOGGLE_ANNOTATION";
+			block: UnitexAnnotationBlockType;
+			term: string;
+	  };
+
 export function DocumentContextProvider({
 	children,
 	jsonDocument,
-	jsonUnitexEnrichment,
+	jsonUnitexEnrichment: initialJsonUnitexEnrichment,
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: Partial<
-		Record<UnitexAnnotationBlockType, TermStatistic[]>
-	>;
+	jsonUnitexEnrichment?: JsonUnitexEnrichment;
 }) {
-	const [panelState, dispatch] = useReducer(
+	const [panelState, dispatchPanelAction] = useReducer(
 		(state: PanelState, action: PanelAction) => {
 			switch (action.type) {
 				case "TOGGLE_PANEL":
@@ -86,26 +104,108 @@ export function DocumentContextProvider({
 		} satisfies PanelState,
 	);
 
-	const togglePanel = () => {
-		dispatch({ type: "TOGGLE_PANEL" });
-	};
+	const togglePanel = useCallback(() => {
+		dispatchPanelAction({ type: "TOGGLE_PANEL" });
+	}, []);
 
-	const toggleSection = (section: keyof PanelState["sections"]) => {
-		dispatch({ type: "TOGGLE_SECTION", section });
-	};
+	const toggleSection = useCallback((section: keyof PanelState["sections"]) => {
+		dispatchPanelAction({ type: "TOGGLE_SECTION", section });
+	}, []);
+
+	const [jsonUnitexEnrichment, dispatchUnitexEnrichmentAction] = useReducer(
+		(
+			state: JsonUnitexEnrichment | undefined,
+			action: UnitexEnrichmentAction,
+		) => {
+			if (!state) {
+				return state;
+			}
+
+			switch (action.type) {
+				case "TOGGLE_BLOCK": {
+					const blockAnnotations = state[action.block] ?? [];
+					if (blockAnnotations.length === 0) {
+						return state;
+					}
+					const allDisplayed = blockAnnotations.every(
+						(annotation) => annotation.displayed,
+					);
+					return {
+						...state,
+						[action.block]: blockAnnotations.map((annotation) => ({
+							...annotation,
+							displayed: !allDisplayed,
+						})),
+					};
+				}
+				case "TOGGLE_ANNOTATION": {
+					const blockAnnotations = state[action.block] ?? [];
+					return {
+						...state,
+						[action.block]: blockAnnotations.map((annotation) =>
+							annotation.term === action.term
+								? { ...annotation, displayed: !annotation.displayed }
+								: annotation,
+						),
+					};
+				}
+				default:
+					return state;
+			}
+		},
+		initialJsonUnitexEnrichment,
+	);
+
+	const toggleUnitexAnnotationBlock = useCallback(
+		(block: UnitexAnnotationBlockType) => {
+			dispatchUnitexEnrichmentAction({
+				type: "TOGGLE_BLOCK",
+				block,
+			});
+		},
+		[],
+	);
+
+	const toggleUnitexAnnotation = useCallback(
+		(block: UnitexAnnotationBlockType, term: string) => {
+			dispatchUnitexEnrichmentAction({
+				type: "TOGGLE_ANNOTATION",
+				block,
+				term,
+			});
+		},
+		[],
+	);
+
+	const contextValue = useMemo<DocumentContextType>(
+		() => ({
+			jsonDocument,
+			panel: {
+				state: panelState,
+				togglePanel,
+				toggleSection,
+			},
+			unitexEnrichment: jsonUnitexEnrichment
+				? {
+						document: jsonUnitexEnrichment,
+						toggleBlock: toggleUnitexAnnotationBlock,
+						toggleTerm: toggleUnitexAnnotation,
+					}
+				: undefined,
+		}),
+		[
+			jsonDocument,
+			jsonUnitexEnrichment,
+			panelState,
+			togglePanel,
+			toggleSection,
+			toggleUnitexAnnotationBlock,
+			toggleUnitexAnnotation,
+		],
+	);
 
 	return (
-		<DocumentContext.Provider
-			value={{
-				jsonDocument,
-				jsonUnitexEnrichment,
-				panel: {
-					state: panelState,
-					togglePanel,
-					toggleSection,
-				},
-			}}
-		>
+		<DocumentContext.Provider value={contextValue}>
 			{children}
 		</DocumentContext.Provider>
 	);
