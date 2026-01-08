@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import type { DocumentJson } from "./parser/document";
+import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
 
 export type PanelState = {
 	isOpen: boolean;
@@ -16,7 +17,7 @@ export type PanelSection = keyof PanelState["sections"];
 
 export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: DocumentJson[] | null;
+	jsonUnitexEnrichment?: Record<string, TermStatistic[]>;
 	panel: {
 		state: PanelState;
 		togglePanel: () => void;
@@ -39,7 +40,7 @@ export function DocumentContextProvider({
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: DocumentJson[] | null;
+	jsonUnitexEnrichment?: Record<string, TermStatistic[]>;
 }) {
 	const [panelState, dispatch] = useReducer(
 		(state: PanelState, action: PanelAction) => {

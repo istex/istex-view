@@ -17,6 +17,7 @@ import { tagCatalog } from "./tags/tagCatalog";
 import { TableOfContent } from "./toc/TableOfContent";
 import { TableOfContentAccordion } from "./toc/TableOfContentAccordion";
 import { useTableOfContent } from "./toc/useTableOfContent";
+import { useUnitexEnrichmentParser } from "./unitex/useUnitexEnrichmentParser";
 
 export const Viewer = ({
 	document,
@@ -35,7 +36,7 @@ export const Viewer = ({
 
 	const jsonDocument = useDocumentParser(document);
 
-	const jsonUnitexEnrichment = useDocumentParser(unitexEnrichment);
+	const jsonUnitexEnrichment = useUnitexEnrichmentParser(unitexEnrichment);
 
 	const teiHeader = getDocumentJsonAtPath(jsonDocument ?? [], [
 		"TEI",
