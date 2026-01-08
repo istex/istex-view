@@ -44,10 +44,14 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 			ref={ref}
 		>
 			<Stack direction="row">
-				<Box width="40px" position="relative" top="0.5rem">
+				<Box width="40px" position="relative">
 					<IconButton
 						onClick={togglePanel}
 						aria-label={isOpen ? t("sidePanel.close") : t("sidePanel.open")}
+						sx={{
+							position: "sticky",
+							top: "0.5rem",
+						}}
 					>
 						{isOpen ? <ChevronRight /> : <ChevronLeft />}
 					</IconButton>
@@ -56,10 +60,13 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					width="472px"
 					minWidth="472px"
 					sx={{
-						paddingBlock: "2rem",
+						width: "472px",
+						minWidth: "472px",
+						paddingBlock: 4,
+						paddingInlineEnd: 2,
 						"& .MuiList-root": {
 							listStyle: "disc",
-							paddingLeft: "2rem",
+							paddingLeft: "2.25rem",
 							paddingRight: "2rem",
 						},
 					}}

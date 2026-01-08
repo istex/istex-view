@@ -22,7 +22,8 @@ export const BibliographicReferencesSection = () => {
 			>
 				<Stack
 					sx={{
-						paddingInline: 2,
+						paddingInlineStart: 2,
+						paddingInlineEnd: 4,
 					}}
 					gap={1}
 				>
