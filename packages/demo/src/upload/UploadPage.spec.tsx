@@ -14,14 +14,18 @@ describe("UploadPage", () => {
 			),
 		});
 
-		expect(
-			screen.getByText("upload.teiFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(
-			screen.getByText("upload.unitexFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.teiFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.unitexFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 	});
 
 	it("should display uploaded tei file and enable launch viewer button", async () => {
@@ -64,11 +68,15 @@ describe("UploadPage", () => {
 			),
 		});
 
-		expect(
-			screen.getByText("upload.unitexFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.unitexFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 
 		const file = new File(["<unitex></unitex>"], "example.unitex", {
 			type: "text/plain",
@@ -78,9 +86,11 @@ describe("UploadPage", () => {
 
 		await userEvent.upload(input, file);
 
-		expect(
-			screen.getByText("upload.unitexFile example.unitex"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.unitexFile example.unitex"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 	});
 });
