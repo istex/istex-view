@@ -1,3 +1,4 @@
+import { act } from "react";
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import {
@@ -32,6 +33,11 @@ describe("DocumentContextProvider", () => {
 					source: true,
 					footnotes: true,
 					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
 				},
 			});
 		});
@@ -56,10 +62,16 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
-				result.current.panel.togglePanel();
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.togglePanel();
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
@@ -69,10 +81,17 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
-				result.current.panel.togglePanel();
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.togglePanel();
+				});
+
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
 					sections: {
@@ -81,6 +100,11 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 			});
@@ -94,8 +118,9 @@ describe("DocumentContextProvider", () => {
 					),
 				});
 
-				result.current.panel.toggleSection("authors");
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.toggleSection("authors");
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
@@ -105,11 +130,17 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 
-				result.current.panel.togglePanel();
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.togglePanel();
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
@@ -119,6 +150,11 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 			});
@@ -143,10 +179,16 @@ describe("DocumentContextProvider", () => {
 					source: true,
 					footnotes: true,
 					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
 				},
 			});
-			result.current.panel.toggleSection("authors");
-			await new Promise((resolve) => setTimeout(resolve, 100));
+			act(() => {
+				result.current.panel.toggleSection("authors");
+			});
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
@@ -156,6 +198,11 @@ describe("DocumentContextProvider", () => {
 					source: true,
 					footnotes: true,
 					bibliographicReferences: true,
+					unitext_date: true,
+					unitext_orgName: true,
+					unitext_persName: true,
+					unitext_placeName: true,
+					unitext_geogName: true,
 				},
 			});
 		});
@@ -171,9 +218,13 @@ describe("DocumentContextProvider", () => {
 				});
 
 				// First, close the panel
-				result.current.panel.togglePanel();
-				result.current.panel.toggleSection("authors");
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.togglePanel();
+				});
+
+				act(() => {
+					result.current.panel.toggleSection("authors");
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
@@ -183,12 +234,18 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 
 				// Now, toggle the 'authors' section (which is currently open)
-				result.current.panel.toggleSection("authors");
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.toggleSection("authors");
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: true,
@@ -198,6 +255,11 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 			});
@@ -211,8 +273,9 @@ describe("DocumentContextProvider", () => {
 					),
 				});
 
-				result.current.panel.togglePanel();
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.togglePanel();
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
@@ -222,11 +285,17 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 
-				result.current.panel.toggleSection("authors");
-				await new Promise((resolve) => setTimeout(resolve, 100));
+				act(() => {
+					result.current.panel.toggleSection("authors");
+				});
 
 				expect(result.current.panel.state).toStrictEqual({
 					isOpen: false,
@@ -236,6 +305,11 @@ describe("DocumentContextProvider", () => {
 						source: true,
 						footnotes: true,
 						bibliographicReferences: true,
+						unitext_date: true,
+						unitext_orgName: true,
+						unitext_persName: true,
+						unitext_placeName: true,
+						unitext_geogName: true,
 					},
 				});
 			});
