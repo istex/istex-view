@@ -27,18 +27,12 @@ type DocumentNavigationContextProviderProps = {
 	sidePanelRef: React.RefObject<HTMLDivElement | null>;
 };
 
+const HIGHLIGHT_CLASS = "highlighted";
 const HIGHLIGHT_DELAY = 500;
 const HIGHLIGHT_DURATION = 1500;
 const PANEL_HIGHLIGHT_DURATION = 1000;
 
-function highlightElement(element: HTMLElement, duration = HIGHLIGHT_DURATION) {
-	setTimeout(() => {
-		element.classList.add("highlighted");
-		setTimeout(() => {
-			element.classList.remove("highlighted");
-		}, duration);
-	}, HIGHLIGHT_DELAY);
-}
+const HIGHLIGHT_GROUP_CLASS = "highlighted-group";
 
 export function DocumentNavigationContextProvider({
 	documentRef,
@@ -51,6 +45,63 @@ export function DocumentNavigationContextProvider({
 
 	const [currentSelector, setCurrentSelector] = useState<string>("");
 	const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
+
+	const clearCurrentHighlight = useCallback(() => {
+		const documentElement = documentRef.current;
+
+		if (!documentElement) {
+			return;
+		}
+
+		documentElement.querySelectorAll(`.${HIGHLIGHT_CLASS}`).forEach((el) => {
+			el.classList.remove(HIGHLIGHT_CLASS);
+		});
+
+		documentElement
+			.querySelectorAll(`.${HIGHLIGHT_GROUP_CLASS}`)
+			.forEach((el) => {
+				el.classList.remove(HIGHLIGHT_GROUP_CLASS);
+			});
+	}, [documentRef]);
+
+	const highlightElement = useCallback(
+		(element: HTMLElement, duration = HIGHLIGHT_DURATION) => {
+			clearCurrentHighlight();
+
+			setTimeout(() => {
+				element.classList.add(HIGHLIGHT_CLASS);
+				setTimeout(() => {
+					element.classList.remove(HIGHLIGHT_CLASS);
+				}, duration);
+			}, HIGHLIGHT_DELAY);
+		},
+		[clearCurrentHighlight],
+	);
+
+	const highlightGroup = useCallback(
+		(elements: NodeListOf<HTMLElement>, currentElementIndex: number) => {
+			clearCurrentHighlight();
+
+			const currentElement =
+				elements.length > 0 ? elements[currentElementIndex] : undefined;
+			if (!currentElement) {
+				return;
+			}
+
+			if (elements.length === 1) {
+				return highlightElement(currentElement);
+			}
+
+			window.requestAnimationFrame(() => {
+				elements.forEach((el) => {
+					el.classList.add(HIGHLIGHT_GROUP_CLASS);
+				});
+				currentElement.classList.add(HIGHLIGHT_CLASS);
+			});
+		},
+		[clearCurrentHighlight, highlightElement],
+	);
+
 	const navigateToBodyTargetSelector = useCallback(
 		(querySelector: string) => {
 			const documentElement = documentRef.current;
@@ -67,6 +118,7 @@ export function DocumentNavigationContextProvider({
 				console.warn(`Element with querySelector '${querySelector}' not found`);
 				return;
 			}
+
 			if (currentSelector !== querySelector) {
 				setCurrentSelector(querySelector);
 			}
@@ -88,9 +140,9 @@ export function DocumentNavigationContextProvider({
 				behavior: "smooth",
 			});
 
-			highlightElement(targetElements[index]);
+			highlightGroup(targetElements, index);
 		},
-		[documentRef, currentElementIndex, currentSelector],
+		[documentRef, currentElementIndex, currentSelector, highlightGroup],
 	);
 
 	const navigateToHeading = useCallback(
@@ -123,7 +175,7 @@ export function DocumentNavigationContextProvider({
 
 			highlightElement(targetElement, PANEL_HIGHLIGHT_DURATION);
 		},
-		[sidePanelRef],
+		[sidePanelRef, highlightElement],
 	);
 
 	const navigateToFootnote = useCallback(

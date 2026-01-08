@@ -23,6 +23,8 @@ export const BiblLink = ({
 		return children;
 	}
 
+	const id = `bibl-ref-${referenceId}`;
+
 	return (
 		<Stack
 			sx={{
@@ -30,19 +32,21 @@ export const BiblLink = ({
 			}}
 			direction="row"
 			gap={1}
+			role="note"
+			aria-labelledby={id}
+			data-bibref-id={referenceId}
 		>
 			<IconButton
-				data-bibref-id={referenceId}
 				sx={{ alignSelf: "start", padding: 0 }}
 				onClick={() => {
 					navigateToBibliographicReferenceRef(referenceId);
 				}}
 				color="primary"
-				aria-labelledby={`bibl-ref-${referenceId}`}
+				aria-labelledby={id}
 			>
 				<ManageSearchIcon />
 			</IconButton>
-			<div id={`bibl-ref-${referenceId}`}>{children}</div>
+			<div id={id}>{children}</div>
 		</Stack>
 	);
 };

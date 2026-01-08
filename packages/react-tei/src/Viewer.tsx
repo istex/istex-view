@@ -78,6 +78,9 @@ export const Viewer = ({
 								"& *": {
 									transition: "background-color 0.3s ease-in-out",
 								},
+								"& .highlighted-group": {
+									backgroundColor: lime[50],
+								},
 								"& .highlighted": {
 									backgroundColor: lime[100],
 								},
