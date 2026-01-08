@@ -37,7 +37,7 @@ describe("DocumentAbstract", () => {
 				</I18nProvider>
 			),
 		});
-		expect(screen.container).toBeEmptyDOMElement();
+		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 
 	it("should support non multi-lingual abstracts", async () => {
@@ -118,23 +118,27 @@ describe("DocumentAbstract", () => {
 			name: "Abstract",
 		});
 
-		expect(section).toBeVisible();
+		await expect.element(section).toBeVisible();
 
 		const heading = section.getByRole("heading", {
 			level: 3,
 			name: "Abstract",
 		});
-		expect(heading).toBeVisible();
+		await expect.element(heading).toBeVisible();
 
-		expect(section.getByRole("paragraph")).not.toBeInTheDocument();
+		await expect
+			.element(section.getByRole("paragraph"))
+			.not.toBeInTheDocument();
 
 		await heading.click();
 
-		expect(
-			section.getByRole("paragraph").filter({
-				hasText: "This is a simple abstract paragraph.",
-			}),
-		).toBeVisible();
+		await expect
+			.element(
+				section.getByRole("paragraph").filter({
+					hasText: "This is a simple abstract paragraph.",
+				}),
+			)
+			.toBeVisible();
 	});
 
 	it("should support multi-lingual abstracts", async () => {
@@ -203,33 +207,33 @@ describe("DocumentAbstract", () => {
 		const abstractRegion = screen.getByRole("region", {
 			name: "Résumé",
 		});
-		expect(abstractRegion).toBeVisible();
+		await expect.element(abstractRegion).toBeVisible();
 
 		await abstractRegion.click();
 
 		const tabs = screen.getByRole("tablist");
-		expect(tabs).toBeVisible();
+		await expect.element(tabs).toBeVisible();
 
 		const englishTab = screen.getByRole("tab", { name: "anglais" });
 		const frenchTab = screen.getByRole("tab", { name: "français" });
 
-		expect(englishTab).toBeVisible();
-		expect(frenchTab).toBeVisible();
+		await expect.element(englishTab).toBeVisible();
+		await expect.element(frenchTab).toBeVisible();
 
-		expect(
-			abstractRegion.getByText("This is the English abstract."),
-		).toBeVisible();
-		expect(
-			abstractRegion.getByText("Ceci est le résumé en français."),
-		).not.toBeInTheDocument();
+		await expect
+			.element(abstractRegion.getByText("This is the English abstract."))
+			.toBeVisible();
+		await expect
+			.element(abstractRegion.getByText("Ceci est le résumé en français."))
+			.not.toBeInTheDocument();
 
 		await frenchTab.click();
 
-		expect(
-			abstractRegion.getByText("This is the English abstract."),
-		).not.toBeInTheDocument();
-		expect(
-			abstractRegion.getByText("Ceci est le résumé en français."),
-		).toBeVisible();
+		await expect
+			.element(abstractRegion.getByText("This is the English abstract."))
+			.not.toBeInTheDocument();
+		await expect
+			.element(abstractRegion.getByText("Ceci est le résumé en français."))
+			.toBeVisible();
 	});
 });

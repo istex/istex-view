@@ -36,7 +36,7 @@ export const Bibl = ({ data }: ComponentProps) => {
 		return (
 			<BiblLink data={data}>
 				{nestedBibls.map((bibl, index) => (
-					<div>
+					<div key={index}>
 						<Value key={index} data={bibl.value} />
 					</div>
 				))}

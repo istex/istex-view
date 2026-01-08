@@ -14,14 +14,18 @@ describe("UploadPage", () => {
 			),
 		});
 
-		expect(
-			screen.getByText("upload.teiFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(
-			screen.getByText("upload.unitexFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.teiFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.unitexFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 	});
 
 	it("should display uploaded tei file and enable launch viewer button", async () => {
@@ -31,11 +35,15 @@ describe("UploadPage", () => {
 			),
 		});
 
-		expect(
-			screen.getByText("upload.teiFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.teiFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 
 		const file = new File(["<TEI></TEI>"], "example.tei", {
 			type: "text/plain",
@@ -45,8 +53,12 @@ describe("UploadPage", () => {
 
 		await userEvent.upload(input, file);
 
-		expect(screen.getByText("upload.teiFile example.tei")).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).not.toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.teiFile example.tei"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.not.toBeDisabled();
 	});
 
 	it("should display uploaded openUnitexEnrichment and keep launch viewer button disabled", async () => {
@@ -56,11 +68,15 @@ describe("UploadPage", () => {
 			),
 		});
 
-		expect(
-			screen.getByText("upload.unitexFile upload.noFileSelected"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.unitexFile upload.noFileSelected"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 
 		const file = new File(["<unitex></unitex>"], "example.unitex", {
 			type: "text/plain",
@@ -70,9 +86,11 @@ describe("UploadPage", () => {
 
 		await userEvent.upload(input, file);
 
-		expect(
-			screen.getByText("upload.unitexFile example.unitex"),
-		).toBeInTheDocument();
-		expect(screen.getByText("upload.launchViewer")).toBeDisabled();
+		await expect
+			.element(screen.getByText("upload.unitexFile example.unitex"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.launchViewer"))
+			.toBeDisabled();
 	});
 });

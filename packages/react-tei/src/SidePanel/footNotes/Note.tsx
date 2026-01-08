@@ -31,11 +31,16 @@ export const Note = ({ data }: ComponentProps) => {
 	const { navigateToFootnoteRef } = useDocumentNavigation();
 
 	return (
-		<Stack direction="row" gap={1}>
+		<Stack
+			direction="row"
+			gap={1}
+			data-fn-id={noteId}
+			role="note"
+			aria-label={label ?? undefined}
+		>
 			{noteId && (
 				<Link
 					component="button"
-					data-fn-id={noteId}
 					onClick={() => {
 						navigateToFootnoteRef(noteId);
 					}}

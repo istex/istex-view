@@ -40,11 +40,12 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("button")).toHaveAttribute(
-				"data-bibref-id",
-				"bib1",
-			);
-			expect(screen.getByText("An Interesting Article")).toBeInTheDocument();
+			await expect
+				.element(screen.getByRole("note"))
+				.toHaveAttribute("data-bibref-id", "bib1");
+			await expect
+				.element(screen.getByText("An Interesting Article"))
+				.toBeInTheDocument();
 
 			await screen.getByRole("button").click();
 			expect(navigateToBibliographicReferenceRef).toHaveBeenCalledWith("bib1");
@@ -95,10 +96,9 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("button")).toHaveAttribute(
-				"data-bibref-id",
-				"bib1",
-			);
+			await expect
+				.element(screen.getByRole("note"))
+				.toHaveAttribute("data-bibref-id", "bib1");
 			expect(
 				screen.getByText("John Doe, An interesting Article (Approved)"),
 			).toBeInTheDocument();
@@ -147,18 +147,19 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("button")).toHaveAttribute(
-				"data-bibref-id",
-				"bib1",
-			);
+			await expect
+				.element(screen.getByRole("note"))
+				.toHaveAttribute("data-bibref-id", "bib1");
 			expect(
 				screen.getByText("emphasized Title with normal text"),
 			).toBeInTheDocument();
 
-			expect(screen.container.querySelector("em")).toBeInTheDocument();
-			expect(screen.container.querySelector("em")).toHaveTextContent(
-				"Emphasized Title",
-			);
+			await expect
+				.element(screen.container.querySelector("em"))
+				.toBeInTheDocument();
+			await expect
+				.element(screen.container.querySelector("em"))
+				.toHaveTextContent("Emphasized Title");
 		});
 
 		it("should render only top level reference when encountering nested bibl", async () => {
@@ -215,18 +216,21 @@ describe("Bibl", () => {
 				},
 			);
 
-			expect(screen.getByRole("button")).toHaveAttribute(
-				"data-bibref-id",
-				"bib1",
-			);
+			await expect
+				.element(screen.getByRole("note"))
+				.toHaveAttribute("data-bibref-id", "bib1");
 			expect(
 				screen.container.querySelector("div[data-bibref-id='nested1']"),
 			).toBeNull();
 			expect(
 				screen.container.querySelector("div[data-bibref-id='nested2']"),
 			).toBeNull();
-			expect(screen.getByText("Nested Article 1")).toBeInTheDocument();
-			expect(screen.getByText("Nested Article 2")).toBeInTheDocument();
+			await expect
+				.element(screen.getByText("Nested Article 1"))
+				.toBeInTheDocument();
+			await expect
+				.element(screen.getByText("Nested Article 2"))
+				.toBeInTheDocument();
 
 			await screen.getByRole("button").click();
 			expect(navigateToBibliographicReferenceRef).toHaveBeenCalledWith("bib1");
@@ -338,7 +342,9 @@ describe("Bibl", () => {
 				),
 			},
 		);
-		expect(screen.getByText("Nested Article 1")).toBeInTheDocument();
+		await expect
+			.element(screen.getByText("Nested Article 1"))
+			.toBeInTheDocument();
 		expect(consoleWarnSpy).not.toHaveBeenCalled();
 		consoleWarnSpy.mockRestore();
 	});
