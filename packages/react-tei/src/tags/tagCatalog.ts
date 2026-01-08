@@ -8,6 +8,7 @@ import { P } from "./P";
 import { Quote } from "./Quote";
 import { Ref } from "./Ref";
 import { Table } from "./Table";
+import { Text } from "./Text";
 import { Title } from "./Title";
 import type { ComponentProps } from "./type";
 
@@ -24,6 +25,6 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	sc: NoOp,
 	// Structure tags
 	body: NoOp,
-	"#text": NoOp,
+	"#text": Text,
 	title: Title,
 };

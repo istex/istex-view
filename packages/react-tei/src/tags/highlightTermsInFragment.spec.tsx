@@ -152,4 +152,14 @@ describe("highlightTermsInFragment", () => {
 			" text.",
 		]);
 	});
+
+	it("should return empty array when given empty fragments", () => {
+		const fragments: TextFragment[] = [];
+		const terms = [
+			{ term: "testing", group: "group1" },
+			{ term: "example", group: "group2" },
+		];
+		const result = highlightTermsInFragment(fragments, terms);
+		expect(result).toStrictEqual([]);
+	});
 });

@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
+import { kebabCasify } from "../helper/kebabCasify";
 import {
 	highlightTermsInFragment,
 	type TextFragment,
@@ -15,7 +16,10 @@ export const TextFragmentComponent = ({
 		return <>{textFragment}</>;
 	}
 	return (
-		<span className={`highlight-${textFragment.group}`}>
+		<span
+			data-term-id={`term-${kebabCasify(textFragment.term)}`}
+			className={`highlight-${textFragment.group}`}
+		>
 			{textFragment.content.map((fragment, index) => (
 				<TextFragmentComponent key={index} textFragment={fragment} />
 			))}
