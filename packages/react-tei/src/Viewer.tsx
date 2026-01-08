@@ -35,6 +35,10 @@ export const Viewer = ({
 
 	const jsonDocument = useDocumentParser(document);
 
+	const jsonUnitexEnrichment = unitexEnrichment
+		? useDocumentParser(unitexEnrichment)
+		: null;
+
 	const teiHeader = getDocumentJsonAtPath(jsonDocument, [
 		"TEI",
 		"teiHeader",
@@ -60,7 +64,10 @@ export const Viewer = ({
 
 	return (
 		<I18nProvider>
-			<DocumentContextProvider jsonDocument={jsonDocument}>
+			<DocumentContextProvider
+				jsonDocument={jsonDocument}
+				jsonUnitexEnrichment={jsonUnitexEnrichment}
+			>
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					<DocumentNavigationContextProvider
 						documentRef={documentRef}
