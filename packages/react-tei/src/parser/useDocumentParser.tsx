@@ -35,8 +35,11 @@ function transform(obj: unknown): DocumentJson | DocumentJson[] | string {
 	return obj as string;
 }
 
-export function useDocumentParser(document: string) {
+export function useDocumentParser(document: string | null | undefined) {
 	return useMemo(() => {
+		if (!document) {
+			return null;
+		}
 		const jsonDocument = parser.parse(document);
 		const transformedDocument = transform(jsonDocument);
 
