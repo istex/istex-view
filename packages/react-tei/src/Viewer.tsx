@@ -110,6 +110,14 @@ export const Viewer = ({
 											xs: 2,
 											xl: 0,
 										},
+										contain: {
+											xs: "size",
+											md: "none",
+										},
+										width: {
+											xs: "100%",
+											md: "initial",
+										},
 										height,
 										maxHeight: height,
 									}}
