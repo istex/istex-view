@@ -1,10 +1,11 @@
 import { expect, test } from "@playwright/test";
-import { uploadFile } from "./support/upload";
+import { launchViewer, uploadFile } from "./support/upload";
 
 test("document sidePanel authors section", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "document.tei");
+	await launchViewer(page);
 
 	await expect(
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),
@@ -147,6 +148,7 @@ test("document sidePanel keywords section", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "document-with-keywords.tei");
+	await launchViewer(page);
 
 	await expect(
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),

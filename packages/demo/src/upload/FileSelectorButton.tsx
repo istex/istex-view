@@ -1,7 +1,11 @@
 import Button from "@mui/material/Button";
 import { useRef } from "react";
 
-export function FileSelectorButton({ onChange }: FileSelectorButtonProps) {
+export function FileSelectorButton({
+	label,
+	onChange,
+	dataTestId,
+}: FileSelectorButtonProps) {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const handleButtonClick = () => {
@@ -27,7 +31,7 @@ export function FileSelectorButton({ onChange }: FileSelectorButtonProps) {
 				color="primary"
 				variant="contained"
 			>
-				Select a TEI File to View
+				{label}
 			</Button>
 			<input
 				type="file"
@@ -35,7 +39,7 @@ export function FileSelectorButton({ onChange }: FileSelectorButtonProps) {
 				ref={inputRef}
 				onChange={handleChange}
 				accept="*.tei"
-				data-testid="file-selector-input"
+				data-testid={dataTestId}
 				tabIndex={-1}
 				aria-hidden="true"
 			/>
@@ -44,5 +48,7 @@ export function FileSelectorButton({ onChange }: FileSelectorButtonProps) {
 }
 
 export type FileSelectorButtonProps = {
+	label: string;
 	onChange(file: File | null): void;
+	dataTestId?: string;
 };

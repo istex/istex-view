@@ -9,7 +9,13 @@ import {
 describe("FileSelectorButton", () => {
 	it("should display a file picker", async () => {
 		const onChange = vi.fn<FileSelectorButtonProps["onChange"]>();
-		const screen = await render(<FileSelectorButton onChange={onChange} />);
+		const screen = await render(
+			<FileSelectorButton
+				label="Select a TEI File to View"
+				dataTestId="file-selector-input"
+				onChange={onChange}
+			/>,
+		);
 
 		expect(
 			screen.getByRole("button", {
@@ -20,7 +26,13 @@ describe("FileSelectorButton", () => {
 
 	it("should call onChange when a file is selected", async () => {
 		const onChange = vi.fn<FileSelectorButtonProps["onChange"]>();
-		const screen = await render(<FileSelectorButton onChange={onChange} />);
+		const screen = await render(
+			<FileSelectorButton
+				label="Select a TEI File to View"
+				dataTestId="file-selector-input"
+				onChange={onChange}
+			/>,
+		);
 
 		const file = new File(["<TEI></TEI>"], "example.tei", {
 			type: "application/xml",

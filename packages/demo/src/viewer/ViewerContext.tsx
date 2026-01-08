@@ -1,9 +1,19 @@
 import { createContext, useMemo, useState } from "react";
 
 export type ViewerContextType = {
-	document: string | null;
+	viewerLaunched: boolean;
+	document: {
+		filename: string;
+		content: string;
+	} | null;
+	unitexEnrichment: {
+		filename: string;
+		content: string;
+	} | null;
 
-	openDocument(document: string): void;
+	launchViewer(): void;
+	openDocument(document: { filename: string; content: string }): void;
+	openUnitexEnrichment(enrichment: { filename: string; content: string }): void;
 	closeDocument(): void;
 };
 
@@ -16,18 +26,38 @@ export function ViewerContextProvider({
 }: {
 	children: React.ReactNode;
 }) {
-	const [document, setDocument] = useState<string | null>(null);
+	const [viewerLaunched, setViewerLaunched] = useState(false);
+	const [document, setDocument] = useState<{
+		filename: string;
+		content: string;
+	} | null>(null);
+	const [unitexEnrichment, setUnitexEnrichment] = useState<{
+		filename: string;
+		content: string;
+	} | null>(null);
 	const value = useMemo(
 		() => ({
+			viewerLaunched,
 			document,
-			openDocument(document: string) {
+			unitexEnrichment,
+			launchViewer() {
+				if (!document) {
+					return;
+				}
+				setViewerLaunched(true);
+			},
+			openDocument(document: { filename: string; content: string }) {
 				setDocument(document);
+			},
+			openUnitexEnrichment(enrichment: { filename: string; content: string }) {
+				setUnitexEnrichment(enrichment);
 			},
 			closeDocument() {
 				setDocument(null);
+				setUnitexEnrichment(null);
 			},
 		}),
-		[document],
+		[viewerLaunched, document, unitexEnrichment],
 	);
 
 	return (
