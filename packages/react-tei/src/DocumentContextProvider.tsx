@@ -16,6 +16,7 @@ export type PanelSection = keyof PanelState["sections"];
 
 export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
+	jsonUnitexEnrichment?: DocumentJson[] | null;
 	panel: {
 		state: PanelState;
 		togglePanel: () => void;
@@ -34,9 +35,11 @@ type PanelAction =
 export function DocumentContextProvider({
 	children,
 	jsonDocument,
+	jsonUnitexEnrichment,
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
+	jsonUnitexEnrichment?: DocumentJson[] | null;
 }) {
 	const [panelState, dispatch] = useReducer(
 		(state: PanelState, action: PanelAction) => {
@@ -80,6 +83,7 @@ export function DocumentContextProvider({
 		<DocumentContext.Provider
 			value={{
 				jsonDocument,
+				jsonUnitexEnrichment,
 				panel: {
 					state: panelState,
 					togglePanel,

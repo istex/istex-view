@@ -35,7 +35,9 @@ export const Viewer = ({
 
 	const jsonDocument = useDocumentParser(document);
 
-	const teiHeader = getDocumentJsonAtPath(jsonDocument, [
+	const jsonUnitexEnrichment = useDocumentParser(unitexEnrichment);
+
+	const teiHeader = getDocumentJsonAtPath(jsonDocument ?? [], [
 		"TEI",
 		"teiHeader",
 	]) ?? {
@@ -44,7 +46,7 @@ export const Viewer = ({
 	};
 
 	const body = useMemo(() => {
-		const body = getDocumentJsonAtPath(jsonDocument, [
+		const body = getDocumentJsonAtPath(jsonDocument ?? [], [
 			"TEI",
 			"text",
 			"body",
@@ -58,9 +60,16 @@ export const Viewer = ({
 
 	const tableOfContent = useTableOfContent(body, 3);
 
+	if (!jsonDocument) {
+		return null;
+	}
+
 	return (
 		<I18nProvider>
-			<DocumentContextProvider jsonDocument={jsonDocument}>
+			<DocumentContextProvider
+				jsonDocument={jsonDocument}
+				jsonUnitexEnrichment={jsonUnitexEnrichment}
+			>
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					<DocumentNavigationContextProvider
 						documentRef={documentRef}
