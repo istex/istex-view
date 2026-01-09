@@ -46,7 +46,10 @@ export function extractHeadingsFromBody(
 	});
 }
 
-export function useTableOfContent(body: DocumentJson, maxLevel: number = 3) {
+export function useTableOfContent(
+	body: DocumentJson,
+	maxLevel: number = 1_000,
+) {
 	return useMemo(() => {
 		return extractHeadingsFromBody(body.value, maxLevel);
 	}, [body, maxLevel]);

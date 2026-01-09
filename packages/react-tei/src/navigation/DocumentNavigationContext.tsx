@@ -255,7 +255,7 @@ export function DocumentNavigationContextProvider({
 
 		documentRef.current
 			.querySelectorAll<HTMLElement>(
-				"#document-content section[aria-labelledby]:has(> h2, > h3)",
+				"#document-content section[aria-labelledby]:has(> h2, > h3, > h4, > h5, > h6)",
 			)
 			.forEach((element) => {
 				observer.observe(element);
