@@ -14,9 +14,15 @@ export const enrichDocumentWithUnitex = (
 		})),
 	);
 
+	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
+	const termRegexes = sortedTerms.map(({ term, group }) => ({
+		termRegex: new RegExp(`\\b${term}\\b`, "gi"),
+		group,
+	}));
+
 	const enrichNode = (node: DocumentJson) => {
 		if (isTextTag(node)) {
-			return highlightTermsInTextTag(node, terms);
+			return highlightTermsInTextTag(node, termRegexes);
 		}
 		return node;
 	};

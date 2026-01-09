@@ -84,45 +84,37 @@ export const highlightTermInTextTag = (
 	termRegex: RegExp,
 	group: string,
 ): (HighlightTag | TextTag)[] => {
-	const [textFragment, ...restFragments] = textFragments;
-	if (!textFragment) {
-		return [];
-	}
+	const stack = [...textFragments];
+	const result: (HighlightTag | TextTag)[] = [];
 
-	if (textFragment.tag === "highlight") {
-		return [
-			{
+	while (stack.length > 0) {
+		const textFragment = stack.shift()!;
+
+		if (textFragment.tag === "highlight") {
+			result.push({
 				...textFragment,
 				value: textFragment.value,
-			},
-			...highlightTermInTextTag(restFragments, termRegex, group),
-		];
+			});
+		} else {
+			const highlighted = highlightTermInString(
+				textFragment.value,
+				termRegex,
+				group,
+			);
+			result.push(...highlighted);
+		}
 	}
 
-	const highlighted = highlightTermInString(
-		textFragment.value,
-		termRegex,
-		group,
-	);
-	return [
-		...highlighted,
-		...highlightTermInTextTag(restFragments, termRegex, group),
-	];
+	return result;
 };
 
 export const highlightTermsInTextTag = (
 	textTag: TextTag,
-	terms: { term: string; group: string }[],
+	termRegexes: { termRegex: RegExp; group: string }[],
 ): HighlightedTextTag => {
-	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
-	const termRegexes = sortedTerms.map(({ term, group }) => ({
-		regex: new RegExp(`\\b${term}\\b`, "gi"),
-		group,
-	}));
-
 	const value = termRegexes.reduce(
-		(textTag: (HighlightTag | TextTag)[], { regex, group }) =>
-			highlightTermInTextTag(textTag, regex, group),
+		(textTag: (HighlightTag | TextTag)[], { termRegex, group }) =>
+			highlightTermInTextTag(textTag, termRegex, group),
 		[textTag] as (HighlightTag | TextTag)[],
 	);
 
