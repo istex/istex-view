@@ -1,21 +1,25 @@
 import { Box } from "@mui/material";
+import { chipColors } from "../SidePanel/unitex/unitexAnnotationBlocks";
 import type { ComponentProps } from "./type";
 
 export const Highlight = ({ data }: ComponentProps) => {
-	if (typeof data.value !== "string") {
+	const { value, attributes } = data;
+	if (typeof value !== "string") {
 		console.warn("Highlight tag value is not a string:", data.value);
 		return null;
 	}
 	return (
 		<Box
 			component="span"
-			data-term={data.attributes?.term}
-			data-group={data.attributes?.group}
+			data-term={attributes?.term}
+			data-group={attributes?.group}
 			sx={{
-				borderBottom: "1px solid red", // Todo customize style based on group
+				borderBottom: "3px solid",
+				borderColor:
+					chipColors[attributes?.group as keyof typeof chipColors] || "gray",
 			}}
 		>
-			{data.value}
+			{value}
 		</Box>
 	);
 };
