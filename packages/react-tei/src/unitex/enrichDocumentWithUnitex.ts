@@ -3,6 +3,18 @@ import type { DocumentJson } from "../parser/document";
 import { highlightTermsInTextTag, isTextTag } from "./highlightTermsInTextTag";
 import type { TermStatistic } from "./parseUnitexEnrichment";
 
+const escapeRegexChars = (str: string): string => {
+	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+};
+
+export const termToRegex = (term: string): RegExp => {
+	const escapedTerm = escapeRegexChars(term);
+	return new RegExp(
+		`(?<![\\p{L}\\p{N}])${escapedTerm}(?![\\p{L}\\p{N}])`,
+		"gu",
+	);
+};
+
 export const enrichDocumentWithUnitex = (
 	document: DocumentJson,
 	unitexEnrichment: Record<string, TermStatistic[]>,
@@ -16,7 +28,7 @@ export const enrichDocumentWithUnitex = (
 
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
 	const termRegexes = sortedTerms.map(({ term, group }) => ({
-		termRegex: new RegExp(`\\b${term}\\b`, "gi"),
+		termRegex: termToRegex(term),
 		group,
 	}));
 

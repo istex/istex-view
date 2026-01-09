@@ -67,6 +67,21 @@ describe("highlightTermInTextTag", () => {
 				{ tag: "#text", value: "." },
 			]);
 		});
+
+		it("should preserve space between words when highlighting", () => {
+			const text = "Highlight  this   term.";
+			const term: RegExp = /this/gi;
+			const result = highlightTermInString(text, term, "group");
+			expect(result).toStrictEqual([
+				{ tag: "#text", value: "Highlight  " },
+				{
+					tag: "highlight",
+					value: "this",
+					attributes: { group: "group", term: "this" },
+				},
+				{ tag: "#text", value: "   term." },
+			]);
+		});
 	});
 
 	describe("highlightTermInTextTag", () => {
@@ -271,6 +286,38 @@ describe("highlightTermInTextTag", () => {
 					tag: "#text",
 					attributes: { lang: "en" },
 					value: "This is a sample text for testing.",
+				},
+			],
+		});
+	});
+
+	it("should preserve space between 2 highlighted terms", () => {
+		const fragments: TextTag = {
+			tag: "#text",
+			value: "Term1  Term2",
+		};
+		const terms = [
+			{ termRegex: /Term1/gi, group: "group1" },
+			{ termRegex: /Term2/gi, group: "group2" },
+		];
+		const result = highlightTermsInTextTag(fragments, terms);
+		expect(result).toStrictEqual({
+			tag: "highlightedText",
+			attributes: undefined,
+			value: [
+				{
+					tag: "highlight",
+					value: "Term1",
+					attributes: { group: "group1", term: "Term1" },
+				},
+				{
+					tag: "#text",
+					value: "  ",
+				},
+				{
+					tag: "highlight",
+					value: "Term2",
+					attributes: { group: "group2", term: "Term2" },
 				},
 			],
 		});
