@@ -12,7 +12,10 @@ import { DocumentNavigationContextProvider } from "./navigation/DocumentNavigati
 import { getDocumentJsonAtPath } from "./parser/getDocumentJsonAtPath";
 import { transformBody } from "./parser/transformDocument";
 import { useDocumentParser } from "./parser/useDocumentParser";
-import { DocumentSidePanel } from "./SidePanel/DocumentSidePanel";
+import {
+	DocumentSidePanel,
+	SIDEPANEL_WIDTH,
+} from "./SidePanel/DocumentSidePanel";
 import { TagCatalogProvider } from "./tags/TagCatalogProvider";
 import { tagCatalog } from "./tags/tagCatalog";
 import { TableOfContent } from "./toc/TableOfContent";
@@ -131,7 +134,11 @@ export const Viewer = ({
 											xl: "0.5rem auto",
 										}}
 										paddingBlock={4}
-										maxWidth={{ xs: "100%", md: "732px" }}
+										maxWidth={{
+											xs: "100%",
+											md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
+											lg: "732px",
+										}}
 										gap={4}
 										position="relative"
 									>

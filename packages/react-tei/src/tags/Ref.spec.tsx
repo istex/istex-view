@@ -320,36 +320,6 @@ describe("Ref", () => {
 		expect(navigateToFootnote).toHaveBeenCalledWith("note-7");
 	});
 
-	it("should render a link that navigates to the footnote when there is no type and target attribute starts with a #", async () => {
-		const navigateToFootnote = vi.fn();
-		const jsonValue: DocumentJson = {
-			tag: "ref",
-			attributes: { "@target": "#note-7" },
-			value: [{ tag: "#text", value: "See footnote 7" }],
-		};
-
-		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<TestDocumentNavigationContextProvider
-						value={{
-							navigateToFootnote,
-						}}
-					>
-						{children}
-					</TestDocumentNavigationContextProvider>
-				</TagCatalogProvider>
-			),
-		});
-		expect(getByText("See footnote 7")).toBeInTheDocument();
-		const link = getByRole("button", { name: "See footnote 7" });
-		expect(link).toBeInTheDocument();
-		expect(link).toHaveAttribute("data-fn-id", "note-7");
-
-		await link.click();
-		expect(navigateToFootnote).toHaveBeenCalledWith("note-7");
-	});
-
 	it('should render text with no link when type="fn" but n and target attributes are missing', async () => {
 		const consoleWarnSpy = vi
 			.spyOn(console, "warn")

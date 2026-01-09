@@ -16,6 +16,9 @@ type DocumentSidePanelprops = {
 	ref: React.RefObject<HTMLDivElement | null>;
 };
 
+export const SIDEPANEL_WIDTH = "512px";
+const SIDEPANEL_PADDING = "40px";
+
 export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 	const { t } = useTranslation();
 	const {
@@ -29,7 +32,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 		<Paper
 			elevation={0}
 			sx={{
-				width: isOpen ? "512px" : "40px",
+				width: isOpen ? SIDEPANEL_WIDTH : SIDEPANEL_PADDING,
 				transition: "width 0.3s",
 				overflowX: "hidden",
 				overflowY: "auto",
@@ -44,7 +47,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 			ref={ref}
 		>
 			<Stack direction="row">
-				<Box width="40px" position="relative">
+				<Box width={SIDEPANEL_PADDING} position="relative">
 					<IconButton
 						onClick={togglePanel}
 						aria-label={isOpen ? t("sidePanel.close") : t("sidePanel.open")}
@@ -57,11 +60,9 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					</IconButton>
 				</Box>
 				<Stack
-					width="472px"
-					minWidth="472px"
 					sx={{
-						width: "472px",
-						minWidth: "472px",
+						width: `calc(${SIDEPANEL_WIDTH} - ${SIDEPANEL_PADDING})`,
+						minWidth: `calc(${SIDEPANEL_WIDTH} - ${SIDEPANEL_PADDING})`,
 						paddingBlock: 4,
 						paddingInlineEnd: 2,
 						"& .MuiList-root": {
