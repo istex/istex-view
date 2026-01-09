@@ -1,3 +1,4 @@
+import { act } from "react";
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
@@ -43,7 +44,7 @@ describe("useListUnitexAnnotationByBlockType", () => {
 			{ wrapper: TestWrapper },
 		);
 
-		expect(result.result.current).toEqual(terms);
+		expect(result.result.current.annotations).toEqual(terms);
 	});
 
 	it("should return an empty array for a block type with no annotations", async () => {
@@ -52,6 +53,54 @@ describe("useListUnitexAnnotationByBlockType", () => {
 			{ wrapper: TestWrapper },
 		);
 
-		expect(result.result.current).toEqual([]);
+		expect(result.result.current.annotations).toEqual([]);
+	});
+
+	it("should expose a toggleBlock function that calls the context toggleBlock function with the correct parameters", async () => {
+		const result = await renderHook(
+			() => useListUnitexAnnotationByBlockType("placeName"),
+			{ wrapper: TestWrapper },
+		);
+
+		act(() => {
+			result.result.current.toggleBlock();
+		});
+
+		expect(result.result.current.annotations).toEqual([
+			{ term: "Paris", frequency: 2, displayed: false },
+			{ term: "London", frequency: 1, displayed: false },
+		]);
+
+		act(() => {
+			result.result.current.toggleBlock();
+		});
+
+		expect(result.result.current.annotations).toEqual([
+			{ term: "Paris", frequency: 2, displayed: true },
+			{ term: "London", frequency: 1, displayed: true },
+		]);
+	});
+
+	it("should expose a toggleTerm function that calls the context toggleTerm function with the correct parameters", async () => {
+		const result = await renderHook(
+			() => useListUnitexAnnotationByBlockType("date"),
+			{ wrapper: TestWrapper },
+		);
+
+		act(() => {
+			result.result.current.toggleTerm("2021");
+		});
+
+		expect(result.result.current.annotations).toEqual([
+			{ term: "2021", frequency: 3, displayed: false },
+		]);
+
+		act(() => {
+			result.result.current.toggleTerm("2021");
+		});
+
+		expect(result.result.current.annotations).toEqual([
+			{ term: "2021", frequency: 3, displayed: true },
+		]);
 	});
 });

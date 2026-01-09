@@ -67,11 +67,112 @@ describe("UnitexAnnotationBlock", () => {
 		}
 	});
 
-	it("should note render anything for a block type with no annotations", async () => {
+	it("should not render anything for a block type with no annotations", async () => {
 		const screen = await render(<UnitexAnnotationBlock block="orgName" />, {
 			wrapper: TestWrapper,
 		});
 
 		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
+
+	it("should toggle all terms display when clicking on the toggle all checkbox", async () => {
+		const screen = await render(<UnitexAnnotationBlock block="placeName" />, {
+			wrapper: TestWrapper,
+		});
+
+		{
+			const checkbox = await expectBlockToBeChecked(screen, true);
+			await expectTermToBeChecked(screen, "Paris", true);
+			await expectTermToBeChecked(screen, "London", true);
+
+			await checkbox.click();
+		}
+
+		{
+			const checkbox = await expectBlockToBeChecked(screen, false);
+
+			await expectTermToBeChecked(screen, "Paris", false);
+			await expectTermToBeChecked(screen, "London", false);
+
+			await checkbox.click();
+		}
+
+		await expectBlockToBeChecked(screen, true);
+		await expectTermToBeChecked(screen, "Paris", true);
+		await expectTermToBeChecked(screen, "London", true);
+	});
+
+	it("should be partially checked when some terms are displayed and others are not", async () => {
+		const screen = await render(<UnitexAnnotationBlock block="placeName" />, {
+			wrapper: TestWrapper,
+		});
+
+		await expectBlockToBeChecked(screen, true);
+		await expectTermToBeChecked(screen, "Paris", true);
+
+		const londonCheckbox = await expectTermToBeChecked(screen, "London", true);
+		await londonCheckbox.click();
+
+		await expectTermToBeChecked(screen, "London", false);
+		await expectBlockToBePartiallyChecked(screen);
+	});
 });
+
+async function expectBlockToBeChecked(
+	screen: Awaited<ReturnType<typeof render>>,
+	checked: boolean,
+) {
+	const checkbox = screen.getByRole("checkbox", {
+		name: checked
+			? "Désactiver le soulignement des mots dans le texte"
+			: "Activer le soulignement des mots dans le texte",
+		exact: true,
+	});
+
+	await expect.element(checkbox).toBeInTheDocument();
+
+	if (checked) {
+		await expect.element(checkbox).toBeChecked();
+		await expect.element(checkbox).not.toBePartiallyChecked();
+	} else {
+		await expect.element(checkbox).not.toBeChecked();
+	}
+
+	return checkbox;
+}
+
+async function expectBlockToBePartiallyChecked(
+	screen: Awaited<ReturnType<typeof render>>,
+) {
+	const checkbox = screen.getByRole("checkbox", {
+		name: "Activer le soulignement des mots dans le texte",
+		exact: true,
+	});
+	await expect.element(checkbox).toBeInTheDocument();
+	await expect.element(checkbox).toBePartiallyChecked();
+
+	return checkbox;
+}
+
+async function expectTermToBeChecked(
+	screen: Awaited<ReturnType<typeof render>>,
+	term: string,
+	checked: boolean,
+) {
+	const checkbox = screen.getByRole("checkbox", {
+		name: checked
+			? `Désactiver le soulignement pour le terme "${term}"`
+			: `Activer le soulignement pour le terme "${term}"`,
+		exact: true,
+	});
+
+	await expect.element(checkbox).toBeInTheDocument();
+
+	if (checked) {
+		await expect.element(checkbox).toBeChecked();
+	} else {
+		await expect.element(checkbox).not.toBeChecked();
+	}
+
+	return checkbox;
+}

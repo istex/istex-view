@@ -44,6 +44,12 @@ export const en: Translation = {
 		},
 	},
 	unitex: {
+		underlineWordsInText: "Underline words in the text",
+		toggleBlock_show: "Activate underlining of words in the text",
+		toggleBlock_hide: "Deactivate underlining of words in the text",
+		toggleTerm_show: 'Activate underlining for the term "{{term}}"',
+		toggleTerm_hide: 'Deactivate underlining for the term "{{term}}"',
+
 		date_one: "Date ({{count}})",
 		date_other: "Dates ({{count}})",
 		orgName_one: "Organization name ({{count}})",

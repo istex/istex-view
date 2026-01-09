@@ -1,5 +1,7 @@
 import { createTheme } from "@mui/material/styles";
 import type {} from "@mui/material/themeCssVarsAugmentation";
+import IncludeIcon from "./icons/IncludeIcon";
+import IndeterminateIcon from "./icons/IndeterminateIcon";
 
 const colors = {
 	veryDarkGreen: "#667F00",
@@ -110,6 +112,13 @@ export default createTheme(theme, {
 		},
 	},
 	components: {
+		MuiCheckbox: {
+			defaultProps: {
+				checkedIcon: <IncludeIcon />,
+				indeterminateIcon: <IndeterminateIcon />,
+			},
+			styleOverrides: {},
+		},
 		MuiTable: {
 			styleOverrides: {
 				root: {

@@ -42,6 +42,12 @@ export const fr = {
 		},
 	},
 	unitex: {
+		underlineWordsInText: "Souligner les mots dans le texte",
+		toggleBlock_show: "Activer le soulignement des mots dans le texte",
+		toggleBlock_hide: "Désactiver le soulignement des mots dans le texte",
+		toggleTerm_show: 'Activer le soulignement pour le terme "{{term}}"',
+		toggleTerm_hide: 'Désactiver le soulignement pour le terme "{{term}}"',
+
 		date_one: "Date ({{count}})",
 		date_other: "Dates ({{count}})",
 		orgName_one: "Nom d'organisation ({{count}})",

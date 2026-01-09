@@ -1,4 +1,8 @@
 import Box from "@mui/material/Box";
+import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { PanelSection } from "../../DocumentContextProvider";
 import { Accordion } from "../Accordion";
@@ -13,7 +17,15 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 	const { t } = useTranslation();
 
 	const color = chipColors[block];
-	const annotations = useListUnitexAnnotationByBlockType(block);
+	const { annotations, displayStatus, toggleBlock, toggleTerm } =
+		useListUnitexAnnotationByBlockType(block);
+
+	const toggleContext = displayStatus === "all" ? "hide" : "show";
+	const sectionlabel = t(`unitex.${block}`, { count: annotations.length });
+	const checkboxLabel = t("unitex.toggleBlock", {
+		context: toggleContext,
+	});
+
 	if (!annotations.length) {
 		return null;
 	}
@@ -23,27 +35,59 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 			name={`unitext_${block}` as PanelSection}
 			label={t(`unitex.${block}`, { count: annotations.length })}
 		>
-			<Box
+			<Stack
 				sx={{
-					display: "grid",
-					gridTemplateColumns: "1fr",
-					gridTemplateRows: "auto",
-					columnGap: 0.5,
-					rowGap: 1,
+					gap: 1,
 					paddingInlineStart: 2,
 					paddingInlineEnd: 4,
 				}}
-				role="list"
-				aria-label={t(`unitex.${block}`, { count: annotations.length })}
 			>
-				{annotations.map((annotation) => (
-					<UnitexAnnotation
-						key={annotation.term}
-						annotation={annotation}
-						color={color}
-					/>
-				))}
-			</Box>
+				<FormControlLabel
+					label={sectionlabel}
+					control={
+						<Tooltip title={checkboxLabel}>
+							<Checkbox
+								checked={displayStatus === "all"}
+								indeterminate={displayStatus === "partial"}
+								onChange={toggleBlock}
+								slotProps={{
+									input: {
+										"aria-label": checkboxLabel,
+										...(displayStatus === "partial"
+											? {
+													"aria-checked": "mixed",
+												}
+											: undefined),
+									},
+								}}
+							/>
+						</Tooltip>
+					}
+				/>
+
+				<Box
+					sx={{
+						display: "grid",
+						gridTemplateColumns: "max-content 1fr",
+						gridTemplateRows: "auto",
+						columnGap: 0.5,
+						rowGap: 1,
+						alignItems: "center",
+						paddingInlineStart: 2.5,
+					}}
+					role="list"
+					aria-label={t(`unitex.${block}`, { count: annotations.length })}
+				>
+					{annotations.map((annotation) => (
+						<UnitexAnnotation
+							key={annotation.term}
+							annotation={annotation}
+							color={color}
+							onToggle={() => toggleTerm(annotation.term)}
+						/>
+					))}
+				</Box>
+			</Stack>
 		</Accordion>
 	);
 }
