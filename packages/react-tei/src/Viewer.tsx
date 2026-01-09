@@ -21,6 +21,7 @@ import { tagCatalog } from "./tags/tagCatalog";
 import { TableOfContent } from "./toc/TableOfContent";
 import { TableOfContentAccordion } from "./toc/TableOfContentAccordion";
 import { useTableOfContent } from "./toc/useTableOfContent";
+import { enrichDocumentWithUnitex } from "./unitex/enrichDocumentWithUnitex";
 import { useUnitexEnrichmentParser } from "./unitex/useUnitexEnrichmentParser";
 
 export const Viewer = ({
@@ -62,8 +63,14 @@ export const Viewer = ({
 
 		return transformBody(body);
 	}, [jsonDocument]);
+	const enrichedBody = useMemo(() => {
+		if (body && jsonUnitexEnrichment) {
+			return enrichDocumentWithUnitex(body, jsonUnitexEnrichment);
+		}
+		return body;
+	}, [body, jsonUnitexEnrichment]);
 
-	const tableOfContent = useTableOfContent(body);
+	const tableOfContent = useTableOfContent(enrichedBody);
 
 	if (!jsonDocument) {
 		return null;
@@ -160,7 +167,7 @@ export const Viewer = ({
 											id="document-content"
 										>
 											<DocumentTitle teiHeader={teiHeader} />
-											<DocumentBody body={body} />
+											<DocumentBody body={enrichedBody} />
 										</Stack>
 									</Stack>
 								</Stack>
