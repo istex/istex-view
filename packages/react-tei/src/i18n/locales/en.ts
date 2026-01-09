@@ -43,4 +43,16 @@ export const en: Translation = {
 			title_other: "References ({{count}})",
 		},
 	},
+	unitex: {
+		date_one: "Date ({{count}})",
+		date_other: "Dates ({{count}})",
+		orgName_one: "Organization name ({{count}})",
+		orgName_other: "Organizations names ({{count}})",
+		persName_one: "Person name ({{count}})",
+		persName_other: "People names ({{count}})",
+		placeName_one: "Administrative place name ({{count}})",
+		placeName_other: "Administrative places names ({{count}})",
+		geogName_one: "Geographical place name ({{count}})",
+		geogName_other: "Geographical places names ({{count}})",
+	},
 };

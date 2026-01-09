@@ -41,6 +41,18 @@ export const fr = {
 			title_other: "Références bibliographiques ({{count}})",
 		},
 	},
+	unitex: {
+		date_one: "Date ({{count}})",
+		date_other: "Dates ({{count}})",
+		orgName_one: "Nom d'organisation ({{count}})",
+		orgName_other: "Noms d'organisations ({{count}})",
+		persName_one: "Nom de personne ({{count}})",
+		persName_other: "Noms de personnes ({{count}})",
+		placeName_one: "Nom de lieu administratif ({{count}})",
+		placeName_other: "Noms de lieux administratifs ({{count}})",
+		geogName_one: "Nom de lieu géographique ({{count}})",
+		geogName_other: "Noms de lieux géographiques ({{count}})",
+	},
 };
 
 export type Translation = typeof fr;

@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer } from "react";
 import type { DocumentJson } from "./parser/document";
+import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
 import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
 
 export type PanelState = {
@@ -10,6 +11,12 @@ export type PanelState = {
 		source: boolean;
 		footnotes: boolean;
 		bibliographicReferences?: boolean;
+
+		unitext_date?: boolean;
+		unitext_orgName?: boolean;
+		unitext_persName?: boolean;
+		unitext_placeName?: boolean;
+		unitext_geogName?: boolean;
 	};
 };
 
@@ -40,7 +47,9 @@ export function DocumentContextProvider({
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: Record<string, TermStatistic[]>;
+	jsonUnitexEnrichment?: Partial<
+		Record<UnitexAnnotationBlockType, TermStatistic[]>
+	>;
 }) {
 	const [panelState, dispatch] = useReducer(
 		(state: PanelState, action: PanelAction) => {
@@ -68,6 +77,11 @@ export function DocumentContextProvider({
 				source: true,
 				footnotes: true,
 				bibliographicReferences: true,
+				unitext_date: true,
+				unitext_orgName: true,
+				unitext_persName: true,
+				unitext_placeName: true,
+				unitext_geogName: true,
 			},
 		} satisfies PanelState,
 	);

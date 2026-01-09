@@ -11,6 +11,7 @@ import { BibliographicReferencesSection } from "./bibliographicReferences/Biblio
 import { FootnotesSection } from "./footNotes/FootnotesSection";
 import { KeywordSection } from "./keywords/KeywordSection";
 import { SourceSection } from "./source/SourceSection";
+import { UnitexSection } from "./unitex/UnitexSection";
 
 type DocumentSidePanelprops = {
 	ref: React.RefObject<HTMLDivElement | null>;
@@ -75,6 +76,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<AuthorSection />
 					<KeywordSection />
 					<SourceSection />
+					<UnitexSection />
 					<FootnotesSection />
 					<BibliographicReferencesSection />
 				</Stack>
