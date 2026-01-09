@@ -1,5 +1,5 @@
-import type { ComponentProps } from "../../tags/type";
-import { Value } from "../../tags/Value";
+import type { ComponentProps } from "./type";
+import { Value } from "./Value";
 
 export const DateTag = ({ data }: ComponentProps) => {
 	if (!data.value || data.value.length === 0) {

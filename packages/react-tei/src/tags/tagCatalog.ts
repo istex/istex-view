@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { DateTag } from "./DateTag";
 import { Div } from "./Div";
 import { Emph } from "./Emph";
 import { Head } from "./Head";
@@ -26,4 +27,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	body: NoOp,
 	"#text": NoOp,
 	title: Title,
+	bibl: NoOp,
+	biblScope: NoOp,
+	date: DateTag,
 };
