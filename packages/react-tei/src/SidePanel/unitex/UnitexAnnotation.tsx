@@ -19,7 +19,7 @@ export function UnitexAnnotation({
 
 	return (
 		<>
-			<Tooltip title={checkBoxLabel}>
+			<Tooltip title={checkBoxLabel} placement="left">
 				<Checkbox
 					checked={annotation.displayed}
 					sx={{

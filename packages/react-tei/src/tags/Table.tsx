@@ -3,7 +3,7 @@ import Stack from "@mui/material/Stack";
 import MuiTable from "@mui/material/Table";
 import MuiTableBody from "@mui/material/TableBody";
 import MuiTableHead from "@mui/material/TableHead";
-
+import { InlineDebug } from "../debug/InlineDebug";
 import { TableCaption } from "./TableCaption";
 import { TableNotes } from "./TableNotes";
 import { TableRow } from "./TableRow";
@@ -20,8 +20,9 @@ export function getTableId(
 
 export function Table({ data: { value, attributes } }: ComponentProps) {
 	if (!Array.isArray(value)) {
-		console.warn("Table tag with non-array value:", value);
-		return null;
+		return (
+			<InlineDebug message="Table tag with non-array value" payload={value} />
+		);
 	}
 
 	const heads = value.filter((item) => item.tag === "head");

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
@@ -34,11 +34,7 @@ describe("PersName", () => {
 		expect(getByText("John")).toHaveAttribute("aria-description", undefined);
 	});
 
-	it("should render nothing and log a warning if data.value is not an array", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should render nothing  if data.value is not an array", async () => {
 		const { container } = await render(
 			<PersName
 				data={{
@@ -56,20 +52,9 @@ describe("PersName", () => {
 		);
 
 		expect(container).toBeEmptyDOMElement();
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"PersName data.value is not an array:",
-			"Not an array",
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 
-	it("should render nothing and log a warning if data.value is an empty array", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should render nothing if data.value is an empty array", async () => {
 		const { container } = await render(
 			<PersName
 				data={{
@@ -87,15 +72,5 @@ describe("PersName", () => {
 		);
 
 		expect(container).toBeEmptyDOMElement();
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"PersName data.value is empty:",
-			{
-				tag: "persName",
-				value: [],
-			},
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 });

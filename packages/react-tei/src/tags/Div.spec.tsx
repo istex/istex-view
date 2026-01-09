@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { Div } from "./Div";
 import { TagCatalogProvider } from "./TagCatalogProvider";
@@ -134,11 +134,7 @@ describe("Div", () => {
 		);
 	});
 
-	it("should warn and render nothing for non-array value", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should render nothing for non-array value", async () => {
 		const screen = await render(
 			<Div
 				data={{
@@ -161,13 +157,6 @@ describe("Div", () => {
 
 		expect(screen.container.querySelectorAll("div")).toHaveLength(0);
 		expect(screen.container.querySelectorAll("section")).toHaveLength(0);
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Div tag with non-array value:",
-			"This is a string, not an array",
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 
 	it("should add aria-labelledby to section based on head when present", async () => {
