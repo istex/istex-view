@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
+    xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sa="http://www.elsevier.com/xml/common/struct-aff/dtd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd"
+    xml:lang="en"
+>
+    <ns1:standOff>
+        <teiHeader>
+            <fileDesc>
+                <titleStmt>
+                    <title level="a" type="main">Unitex Enrichment</title>
+                </titleStmt>
+            </fileDesc>
+        </teiHeader>
+        <ns1:listAnnotation type="persName">
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://orgname-entity.data.istex.fr">
+                    <term>Leo</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="3" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://orgname-entity.data.istex.fr">
+                    <term>Eros</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+        </ns1:listAnnotation>
+        <ns1:listAnnotation type="orgName">
+            <annotationBlock corresp="text">
+                <orgName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://orgname-entity.data.istex.fr">
+                    <term>SNCF</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="2" />
+                        </f>
+                    </fs>
+                </orgName>
+            </annotationBlock>
+        </ns1:listAnnotation>
+        <ns1:listAnnotation type="placeName">
+            <annotationBlock corresp="text">
+                <placeName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://placename-entity.data.istex.fr">
+                    <term>Nancy</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="3" />
+                        </f>
+                    </fs>
+                </placeName>
+            </annotationBlock>
+        </ns1:listAnnotation>
+    </ns1:standOff>
+</TEI>

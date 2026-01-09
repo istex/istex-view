@@ -3,6 +3,7 @@ import { Div } from "./Div";
 import { Emph } from "./Emph";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
+import { Highlight } from "./Highlight";
 import { NoOp } from "./NoOp";
 import { P } from "./P";
 import { Quote } from "./Quote";
@@ -25,5 +26,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	// Structure tags
 	body: NoOp,
 	"#text": NoOp,
+	highlightedText: NoOp,
+	highlight: Highlight,
 	title: Title,
 };
