@@ -209,10 +209,10 @@ export function RefFallback({ data }: ComponentProps) {
 
 	if (!type && target?.startsWith("#")) {
 		console.warn(
-			"Ref tag with target attribute starting with # but no type attribute. Assuming footnote reference.",
+			"Ref tag with target attribute starting with # but no type attribute.",
 			{ data },
 		);
-		return <FootNoteRef data={data} />;
+		return <Value data={data.value} />;
 	}
 
 	if (isURI(target)) {
