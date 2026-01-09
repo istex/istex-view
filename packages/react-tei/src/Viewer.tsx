@@ -60,7 +60,7 @@ export const Viewer = ({
 		return transformBody(body);
 	}, [jsonDocument]);
 
-	const tableOfContent = useTableOfContent(body, 3);
+	const tableOfContent = useTableOfContent(body);
 
 	if (!jsonDocument) {
 		return null;

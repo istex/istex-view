@@ -113,7 +113,7 @@ describe("extractHeadingsFromBody", () => {
 		]);
 	});
 
-	it("shoudl skip divs without id or head", () => {
+	it("should skip divs without id or head", () => {
 		const jsonDocumentValue: DocumentJsonValue = [
 			{
 				tag: "div",
@@ -149,7 +149,7 @@ describe("extractHeadingsFromBody", () => {
 		]);
 	});
 
-	it("should skip deivs where head is missing", () => {
+	it("should skip divs where head is missing", () => {
 		const jsonDocumentValue: DocumentJsonValue = [
 			{
 				tag: "div",
@@ -177,7 +177,7 @@ describe("extractHeadingsFromBody", () => {
 });
 
 describe("useTableOfContent", () => {
-	it("should return the table of contents with level limit to 3", async () => {
+	it("should return the table of contents with all headings by default", async () => {
 		const textDocument: DocumentJson = {
 			tag: "text",
 			value: [
@@ -208,6 +208,37 @@ describe("useTableOfContent", () => {
 											attributes: { level: "4", id: "subsubsection-1-1-1" },
 											value: "Subsubsection 1.1.1 Heading",
 										},
+										{
+											tag: "div",
+											attributes: { level: "5", id: "subsubsection-1-1-1-1" },
+											value: [
+												{
+													tag: "head",
+													attributes: {
+														level: "5",
+														id: "subsubsection-1-1-1-1",
+													},
+													value: "Subsubsection 1.1.1.1 Heading",
+												},
+												{
+													tag: "div",
+													attributes: {
+														level: "6",
+														id: "subsubsection-1-1-1-1-1",
+													},
+													value: [
+														{
+															tag: "head",
+															attributes: {
+																level: "6",
+																id: "subsubsection-1-1-1-1-1",
+															},
+															value: "Subsubsection 1.1.1.1.1 Heading",
+														},
+													],
+												},
+											],
+										},
 									],
 								},
 							],
@@ -227,7 +258,25 @@ describe("useTableOfContent", () => {
 					{
 						id: "subsection-1-1",
 						content: "Subsection 1.1 Heading",
-						children: [],
+						children: [
+							{
+								id: "subsubsection-1-1-1",
+								content: "Subsubsection 1.1.1 Heading",
+								children: [
+									{
+										id: "subsubsection-1-1-1-1",
+										content: "Subsubsection 1.1.1.1 Heading",
+										children: [
+											{
+												id: "subsubsection-1-1-1-1-1",
+												content: "Subsubsection 1.1.1.1.1 Heading",
+												children: [],
+											},
+										],
+									},
+								],
+							},
+						],
 					},
 				],
 			},
