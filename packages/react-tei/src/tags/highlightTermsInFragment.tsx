@@ -68,11 +68,7 @@ export const highlightTermInFragment = (
 		return [
 			{
 				...textFragment,
-				content: highlightTermInFragment(
-					textFragment.content,
-					termRegex,
-					group,
-				),
+				content: textFragment.content,
 			},
 			...highlightTermInFragment(restFragments, termRegex, group),
 		];
