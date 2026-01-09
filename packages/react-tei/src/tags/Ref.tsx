@@ -1,5 +1,6 @@
 import { Link } from "@mui/material";
 import { useMemo } from "react";
+import { InlineDebug } from "../debug/InlineDebug";
 import { useDocumentNavigation } from "../navigation/useNavigateToSection";
 import { getTableId } from "./Table";
 import { getTableNoteId } from "./TableNote";
@@ -72,23 +73,23 @@ export function FootNoteRef({ data: { value, attributes } }: ComponentProps) {
 	const noteId = useMemo(() => getNoteRefId(attributes), [attributes]);
 
 	if (!noteId) {
-		console.warn("No n nor target attribute found for footnote reference", {
-			attributes,
-			value,
-		});
-		return <Value data={value} />;
+		return (
+			<InlineDebug
+				message="No n nor target attribute found for footnote reference"
+				payload={{
+					attributes,
+					value,
+				}}
+			>
+				<Value data={value} />
+			</InlineDebug>
+		);
 	}
 	return (
 		<Link
 			data-fn-id={noteId}
 			component="button"
-			onClick={() => {
-				if (!noteId) {
-					console.warn("No n attribute found for footnote reference");
-					return;
-				}
-				navigateToFootnote(noteId);
-			}}
+			onClick={() => navigateToFootnote(noteId)}
 			sx={{
 				verticalAlign: "baseline",
 				fontSize: "smaller",
@@ -109,23 +110,23 @@ export function BibliographicReferenceRef({
 	const id = useMemo(() => getTargetId(attributes), [attributes]);
 
 	if (!id) {
-		console.warn("No target attribute found for bibliographic reference", {
-			attributes,
-			value,
-		});
-		return <Value data={value} />;
+		return (
+			<InlineDebug
+				message="No target attribute found for bibliographic reference"
+				payload={{
+					attributes,
+					value,
+				}}
+			>
+				<Value data={value} />
+			</InlineDebug>
+		);
 	}
 	return (
 		<Link
 			data-bibref-id={id}
 			component="button"
-			onClick={() => {
-				if (!id) {
-					console.warn("No n attribute found for footnote reference");
-					return;
-				}
-				navigateToBibliographicReference(id);
-			}}
+			onClick={() => navigateToBibliographicReference(id)}
 		>
 			<Value data={value} />
 		</Link>
@@ -147,8 +148,14 @@ export function DocumentRef({
 	);
 
 	if (!target) {
-		console.warn("No target attribute found for table reference", { data });
-		return <Value data={data.value} />;
+		return (
+			<InlineDebug
+				message="No target attribute found for table reference"
+				payload={data}
+			>
+				<Value data={data.value} />
+			</InlineDebug>
+		);
 	}
 
 	return (
@@ -192,8 +199,11 @@ export function UriRef({ data }: ComponentProps) {
 	}, [data]);
 
 	if (!uri) {
-		console.warn("No URI found for uri reference", { data });
-		return <Value data={data.value} />;
+		return (
+			<InlineDebug message="No URI found for uri reference" payload={data}>
+				<Value data={data.value} />
+			</InlineDebug>
+		);
 	}
 
 	return (
@@ -208,11 +218,14 @@ export function RefFallback({ data }: ComponentProps) {
 	const target = data.attributes?.["@target"] || null;
 
 	if (!type && target?.startsWith("#")) {
-		console.warn(
-			"Ref tag with target attribute starting with # but no type attribute.",
-			{ data },
+		return (
+			<InlineDebug
+				message="Ref tag with target attribute starting with # but no type attribute."
+				payload={data}
+			>
+				<Value data={data.value} />
+			</InlineDebug>
 		);
-		return <Value data={data.value} />;
 	}
 
 	if (isURI(target)) {
