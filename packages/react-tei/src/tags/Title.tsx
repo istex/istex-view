@@ -6,13 +6,13 @@ export const Title = ({ data }: ComponentProps) => {
 	switch (data.attributes?.["@type"]) {
 		case "main":
 			return (
-				<Typography fontWeight="bold">
+				<Typography fontWeight="bold" component="span">
 					<Value data={data.value} />
 				</Typography>
 			);
 		case "sub":
 			return (
-				<Typography variant="subtitle1">
+				<Typography variant="subtitle1" component="span">
 					<Value data={data.value} />
 				</Typography>
 			);
