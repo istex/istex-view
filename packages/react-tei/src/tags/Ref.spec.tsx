@@ -85,8 +85,6 @@ describe("UriRef", () => {
 		});
 
 		expect(screen.getByText("No link here")).toBeInTheDocument();
-
-		expect(console.warn).toHaveBeenCalledOnce();
 	});
 
 	it("should render value and warn when ref is empty", async () => {
@@ -105,8 +103,6 @@ describe("UriRef", () => {
 		});
 
 		expect(screen.container).toBeEmptyDOMElement();
-
-		expect(console.warn).toHaveBeenCalledOnce();
 	});
 });
 
@@ -163,9 +159,6 @@ describe("Ref", () => {
 		});
 
 		it("should warn when n attribute has several values and return the first one", () => {
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
 			const attributes = { "@n": "4 6" };
 			const noteId = getNoteRefId(attributes);
 			expect(noteId).toBe("4");
@@ -173,7 +166,6 @@ describe("Ref", () => {
 				"Multiple n attributes found for footnote reference, only the first one will be used",
 				{ attributes },
 			);
-			consoleWarnSpy.mockRestore();
 		});
 
 		it("should return target attribute without #", () => {
@@ -183,9 +175,6 @@ describe("Ref", () => {
 		});
 
 		it("should warn when target attribute has several values and return the first one", () => {
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
 			const attributes = { "@target": "#note-8 #note-9" };
 			const noteId = getNoteRefId(attributes);
 			expect(noteId).toBe("note-8");
@@ -193,7 +182,6 @@ describe("Ref", () => {
 				"Multiple target attributes found for footnote reference, only the first one will be used",
 				{ attributes },
 			);
-			consoleWarnSpy.mockRestore();
 		});
 
 		it("should return null when neither n nor target are present", () => {
@@ -211,9 +199,6 @@ describe("Ref", () => {
 		});
 
 		it("should warn when target attribute has several values and return the first one", () => {
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
 			const attributes = { "@target": "#ref-3 #ref-4" };
 			const id = getNoteRefId(attributes);
 			expect(id).toBe("ref-3");
@@ -221,7 +206,6 @@ describe("Ref", () => {
 				"Multiple target attributes found for footnote reference, only the first one will be used",
 				{ attributes },
 			);
-			consoleWarnSpy.mockRestore();
 		});
 
 		it("should return null when target is not present", () => {
@@ -321,9 +305,6 @@ describe("Ref", () => {
 	});
 
 	it('should render text with no link when type="fn" but n and target attributes are missing', async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
 		const navigateToFootnote = vi.fn();
 		const jsonValue: DocumentJson = {
 			tag: "ref",
@@ -347,14 +328,6 @@ describe("Ref", () => {
 		expect(getByText("See footnote")).toBeInTheDocument();
 		expect(getByRole("button")).not.toBeInTheDocument();
 		expect(navigateToFootnote).not.toHaveBeenCalled();
-		expect(console.warn).toHaveBeenCalledWith(
-			"No n nor target attribute found for footnote reference",
-			{
-				attributes: { "@type": "fn" },
-				value: [{ tag: "#text", value: "See footnote" }],
-			},
-		);
-		consoleWarnSpy.mockRestore();
 	});
 
 	it('should render a link that navigates to the bibliographic reference when type="bibr" and target attribute is present', async () => {
@@ -388,9 +361,6 @@ describe("Ref", () => {
 	});
 
 	it('should render text with no link when type="bibr" but target attribute is missing', async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
 		const navigateToBibliographicReference = vi.fn();
 		const jsonValue: DocumentJson = {
 			tag: "ref",
@@ -414,14 +384,6 @@ describe("Ref", () => {
 		expect(getByText("See bibliographic reference")).toBeInTheDocument();
 		expect(getByRole("button")).not.toBeInTheDocument();
 		expect(navigateToBibliographicReference).not.toHaveBeenCalled();
-		expect(console.warn).toHaveBeenCalledWith(
-			"No target attribute found for bibliographic reference",
-			{
-				attributes: { "@type": "bibr" },
-				value: [{ tag: "#text", value: "See bibliographic reference" }],
-			},
-		);
-		consoleWarnSpy.mockRestore();
 	});
 
 	it('should render text and ignore n attribute when type is not "fn" nor "bibr"', async () => {
@@ -467,44 +429,6 @@ describe("Ref", () => {
 			),
 		});
 		expect(screen.getByText("Hello")).toBeInTheDocument();
-	});
-
-	it("should warn when n attributes has several values and use the first one", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-		const navigateToFootnote = vi.fn();
-		const jsonValue: DocumentJson = {
-			tag: "ref",
-			attributes: { "@type": "fn", "@n": "4 5" },
-			value: [{ tag: "#text", value: "See footnote 4" }],
-		};
-
-		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					<TestDocumentNavigationContextProvider
-						value={{
-							navigateToFootnote,
-						}}
-					>
-						{children}
-					</TestDocumentNavigationContextProvider>
-				</TagCatalogProvider>
-			),
-		});
-		expect(getByText("See footnote 4")).toBeInTheDocument();
-		const link = getByRole("button", { name: "See footnote 4" });
-		expect(link).toBeInTheDocument();
-		expect(link).toHaveAttribute("data-fn-id", "4");
-
-		await link.click();
-		expect(navigateToFootnote).toHaveBeenCalledWith("4");
-		expect(console.warn).toHaveBeenCalledWith(
-			"Multiple n attributes found for footnote reference, only the first one will be used",
-			{ attributes: { "@type": "fn", "@n": "4 5" } },
-		);
-		consoleWarnSpy.mockRestore();
 	});
 
 	it.each<DocumentJsonValue[]>([

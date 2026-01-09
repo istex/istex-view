@@ -30,7 +30,15 @@ export function groupConsecutiveNonTableValues(values: DocumentJson[]) {
 export function P({ data }: ComponentProps) {
 	if (!Array.isArray(data.value)) {
 		return (
-			<Typography variant="body1">
+			<Typography
+				variant="body1"
+				sx={{
+					"& .debug": {
+						display: "inline-flex",
+						flexDirection: "row",
+					},
+				}}
+			>
 				<Value data={data.value} />
 			</Typography>
 		);
@@ -44,7 +52,16 @@ export function P({ data }: ComponentProps) {
 		}
 
 		return (
-			<Typography variant="body1" key={index}>
+			<Typography
+				variant="body1"
+				key={index}
+				sx={{
+					"& .debug": {
+						display: "inline-flex",
+						flexDirection: "row",
+					},
+				}}
+			>
 				{group.map((item, itemIndex) => (
 					<Value key={itemIndex} data={item} />
 				))}

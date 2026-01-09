@@ -1,7 +1,7 @@
+import { IS_DEBUG } from "../debug/debug.const";
+import { InlineDebug } from "../debug/InlineDebug";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { useTagCatalog } from "./TagCatalogProvider";
-
-const IS_DEBUG_ENABLED = !!import.meta.env.DEBUG;
 
 export function Value({ data }: ValueProps) {
 	const tagCatalog = useTagCatalog();
@@ -18,20 +18,14 @@ export function Value({ data }: ValueProps) {
 		return data;
 	}
 
-	const { tag, attributes, value } = data as DocumentJson;
+	const { tag, value } = data as DocumentJson;
 
 	const TagComponent = tagCatalog[tag];
 	if (TagComponent) {
 		return <TagComponent data={data} />;
 	}
 
-	if (!IS_DEBUG_ENABLED) {
-		return null;
-	}
-
-	console.warn(`No component found for tag <${tag}>`, { attributes, value });
-
-	if (!value) {
+	if (!IS_DEBUG) {
 		return null;
 	}
 
@@ -39,7 +33,13 @@ export function Value({ data }: ValueProps) {
 		return value;
 	}
 
-	return value.map((data) => <Value data={data} />);
+	return (
+		<InlineDebug message={`No value for tag <${tag}>`} payload={data}>
+			{value?.map((data, index) => (
+				<Value data={data} key={index} />
+			))}
+		</InlineDebug>
+	);
 }
 
 type ValueProps = {

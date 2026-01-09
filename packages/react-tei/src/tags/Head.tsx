@@ -1,5 +1,5 @@
 import Typography, { type TypographyProps } from "@mui/material/Typography";
-
+import { InlineDebug } from "../debug/InlineDebug";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
@@ -9,8 +9,14 @@ export function Head({ data: { value, attributes = {} } }: ComponentProps) {
 	}
 
 	if (!attributes.level) {
-		console.warn("Head tag without level attribute:", { attributes, value });
-		return <Value data={value} />;
+		return (
+			<InlineDebug
+				message="Head tag without level attribute"
+				payload={{ attributes, value }}
+			>
+				<Value data={value} />
+			</InlineDebug>
+		);
 	}
 
 	const id = attributes.id;

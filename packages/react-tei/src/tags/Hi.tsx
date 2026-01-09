@@ -1,5 +1,6 @@
 import { Typography } from "@mui/material";
 import { type ReactNode, useMemo } from "react";
+import { InlineDebug } from "../debug/InlineDebug";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
@@ -82,8 +83,11 @@ function RecursiveHi({
 				</Typography>
 			);
 		default:
-			console.warn(`Unknown format: ${format}`);
-			return recursiveChildren;
+			return (
+				<InlineDebug message={`Unknown format: ${format}`}>
+					{recursiveChildren}
+				</InlineDebug>
+			);
 	}
 }
 
