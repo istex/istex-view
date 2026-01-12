@@ -167,7 +167,7 @@ describe("enrichDocumentWithUnitex", () => {
 						{ tag: "#text", value: " of " },
 						{
 							tag: "highlight",
-							attributes: { group: "group2", term: "Unitex" },
+							attributes: { group: "group2", term: "unitex" },
 							value: "Unitex",
 						},
 						{ tag: "#text", value: " highlighting." },

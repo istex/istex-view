@@ -308,7 +308,7 @@ describe("highlightTermInTextTag", () => {
 				{
 					tag: "highlight",
 					value: "Term1",
-					attributes: { group: "group1", term: "Term1" },
+					attributes: { group: "group1", term: "term1" },
 				},
 				{
 					tag: "#text",
@@ -317,7 +317,7 @@ describe("highlightTermInTextTag", () => {
 				{
 					tag: "highlight",
 					value: "Term2",
-					attributes: { group: "group2", term: "Term2" },
+					attributes: { group: "group2", term: "term2" },
 				},
 			],
 		});

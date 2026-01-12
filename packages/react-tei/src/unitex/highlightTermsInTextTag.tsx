@@ -1,3 +1,4 @@
+import { kebabCasify } from "../helper/kebabCasify";
 import type { DocumentJson } from "../parser/document";
 
 export type TextTag = {
@@ -59,7 +60,7 @@ export const highlightTermInString = (
 			value: matchText,
 			attributes: {
 				group,
-				term: matchText,
+				term: kebabCasify(matchText),
 			},
 		});
 
