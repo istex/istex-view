@@ -229,10 +229,7 @@ export function DocumentNavigationContextProvider({
 
 				const intersectingElement = intersectingElements
 					.filter((e) => e.isIntersecting)
-					.toSorted((a, b) => {
-						return a.intersectionRatio - b.intersectionRatio;
-					})
-					.at(0);
+					.at(-1);
 
 				if (!intersectingElement) {
 					return;
@@ -249,13 +246,13 @@ export function DocumentNavigationContextProvider({
 			},
 			{
 				root: documentRef.current,
-				threshold: 0,
+				threshold: 0.01,
 			},
 		);
 
 		documentRef.current
 			.querySelectorAll<HTMLElement>(
-				"#document-content section[aria-labelledby]:has(> h2, > h3, > h4, > h5, > h6)",
+				"#document-content section[aria-labelledby] :is(h2, h3, h4, h5, h6)",
 			)
 			.forEach((element) => {
 				observer.observe(element);

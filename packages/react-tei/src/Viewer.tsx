@@ -131,7 +131,7 @@ export const Viewer = ({
 									<Stack
 										marginInline={{
 											xs: "auto",
-											xl: "0.5rem auto",
+											xl: "0px auto",
 										}}
 										paddingBlock={4}
 										maxWidth={{
