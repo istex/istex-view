@@ -158,14 +158,10 @@ describe("Ref", () => {
 			expect(noteId).toBe("5");
 		});
 
-		it("should warn when n attribute has several values and return the first one", () => {
+		it("should return all n attributes without a hash", () => {
 			const attributes = { "@n": "4 6" };
 			const noteId = getNoteRefId(attributes);
-			expect(noteId).toBe("4");
-			expect(console.warn).toHaveBeenCalledWith(
-				"Multiple n attributes found for footnote reference, only the first one will be used",
-				{ attributes },
-			);
+			expect(noteId).toBe("4 6");
 		});
 
 		it("should return target attribute without #", () => {
@@ -174,14 +170,10 @@ describe("Ref", () => {
 			expect(noteId).toBe("note-10");
 		});
 
-		it("should warn when target attribute has several values and return the first one", () => {
+		it("should return all target attributes without a hash", () => {
 			const attributes = { "@target": "#note-8 #note-9" };
 			const noteId = getNoteRefId(attributes);
-			expect(noteId).toBe("note-8");
-			expect(console.warn).toHaveBeenCalledWith(
-				"Multiple target attributes found for footnote reference, only the first one will be used",
-				{ attributes },
-			);
+			expect(noteId).toBe("note-8 note-9");
 		});
 
 		it("should return null when neither n nor target are present", () => {
@@ -198,14 +190,10 @@ describe("Ref", () => {
 			expect(id).toBe("ref-12");
 		});
 
-		it("should warn when target attribute has several values and return the first one", () => {
+		it("should return all target attributes without a hash", () => {
 			const attributes = { "@target": "#ref-3 #ref-4" };
 			const id = getNoteRefId(attributes);
-			expect(id).toBe("ref-3");
-			expect(console.warn).toHaveBeenCalledWith(
-				"Multiple target attributes found for footnote reference, only the first one will be used",
-				{ attributes },
-			);
+			expect(id).toBe("ref-3 ref-4");
 		});
 
 		it("should return null when target is not present", () => {

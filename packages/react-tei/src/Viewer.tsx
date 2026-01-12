@@ -98,13 +98,14 @@ export const Viewer = ({
 								"& *": {
 									transition: "background-color 0.3s ease-in-out",
 								},
-								"& .highlighted-group": {
+								"& .tei-highlighted-group": {
 									backgroundColor: lime[50],
 								},
-								"& .highlighted": {
+								"& .tei-highlighted": {
 									backgroundColor: lime[100],
 								},
 							}}
+							id="viewer"
 						>
 							<Stack direction="row" flexGrow={1} justifyContent="center">
 								{!isSmallScreen && (
