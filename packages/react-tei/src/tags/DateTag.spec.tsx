@@ -1,8 +1,8 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
-import { bibliographicReferencesTagCatalog } from "./bibliographicReferencesTagCatalog";
+import { bibliographicReferencesTagCatalog } from "../SidePanel/bibliographicReferences/bibliographicReferencesTagCatalog";
 import { DateTag } from "./DateTag";
+import { TagCatalogProvider } from "./TagCatalogProvider";
 
 describe("DateTag", () => {
 	it("should render DateTag value", async () => {
