@@ -1,16 +1,26 @@
 import Typography, { type TypographyProps } from "@mui/material/Typography";
-
+import { DebugTag } from "../debug/DebugTag";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
-export function Head({ data: { value, attributes = {} } }: ComponentProps) {
+export function Head({
+	data: { tag: tagName, value, attributes = {} },
+}: ComponentProps) {
 	if (!value || (Array.isArray(value) && value.length === 0)) {
 		return null;
 	}
 
 	if (!attributes.level) {
-		console.warn("Head tag without level attribute:", { attributes, value });
-		return <Value data={value} />;
+		return (
+			<DebugTag
+				tag={tagName}
+				attributes={attributes}
+				message="Head tag without level attribute"
+				payload={{ attributes, value }}
+			>
+				<Value data={value} />
+			</DebugTag>
+		);
 	}
 
 	const id = attributes.id;

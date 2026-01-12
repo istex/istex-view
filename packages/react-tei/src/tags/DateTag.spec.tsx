@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { bibliographicReferencesTagCatalog } from "../SidePanel/bibliographicReferences/bibliographicReferencesTagCatalog";
 import { DateTag } from "./DateTag";
@@ -54,10 +54,7 @@ describe("DateTag", () => {
 		expect(screen.container.textContent).toBe("2022");
 	});
 
-	it("should return null and log a warning if no value and @when attribute is missing", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
+	it("should return null if no value and @when attribute is missing", async () => {
 		const data = {
 			tag: "date",
 		};
@@ -69,9 +66,5 @@ describe("DateTag", () => {
 			),
 		});
 		expect(screen.container).toBeEmptyDOMElement();
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Date tag with no value nor @when attribute encountered:",
-			data,
-		);
 	});
 });

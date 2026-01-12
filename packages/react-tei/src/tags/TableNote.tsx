@@ -1,6 +1,7 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
+import { DebugTag } from "../debug/DebugTag";
 import type { DocumentJson } from "../parser/document";
 import { TableNotes } from "./TableNotes";
 import { Value } from "./Value";
@@ -59,10 +60,16 @@ export function TableNote({ note }: TableNoteProps) {
 			);
 		}
 		default:
-			console.warn(`Unhandled table note type: ${type}`, note);
 			return (
 				<Box role="note" id={id}>
-					<Value data={note.value} />
+					<DebugTag
+						tag={note.tag}
+						attributes={note.attributes}
+						message={`Unhandled table note type: ${type}`}
+						payload={note}
+					>
+						<Value data={note.value} />
+					</DebugTag>
 				</Box>
 			);
 	}

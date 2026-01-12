@@ -1,4 +1,5 @@
 import { useMemo } from "react";
+import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
 import { BiblLink } from "./BiblLink";
@@ -21,26 +22,35 @@ export const Bibl = ({ data }: ComponentProps) => {
 	}, [value]);
 
 	if (!Array.isArray(value)) {
-		console.warn("Bibl value is not an array:", value);
-		return null;
+		return (
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message="Bibl value is not an array"
+				payload={value}
+			/>
+		);
 	}
 
 	if (nestedBibls && nestedBibls.length > 0) {
-		if (nestedBibls.length !== cleanedValues.length) {
-			console.warn(
-				"Bibl contains mixed content with nested bibl and other content:",
-				value,
-			);
-		}
-
 		return (
-			<BiblLink data={data}>
-				{nestedBibls.map((bibl, index) => (
-					<div key={index}>
-						<Value key={index} data={bibl.value} />
-					</div>
-				))}
-			</BiblLink>
+			<>
+				{nestedBibls.length !== cleanedValues.length && (
+					<DebugTag
+						tag={data.tag}
+						attributes={data.attributes}
+						message="Bibl contains mixed content with nested bibl and other content:"
+						payload={value}
+					/>
+				)}
+				<BiblLink data={data}>
+					{nestedBibls.map((bibl, index) => (
+						<div key={index}>
+							<Value key={index} data={bibl.value} />
+						</div>
+					))}
+				</BiblLink>
+			</>
 		);
 	}
 

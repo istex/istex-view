@@ -3,6 +3,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DebugTag } from "../debug/DebugTag";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { Value } from "../tags/Value";
 import { AbstractAccordion } from "./AbstractAccordion";
@@ -24,7 +25,9 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 				tab,
 			): tab is { lang: string; content: DocumentJsonValue | undefined } => {
 				if (!tab.lang) {
-					console.warn("Abstract without language attribute found, skipping.");
+					console.warn("Abstract without language attribute found, skipping.", {
+						content: tab.content,
+					});
 					return false;
 				}
 				return true;
@@ -56,9 +59,15 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 	};
 
 	if (!tabs.length) {
-		console.warn("No valid abstracts to display.", abstracts);
-		return null;
+		return (
+			<DebugTag
+				tag="abstract"
+				message="No valid abstracts to display."
+				payload={abstracts}
+			/>
+		);
 	}
+
 	return (
 		<AbstractAccordion title={t("document.abstract.title")}>
 			<ButtonGroup role="tablist" aria-label={t("document.lang")}>

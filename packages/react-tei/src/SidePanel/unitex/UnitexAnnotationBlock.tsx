@@ -45,7 +45,7 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 				<FormControlLabel
 					label={sectionlabel}
 					control={
-						<Tooltip title={checkboxLabel}>
+						<Tooltip title={checkboxLabel} placement="left">
 							<Checkbox
 								checked={displayStatus === "all"}
 								indeterminate={displayStatus === "partial"}

@@ -1,12 +1,18 @@
 import Box from "@mui/material/Box";
-
+import { DebugTag } from "../debug/DebugTag";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
-export function Div({ data: { value, attributes } }: ComponentProps) {
+export function Div({ data: { tag, value, attributes } }: ComponentProps) {
 	if (!Array.isArray(value)) {
-		console.warn("Div tag with non-array value:", value);
-		return null;
+		return (
+			<DebugTag
+				tag={tag}
+				attributes={attributes}
+				message="Div tag with non-array value"
+				payload={value}
+			/>
+		);
 	}
 
 	if (attributes?.level) {

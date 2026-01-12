@@ -26,4 +26,7 @@ export const bibliographicReferencesTagCatalog = {
 	"#text": NoOp,
 	name: NoOp,
 	ref: Ref,
+	series: NoOp,
+	pubPlace: NoOp,
+	note: NoOp,
 };

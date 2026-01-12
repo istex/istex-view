@@ -2,6 +2,7 @@ import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import { type ReactNode, useMemo } from "react";
+import { DebugTag } from "../../debug/DebugTag";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
 
@@ -12,15 +13,33 @@ export const BiblLink = ({
 	children: ReactNode;
 }) => {
 	const { navigateToBibliographicReferenceRef } = useDocumentNavigation();
-	const { attributes } = data;
+	const { tag, attributes } = data;
 
 	const referenceId = useMemo(() => {
 		return attributes?.["@xml:id"] || null;
 	}, [attributes]);
 
 	if (!referenceId) {
-		console.warn("No xml:id attribute found for bibliographic reference");
-		return children;
+		return (
+			<DebugTag
+				tag={tag}
+				attributes={attributes}
+				message="No xml:id attribute found for bibliographic reference"
+				payload={data}
+				inline
+			>
+				<Stack
+					sx={{
+						fontSize: "1rem",
+					}}
+					direction="row"
+					gap={1}
+					role="note"
+				>
+					{children}
+				</Stack>
+			</DebugTag>
+		);
 	}
 
 	const id = `bibl-ref-${referenceId}`;
