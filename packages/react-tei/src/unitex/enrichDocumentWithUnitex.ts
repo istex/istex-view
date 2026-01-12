@@ -29,7 +29,7 @@ export const enrichDocumentWithUnitex = (
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
 	const termRegexes = sortedTerms.map(({ term, group }) => ({
 		termRegex: termToRegex(term),
-		group,
+		group: [group],
 	}));
 
 	const enrichNode = (node: DocumentJson) => {

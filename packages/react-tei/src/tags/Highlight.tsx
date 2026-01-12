@@ -1,25 +1,37 @@
 import { Box } from "@mui/material";
+import type { DocumentJson } from "../parser/document";
 import { chipColors } from "../SidePanel/unitex/unitexAnnotationBlocks";
-import type { ComponentProps } from "./type";
+import { Value } from "./Value";
 
-export const Highlight = ({ data }: ComponentProps) => {
+export const Highlight = ({
+	data,
+}: {
+	data: {
+		tag: "highlight";
+		attributes: {
+			term: string;
+			group: string[];
+		};
+		value: string | DocumentJson[];
+	};
+}) => {
 	const { value, attributes } = data;
-	if (typeof value !== "string") {
-		console.warn("Highlight tag value is not a string:", data.value);
-		return null;
-	}
 	return (
 		<Box
 			component="span"
 			data-term={attributes?.term}
-			data-group={attributes?.group}
+			data-group={attributes?.group.join(" ")}
 			sx={{
-				borderBottom: "3px solid",
-				borderColor:
-					chipColors[attributes?.group as keyof typeof chipColors] || "gray",
+				boxShadow: attributes.group
+					.map((g, index) =>
+						index === 0
+							? `inset 0 -3px 0 ${chipColors[g as keyof typeof chipColors]}`
+							: `0 ${(index + 1) * 3}px 0 ${chipColors[g as keyof typeof chipColors]}`,
+					)
+					.join(", "),
 			}}
 		>
-			{value}
+			<Value data={value} />
 		</Box>
 	);
 };

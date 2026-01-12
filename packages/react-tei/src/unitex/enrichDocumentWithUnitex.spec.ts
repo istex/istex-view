@@ -95,8 +95,13 @@ describe("enrichDocumentWithUnitex", () => {
 						{ tag: "#text", value: "This is a " },
 						{
 							tag: "highlight",
-							attributes: { group: "group1", term: "test" },
-							value: "test",
+							attributes: { group: ["group1"], term: "test" },
+							value: [
+								{
+									tag: "#text",
+									value: "test",
+								},
+							],
 						},
 						{ tag: "#text", value: "." },
 					],
@@ -110,8 +115,13 @@ describe("enrichDocumentWithUnitex", () => {
 								{ tag: "#text", value: "Another " },
 								{
 									tag: "highlight",
-									attributes: { group: "group1", term: "test" },
-									value: "test",
+									attributes: { group: ["group1"], term: "test" },
+									value: [
+										{
+											tag: "#text",
+											value: "test",
+										},
+									],
 								},
 								{ tag: "#text", value: " here." },
 							],
@@ -155,20 +165,35 @@ describe("enrichDocumentWithUnitex", () => {
 						{ tag: "#text", value: "This " },
 						{
 							tag: "highlight",
-							attributes: { group: "group1", term: "is" },
-							value: "is",
+							attributes: { group: ["group1"], term: "is" },
+							value: [
+								{
+									tag: "#text",
+									value: "is",
+								},
+							],
 						},
 						{ tag: "#text", value: " a " },
 						{
 							tag: "highlight",
-							attributes: { group: "group1", term: "test" },
-							value: "test",
+							attributes: { group: ["group1"], term: "test" },
+							value: [
+								{
+									tag: "#text",
+									value: "test",
+								},
+							],
 						},
 						{ tag: "#text", value: " of " },
 						{
 							tag: "highlight",
-							attributes: { group: "group2", term: "unitex" },
-							value: "Unitex",
+							attributes: { group: ["group2"], term: "unitex" },
+							value: [
+								{
+									tag: "#text",
+									value: "Unitex",
+								},
+							],
 						},
 						{ tag: "#text", value: " highlighting." },
 					],
