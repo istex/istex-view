@@ -1,4 +1,4 @@
-import { Typography } from "@mui/material";
+import { Typography, type TypographyProps } from "@mui/material";
 import { type ReactNode, useMemo } from "react";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
@@ -11,18 +11,41 @@ function RecursiveHi({
 		return children;
 	}
 
+	const commonSx: TypographyProps["sx"] = {
+		font: "inherit",
+		fontFamily: "inherit",
+		fontSize: "inherit",
+		fontStyle: "inherit",
+		fontVariant: "inherit",
+		fontWeight: "inherit",
+		lineHeight: "inherit",
+		textDecoration: "inherit",
+		verticalAlign: "inherit",
+	};
+
 	const recursiveChildren = (
 		<RecursiveHi rendList={rest}>{children}</RecursiveHi>
 	);
 
 	switch (format) {
 		case "italic":
-			return <Typography component="em">{recursiveChildren}</Typography>;
+			return (
+				<Typography
+					component="em"
+					sx={{
+						...commonSx,
+						fontStyle: "italic",
+					}}
+				>
+					{recursiveChildren}
+				</Typography>
+			);
 		case "bold":
 			return (
 				<Typography
 					component="strong"
 					sx={{
+						...commonSx,
 						fontWeight: "bold",
 					}}
 				>
@@ -34,6 +57,7 @@ function RecursiveHi({
 				<Typography
 					component="u"
 					sx={{
+						...commonSx,
 						textDecoration: "underline",
 					}}
 				>
@@ -45,6 +69,7 @@ function RecursiveHi({
 				<Typography
 					component="sup"
 					sx={{
+						...commonSx,
 						/* we use baseline and relative position to avoid line spacing issues */
 						verticalAlign: "baseline",
 						fontSize: "smaller",
@@ -60,6 +85,7 @@ function RecursiveHi({
 				<Typography
 					component="sub"
 					sx={{
+						...commonSx,
 						/* we use baseline and relative position to avoid line spacing issues */
 						verticalAlign: "baseline",
 						fontSize: "smaller",
@@ -75,6 +101,7 @@ function RecursiveHi({
 				<Typography
 					component="span"
 					sx={{
+						...commonSx,
 						fontVariant: "small-caps",
 					}}
 				>
