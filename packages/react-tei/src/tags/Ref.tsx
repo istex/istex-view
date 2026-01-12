@@ -1,6 +1,6 @@
 import { Link } from "@mui/material";
 import { useMemo } from "react";
-import { InlineDebug } from "../debug/InlineDebug";
+import { DebugTag } from "../debug/DebugTag";
 import { useDocumentNavigation } from "../navigation/useNavigateToSection";
 import { getTableId } from "./Table";
 import { getTableNoteId } from "./TableNote";
@@ -67,14 +67,18 @@ export const getNoteRefId = (
 	return null;
 };
 
-export function FootNoteRef({ data: { value, attributes } }: ComponentProps) {
+export function FootNoteRef({
+	data: { tag, value, attributes },
+}: ComponentProps) {
 	const { navigateToFootnote } = useDocumentNavigation();
 
 	const noteId = useMemo(() => getNoteRefId(attributes), [attributes]);
 
 	if (!noteId) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={tag}
+				attributes={attributes}
 				message="No n nor target attribute found for footnote reference"
 				payload={{
 					attributes,
@@ -82,7 +86,7 @@ export function FootNoteRef({ data: { value, attributes } }: ComponentProps) {
 				}}
 			>
 				<Value data={value} />
-			</InlineDebug>
+			</DebugTag>
 		);
 	}
 	return (
@@ -103,7 +107,7 @@ export function FootNoteRef({ data: { value, attributes } }: ComponentProps) {
 }
 
 export function BibliographicReferenceRef({
-	data: { value, attributes },
+	data: { tag, value, attributes },
 }: ComponentProps) {
 	const { navigateToBibliographicReference } = useDocumentNavigation();
 
@@ -111,7 +115,9 @@ export function BibliographicReferenceRef({
 
 	if (!id) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={tag}
+				attributes={attributes}
 				message="No target attribute found for bibliographic reference"
 				payload={{
 					attributes,
@@ -119,7 +125,7 @@ export function BibliographicReferenceRef({
 				}}
 			>
 				<Value data={value} />
-			</InlineDebug>
+			</DebugTag>
 		);
 	}
 	return (
@@ -149,12 +155,14 @@ export function DocumentRef({
 
 	if (!target) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
 				message="No target attribute found for table reference"
 				payload={data}
 			>
 				<Value data={data.value} />
-			</InlineDebug>
+			</DebugTag>
 		);
 	}
 
@@ -200,9 +208,14 @@ export function UriRef({ data }: ComponentProps) {
 
 	if (!uri) {
 		return (
-			<InlineDebug message="No URI found for uri reference" payload={data}>
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message="No URI found for uri reference"
+				payload={data}
+			>
 				<Value data={data.value} />
-			</InlineDebug>
+			</DebugTag>
 		);
 	}
 
@@ -219,12 +232,14 @@ export function RefFallback({ data }: ComponentProps) {
 
 	if (!type && target?.startsWith("#")) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
 				message="Ref tag with target attribute starting with # but no type attribute."
 				payload={data}
 			>
 				<Value data={data.value} />
-			</InlineDebug>
+			</DebugTag>
 		);
 	}
 

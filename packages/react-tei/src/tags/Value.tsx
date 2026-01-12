@@ -1,5 +1,5 @@
+import { DebugTag } from "../debug/DebugTag";
 import { IS_DEBUG } from "../debug/debug.const";
-import { InlineDebug } from "../debug/InlineDebug";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { useTagCatalog } from "./TagCatalogProvider";
 
@@ -34,11 +34,16 @@ export function Value({ data }: ValueProps) {
 	}
 
 	return (
-		<InlineDebug message={`No value for tag <${tag}>`} payload={data}>
+		<DebugTag
+			tag={data.tag}
+			attributes={data.attributes}
+			message={`No value for tag <${tag}>`}
+			payload={data}
+		>
 			{value?.map((data, index) => (
 				<Value data={data} key={index} />
 			))}
-		</InlineDebug>
+		</DebugTag>
 	);
 }
 

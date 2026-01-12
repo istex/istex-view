@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { InlineDebug } from "../../debug/InlineDebug";
+import { DebugTag } from "../../debug/DebugTag";
 import type { DocumentJson, DocumentJsonValue } from "../../parser/document";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
@@ -74,7 +74,12 @@ export const BiblStruct = ({ data }: ComponentProps) => {
 
 	if (!Array.isArray(value)) {
 		return (
-			<InlineDebug message="BiblStruct value is not an array" payload={value} />
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message="BiblStruct value is not an array"
+				payload={value}
+			/>
 		);
 	}
 

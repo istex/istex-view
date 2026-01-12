@@ -3,7 +3,7 @@ import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InlineDebug } from "../debug/InlineDebug";
+import { DebugTag } from "../debug/DebugTag";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { Value } from "../tags/Value";
 import { AbstractAccordion } from "./AbstractAccordion";
@@ -60,7 +60,8 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 
 	if (!tabs.length) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag="abstract"
 				message="No valid abstracts to display."
 				payload={abstracts}
 			/>

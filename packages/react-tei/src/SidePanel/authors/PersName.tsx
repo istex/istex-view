@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import { InlineDebug } from "../../debug/InlineDebug";
+import { DebugTag } from "../../debug/DebugTag";
 import type { DocumentJson } from "../../parser/document";
 import { Value } from "../../tags/Value";
 
@@ -10,7 +10,9 @@ type PersNameProps = {
 export function PersName({ data }: PersNameProps) {
 	if (!Array.isArray(data.value)) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
 				message={`PersName data.value is not an array`}
 				payload={data.value}
 			/>
@@ -18,7 +20,13 @@ export function PersName({ data }: PersNameProps) {
 	}
 
 	if (data.value.length === 0) {
-		return <InlineDebug message={`PersName data.value is empty`} />;
+		return (
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message={`PersName data.value is empty`}
+			/>
+		);
 	}
 
 	return (

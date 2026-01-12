@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import { InlineDebug } from "../debug/InlineDebug";
+import { DebugTag } from "../debug/DebugTag";
 import type { DocumentJson } from "../parser/document";
 import { TableNotes } from "./TableNotes";
 import { Value } from "./Value";
@@ -62,12 +62,14 @@ export function TableNote({ note }: TableNoteProps) {
 		default:
 			return (
 				<Box role="note" id={id}>
-					<InlineDebug
+					<DebugTag
+						tag={note.tag}
+						attributes={note.attributes}
 						message={`Unhandled table note type: ${type}`}
 						payload={note}
 					>
 						<Value data={note.value} />
-					</InlineDebug>
+					</DebugTag>
 				</Box>
 			);
 	}

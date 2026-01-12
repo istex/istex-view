@@ -1,21 +1,25 @@
 import Typography, { type TypographyProps } from "@mui/material/Typography";
-import { InlineDebug } from "../debug/InlineDebug";
+import { DebugTag } from "../debug/DebugTag";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
-export function Head({ data: { value, attributes = {} } }: ComponentProps) {
+export function Head({
+	data: { tag: tagName, value, attributes = {} },
+}: ComponentProps) {
 	if (!value || (Array.isArray(value) && value.length === 0)) {
 		return null;
 	}
 
 	if (!attributes.level) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={tagName}
+				attributes={attributes}
 				message="Head tag without level attribute"
 				payload={{ attributes, value }}
 			>
 				<Value data={value} />
-			</InlineDebug>
+			</DebugTag>
 		);
 	}
 

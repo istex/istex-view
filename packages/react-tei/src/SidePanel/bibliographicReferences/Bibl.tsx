@@ -1,5 +1,5 @@
 import { useMemo } from "react";
-import { InlineDebug } from "../../debug/InlineDebug";
+import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
 import { BiblLink } from "./BiblLink";
@@ -22,14 +22,23 @@ export const Bibl = ({ data }: ComponentProps) => {
 	}, [value]);
 
 	if (!Array.isArray(value)) {
-		return <InlineDebug message="Bibl value is not an array" payload={value} />;
+		return (
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message="Bibl value is not an array"
+				payload={value}
+			/>
+		);
 	}
 
 	if (nestedBibls && nestedBibls.length > 0) {
 		return (
 			<>
 				{nestedBibls.length !== cleanedValues.length && (
-					<InlineDebug
+					<DebugTag
+						tag={data.tag}
+						attributes={data.attributes}
 						message="Bibl contains mixed content with nested bibl and other content:"
 						payload={value}
 					/>

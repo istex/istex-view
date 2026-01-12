@@ -1,13 +1,15 @@
 import MuiTableCell from "@mui/material/TableCell";
 import MuiTableRow from "@mui/material/TableRow";
-import { InlineDebug } from "../debug/InlineDebug";
+import { DebugTag } from "../debug/DebugTag";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
 export function TableRow({ data }: ComponentProps) {
 	if (!Array.isArray(data.value)) {
 		return (
-			<InlineDebug
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
 				message="TableRow tag with non-array value"
 				payload={data.value}
 			/>
