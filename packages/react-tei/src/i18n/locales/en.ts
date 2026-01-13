@@ -61,4 +61,10 @@ export const en: Translation = {
 		geogName_one: "Geographical place name ({{count}})",
 		geogName_other: "Geographical places names ({{count}})",
 	},
+	multicat: {
+		inist: "INIST Category",
+		wos: "WOS Category",
+		science_metrix: "Science-Metrix Category",
+		scopus: "Scopus Category",
+	},
 };

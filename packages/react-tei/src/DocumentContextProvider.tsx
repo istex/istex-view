@@ -6,6 +6,7 @@ import {
 	useReducer,
 } from "react";
 import type { DocumentJson } from "./parser/document";
+import type { MulticatCategory } from "./SidePanel/multicat/useParseMulticatCategories";
 import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
 import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
 
@@ -23,6 +24,11 @@ export type PanelState = {
 		unitext_persName?: boolean;
 		unitext_placeName?: boolean;
 		unitext_geogName?: boolean;
+
+		multicat_inist?: boolean;
+		multicat_wos?: boolean;
+		multicat_science_metrix?: boolean;
+		multicat_scopus?: boolean;
 	};
 };
 
@@ -42,6 +48,7 @@ export type DocumentContextType = {
 		toggleBlock: (block: UnitexAnnotationBlockType) => void;
 		toggleTerm: (block: UnitexAnnotationBlockType, term: string) => void;
 	};
+	multicatEnrichment: MulticatCategory[];
 };
 
 export const DocumentContext = createContext<DocumentContextType | undefined>(
@@ -64,10 +71,12 @@ export function DocumentContextProvider({
 	children,
 	jsonDocument,
 	jsonUnitexEnrichment: initialJsonUnitexEnrichment,
+	multicatEnrichment = [],
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
 	jsonUnitexEnrichment?: JsonUnitexEnrichment;
+	multicatEnrichment?: MulticatCategory[];
 }) {
 	const [panelState, dispatchPanelAction] = useReducer(
 		(state: PanelState, action: PanelAction) => {
@@ -95,11 +104,17 @@ export function DocumentContextProvider({
 				source: true,
 				footnotes: true,
 				bibliographicReferences: true,
+
 				unitext_date: true,
 				unitext_orgName: true,
 				unitext_persName: true,
 				unitext_placeName: true,
 				unitext_geogName: true,
+
+				multicat_inist: true,
+				multicat_wos: true,
+				multicat_science_metrix: true,
+				multicat_scopus: true,
 			},
 		} satisfies PanelState,
 	);
@@ -192,10 +207,12 @@ export function DocumentContextProvider({
 						toggleTerm: toggleUnitexAnnotation,
 					}
 				: undefined,
+			multicatEnrichment,
 		}),
 		[
 			jsonDocument,
 			jsonUnitexEnrichment,
+			multicatEnrichment,
 			panelState,
 			togglePanel,
 			toggleSection,

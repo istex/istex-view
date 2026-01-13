@@ -30,6 +30,7 @@ describe("Accordion", () => {
 								togglePanel: () => {},
 								toggleSection: () => {},
 							},
+							multicatEnrichment: [],
 						}}
 					>
 						{children}
@@ -68,6 +69,7 @@ describe("Accordion", () => {
 								togglePanel: () => {},
 								toggleSection: () => {},
 							},
+							multicatEnrichment: [],
 						}}
 					>
 						{children}

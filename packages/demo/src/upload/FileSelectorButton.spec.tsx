@@ -11,7 +11,8 @@ describe("FileSelectorButton", () => {
 		const onChange = vi.fn<FileSelectorButtonProps["onChange"]>();
 		const screen = await render(
 			<FileSelectorButton
-				label="Select a TEI File to View"
+				placeholder="Select a TEI File to View"
+				buttonLabel="TEI Document"
 				dataTestId="file-selector-input"
 				onChange={onChange}
 			/>,
@@ -19,7 +20,7 @@ describe("FileSelectorButton", () => {
 
 		expect(
 			screen.getByRole("button", {
-				name: "Select a TEI File to View",
+				name: "TEI Document",
 			}),
 		).toBeInTheDocument();
 	});
@@ -28,7 +29,7 @@ describe("FileSelectorButton", () => {
 		const onChange = vi.fn<FileSelectorButtonProps["onChange"]>();
 		const screen = await render(
 			<FileSelectorButton
-				label="Select a TEI File to View"
+				placeholder="Select a TEI File to View"
 				dataTestId="file-selector-input"
 				onChange={onChange}
 			/>,

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fichier générée le 06-05-2025 -->
+<!-- nb - v1.1.2 - pascal-francis -->
+<TEI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.tei-c.org/ns/1.0"
+	xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd"
+	xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd">
+  <ns1:standOff>
+    <teiHeader>
+    </teiHeader>
+    <ns1:listAnnotation type="rd-nb">
+      <annotationBlock corresp="abstract">
+        <keywords change="#rd-nb" resp="#istex" scheme="https://inist-category.data.istex.fr">
+          <term cert="0.7932669031481164" key="STM" level="1">sciences appliquees, technologies et medecines</term>
+          <term cert="0.5403761308159519" key="001" level="2">sciences exactes et technologie</term>
+          <term cert="0.1842950350882644" key="001B" level="3">physique</term>
+          <term cert="0.23055958378032354" key="001B70" level="4">etat condense: structure electronique, proprietes electriques, magnetiques et optiques</term>
+        </keywords>
+      </annotationBlock>
+    </ns1:listAnnotation>
+  </ns1:standOff>
+</TEI>

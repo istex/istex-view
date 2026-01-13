@@ -10,6 +10,7 @@ import { AuthorSection } from "./authors/AuthorSection";
 import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographiceferencesSection";
 import { FootnotesSection } from "./footNotes/FootnotesSection";
 import { KeywordSection } from "./keywords/KeywordSection";
+import { MulticatCategories } from "./multicat/MulticatCategories";
 import { SourceSection } from "./source/SourceSection";
 import { UnitexSection } from "./unitex/UnitexSection";
 
@@ -66,10 +67,10 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 						minWidth: `calc(${SIDEPANEL_WIDTH} - ${SIDEPANEL_PADDING})`,
 						paddingBlock: 4,
 						paddingInlineEnd: 2,
-						"& .MuiList-root": {
+						"& .MuiList-root:not(.unstyled)": {
 							listStyle: "disc",
-							paddingLeft: "2.25rem",
-							paddingRight: "2rem",
+							paddingInlineStart: "2.25rem",
+							paddingInlineRight: "2rem",
 						},
 					}}
 					gap={4}
@@ -78,6 +79,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<KeywordSection />
 					<SourceSection />
 					<UnitexSection />
+					<MulticatCategories />
 					<FootnotesSection />
 					<BibliographicReferencesSection />
 				</Stack>

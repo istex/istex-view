@@ -2,18 +2,16 @@ import { createContext, useMemo, useState } from "react";
 
 export type ViewerContextType = {
 	viewerLaunched: boolean;
-	document: {
-		filename: string;
-		content: string;
-	} | null;
-	unitexEnrichment: {
-		filename: string;
-		content: string;
-	} | null;
+	document: DocumentFile | null;
+	unitexEnrichment: DocumentFile | null;
+	multicatEnrichment: DocumentFile | null;
+	nbEnrichment: DocumentFile | null;
 
 	launchViewer(): void;
-	openDocument(document: { filename: string; content: string }): void;
-	openUnitexEnrichment(enrichment: { filename: string; content: string }): void;
+	openDocument(document: DocumentFile): void;
+	openUnitexEnrichment(enrichment: DocumentFile | null): void;
+	openMulticatEnrichment(enrichment: DocumentFile | null): void;
+	openNbEnrichment(enrichment: DocumentFile | null): void;
 	closeDocument(): void;
 };
 
@@ -27,40 +25,61 @@ export function ViewerContextProvider({
 	children: React.ReactNode;
 }) {
 	const [viewerLaunched, setViewerLaunched] = useState(false);
-	const [document, setDocument] = useState<{
-		filename: string;
-		content: string;
-	} | null>(null);
-	const [unitexEnrichment, setUnitexEnrichment] = useState<{
-		filename: string;
-		content: string;
-	} | null>(null);
+	const [document, setDocument] = useState<DocumentFile | null>(null);
+	const [unitexEnrichment, setUnitexEnrichment] = useState<DocumentFile | null>(
+		null,
+	);
+
+	const [multicatEnrichment, setMulticatEnrichment] =
+		useState<DocumentFile | null>(null);
+
+	const [nbEnrichment, setNbEnrichment] = useState<DocumentFile | null>(null);
+
 	const value = useMemo(
 		() => ({
 			viewerLaunched,
 			document,
 			unitexEnrichment,
+			multicatEnrichment,
+			nbEnrichment,
 			launchViewer() {
 				if (!document) {
 					return;
 				}
 				setViewerLaunched(true);
 			},
-			openDocument(document: { filename: string; content: string }) {
+			openDocument(document: DocumentFile) {
 				setDocument(document);
 			},
-			openUnitexEnrichment(enrichment: { filename: string; content: string }) {
+			openUnitexEnrichment(enrichment: DocumentFile | null) {
 				setUnitexEnrichment(enrichment);
+			},
+			openMulticatEnrichment(enrichment: DocumentFile | null) {
+				setMulticatEnrichment(enrichment);
+			},
+			openNbEnrichment(enrichment: DocumentFile | null) {
+				setNbEnrichment(enrichment);
 			},
 			closeDocument() {
 				setDocument(null);
 				setUnitexEnrichment(null);
 			},
 		}),
-		[viewerLaunched, document, unitexEnrichment],
+		[
+			viewerLaunched,
+			document,
+			unitexEnrichment,
+			multicatEnrichment,
+			nbEnrichment,
+		],
 	);
 
 	return (
 		<ViewerContext.Provider value={value}>{children}</ViewerContext.Provider>
 	);
 }
+
+export type DocumentFile = {
+	filename: string;
+	content: string;
+};
