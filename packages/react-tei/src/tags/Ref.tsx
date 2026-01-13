@@ -21,25 +21,17 @@ export const isURI = (value: string | null): value is string => {
 	}
 };
 
-export const getTargetId = (
-	attributes: { "@n"?: string; "@target"?: string } | undefined,
-) => {
+export const getTargetId = (attributes: { "@target"?: string } | undefined) => {
 	if (!attributes) {
 		return null;
 	}
 
-	if (attributes["@target"]) {
-		const targetValues = attributes["@target"].split(" ");
-		if (targetValues.length > 1) {
-			console.warn(
-				"Multiple target attributes found for footnote reference, only the first one will be used",
-				{ attributes },
-			);
-		}
-		return targetValues[0]?.replace(/^#/, "");
-	}
-
-	return null;
+	return (
+		attributes["@target"]
+			?.split(" ")
+			.map((target) => target.replace(/^#/, ""))
+			.join(" ") ?? null
+	);
 };
 
 export const getNoteRefId = (
@@ -49,22 +41,7 @@ export const getNoteRefId = (
 		return null;
 	}
 
-	if (attributes["@target"]) {
-		return getTargetId(attributes);
-	}
-
-	if (attributes["@n"]) {
-		const nValues = attributes["@n"].split(" ");
-		if (nValues.length > 1) {
-			console.warn(
-				"Multiple n attributes found for footnote reference, only the first one will be used",
-				{ attributes },
-			);
-		}
-		return nValues[0];
-	}
-
-	return null;
+	return getTargetId(attributes) ?? attributes["@n"] ?? null;
 };
 
 export function FootNoteRef({

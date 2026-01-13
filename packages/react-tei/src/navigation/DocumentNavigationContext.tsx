@@ -3,6 +3,7 @@ import {
 	useCallback,
 	useEffect,
 	useMemo,
+	useRef,
 	useState,
 } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
@@ -27,12 +28,41 @@ type DocumentNavigationContextProviderProps = {
 	sidePanelRef: React.RefObject<HTMLDivElement | null>;
 };
 
-const HIGHLIGHT_CLASS = "highlighted";
-const HIGHLIGHT_DELAY = 500;
-const HIGHLIGHT_DURATION = 1500;
-const PANEL_HIGHLIGHT_DURATION = 1000;
+const HIGHLIGHT_CLASS = "tei-highlighted";
+const HIGHLIGHT_GROUP_CLASS = `${HIGHLIGHT_CLASS}-group`;
 
-const HIGHLIGHT_GROUP_CLASS = "highlighted-group";
+function clearCurrentHighlight() {
+	document.querySelectorAll(`.${HIGHLIGHT_GROUP_CLASS}`).forEach((el) => {
+		el.classList.remove(HIGHLIGHT_GROUP_CLASS, HIGHLIGHT_CLASS);
+	});
+}
+
+export function highlightGroup(
+	elements: NodeListOf<HTMLElement>,
+	currentElementIndex: number,
+) {
+	clearCurrentHighlight();
+
+	const currentElement =
+		elements.length > 0 ? elements[currentElementIndex] : undefined;
+	if (!currentElement) {
+		return;
+	}
+
+	window.requestAnimationFrame(() => {
+		elements.forEach((el) => {
+			el.classList.add(HIGHLIGHT_GROUP_CLASS);
+		});
+		currentElement.classList.add(HIGHLIGHT_CLASS);
+	});
+}
+
+export function buildDataSelector(target: string, dataTarget: string): string {
+	return target
+		.split(" ")
+		.map((t) => `[data-${dataTarget}-id~="${t}"]`)
+		.join(", ");
+}
 
 export function DocumentNavigationContextProvider({
 	documentRef,
@@ -43,63 +73,48 @@ export function DocumentNavigationContextProvider({
 
 	const [currentHeadingId, setCurrentHeadingId] = useState<string | null>(null);
 
-	const [currentSelector, setCurrentSelector] = useState<string>("");
-	const [currentElementIndex, setCurrentElementIndex] = useState<number>(0);
+	const currentSelectorRef = useRef<CurrentSelectorRef | null>(null);
 
-	const clearCurrentHighlight = useCallback(() => {
-		const documentElement = documentRef.current;
+	const navigateToTargetLoop = useCallback(
+		(wrapperElement: HTMLElement, querySelector: string) => {
+			const targetElements =
+				wrapperElement.querySelectorAll<HTMLElement>(querySelector);
 
-		if (!documentElement) {
-			return;
-		}
-
-		documentElement.querySelectorAll(`.${HIGHLIGHT_CLASS}`).forEach((el) => {
-			el.classList.remove(HIGHLIGHT_CLASS);
-		});
-
-		documentElement
-			.querySelectorAll(`.${HIGHLIGHT_GROUP_CLASS}`)
-			.forEach((el) => {
-				el.classList.remove(HIGHLIGHT_GROUP_CLASS);
-			});
-	}, [documentRef]);
-
-	const highlightElement = useCallback(
-		(element: HTMLElement, duration = HIGHLIGHT_DURATION) => {
-			clearCurrentHighlight();
-
-			setTimeout(() => {
-				element.classList.add(HIGHLIGHT_CLASS);
-				setTimeout(() => {
-					element.classList.remove(HIGHLIGHT_CLASS);
-				}, duration);
-			}, HIGHLIGHT_DELAY);
-		},
-		[clearCurrentHighlight],
-	);
-
-	const highlightGroup = useCallback(
-		(elements: NodeListOf<HTMLElement>, currentElementIndex: number) => {
-			clearCurrentHighlight();
-
-			const currentElement =
-				elements.length > 0 ? elements[currentElementIndex] : undefined;
-			if (!currentElement) {
+			if (!targetElements.length) {
+				console.warn(`Element with querySelector '${querySelector}' not found`);
 				return;
 			}
 
-			if (elements.length === 1) {
-				return highlightElement(currentElement);
+			if (
+				currentSelectorRef.current?.element !== wrapperElement ||
+				currentSelectorRef.current?.selector !== querySelector
+			) {
+				currentSelectorRef.current = {
+					element: wrapperElement,
+					selector: querySelector,
+					index: 0,
+				};
+			} else {
+				currentSelectorRef.current.index =
+					(currentSelectorRef.current.index + 1) % targetElements.length;
 			}
 
-			window.requestAnimationFrame(() => {
-				elements.forEach((el) => {
-					el.classList.add(HIGHLIGHT_GROUP_CLASS);
-				});
-				currentElement.classList.add(HIGHLIGHT_CLASS);
+			const index = currentSelectorRef.current.index;
+
+			if (!targetElements[index]) {
+				console.error(
+					`Target element with querySelector '${querySelector}' and index '${index}' not found`,
+				);
+				return;
+			}
+
+			targetElements[index].scrollIntoView({
+				behavior: "smooth",
 			});
+
+			highlightGroup(targetElements, index);
 		},
-		[clearCurrentHighlight, highlightElement],
+		[],
 	);
 
 	const navigateToBodyTargetSelector = useCallback(
@@ -111,38 +126,9 @@ export function DocumentNavigationContextProvider({
 				return;
 			}
 
-			const targetElements =
-				documentElement.querySelectorAll<HTMLElement>(querySelector);
-
-			if (!targetElements.length) {
-				console.warn(`Element with querySelector '${querySelector}' not found`);
-				return;
-			}
-
-			if (currentSelector !== querySelector) {
-				setCurrentSelector(querySelector);
-			}
-			const index =
-				currentSelector !== querySelector
-					? 0
-					: (currentElementIndex + 1) % targetElements.length;
-
-			setCurrentElementIndex(index);
-
-			if (!targetElements[index]) {
-				console.error(
-					`Target element with querySelector '${querySelector}' and index '${currentElementIndex}' not found`,
-				);
-				return;
-			}
-
-			targetElements[index].scrollIntoView({
-				behavior: "smooth",
-			});
-
-			highlightGroup(targetElements, index);
+			navigateToTargetLoop(documentElement, querySelector);
 		},
-		[documentRef, currentElementIndex, currentSelector, highlightGroup],
+		[documentRef, navigateToTargetLoop],
 	);
 
 	const navigateToHeading = useCallback(
@@ -161,57 +147,49 @@ export function DocumentNavigationContextProvider({
 				return;
 			}
 
-			const targetElement =
-				sidePanelElement.querySelector<HTMLElement>(querySelector);
-
-			if (!targetElement) {
-				console.warn(`Element with querySelector '${querySelector}' not found`);
-				return;
-			}
-
-			targetElement.scrollIntoView({
-				behavior: "smooth",
-			});
-
-			highlightElement(targetElement, PANEL_HIGHLIGHT_DURATION);
+			navigateToTargetLoop(sidePanelElement, querySelector);
 		},
-		[sidePanelRef, highlightElement],
+		[sidePanelRef, navigateToTargetLoop],
 	);
 
 	const navigateToFootnote = useCallback(
 		(n: string) => {
+			const selector = buildDataSelector(n, "fn");
+
 			if (!panel.state.isOpen || !panel.state.sections.footnotes) {
 				panel.toggleSection("footnotes");
 				setTimeout(() => {
-					navigateToPanelTargetSelector(`[data-fn-id='${n}']`);
+					navigateToPanelTargetSelector(selector);
 				}, 600);
 				return;
 			}
-			return navigateToPanelTargetSelector(`[data-fn-id='${n}']`);
+			return navigateToPanelTargetSelector(selector);
 		},
 		[navigateToPanelTargetSelector, panel],
 	);
 
 	const navigateToBibliographicReference = useCallback(
 		(id: string) => {
+			const selector = buildDataSelector(id, "bibref");
+
 			if (
 				!panel.state.isOpen ||
 				!panel.state.sections.bibliographicReferences
 			) {
 				panel.toggleSection("bibliographicReferences");
 				setTimeout(() => {
-					navigateToPanelTargetSelector(`[data-bibref-id='${id}']`);
+					navigateToPanelTargetSelector(selector);
 				}, 600);
 				return;
 			}
-			return navigateToPanelTargetSelector(`[data-bibref-id='${id}']`);
+			return navigateToPanelTargetSelector(selector);
 		},
 		[navigateToPanelTargetSelector, panel],
 	);
 
 	const navigateToFootnoteRef = useCallback(
 		(id: string) => {
-			return navigateToBodyTargetSelector(`[data-fn-id='${id}']`);
+			return navigateToBodyTargetSelector(buildDataSelector(id, "fn"));
 		},
 		[navigateToBodyTargetSelector],
 	);
@@ -265,7 +243,7 @@ export function DocumentNavigationContextProvider({
 
 	const navigateToBibliographicReferenceRef = useCallback(
 		(id: string) => {
-			return navigateToBodyTargetSelector(`[data-bibref-id='${id}']`);
+			return navigateToBodyTargetSelector(buildDataSelector(id, "bibref"));
 		},
 		[navigateToBodyTargetSelector],
 	);
@@ -297,3 +275,9 @@ export function DocumentNavigationContextProvider({
 		</DocumentNavigationContext.Provider>
 	);
 }
+
+type CurrentSelectorRef = {
+	element: HTMLElement;
+	selector: string;
+	index: number;
+};

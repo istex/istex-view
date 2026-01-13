@@ -135,7 +135,7 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			result.current.navigateToFootnoteRef("fn-1");
-			expect(querySelectorAll).toHaveBeenCalledWith("[data-fn-id='fn-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-1"]');
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
 		it("should cycle through multiple footnote references with the same id", async () => {
@@ -170,7 +170,7 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToFootnoteRef("fn-1");
 			});
-			expect(querySelectorAll).toHaveBeenCalledWith("[data-fn-id='fn-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-1"]');
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
 			// Second call
@@ -224,7 +224,7 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToFootnoteRef("fn-1");
 			});
-			expect(querySelectorAll).toHaveBeenCalledWith("[data-fn-id='fn-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-1"]');
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
 			// Second call
@@ -237,7 +237,7 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToFootnoteRef("fn-2");
 			});
-			expect(querySelectorAll).toHaveBeenCalledWith("[data-fn-id='fn-2']");
+			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-2"]');
 			// Should call the first one again and not the third one
 			expect(scrollIntoView1).toHaveBeenCalledTimes(2);
 			expect(scrollIntoView3).toHaveBeenCalledTimes(0);
@@ -261,15 +261,15 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			const scrollIntoView = vi.fn();
-			const querySelector = vi.fn().mockImplementation(() => {
+			const querySelectorAll = vi.fn().mockImplementation(() => {
 				const span = document.createElement("span");
 				span.scrollIntoView = scrollIntoView;
 
-				return span;
+				return [span];
 			});
 
-			vi.spyOn(sidePaneElement, "querySelector").mockImplementation(
-				querySelector,
+			vi.spyOn(sidePaneElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
 			);
 
 			const { result } = await renderHook(() => useDocumentNavigation(), {
@@ -280,7 +280,9 @@ describe("DocumentNavigationContextProvider", () => {
 				result.current.navigateToFootnote("footnote-1");
 			});
 
-			expect(querySelector).toHaveBeenCalledWith("[data-fn-id='footnote-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'[data-fn-id~="footnote-1"]',
+			);
 			expect(scrollIntoView).toHaveBeenCalled();
 			expect(toggleSection).not.toHaveBeenCalled();
 		});
@@ -301,15 +303,15 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			const scrollIntoView = vi.fn();
-			const querySelector = vi.fn().mockImplementation(() => {
+			const querySelectorAll = vi.fn().mockImplementation(() => {
 				const span = document.createElement("span");
 				span.scrollIntoView = scrollIntoView;
 
-				return span;
+				return [span];
 			});
 
-			vi.spyOn(sidePaneElement, "querySelector").mockImplementation(
-				querySelector,
+			vi.spyOn(sidePaneElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
 			);
 
 			const { result } = await renderHook(() => useDocumentNavigation(), {
@@ -321,10 +323,12 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			expect(toggleSection).toHaveBeenCalledWith("footnotes");
-			expect(querySelector).not.toHaveBeenCalled();
+			expect(querySelectorAll).not.toHaveBeenCalled();
 			expect(scrollIntoView).not.toHaveBeenCalled();
 			await new Promise((r) => setTimeout(r, 700)); // wait for the panel and section animation
-			expect(querySelector).toHaveBeenCalledWith("[data-fn-id='footnote-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'[data-fn-id~="footnote-1"]',
+			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
 	});
@@ -351,7 +355,7 @@ describe("DocumentNavigationContextProvider", () => {
 
 			result.current.navigateToBibliographicReferenceRef("bibref-1");
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				"[data-bibref-id='bibref-1']",
+				'[data-bibref-id~="bibref-1"]',
 			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
@@ -388,7 +392,7 @@ describe("DocumentNavigationContextProvider", () => {
 			result.current.navigateToBibliographicReferenceRef("bibref-1");
 			await new Promise((r) => setTimeout(r, 1));
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				"[data-bibref-id='bibref-1']",
+				'[data-bibref-id~="bibref-1"]',
 			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
@@ -445,7 +449,7 @@ describe("DocumentNavigationContextProvider", () => {
 				result.current.navigateToBibliographicReferenceRef("bibref-1");
 			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				"[data-bibref-id='bibref-1']",
+				'[data-bibref-id~="bibref-1"]',
 			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
@@ -460,7 +464,7 @@ describe("DocumentNavigationContextProvider", () => {
 				result.current.navigateToBibliographicReferenceRef("bibref-2");
 			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				"[data-bibref-id='bibref-2']",
+				'[data-bibref-id~="bibref-2"]',
 			);
 			// Should call the first one again and not the third one
 			expect(scrollIntoView1).toHaveBeenCalledTimes(2);
@@ -485,15 +489,15 @@ describe("DocumentNavigationContextProvider", () => {
 				toggleSection,
 			});
 			const scrollIntoView = vi.fn();
-			const querySelector = vi.fn().mockImplementation(() => {
+			const querySelectorAll = vi.fn().mockImplementation(() => {
 				const span = document.createElement("span");
 				span.scrollIntoView = scrollIntoView;
 
-				return span;
+				return [span];
 			});
 
-			vi.spyOn(sidePaneElement, "querySelector").mockImplementation(
-				querySelector,
+			vi.spyOn(sidePaneElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
 			);
 			const { result } = await renderHook(() => useDocumentNavigation(), {
 				wrapper,
@@ -502,7 +506,9 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToBibliographicReference("ref-1");
 			});
-			expect(querySelector).toHaveBeenCalledWith("[data-bibref-id='ref-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'[data-bibref-id~="ref-1"]',
+			);
 			expect(scrollIntoView).toHaveBeenCalled();
 			expect(toggleSection).not.toHaveBeenCalled();
 		});
@@ -522,15 +528,15 @@ describe("DocumentNavigationContextProvider", () => {
 				toggleSection,
 			});
 			const scrollIntoView = vi.fn();
-			const querySelector = vi.fn().mockImplementation(() => {
+			const querySelectorAll = vi.fn().mockImplementation(() => {
 				const span = document.createElement("span");
 				span.scrollIntoView = scrollIntoView;
 
-				return span;
+				return [span];
 			});
 
-			vi.spyOn(sidePaneElement, "querySelector").mockImplementation(
-				querySelector,
+			vi.spyOn(sidePaneElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
 			);
 			const { result } = await renderHook(() => useDocumentNavigation(), {
 				wrapper,
@@ -540,10 +546,12 @@ describe("DocumentNavigationContextProvider", () => {
 				result.current.navigateToBibliographicReference("ref-1");
 			});
 			expect(toggleSection).toHaveBeenCalledWith("bibliographicReferences");
-			expect(querySelector).not.toHaveBeenCalled();
+			expect(querySelectorAll).not.toHaveBeenCalled();
 			expect(scrollIntoView).not.toHaveBeenCalled();
 			await new Promise((r) => setTimeout(r, 700)); // wait for the panel and section animation
-			expect(querySelector).toHaveBeenCalledWith("[data-bibref-id='ref-1']");
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'[data-bibref-id~="ref-1"]',
+			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
 	});
