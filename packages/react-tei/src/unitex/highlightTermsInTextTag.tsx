@@ -10,7 +10,7 @@ export type TextTag = {
 export type HighlightTag = {
 	tag: "highlight";
 	attributes: {
-		group: string[];
+		groups: string[];
 		term: string;
 		noAnchor?: boolean;
 	};
@@ -30,7 +30,7 @@ export const isTextTag = (node: DocumentJson): node is TextTag => {
 export const highlightTermInString = (
 	text: string,
 	termRegex: RegExp,
-	group: string[],
+	groups: string[],
 ): (TextTag | HighlightTag)[] => {
 	const matches = Array.from(text.matchAll(termRegex));
 
@@ -68,7 +68,7 @@ export const highlightTermInString = (
 				},
 			],
 			attributes: {
-				group,
+				groups,
 				term: kebabCasify(matchText),
 			},
 		} as HighlightTag);
@@ -92,7 +92,7 @@ export const highlightTermInString = (
 export const highlightTermInTextTag = (
 	textFragments: (HighlightTag | TextTag)[],
 	termRegex: RegExp,
-	group: string[],
+	groups: string[],
 ): (HighlightTag | TextTag)[] => {
 	const stack = [...textFragments];
 	const result: (HighlightTag | TextTag)[] = [];
@@ -109,7 +109,7 @@ export const highlightTermInTextTag = (
 			const highlighted = highlightTermInString(
 				textFragment.value,
 				termRegex,
-				group,
+				groups,
 			);
 			result.push(...highlighted);
 		}
@@ -120,11 +120,11 @@ export const highlightTermInTextTag = (
 
 export const highlightTermsInTextTag = (
 	textTag: TextTag,
-	termRegexes: { termRegex: RegExp; group: string[] }[],
+	termRegexes: { termRegex: RegExp; groups: string[] }[],
 ): HighlightedTextTag => {
 	const value = termRegexes.reduce(
-		(textTag: (HighlightTag | TextTag)[], { termRegex, group }) =>
-			highlightTermInTextTag(textTag, termRegex, group),
+		(textTag: (HighlightTag | TextTag)[], { termRegex, groups }) =>
+			highlightTermInTextTag(textTag, termRegex, groups),
 		[textTag] as (HighlightTag | TextTag)[],
 	);
 

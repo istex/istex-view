@@ -40,7 +40,7 @@ describe("highlightTermInTextTag", () => {
 							value: "sample",
 						},
 					],
-					attributes: { group: ["word"], term: "sample" },
+					attributes: { groups: ["word"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -61,13 +61,13 @@ describe("highlightTermInTextTag", () => {
 				{
 					tag: "highlight",
 					value: [{ tag: "#text", value: "sample" }],
-					attributes: { group: ["group"], term: "sample" },
+					attributes: { groups: ["group"], term: "sample" },
 				},
 				{ tag: "#text", value: " text for testing called " },
 				{
 					tag: "highlight",
 					value: [{ tag: "#text", value: "sample" }],
-					attributes: { group: ["group"], term: "sample" },
+					attributes: { groups: ["group"], term: "sample" },
 				},
 				{ tag: "#text", value: "." },
 			]);
@@ -87,7 +87,7 @@ describe("highlightTermInTextTag", () => {
 							value: "this",
 						},
 					],
-					attributes: { group: ["group"], term: "this" },
+					attributes: { groups: ["group"], term: "this" },
 				},
 				{ tag: "#text", value: "   term." },
 			]);
@@ -105,7 +105,7 @@ describe("highlightTermInTextTag", () => {
 					tag: "highlight",
 					attributes: {
 						term: "sample",
-						group: ["group1"],
+						groups: ["group1"],
 					},
 					value: [
 						{
@@ -131,7 +131,7 @@ describe("highlightTermInTextTag", () => {
 							value: "sample",
 						},
 					],
-					attributes: { group: ["group2"], term: "sample" },
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -141,7 +141,7 @@ describe("highlightTermInTextTag", () => {
 					tag: "highlight",
 					attributes: {
 						term: "sample",
-						group: ["group1"],
+						groups: ["group1"],
 					},
 					value: [
 						{
@@ -162,7 +162,7 @@ describe("highlightTermInTextTag", () => {
 							value: "sample",
 						},
 					],
-					attributes: { group: ["group2"], term: "sample" },
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -205,7 +205,7 @@ describe("highlightTermInTextTag", () => {
 							value: "sample",
 						},
 					],
-					attributes: { group: ["group2"], term: "sample" },
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -223,7 +223,7 @@ describe("highlightTermInTextTag", () => {
 							value: "sample",
 						},
 					],
-					attributes: { group: ["group2"], term: "sample" },
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -249,9 +249,9 @@ describe("highlightTermInTextTag", () => {
 			value: "This is a sample text for testing.",
 		};
 		const terms = [
-			{ termRegex: /sample/gi, group: ["group1"] },
-			{ termRegex: /testing/gi, group: ["group2"] },
-			{ termRegex: /example/gi, group: ["group3"] },
+			{ termRegex: /sample/gi, groups: ["group1"] },
+			{ termRegex: /testing/gi, groups: ["group2"] },
+			{ termRegex: /example/gi, groups: ["group3"] },
 		];
 		const result = highlightTermsInTextTag(textTag, terms);
 		expect(result).toStrictEqual({
@@ -270,7 +270,7 @@ describe("highlightTermInTextTag", () => {
 							value: "sample",
 						},
 					],
-					attributes: { group: ["group1"], term: "sample" },
+					attributes: { groups: ["group1"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -284,7 +284,7 @@ describe("highlightTermInTextTag", () => {
 							value: "testing",
 						},
 					],
-					attributes: { group: ["group2"], term: "testing" },
+					attributes: { groups: ["group2"], term: "testing" },
 				},
 				{
 					tag: "#text",
@@ -303,8 +303,8 @@ describe("highlightTermInTextTag", () => {
 			value: "This is a sample text for testing.",
 		};
 		const terms = [
-			{ termRegex: /example/gi, group: ["group1"] },
-			{ termRegex: /demo/gi, group: ["group2"] },
+			{ termRegex: /example/gi, groups: ["group1"] },
+			{ termRegex: /demo/gi, groups: ["group2"] },
 		];
 		const result = highlightTermsInTextTag(fragments as any, terms);
 		expect(result).toStrictEqual({
@@ -347,8 +347,8 @@ describe("highlightTermInTextTag", () => {
 			value: "Term1  Term2",
 		};
 		const terms = [
-			{ termRegex: /Term1/gi, group: ["group1"] },
-			{ termRegex: /Term2/gi, group: ["group2"] },
+			{ termRegex: /Term1/gi, groups: ["group1"] },
+			{ termRegex: /Term2/gi, groups: ["group2"] },
 		];
 		const result = highlightTermsInTextTag(fragments, terms);
 		expect(result).toStrictEqual({
@@ -363,7 +363,7 @@ describe("highlightTermInTextTag", () => {
 							value: "Term1",
 						},
 					],
-					attributes: { group: ["group1"], term: "term1" },
+					attributes: { groups: ["group1"], term: "term1" },
 				},
 				{
 					tag: "#text",
@@ -377,7 +377,7 @@ describe("highlightTermInTextTag", () => {
 							value: "Term2",
 						},
 					],
-					attributes: { group: ["group2"], term: "term2" },
+					attributes: { groups: ["group2"], term: "term2" },
 				},
 			],
 		});
