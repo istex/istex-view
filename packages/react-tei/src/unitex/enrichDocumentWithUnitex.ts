@@ -15,13 +15,6 @@ export const termToRegex = (term: string): RegExp => {
 	);
 };
 
-type EnrichedTerm = {
-	term: string;
-	group: string;
-	subTerms?: EnrichedTerm[];
-	artificial?: boolean;
-};
-
 type NormalizedTerm = {
 	term: string;
 	group: string;
@@ -123,17 +116,9 @@ export const getTermOverlap = (
 
 		return [
 			{
-				term: prefix!,
-				group: termB.group,
-			},
-			{
-				term: wordOverlap,
+				term: `${prefix}${wordOverlap}${suffix}`,
 				group: [termA.group, termB.group].sort().join("+"),
 				hybrid: true,
-			},
-			{
-				term: suffix!,
-				group: termA.group,
 			},
 		];
 	}
@@ -143,17 +128,9 @@ export const getTermOverlap = (
 
 		return [
 			{
-				term: prefix!,
-				group: termA.group,
-			},
-			{
-				term: wordOverlap,
+				term: `${prefix}${wordOverlap}${suffix}`,
 				group: [termA.group, termB.group].sort().join("+"),
 				hybrid: true,
-			},
-			{
-				term: suffix!,
-				group: termB.group,
 			},
 		];
 	}
@@ -183,32 +160,145 @@ export const getOverlappingTermsFromList = (
 	}
 
 	return getOverlappingTermsFromList(
-		[
-			...termOverLapForFirstTerm.filter((term) => term.hybrid === true),
-			...restTerms,
-		],
-		result.concat(firstTerm, termOverLapForFirstTerm),
+		[...termOverLapForFirstTerm, ...restTerms],
+		result.concat(termOverLapForFirstTerm),
 	);
 };
 
+type GroupedTerm = {
+	term: string;
+	groups: string[];
+};
+
+export const mergeIdenticalTerms = (terms: NormalizedTerm[]): GroupedTerm[] => {
+	const mergedTerms: GroupedTerm[] = terms.reduce(
+		(acc, { group, term, ...termRest }) => {
+			const existing = acc.find((t) => t.term === term);
+			if (existing) {
+				if (!existing.groups.includes(group)) {
+					existing.groups.push(group);
+				}
+			} else {
+				acc.push({
+					term,
+					groups: [group],
+					...termRest,
+				});
+			}
+			return acc;
+		},
+		[] as GroupedTerm[],
+	);
+
+	return mergedTerms;
+};
+
+type NestedTerm = {
+	term: string;
+	groups: string[];
+	subTerms?: NestedTerm[];
+	artificial?: boolean;
+};
+
 export const isContainedIn = (
-	longer: NormalizedTerm,
-	shorter: NormalizedTerm,
+	longer: GroupedTerm,
+	shorter: GroupedTerm,
 ): boolean => {
-	if (shorter.group === longer.group) return false;
+	if (shorter.groups.every((g) => longer.groups.includes(g))) {
+		return false;
+	}
 	if (shorter.term === longer.term) return false;
-	if (longer.term.includes(shorter.term)) return true;
+
+	const shorterWordRegex = new RegExp(
+		`(?<![\\p{L}\\p{N}])${escapeRegexChars(shorter.term)}(?![\\p{L}\\p{N}])`,
+		"u",
+	);
+	if (longer.term.match(shorterWordRegex)) return true;
 	return false;
 };
 
-export const nestContainedTerms = (terms: NormalizedTerm[]): EnrichedTerm[] => {
+export const hasIdenticalTermInSubTerms = (
+	term: NestedTerm,
+	subTerms: NestedTerm[],
+): boolean => {
+	for (const subTerm of subTerms) {
+		if (subTerm.term === term.term) {
+			return true;
+		}
+		if (subTerm.subTerms?.length) {
+			if (hasIdenticalTermInSubTerms(term, subTerm.subTerms)) {
+				return true;
+			}
+		}
+	}
+	return false;
+};
+
+// remove nestedTerms if they are already present in lower levels
+// do this recursively on nested subterms
+export const removeDuplicateNestedTerms = (
+	terms: NestedTerm[],
+): NestedTerm[] => {
+	// First, recursively process all subTerms
+	const termsWithProcessedSubTerms = terms.map((term) => {
+		if (!term.subTerms || !term.subTerms.length) {
+			return term;
+		}
+		return {
+			...term,
+			subTerms: removeDuplicateNestedTerms(term.subTerms),
+		};
+	});
+
+	// Then filter out duplicates at this level
+	return termsWithProcessedSubTerms.map((term) => {
+		if (!term.subTerms || !term.subTerms.length) {
+			return term;
+		}
+
+		// Filter out subTerms that are already present in any other sibling's nested structure
+		const filteredSubTerms = term.subTerms.filter((subTerm, index) => {
+			const otherSiblings = [
+				...term.subTerms!.slice(0, index),
+				...term.subTerms!.slice(index + 1),
+			];
+			return !hasIdenticalTermInSubTerms(subTerm, otherSiblings);
+		});
+
+		return {
+			...term,
+			subTerms: filteredSubTerms,
+		};
+	});
+};
+
+export const getRemainingStringParts = (
+	fullString: string[],
+	subTerms: string[],
+): string[] => {
+	const [subTerm, ...restSubTerms] = subTerms;
+
+	if (!subTerm) {
+		return fullString;
+	}
+	const newFullString = fullString.flatMap((part) => {
+		return part.split(subTerm).filter((p) => p !== "");
+	});
+
+	return getRemainingStringParts(newFullString, restSubTerms);
+};
+
+export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 	// handle smaller terms first
 	const sortedTerms = terms.sort((a, b) => a.term.length - b.term.length);
 
-	return sortedTerms.reduce((acc, term, index) => {
-		const containedTerms = acc.filter((otherTerm) =>
-			isContainedIn(term, otherTerm),
-		);
+	const nestedTerms = sortedTerms.reduce((acc, term, index) => {
+		const containedTerms = acc
+			.filter((otherTerm) => isContainedIn(term, otherTerm))
+			.map(({ groups, ...rest }) => ({
+				...rest,
+				groups: groups.filter((g) => !term.groups.includes(g)),
+			}));
 
 		if (!containedTerms.length) {
 			acc[index] = term;
@@ -216,76 +306,53 @@ export const nestContainedTerms = (terms: NormalizedTerm[]): EnrichedTerm[] => {
 			return acc;
 		}
 
+		// Filter to only keep direct children (terms not contained in other contained terms)
+		const directContainedTerms = containedTerms.filter(
+			(t) =>
+				!containedTerms.some(
+					(other) => other.term !== t.term && other.term.includes(t.term),
+				),
+		);
+
+		const remainingStringParts = getRemainingStringParts(
+			[term.term],
+			directContainedTerms.map((t) => t.term),
+		);
+
+		const subTerms = directContainedTerms
+			.concat(
+				remainingStringParts.map((term) => ({
+					term,
+					groups: [],
+					artificial: true,
+				})),
+			)
+			.sort((a, b) => term.term.indexOf(a.term) - term.term.indexOf(b.term));
+
 		acc[index] = {
 			term: term.term,
-			group: term.group,
-			subTerms: containedTerms,
+			groups: term.groups,
+			subTerms,
 		};
 
 		return acc;
-	}, terms as EnrichedTerm[]);
+	}, terms as NestedTerm[]);
+
+	return removeDuplicateNestedTerms(nestedTerms);
 };
-// const mergeIdenticalTerms = (
-// 	normalized: NormalizedTerm[],
-// ): NormalizedTerm[] => {
-// 	const merged = new Map<string, NormalizedTerm>();
-
-// 	for (const normalizedTerm of normalized) {
-// 		const existing = merged.get(normalizedTerm.term);
-// 		if (existing) {
-// 			// Merge groups
-// 			existing.groups.push(...normalizedTerm.groups);
-
-// 			// Merge subTerms if they exist
-// 			if (normalizedTerm.subTerms || existing.subTerms) {
-// 				const existingSubTerms = existing.subTerms || [];
-// 				const newSubTerms = normalizedTerm.subTerms || [];
-
-// 				// Combine subTerms and recursively merge identical subTerms
-// 				const combinedSubTerms = [...existingSubTerms, ...newSubTerms];
-// 				existing.subTerms = mergeIdenticalTerms(combinedSubTerms);
-// 			}
-// 		} else {
-// 			merged.set(normalizedTerm.term, { ...normalizedTerm });
-// 		}
-// 	}
-
-// 	return Array.from(merged.values());
-// };
 
 export const computeEnrichedTerms = (
 	termByGroup: Record<string, TermStatistic[]>,
-): EnrichedTerm[] => {
+): NestedTerm[] => {
 	const normalizedTerms = normalizeTerms(termByGroup);
 
-	const overlappingTerms = getOverlappingTermsFromList(normalizedTerms);
+	// const overlappingTerms = getOverlappingTermsFromList(normalizedTerms);
 
-	const sortedTerms = [...normalizedTerms, ...overlappingTerms].sort(
-		(a, b) => b.term.length - a.term.length,
-	);
+	const mergedNormalizedTerms = mergeIdenticalTerms(normalizedTerms);
 
-	// const wordTerms: Omit<NormalizedTerm, "words">[] = normalized.flatMap(
-	// 	(term) => {
-	// 		if (term.words.length > 1) {
-	// 			return term.words.map((word) => ({
-	// 				term: word,
-	// 				group: term.group,
-	// 			}));
-	// 		}
-	// 		return [];
-	// 	},
-	// );
+	const nestedTerms = nestContainedTerms(mergedNormalizedTerms);
 
-	// step2: create artificial terms for overlapping terms
-	// const hybridGroups: NormalizedTerm[] = normalized.reduce((acc, term) => {
-	// 	const existing = acc.find((t) => t.term === term.term);
-	// 	if (existing) {
-	// 		existing.groups.push(...term.groups);
-	// 	} else {
-	// 		acc.push({ ...term });
-	// 	}
-	// 	return acc;
-	// }, [] as NormalizedTerm[]);
+	return nestedTerms.sort((a, b) => b.term.length - a.term.length);
 };
 
 export const enrichDocumentWithUnitex = (
