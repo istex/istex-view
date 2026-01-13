@@ -3,7 +3,7 @@ import { findChildrenByName } from "../helper/findChildrenByName";
 import { findTagByName } from "../helper/findTagByName";
 import type { DocumentJson } from "../parser/document";
 
-export const UNSUPPORTED_ABSTRACT_HEAD = "highlights";
+export const UNSUPPORTED_ABSTRACT_HEAD = ["highlights"];
 
 export function useDocumentAbstracts(teiHeader: DocumentJson | undefined) {
 	return useMemo(() => {
