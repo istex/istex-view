@@ -13,14 +13,6 @@ export function SingleAbstract({ abstract }: SingleAbstractProps) {
 		[abstract],
 	);
 
-	const head = useMemo(
-		() =>
-			Array.isArray(transformedAbstract.value)
-				? transformedAbstract.value.find((item) => item.tag === "head")
-				: undefined,
-		[transformedAbstract],
-	);
-
 	const content = useMemo(
 		() =>
 			Array.isArray(transformedAbstract.value)
@@ -32,9 +24,7 @@ export function SingleAbstract({ abstract }: SingleAbstractProps) {
 	);
 
 	return (
-		<AbstractAccordion
-			title={head ? <Value data={head?.value} /> : t("document.abstract.title")}
-		>
+		<AbstractAccordion title={t("document.abstract.title")}>
 			<Value data={content} />
 		</AbstractAccordion>
 	);

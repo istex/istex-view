@@ -115,14 +115,14 @@ describe("DocumentAbstract", () => {
 		});
 
 		const section = screen.getByRole("region", {
-			name: "Abstract",
+			name: "Résumé",
 		});
 
 		await expect.element(section).toBeVisible();
 
 		const heading = section.getByRole("heading", {
 			level: 3,
-			name: "Abstract",
+			name: "Résumé",
 		});
 		await expect.element(heading).toBeVisible();
 
