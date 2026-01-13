@@ -1,4 +1,5 @@
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import ChevronLeft from "@mui/icons-material/ChevronLeft";
+import ChevronRight from "@mui/icons-material/ChevronRight";
 import Button from "@mui/material/Button";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { useMemo, useState } from "react";

@@ -236,4 +236,84 @@ describe("DocumentAbstract", () => {
 			.element(abstractRegion.getByText("Ceci est le résumé en français."))
 			.toBeVisible();
 	});
+
+	it('should ignore abstracts with head="highlights"', async () => {
+		const headerJson: DocumentJson = {
+			tag: "teiHeader",
+			attributes: {},
+			value: [
+				{
+					tag: "profileDesc",
+					attributes: {},
+					value: [
+						{
+							tag: "abstract",
+							attributes: {
+								"@xml:lang": "en",
+							},
+							value: [
+								{
+									tag: "head",
+									attributes: {},
+									value: [
+										{
+											tag: "#text",
+											attributes: {},
+											value: "highlights",
+										},
+									],
+								},
+								{
+									tag: "p",
+									attributes: {},
+									value: [
+										{
+											tag: "#text",
+											attributes: {},
+											value: "These are the highlights.",
+										},
+									],
+								},
+							],
+						},
+						{
+							tag: "abstract",
+							attributes: { "@xml:lang": "fr" },
+							value: [
+								{
+									tag: "p",
+									attributes: {},
+									value: [
+										{
+											tag: "#text",
+											attributes: {},
+											value: "Ceci est le résumé en français.",
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		};
+
+		const screen = await render(<DocumentAbstract teiHeader={headerJson} />, {
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
+		});
+
+		const abstractRegion = screen.getByRole("region", {
+			name: "Résumé",
+		});
+		await expect.element(abstractRegion).toBeVisible();
+		await expect
+			.element(abstractRegion.getByText("highlights"))
+			.not.toBeInTheDocument();
+	});
 });

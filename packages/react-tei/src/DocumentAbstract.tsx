@@ -1,12 +1,10 @@
 import { MultilingualAbstract } from "./abstract/MultilingualAbstract";
 import { SingleAbstract } from "./abstract/SingleAbstract";
-import { findChildrenByName } from "./helper/findChildrenByName";
-import { findTagByName } from "./helper/findTagByName";
+import { useDocumentAbstracts } from "./abstract/useDocumentAbstracts";
 import type { DocumentJson } from "./parser/document";
 
 export function DocumentAbstract({ teiHeader: header }: DocumentAbstractProps) {
-	const profileDesc = findTagByName(header, "profileDesc");
-	const abstracts = findChildrenByName(profileDesc, "abstract");
+	const abstracts = useDocumentAbstracts(header);
 
 	if (abstracts.length === 0) {
 		return null;

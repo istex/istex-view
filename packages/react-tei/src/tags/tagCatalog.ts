@@ -33,4 +33,5 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	bibl: NoOp,
 	biblScope: NoOp,
 	date: DateTag,
+	s: NoOp,
 };
