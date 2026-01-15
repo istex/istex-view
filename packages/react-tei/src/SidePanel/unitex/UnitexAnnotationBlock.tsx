@@ -74,6 +74,7 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 						rowGap: 1,
 						alignItems: "center",
 						paddingInlineStart: 2.5,
+						contain: "style paint inline-size",
 					}}
 					role="list"
 					aria-label={t(`unitex.${block}`, { count: annotations.length })}

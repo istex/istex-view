@@ -14,7 +14,7 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 		page.getByRole("button", { name: "Nom de lieu administratif (1)" }),
 	).toHaveAttribute("aria-expanded", "true");
 
-	await expect(page.getByText("Nancy | 3", { exact: true })).toBeVisible();
+	await expect(page.getByLabel("Nancy", { exact: true })).toBeVisible();
 
 	await expect(page.locator('[data-group="placeName"]')).toHaveCount(3);
 
@@ -30,7 +30,7 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 	await expect(
 		page.getByRole("button", { name: "Nom d'organisation (1)" }),
 	).toHaveAttribute("aria-expanded", "true");
-	await expect(page.getByText("SNCF | 2", { exact: true })).toBeVisible();
+	await expect(page.getByLabel("SNCF", { exact: true })).toBeVisible();
 	await expect(page.locator('[data-term="sncf"]')).toHaveCount(2);
 	await expect(page.locator('[data-group="orgName"]')).toHaveCount(2);
 	const sncfHighlights = page.locator('[data-term="sncf"]');
@@ -44,8 +44,8 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 	await expect(
 		page.getByRole("button", { name: "Noms de personnes (2)" }),
 	).toHaveAttribute("aria-expanded", "true");
-	await expect(page.getByText("Leo | 3", { exact: true })).toBeVisible();
-	await expect(page.getByText("Eros | 1", { exact: true })).toBeVisible();
+	await expect(page.getByLabel("Leo", { exact: true })).toBeVisible();
+	await expect(page.getByLabel("Eros", { exact: true })).toBeVisible();
 	await expect(page.locator('[data-term="leo"]')).toHaveCount(3);
 	await expect(page.locator('[data-term="eros"]')).toHaveCount(1);
 	await expect(page.locator('[data-group="persName"]')).toHaveCount(4);

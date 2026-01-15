@@ -1,7 +1,8 @@
+import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import Chip from "@mui/material/Chip";
 import { grey } from "@mui/material/colors";
-import Tooltip from "@mui/material/Tooltip";
+import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
 
@@ -33,15 +34,40 @@ export function UnitexAnnotation({
 					}}
 				/>
 			</Tooltip>
-			<Chip
-				label={`${annotation.term} | ${annotation.frequency}`}
-				style={{
-					backgroundColor: annotation.displayed ? color : grey[600],
-					color: "white",
-					width: "fit-content",
+			<Box
+				sx={{
+					flexGrow: 1,
+					contain: "style paint inline-size",
 				}}
-				role="note"
-			/>
+			>
+				<Tooltip
+					title={annotation.term}
+					placement="left"
+					slotProps={{
+						popper: {
+							sx: {
+								[`&.${tooltipClasses.popper}[data-popper-placement*="left"] .${tooltipClasses.tooltip}`]:
+									{
+										marginRight: "48px",
+									},
+							},
+						},
+					}}
+				>
+					<Chip
+						label={annotation.term}
+						role="note"
+						slotProps={{
+							root: {
+								sx: {
+									backgroundColor: annotation.displayed ? color : grey[600],
+									color: "white",
+								},
+							},
+						}}
+					/>
+				</Tooltip>
+			</Box>
 		</>
 	);
 }
