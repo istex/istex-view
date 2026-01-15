@@ -1,28 +1,22 @@
 import { Box } from "@mui/material";
-import type { DocumentJson } from "../parser/document";
 import { chipColors } from "../SidePanel/unitex/unitexAnnotationBlocks";
+import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
-export const Highlight = ({
-	data,
-}: {
-	data: {
-		tag: "highlight";
-		attributes: {
-			term: string;
-			groups: string[];
-		};
-		value: string | DocumentJson[];
-	};
-}) => {
+export const Highlight = ({ data }: ComponentProps) => {
 	const { value, attributes } = data;
+	const groups = Array.isArray(attributes?.groups)
+		? attributes?.groups
+		: attributes?.groups
+			? [attributes?.groups]
+			: [];
 	return (
 		<Box
 			component="span"
 			data-term={attributes?.term}
-			data-group={attributes?.groups.join(" ")}
+			data-group={groups.join(" ")}
 			sx={{
-				boxShadow: attributes.groups
+				boxShadow: groups
 					.map((g, index) =>
 						index === 0
 							? `inset 0 -3px 0 ${chipColors[g as keyof typeof chipColors]}`

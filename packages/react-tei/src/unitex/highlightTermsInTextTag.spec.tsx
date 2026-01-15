@@ -13,7 +13,7 @@ describe("highlightTermInTextTag", () => {
 		it("should return original fragment in at #text tag if termsRegexp has no match", () => {
 			const text = "This is a sample text.";
 			const term: RegExp = /^search text$/gi;
-			const result = highlightTermInString(text, term, ["word"]);
+			const result = highlightTermInString(text, term, ["word"], undefined);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -25,7 +25,7 @@ describe("highlightTermInTextTag", () => {
 		it("should highlight single term in text", () => {
 			const text = "This is a sample text.";
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInString(text, term, ["word"]);
+			const result = highlightTermInString(text, term, ["word"], undefined);
 
 			expect(result).toStrictEqual([
 				{
@@ -52,7 +52,7 @@ describe("highlightTermInTextTag", () => {
 		it("should highlight all occurrences of a single term in text", () => {
 			const text = "This is a sample text for testing called sample.";
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInString(text, term, ["group"]);
+			const result = highlightTermInString(text, term, ["group"], undefined);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -76,7 +76,7 @@ describe("highlightTermInTextTag", () => {
 		it("should preserve space between words when highlighting", () => {
 			const text = "Highlight  this   term.";
 			const term: RegExp = /this/gi;
-			const result = highlightTermInString(text, term, ["group"]);
+			const result = highlightTermInString(text, term, ["group"], undefined);
 			expect(result).toStrictEqual([
 				{ tag: "#text", value: "Highlight  " },
 				{
