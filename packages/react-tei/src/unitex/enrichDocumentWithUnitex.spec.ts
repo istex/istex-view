@@ -985,7 +985,7 @@ describe("enrichDocumentWithUnitex", () => {
 			]);
 		});
 
-		it.skip('should handle overlapping terms from the same group correctly (e.g., "Prince Charles" and "Charles Xavier")', () => {
+		it('should handle overlapping terms from the same group correctly (e.g., "Prince Charles" and "Charles Xavier")', () => {
 			const termByGroup = {
 				group1: [
 					{ term: "Prince Charles", frequency: 1, displayed: true },
@@ -1025,7 +1025,7 @@ describe("enrichDocumentWithUnitex", () => {
 			]);
 		});
 
-		it.skip("should handle everything at once", () => {
+		it("should handle everything at once", () => {
 			const termByGroup = {
 				group1: [
 					{ term: "United Nations", frequency: 1, displayed: true },
@@ -1058,7 +1058,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: " ",
 						},
 						{
-							groups: ["group4"],
+							groups: ["group1", "group4"],
 							term: "United",
 						},
 						{
@@ -1095,7 +1095,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: " ",
 						},
 						{
-							groups: ["group3", "group2", "group4"],
+							groups: ["group2", "group3", "group4"],
 							term: "States",
 						},
 					],

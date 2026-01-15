@@ -257,7 +257,11 @@ export const removeDuplicateNestedTerms = (
 		}
 
 		// Filter out subTerms that are already present in any other sibling's nested structure
+		// Skip artificial terms - they are allowed to be duplicated
 		const filteredSubTerms = term.subTerms.filter((subTerm, index) => {
+			// Don't filter artificial terms
+			if (subTerm.artificial) return true;
+
 			const otherSiblings = [
 				...term.subTerms!.slice(0, index),
 				...term.subTerms!.slice(index + 1),
@@ -306,28 +310,161 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 			return acc;
 		}
 
-		// Filter to only keep direct children (terms not contained in other contained terms)
-		const directContainedTerms = containedTerms.filter(
-			(t) =>
-				!containedTerms.some(
-					(other) => other.term !== t.term && other.term.includes(t.term),
-				),
-		);
+		// Filter to only keep direct children
+		// A term is a direct child if:
+		// 1. It's not contained in another contained term that is itself a direct child
+		// 2. When two terms overlap, prefer the smaller atomic terms
+		const directContainedTerms = containedTerms.filter((t) => {
+			// Check if this term is contained in another contained term
+			const containerTerms = containedTerms.filter(
+				(other) => other.term !== t.term && other.term.includes(t.term),
+			);
+
+			if (containerTerms.length === 0) return true; // Not contained in anything, keep it
+
+			// This term is contained in other terms
+			// Check if we should keep the smaller term or the larger term
+			// We should keep the smaller term if:
+			// - There are other smaller terms that cover the remaining parts of the container
+			for (const container of containerTerms) {
+				// Find other small terms that are also in this container
+				const otherSmallTermsInContainer = containedTerms.filter(
+					(other) =>
+						other.term !== t.term &&
+						other.term.length <= t.term.length &&
+						container.term.includes(other.term),
+				);
+
+				// If there are other small terms that together with t cover parts of the container,
+				// then we should keep t (and filter out the container)
+				if (otherSmallTermsInContainer.length > 0) {
+					return true;
+				}
+			}
+
+			return false; // This term should be filtered out, we'll use the container instead
+		});
+
+		// Now filter out containers if their parts are already covered by smaller terms
+		const finalContainedTerms = directContainedTerms.filter((t) => {
+			// Check if all parts of this term are covered by smaller direct contained terms
+			const smallerTermsInside = directContainedTerms.filter(
+				(other) => other.term !== t.term && t.term.includes(other.term),
+			);
+
+			// If smaller terms exist inside this term, filter it out
+			return smallerTermsInside.length === 0;
+		});
+
+		// For each final term, add groups from container terms that were filtered out
+		const enrichedContainedTerms = finalContainedTerms.map((t) => {
+			// Find container terms that were filtered out
+			const filteredContainers = containedTerms.filter(
+				(container) =>
+					container.term !== t.term &&
+					container.term.includes(t.term) &&
+					!finalContainedTerms.some((f) => f.term === container.term),
+			);
+
+			// Add their groups to this term
+			const additionalGroups = filteredContainers.flatMap((c) => c.groups);
+			const mergedGroups = [
+				...new Set([...t.groups, ...additionalGroups]),
+			].sort();
+
+			return {
+				...t,
+				groups: mergedGroups,
+			};
+		});
+
+		// If we filtered out overlapping terms but there are still overlapping terms remaining,
+		// we need to extract the overlap manually
+		let processedTerms: NestedTerm[] = enrichedContainedTerms as NestedTerm[];
+
+		if (
+			enrichedContainedTerms.length >= 2 &&
+			directContainedTerms.length === enrichedContainedTerms.length
+		) {
+			// No terms were filtered, check if we need to handle overlaps
+			const [first, second] = enrichedContainedTerms;
+			if (first && second) {
+				const overlap = getWordOverlap(first.term, second.term);
+				if (overlap) {
+					// Extract the overlap manually
+					const mergedGroups = [
+						...new Set([...first.groups, ...second.groups]),
+					];
+					const firstIndex = term.term.indexOf(first.term);
+					const secondIndex = term.term.indexOf(second.term);
+
+					let prefix: string;
+					let suffix: string;
+
+					if (firstIndex < secondIndex) {
+						prefix = first.term.replace(overlap, "");
+						suffix = second.term.replace(overlap, "");
+					} else {
+						prefix = second.term.replace(overlap, "");
+						suffix = first.term.replace(overlap, "");
+					}
+
+					processedTerms = [
+						...(prefix ? [{ term: prefix, groups: mergedGroups }] : []),
+						{ term: overlap, groups: mergedGroups },
+						...(suffix ? [{ term: suffix, groups: mergedGroups }] : []),
+					];
+				}
+			}
+		}
 
 		const remainingStringParts = getRemainingStringParts(
 			[term.term],
-			directContainedTerms.map((t) => t.term),
+			processedTerms.map((t) => t.term),
 		);
 
-		const subTerms = directContainedTerms
-			.concat(
-				remainingStringParts.map((term) => ({
-					term,
-					groups: [],
-					artificial: true,
-				})),
-			)
-			.sort((a, b) => term.term.indexOf(a.term) - term.term.indexOf(b.term));
+		// Build subTerms in correct order by reconstructing the string
+		const allParts = [
+			...processedTerms,
+			...remainingStringParts.map((t) => ({
+				term: t,
+				groups: [] as string[],
+				artificial: true,
+			})),
+		];
+
+		// Sort by finding each term's position in order using recursion
+		const buildSubTermsInOrder = (
+			remainingStr: string,
+			availableParts: NestedTerm[],
+			result: NestedTerm[] = [],
+		): NestedTerm[] => {
+			if (remainingStr.length === 0 || availableParts.length === 0) {
+				return result;
+			}
+
+			const matchingPartIndex = availableParts.findIndex((part) =>
+				remainingStr.startsWith(part.term),
+			);
+
+			if (matchingPartIndex === -1) {
+				// No matching part found, this shouldn't happen
+				return result;
+			}
+
+			const matchingPart = availableParts[matchingPartIndex] as NestedTerm;
+			const newRemainingStr = remainingStr.slice(matchingPart.term.length);
+			const newAvailableParts = availableParts.filter(
+				(_, i) => i !== matchingPartIndex,
+			);
+
+			return buildSubTermsInOrder(newRemainingStr, newAvailableParts, [
+				...result,
+				matchingPart,
+			]);
+		};
+
+		const subTerms = buildSubTermsInOrder(term.term, allParts);
 
 		acc[index] = {
 			term: term.term,
@@ -346,9 +483,11 @@ export const computeEnrichedTerms = (
 ): NestedTerm[] => {
 	const normalizedTerms = normalizeTerms(termByGroup);
 
-	// const overlappingTerms = getOverlappingTermsFromList(normalizedTerms);
+	const overlappingTerms = getOverlappingTermsFromList(normalizedTerms);
 
-	const mergedNormalizedTerms = mergeIdenticalTerms(normalizedTerms);
+	const mergedNormalizedTerms = mergeIdenticalTerms(
+		normalizedTerms.concat(overlappingTerms),
+	);
 
 	const nestedTerms = nestContainedTerms(mergedNormalizedTerms);
 
