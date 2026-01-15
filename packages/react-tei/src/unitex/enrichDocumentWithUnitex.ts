@@ -298,229 +298,391 @@ export const getRemainingStringParts = (
 	return getRemainingStringParts(newFullString, restSubTerms);
 };
 
-// Helper to recursively update subTerms with accumulated ancestor groups
-const updateSubTermsWithAncestorGroups = (
-	subTerms: NestedTerm[],
-	ancestorGroups: string[],
-): NestedTerm[] => {
-	return subTerms.map((st) => {
-		// Combine ancestor groups with own groups (ancestors first, deduplicated)
-		const newGroups = [...new Set([...ancestorGroups, ...st.groups])];
+// Find position of a term in container, respecting word boundaries
+const findTermPosition = (
+	container: string,
+	term: string,
+): { start: number; end: number } | null => {
+	const regex = new RegExp(
+		`(?<![\\p{L}\\p{N}])${escapeRegexChars(term)}(?![\\p{L}\\p{N}])`,
+		"u",
+	);
+	const match = container.match(regex);
+	if (!match || match.index === undefined) return null;
+	return { start: match.index, end: match.index + term.length };
+};
 
-		// For recursive subTerms, pass down the combined groups as the new ancestor groups
-		const updatedSubTerms = st.subTerms
-			? updateSubTermsWithAncestorGroups(st.subTerms, newGroups)
-			: undefined;
+type TermWithPosition = {
+	term: NestedTerm;
+	start: number;
+	end: number;
+};
 
-		return {
-			...st,
-			groups: newGroups,
-			...(updatedSubTerms && { subTerms: updatedSubTerms }),
-		};
+// Group overlapping terms together (terms that share positions are in the same group)
+const groupOverlappingTerms = (
+	terms: TermWithPosition[],
+): TermWithPosition[][] => {
+	if (terms.length === 0) return [];
+
+	return terms.reduce<TermWithPosition[][]>((groups, term) => {
+		const lastGroup = groups[groups.length - 1];
+
+		if (!lastGroup) {
+			// First term starts a new group
+			return [[term]];
+		}
+
+		const groupEnd = Math.max(...lastGroup.map((t) => t.end));
+		if (term.start < groupEnd) {
+			// Term overlaps with current group - add to it
+			lastGroup.push(term);
+		} else {
+			// No overlap - start a new group
+			groups.push([term]);
+		}
+
+		return groups;
+	}, []);
+};
+
+// Process a single non-overlapping term
+const processSingleTerm = (
+	termWithPos: TermWithPosition,
+	containedTerms: NestedTerm[],
+	parentGroups: string[],
+): NestedTerm => {
+	const termData = termWithPos.term;
+	const combinedGroups = [...new Set([...parentGroups, ...termData.groups])];
+
+	// If term has subTerms, recursively update their groups
+	let subTerms = termData.subTerms;
+	if (subTerms && subTerms.length > 0) {
+		subTerms = subTerms.map((st) =>
+			propagateGroupsToSubTerm(st, combinedGroups),
+		);
+	} else {
+		// Check if there are smaller contained terms we need to nest
+		const smallerContained = containedTerms.filter(
+			(ct) =>
+				ct.term !== termData.term &&
+				findTermPosition(termData.term, ct.term) !== null,
+		);
+		if (smallerContained.length > 0) {
+			subTerms = splitTermIntoSegments(
+				termData.term,
+				smallerContained,
+				combinedGroups,
+			);
+		}
+	}
+
+	return {
+		term: termData.term,
+		groups: combinedGroups,
+		...(subTerms && subTerms.length > 0 && { subTerms }),
+	};
+};
+
+type SubTermAtPosition = {
+	subTerm: NestedTerm;
+	start: number;
+	end: number;
+	fromTermGroups: string[];
+};
+
+// Build subTerms position map from overlapping terms
+const buildSubTermsPositionMap = (
+	overlappingGroup: TermWithPosition[],
+): SubTermAtPosition[] => {
+	return overlappingGroup.flatMap((t) => {
+		if (!t.term.subTerms) return [];
+
+		let subPos = t.start;
+		return t.term.subTerms.map((st) => {
+			const result = {
+				subTerm: st,
+				start: subPos,
+				end: subPos + st.term.length,
+				fromTermGroups: t.term.groups,
+			};
+			subPos += st.term.length;
+			return result;
+		});
 	});
 };
 
+// Collect all boundary points from overlapping terms and their subTerms
+const collectBoundaries = (overlappingGroup: TermWithPosition[]): number[] => {
+	const boundaries = new Set<number>();
+
+	for (const t of overlappingGroup) {
+		boundaries.add(t.start);
+		boundaries.add(t.end);
+
+		// Add boundaries from subTerms
+		if (t.term.subTerms) {
+			let subPos = t.start;
+			for (const st of t.term.subTerms) {
+				boundaries.add(subPos);
+				boundaries.add(subPos + st.term.length);
+				subPos += st.term.length;
+			}
+		}
+	}
+
+	return Array.from(boundaries).sort((a, b) => a - b);
+};
+
+// Create a segment from boundary positions
+const createSegmentFromBoundary = (
+	segStart: number,
+	segEnd: number,
+	containerTerm: string,
+	overlappingGroup: TermWithPosition[],
+	subTermsByPosition: SubTermAtPosition[],
+	parentGroups: string[],
+): NestedTerm | null => {
+	const segmentText = containerTerm.slice(segStart, segEnd);
+	if (segmentText === "") return null;
+
+	// Find which terms cover this segment
+	const coveringTerms = overlappingGroup.filter(
+		(t) => t.start <= segStart && t.end >= segEnd,
+	);
+
+	// Find subTerms that exactly match this segment
+	const matchingSubTerms = subTermsByPosition.filter(
+		(st) => st.start === segStart && st.end === segEnd,
+	);
+
+	if (matchingSubTerms.length > 0) {
+		// This segment exactly matches one or more subTerms - merge their properties
+		const baseSubTerm = matchingSubTerms[0]!.subTerm;
+
+		// For artificial subTerms (filler text), only use parentGroups
+		// For non-artificial subTerms, merge all groups
+		const isArtificialSegment = baseSubTerm.artificial;
+		const allGroups = isArtificialSegment
+			? parentGroups
+			: [
+					...new Set([
+						...matchingSubTerms.flatMap((st) => st.subTerm.groups),
+						...matchingSubTerms.flatMap((st) => st.fromTermGroups),
+						...parentGroups,
+					]),
+				].sort();
+
+		// Recursively propagate groups to nested subTerms if any
+		let nestedSubTerms = baseSubTerm.subTerms;
+		if (nestedSubTerms) {
+			nestedSubTerms = nestedSubTerms.map((st) =>
+				propagateGroupsToSubTerm(st, allGroups),
+			);
+		}
+
+		return {
+			term: segmentText,
+			groups: allGroups,
+			...(baseSubTerm.artificial && { artificial: true }),
+			...(nestedSubTerms &&
+				nestedSubTerms.length > 0 && { subTerms: nestedSubTerms }),
+		};
+	}
+
+	if (coveringTerms.length === 0) {
+		// No covering term - this is filler text
+		return {
+			term: segmentText,
+			groups: parentGroups,
+			artificial: true,
+		};
+	}
+
+	// Covered by terms but no exact subTerm match - create segment from covering terms
+	const groupsFromCoveringTerms = [
+		...new Set([
+			...parentGroups,
+			...coveringTerms.flatMap((t) => t.term.groups),
+		]),
+	];
+
+	return {
+		term: segmentText,
+		groups: groupsFromCoveringTerms,
+	};
+};
+
+// Process multiple overlapping terms into segments
+const processOverlappingTerms = (
+	overlappingGroup: TermWithPosition[],
+	containerTerm: string,
+	parentGroups: string[],
+): NestedTerm[] => {
+	const sortedBoundaries = collectBoundaries(overlappingGroup);
+	const subTermsByPosition = buildSubTermsPositionMap(overlappingGroup);
+
+	// Build segments from consecutive boundary pairs
+	const segments: NestedTerm[] = [];
+	for (let k = 0; k < sortedBoundaries.length - 1; k++) {
+		const segment = createSegmentFromBoundary(
+			sortedBoundaries[k]!,
+			sortedBoundaries[k + 1]!,
+			containerTerm,
+			overlappingGroup,
+			subTermsByPosition,
+			parentGroups,
+		);
+		if (segment) {
+			segments.push(segment);
+		}
+	}
+
+	return segments;
+};
+
+// Create filler segment for gaps between terms
+const createFillerSegment = (
+	text: string,
+	parentGroups: string[],
+): NestedTerm => ({
+	term: text,
+	groups: parentGroups,
+	artificial: true,
+});
+
+// Split a container term into ordered subTerms based on contained terms
+// Handles N overlapping terms by merging overlapping regions
+export const splitTermIntoSegments = (
+	containerTerm: string,
+	containedTerms: NestedTerm[],
+	parentGroups: string[],
+): NestedTerm[] => {
+	if (containedTerms.length === 0) {
+		return [];
+	}
+
+	// Step 1: Find positions of all contained terms and filter out those not found
+	const termsWithPositions: TermWithPosition[] = containedTerms
+		.map((term) => {
+			const pos = findTermPosition(containerTerm, term.term);
+			return pos ? { term, start: pos.start, end: pos.end } : null;
+		})
+		.filter((t): t is TermWithPosition => t !== null)
+		.sort((a, b) => a.start - b.start);
+
+	if (termsWithPositions.length === 0) {
+		return [];
+	}
+
+	// Step 2: Filter out terms that are fully contained in other terms
+	// Keep only the "direct children" - terms not contained in other found terms
+	const directChildren = termsWithPositions.filter((t) => {
+		const isContainedInAnother = termsWithPositions.some(
+			(other) =>
+				other !== t &&
+				other.start <= t.start &&
+				other.end >= t.end &&
+				!(other.start === t.start && other.end === t.end),
+		);
+		return !isContainedInAnother;
+	});
+
+	// Step 3: Group overlapping terms together
+	const overlappingGroups = groupOverlappingTerms(directChildren);
+
+	// Step 4: Process each group and build segments with fillers
+	const segments: NestedTerm[] = [];
+	let currentPos = 0;
+
+	for (const group of overlappingGroups) {
+		const groupStart = group[0]!.start;
+		const groupEnd = Math.max(...group.map((t) => t.end));
+
+		// Add filler text before this group if any
+		if (groupStart > currentPos) {
+			segments.push(
+				createFillerSegment(
+					containerTerm.slice(currentPos, groupStart),
+					parentGroups,
+				),
+			);
+		}
+
+		if (group.length === 1) {
+			// Single term - no overlap
+			segments.push(processSingleTerm(group[0]!, containedTerms, parentGroups));
+		} else {
+			// Multiple overlapping terms
+			segments.push(
+				...processOverlappingTerms(group, containerTerm, parentGroups),
+			);
+		}
+
+		currentPos = groupEnd;
+	}
+
+	// Add any remaining filler text at the end
+	if (currentPos < containerTerm.length) {
+		segments.push(
+			createFillerSegment(containerTerm.slice(currentPos), parentGroups),
+		);
+	}
+
+	return segments;
+};
+
+// Helper to propagate parent groups to a subTerm and its descendants
+const propagateGroupsToSubTerm = (
+	subTerm: NestedTerm,
+	parentGroups: string[],
+): NestedTerm => {
+	const combinedGroups = [...new Set([...parentGroups, ...subTerm.groups])];
+	return {
+		...subTerm,
+		groups: combinedGroups,
+		...(subTerm.subTerms && {
+			subTerms: subTerm.subTerms.map((st) =>
+				propagateGroupsToSubTerm(st, combinedGroups),
+			),
+		}),
+	};
+};
+
 export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
-	// handle smaller terms first
-	const sortedTerms = terms.sort((a, b) => a.term.length - b.term.length);
+	// Sort terms from smallest to largest - process smaller terms first
+	// so they're available when processing larger containing terms
+	const sortedTerms = [...terms].sort((a, b) => a.term.length - b.term.length);
 
 	const nestedTerms = sortedTerms.reduce((acc, term, index) => {
-		const containedTerms = acc
-			.filter((otherTerm) => isContainedIn(term, otherTerm))
-			.map(({ groups, ...rest }) => ({
-				...rest,
-				groups,
-			}));
+		// Find all previously processed terms that are contained in this term
+		const containedTerms = acc.filter((otherTerm) =>
+			isContainedIn(term, otherTerm),
+		) as NestedTerm[];
 
-		if (!containedTerms.length) {
+		if (containedTerms.length === 0) {
+			// No contained terms - just add this term as-is
 			acc[index] = term;
-
 			return acc;
 		}
-
-		// Filter to only keep direct children
-		// A term is a direct child if:
-		// 1. It's not contained in another contained term that is itself a direct child
-		// 2. When two terms overlap, prefer the smaller atomic terms
-		const directContainedTerms = containedTerms.filter((t) => {
-			// Check if this term is contained in another contained term
-			const containerTerms = containedTerms.filter(
-				(other) => other.term !== t.term && other.term.includes(t.term),
-			);
-
-			if (containerTerms.length === 0) return true; // Not contained in anything, keep it
-
-			// This term is contained in other terms
-			// Check if we should keep the smaller term or the larger term
-			// We should keep the smaller term if:
-			// - There are other smaller terms that cover the remaining parts of the container
-			for (const container of containerTerms) {
-				// Find other small terms that are also in this container
-				const otherSmallTermsInContainer = containedTerms.filter(
-					(other) =>
-						other.term !== t.term &&
-						other.term.length <= t.term.length &&
-						container.term.includes(other.term),
-				);
-
-				// If there are other small terms that together with t cover parts of the container,
-				// then we should keep t (and filter out the container)
-				if (otherSmallTermsInContainer.length > 0) {
-					return true;
-				}
-			}
-
-			return false; // This term should be filtered out, we'll use the container instead
-		});
-
-		// Now filter out containers if their parts are already covered by smaller terms
-		const finalContainedTerms = directContainedTerms.filter((t) => {
-			// Check if all parts of this term are covered by smaller direct contained terms
-			const smallerTermsInside = directContainedTerms.filter(
-				(other) => other.term !== t.term && t.term.includes(other.term),
-			);
-
-			// If smaller terms exist inside this term, filter it out
-			return smallerTermsInside.length === 0;
-		});
-
-		// For each final term, add groups from container terms that were filtered out
-		const enrichedContainedTerms = finalContainedTerms.map((t) => {
-			// Find container terms that were filtered out
-			const filteredContainers = containedTerms.filter(
-				(container) =>
-					container.term !== t.term &&
-					container.term.includes(t.term) &&
-					!finalContainedTerms.some((f) => f.term === container.term),
-			);
-
-			// Add their groups to this term
-			const additionalGroups = filteredContainers.flatMap((c) => c.groups);
-			const mergedGroups = [
-				...new Set([...t.groups, ...additionalGroups]),
-			].sort();
-
-			return {
-				...t,
-				groups: mergedGroups,
-			};
-		});
-
-		// If we filtered out overlapping terms but there are still overlapping terms remaining,
-		// we need to extract the overlap manually
-		let processedTerms: NestedTerm[] = enrichedContainedTerms as NestedTerm[];
-
-		if (
-			enrichedContainedTerms.length >= 2 &&
-			directContainedTerms.length === enrichedContainedTerms.length
-		) {
-			// No terms were filtered, check if we need to handle overlaps
-			const [first, second] = enrichedContainedTerms;
-			if (first && second) {
-				const overlap = getWordOverlap(first.term, second.term);
-				if (overlap) {
-					// Extract the overlap manually
-					const mergedGroups = [
-						...new Set([...first.groups, ...second.groups]),
-					];
-					const firstIndex = term.term.indexOf(first.term);
-					const secondIndex = term.term.indexOf(second.term);
-
-					let prefix: string;
-					let suffix: string;
-
-					if (firstIndex < secondIndex) {
-						prefix = first.term.replace(overlap, "");
-						suffix = second.term.replace(overlap, "");
-					} else {
-						prefix = second.term.replace(overlap, "");
-						suffix = first.term.replace(overlap, "");
-					}
-
-					processedTerms = [
-						...(prefix ? [{ term: prefix, groups: mergedGroups }] : []),
-						{ term: overlap, groups: mergedGroups },
-						...(suffix ? [{ term: suffix, groups: mergedGroups }] : []),
-					];
-				}
-			}
-		}
-
-		const remainingStringParts = getRemainingStringParts(
-			[term.term],
-			processedTerms.map((t) => t.term),
-		);
 
 		// Determine parent groups to pass down (artificial parents don't pass groups)
 		const parentGroups = term.artificial ? [] : term.groups;
 
-		// Build subTerms in correct order by reconstructing the string
-		// Parent groups should be included in children, with parent groups first and duplicates removed
-		// If a child has subTerms, recursively update them with accumulated ancestor groups
-		const allParts = [
-			...processedTerms.map((t) => {
-				// Calculate combined groups for this child
-				const combinedGroups = [...new Set([...parentGroups, ...t.groups])];
-
-				// If child has existing subTerms, update them recursively with accumulated ancestor groups
-				const updatedSubTerms = t.subTerms
-					? updateSubTermsWithAncestorGroups(t.subTerms, combinedGroups)
-					: undefined;
-
-				return {
-					...t,
-					groups: combinedGroups,
-					...(updatedSubTerms && { subTerms: updatedSubTerms }),
-				};
-			}),
-			...remainingStringParts.map((t) => ({
-				term: t,
-				groups: parentGroups,
-				artificial: true,
-			})),
-		];
-
-		// Sort by finding each term's position in order using recursion
-		const buildSubTermsInOrder = (
-			remainingStr: string,
-			availableParts: NestedTerm[],
-			result: NestedTerm[] = [],
-		): NestedTerm[] => {
-			if (remainingStr.length === 0 || availableParts.length === 0) {
-				return result;
-			}
-
-			const matchingPartIndex = availableParts.findIndex((part) =>
-				remainingStr.startsWith(part.term),
-			);
-
-			if (matchingPartIndex === -1) {
-				// No matching part found, this shouldn't happen
-				return result;
-			}
-
-			const matchingPart = availableParts[matchingPartIndex] as NestedTerm;
-			const newRemainingStr = remainingStr.slice(matchingPart.term.length);
-			const newAvailableParts = availableParts.filter(
-				(_, i) => i !== matchingPartIndex,
-			);
-
-			return buildSubTermsInOrder(newRemainingStr, newAvailableParts, [
-				...result,
-				matchingPart,
-			]);
-		};
-
-		const subTerms = buildSubTermsInOrder(term.term, allParts);
+		// Use the new segment-based splitting which handles N overlapping terms
+		const subTerms = splitTermIntoSegments(
+			term.term,
+			containedTerms,
+			parentGroups,
+		);
 
 		acc[index] = {
 			term: term.term,
 			groups: term.groups,
-			subTerms,
+			...(subTerms.length > 0 && { subTerms }),
 		};
 
 		return acc;
-	}, terms as NestedTerm[]);
+	}, [] as NestedTerm[]);
 
 	return removeDuplicateNestedTerms(nestedTerms);
 };
