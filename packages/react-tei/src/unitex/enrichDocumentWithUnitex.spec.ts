@@ -749,9 +749,9 @@ describe("enrichDocumentWithUnitex", () => {
 				[],
 			);
 			expect(result).toEqual([
-				{ term: "Prince ", groups: ["group1"] },
-				{ term: "Charles", groups: ["group1", "group2"] },
-				{ term: " Xavier", groups: ["group2"] },
+				{ term: "Prince ", groups: ["group1"], sourceTerm: "Prince Charles" },
+				{ term: "Charles", groups: ["group1", "group2"], sourceTerm: null },
+				{ term: " Xavier", groups: ["group2"], sourceTerm: "Charles Xavier" },
 			]);
 		});
 
@@ -769,7 +769,12 @@ describe("enrichDocumentWithUnitex", () => {
 					term: "New York",
 					groups: ["group1", "group2"],
 					subTerms: [
-						{ term: "New ", groups: ["group1", "group2"], artificial: true },
+						{
+							term: "New ",
+							groups: ["group1", "group2"],
+							artificial: true,
+							sourceTerm: "New York",
+						},
 						{ term: "York", groups: ["group1", "group2", "group3"] },
 					],
 				},
@@ -866,6 +871,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: "States of ",
 							groups: ["group2"],
 							artificial: true,
+							sourceTerm: "States of America",
 						},
 						{
 							term: "America",
@@ -881,6 +887,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: "United ",
 							groups: ["group1"],
 							artificial: true,
+							sourceTerm: "United States of America",
 						},
 						{
 							term: "States of America",
@@ -890,6 +897,7 @@ describe("enrichDocumentWithUnitex", () => {
 									term: "States of ",
 									groups: ["group1", "group2"],
 									artificial: true,
+									sourceTerm: "States of America",
 								},
 								{
 									term: "America",
@@ -949,6 +957,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: " Organization of ",
 							groups: ["group1"],
 							artificial: true,
+							sourceTerm: "France Organization of cat lover",
 						},
 						{
 							term: "cat",
@@ -958,6 +967,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: " lover",
 							groups: ["group1"],
 							artificial: true,
+							sourceTerm: "France Organization of cat lover",
 						},
 					],
 				},
@@ -989,13 +999,23 @@ describe("enrichDocumentWithUnitex", () => {
 					term: "New York City",
 					groups: ["group1"],
 					subTerms: [
-						{ term: "New ", groups: ["group1"], artificial: true },
+						{
+							term: "New ",
+							groups: ["group1"],
+							artificial: true,
+							sourceTerm: "New York City",
+						},
 
 						{
 							term: "York",
 							groups: ["group1", "group2"],
 						},
-						{ term: " City", groups: ["group1"], artificial: true },
+						{
+							term: " City",
+							groups: ["group1"],
+							artificial: true,
+							sourceTerm: "New York City",
+						},
 					],
 				},
 				{
@@ -1068,6 +1088,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: " ",
 							groups: ["group1"],
 							artificial: true,
+							sourceTerm: "San Francisco Bay Area",
 						},
 						{
 							term: "Bay Area",
@@ -1110,6 +1131,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: "Union ratatinée des ",
 							groups: ["group1"],
 							artificial: true,
+							sourceTerm: "Union ratatinée des saucisson sec",
 						},
 						{
 							term: "saucisson sec",
@@ -1123,6 +1145,7 @@ describe("enrichDocumentWithUnitex", () => {
 									groups: ["group1", "group2"],
 									artificial: true,
 									term: " sec",
+									sourceTerm: "saucisson sec",
 								},
 							],
 						},
@@ -1140,6 +1163,7 @@ describe("enrichDocumentWithUnitex", () => {
 							groups: ["group2"],
 							artificial: true,
 							term: " sec",
+							sourceTerm: "saucisson sec",
 						},
 					],
 				},
@@ -1186,6 +1210,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: "United States of ",
 							groups: ["group1"],
 							artificial: true,
+							sourceTerm: "United States of America",
 						},
 						{
 							term: "America",
@@ -1214,18 +1239,22 @@ describe("enrichDocumentWithUnitex", () => {
 				{
 					term: "Prince Charles Xavier",
 					groups: ["group1+group1"],
+					artificial: true,
 					subTerms: [
 						{
 							groups: ["group1"],
 							term: "Prince ",
+							sourceTerm: "Prince Charles",
 						},
 						{
 							groups: ["group1"],
 							term: "Charles",
+							sourceTerm: null,
 						},
 						{
 							groups: ["group1"],
 							term: " Xavier",
+							sourceTerm: "Charles Xavier",
 						},
 					],
 				},
@@ -1240,7 +1269,7 @@ describe("enrichDocumentWithUnitex", () => {
 			]);
 		});
 
-		it.skip("should handle complex overlapping", () => {
+		it("should handle complex overlapping", () => {
 			const termByGroup = {
 				group1: [{ term: "Prince Charles", frequency: 1, displayed: true }],
 				group2: [{ term: "Charles The Bold", frequency: 1, displayed: true }],
@@ -1253,25 +1282,31 @@ describe("enrichDocumentWithUnitex", () => {
 				{
 					term: "Prince Charles The Bold Font",
 					groups: ["group1+group2+group3"],
+					artificial: true,
 					subTerms: [
 						{
 							term: "Prince ",
+							sourceTerm: "Prince Charles",
 							groups: ["group1"],
 						},
 						{
 							term: "Charles",
 							groups: ["group1", "group2"],
+							sourceTerm: null,
 						},
 						{
 							term: " ",
+							sourceTerm: "Charles The Bold",
 							groups: ["group2"],
 						},
 						{
 							term: "The Bold",
+							sourceTerm: null,
 							groups: ["group2", "group3"],
 						},
 						{
 							term: " Font",
+							sourceTerm: "The Bold Font",
 							groups: ["group3"],
 						},
 					],
@@ -1279,17 +1314,21 @@ describe("enrichDocumentWithUnitex", () => {
 				{
 					term: "Prince Charles The Bold",
 					groups: ["group1+group2"],
+					artificial: true,
 					subTerms: [
 						{
-							groups: ["group1", "group2"],
+							groups: ["group1"],
 							term: "Prince ",
+							sourceTerm: "Prince Charles",
 						},
 						{
 							groups: ["group1", "group2"],
 							term: "Charles",
+							sourceTerm: null,
 						},
 						{
-							groups: ["group1", "group2"],
+							groups: ["group2"],
+							sourceTerm: "Charles The Bold",
 							term: " The Bold",
 						},
 					],
@@ -1297,17 +1336,21 @@ describe("enrichDocumentWithUnitex", () => {
 				{
 					term: "Charles The Bold Font",
 					groups: ["group2+group3"],
+					artificial: true,
 					subTerms: [
 						{
-							groups: ["group2", "group3"],
+							groups: ["group2"],
+							sourceTerm: "Charles The Bold",
 							term: "Charles ",
 						},
 						{
 							groups: ["group2", "group3"],
+							sourceTerm: null,
 							term: "The Bold",
 						},
 						{
 							groups: ["group3"],
+							sourceTerm: "The Bold Font",
 							term: " Font",
 						},
 					],
@@ -1349,56 +1392,68 @@ describe("enrichDocumentWithUnitex", () => {
 				{
 					term: "Gamers United Nations",
 					groups: ["group1+group1"],
+					artificial: true,
 					subTerms: [
 						{
 							groups: ["group1", "group4"],
 							term: "Gamers",
+							sourceTerm: "Gamers United",
 						},
 						{
 							artificial: true,
-							groups: [],
+							groups: ["group1"],
 							term: " ",
+							sourceTerm: "Gamers United",
 						},
 						{
 							groups: ["group1", "group4"],
 							term: "United",
+							sourceTerm: null,
 						},
 						{
 							artificial: true,
-							groups: [],
+							groups: ["group1"],
 							term: " ",
+							sourceTerm: "United Nations",
 						},
 						{
 							groups: ["group1", "group4"],
 							term: "Nations",
+							sourceTerm: "United Nations",
 						},
 					],
 				},
 				{
 					term: "Gamers United States",
 					groups: ["group1+group3"],
+					artificial: true,
 					subTerms: [
 						{
 							groups: ["group1", "group4"],
 							term: "Gamers",
+							sourceTerm: "Gamers United",
 						},
 						{
 							artificial: true,
-							groups: [],
+							groups: ["group1"],
 							term: " ",
+							sourceTerm: "Gamers United",
 						},
 						{
 							groups: ["group1", "group3", "group4"],
 							term: "United",
+							sourceTerm: null,
 						},
 						{
 							artificial: true,
-							groups: [],
+							groups: ["group3"],
 							term: " ",
+							sourceTerm: "United States",
 						},
 						{
 							groups: ["group2", "group3", "group4"],
 							term: "States",
+							sourceTerm: "United States",
 						},
 					],
 				},
@@ -1414,6 +1469,7 @@ describe("enrichDocumentWithUnitex", () => {
 							artificial: true,
 							groups: ["group1"],
 							term: " ",
+							sourceTerm: "United Nations",
 						},
 						{
 							groups: ["group1", "group4"],
@@ -1433,6 +1489,7 @@ describe("enrichDocumentWithUnitex", () => {
 							artificial: true,
 							groups: ["group1"],
 							term: " ",
+							sourceTerm: "Gamers United",
 						},
 						{
 							groups: ["group1", "group4"],
@@ -1452,6 +1509,7 @@ describe("enrichDocumentWithUnitex", () => {
 							term: " ",
 							artificial: true,
 							groups: ["group3"],
+							sourceTerm: "United States",
 						},
 						{
 							term: "States",
@@ -1613,6 +1671,7 @@ describe("enrichDocumentWithUnitex", () => {
 			tag: "root",
 			value: [
 				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
 						{
@@ -1629,7 +1688,7 @@ describe("enrichDocumentWithUnitex", () => {
 								{
 									attributes: {
 										groups: ["group1"],
-										term: "New ",
+										term: "new-york-city",
 									},
 									tag: "highlight",
 									value: [
@@ -1642,7 +1701,7 @@ describe("enrichDocumentWithUnitex", () => {
 								{
 									attributes: {
 										groups: ["group1", "group2"],
-										term: "York",
+										term: "york",
 									},
 									tag: "highlight",
 									value: [
@@ -1655,7 +1714,7 @@ describe("enrichDocumentWithUnitex", () => {
 								{
 									attributes: {
 										groups: ["group1"],
-										term: " City",
+										term: "new-york-city",
 									},
 									tag: "highlight",
 									value: [
@@ -1697,6 +1756,7 @@ describe("enrichDocumentWithUnitex", () => {
 			tag: "root",
 			value: [
 				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
 						{
@@ -1732,7 +1792,7 @@ describe("enrichDocumentWithUnitex", () => {
 									],
 									attributes: {
 										groups: ["group2"],
-										term: null,
+										term: "charles-the-bold",
 									},
 								},
 								{
@@ -1740,7 +1800,7 @@ describe("enrichDocumentWithUnitex", () => {
 									value: [{ tag: "#text", value: "The Bold" }],
 									attributes: {
 										groups: ["group2", "group3"],
-										term: "the-bold-font",
+										term: null,
 									},
 								},
 								{
@@ -1748,7 +1808,7 @@ describe("enrichDocumentWithUnitex", () => {
 									value: [{ tag: "#text", value: " Font" }],
 									attributes: {
 										groups: ["group3"],
-										term: null,
+										term: "the-bold-font",
 									},
 								},
 							],

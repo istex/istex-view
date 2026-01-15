@@ -204,6 +204,12 @@ type NestedTerm = {
 	groups: string[];
 	subTerms?: NestedTerm[];
 	artificial?: boolean;
+	sourceTerm?: string | null;
+};
+
+// Convert term text to slug format (lowercase, spaces to hyphens, preserve unicode letters)
+const slugify = (text: string): string => {
+	return text.toLowerCase().trim().replace(/\s+/g, "-");
 };
 
 export const isContainedIn = (
@@ -368,10 +374,12 @@ const processSingleTerm = (
 				findTermPosition(termData.term, ct.term) !== null,
 		);
 		if (smallerContained.length > 0) {
+			// Pass the slugified term as parentSourceTerm for filler segments
 			subTerms = splitTermIntoSegments(
 				termData.term,
 				smallerContained,
 				combinedGroups,
+				termData.term,
 			);
 		}
 	}
@@ -433,20 +441,59 @@ const collectBoundaries = (overlappingGroup: TermWithPosition[]): number[] => {
 	return Array.from(boundaries).sort((a, b) => a - b);
 };
 
+// Compute groups filtering out artificial terms
+const computeNonArtificialGroups = (
+	coveringTerms: TermWithPosition[],
+	parentGroups: string[],
+): string[] => {
+	// Filter out groups from artificial terms
+	const nonArtificialGroups = coveringTerms
+		.filter((t) => !t.term.artificial)
+		.flatMap((t) => t.term.groups);
+
+	return [...new Set([...parentGroups, ...nonArtificialGroups])].sort();
+};
+
+// Compute source term from covering terms
+// Returns slugified term if all non-artificial terms have the same term, null otherwise
+const computeSourceTerm = (
+	coveringTerms: TermWithPosition[],
+): string | null => {
+	const nonArtificialTerms = coveringTerms.filter((t) => !t.term.artificial);
+
+	if (nonArtificialTerms.length === 0) return null;
+
+	const uniqueTermValues = [
+		...new Set(nonArtificialTerms.map((t) => t.term.term)),
+	];
+
+	if (uniqueTermValues.length === 1) {
+		return uniqueTermValues[0]!;
+	}
+
+	return null;
+};
+
 // Create a segment from boundary positions
 const createSegmentFromBoundary = (
 	segStart: number,
 	segEnd: number,
 	containerTerm: string,
 	overlappingGroup: TermWithPosition[],
+	allTerms: TermWithPosition[],
 	subTermsByPosition: SubTermAtPosition[],
 	parentGroups: string[],
 ): NestedTerm | null => {
 	const segmentText = containerTerm.slice(segStart, segEnd);
 	if (segmentText === "") return null;
 
-	// Find which terms cover this segment
-	const coveringTerms = overlappingGroup.filter(
+	// Find which terms from the overlapping group cover this segment
+	const coveringTermsFromGroup = overlappingGroup.filter(
+		(t) => t.start <= segStart && t.end >= segEnd,
+	);
+
+	// Find ALL terms that cover this segment (for group computation)
+	const allCoveringTerms = allTerms.filter(
 		(t) => t.start <= segStart && t.end >= segEnd,
 	);
 
@@ -460,17 +507,14 @@ const createSegmentFromBoundary = (
 		const baseSubTerm = matchingSubTerms[0]!.subTerm;
 
 		// For artificial subTerms (filler text), only use parentGroups
-		// For non-artificial subTerms, merge all groups
+		// For non-artificial subTerms, merge groups from non-artificial covering terms
 		const isArtificialSegment = baseSubTerm.artificial;
 		const allGroups = isArtificialSegment
-			? parentGroups
-			: [
-					...new Set([
-						...matchingSubTerms.flatMap((st) => st.subTerm.groups),
-						...matchingSubTerms.flatMap((st) => st.fromTermGroups),
-						...parentGroups,
-					]),
-				].sort();
+			? computeNonArtificialGroups(allCoveringTerms, [])
+			: computeNonArtificialGroups(allCoveringTerms, parentGroups);
+
+		// Compute source term (using only the overlapping group for this)
+		const sourceTerm = computeSourceTerm(coveringTermsFromGroup);
 
 		// Recursively propagate groups to nested subTerms if any
 		let nestedSubTerms = baseSubTerm.subTerms;
@@ -483,14 +527,15 @@ const createSegmentFromBoundary = (
 		return {
 			term: segmentText,
 			groups: allGroups,
+			sourceTerm,
 			...(baseSubTerm.artificial && { artificial: true }),
 			...(nestedSubTerms &&
 				nestedSubTerms.length > 0 && { subTerms: nestedSubTerms }),
 		};
 	}
 
-	if (coveringTerms.length === 0) {
-		// No covering term - this is filler text
+	if (coveringTermsFromGroup.length === 0) {
+		// No covering term from the overlapping group - this is filler text
 		return {
 			term: segmentText,
 			groups: parentGroups,
@@ -499,22 +544,20 @@ const createSegmentFromBoundary = (
 	}
 
 	// Covered by terms but no exact subTerm match - create segment from covering terms
-	const groupsFromCoveringTerms = [
-		...new Set([
-			...parentGroups,
-			...coveringTerms.flatMap((t) => t.term.groups),
-		]),
-	];
+	const groups = computeNonArtificialGroups(allCoveringTerms, parentGroups);
+	const sourceTerm = computeSourceTerm(coveringTermsFromGroup);
 
 	return {
 		term: segmentText,
-		groups: groupsFromCoveringTerms,
+		groups,
+		sourceTerm,
 	};
 };
 
 // Process multiple overlapping terms into segments
 const processOverlappingTerms = (
 	overlappingGroup: TermWithPosition[],
+	allTerms: TermWithPosition[],
 	containerTerm: string,
 	parentGroups: string[],
 ): NestedTerm[] => {
@@ -529,6 +572,7 @@ const processOverlappingTerms = (
 			sortedBoundaries[k + 1]!,
 			containerTerm,
 			overlappingGroup,
+			allTerms,
 			subTermsByPosition,
 			parentGroups,
 		);
@@ -541,28 +585,36 @@ const processOverlappingTerms = (
 };
 
 // Create filler segment for gaps between terms
+// Create filler segment for gaps between terms
+// sourceTerm is the slugified parent term (for non-artificial parents) or undefined (for artificial parents)
 const createFillerSegment = (
 	text: string,
 	parentGroups: string[],
+	sourceTerm?: string,
 ): NestedTerm => ({
 	term: text,
 	groups: parentGroups,
 	artificial: true,
+	...(sourceTerm !== undefined && { sourceTerm }),
 });
 
 // Split a container term into ordered subTerms based on contained terms
 // Handles N overlapping terms by merging overlapping regions
+// parentSourceTerm: for non-artificial parents, the slugified parent term; undefined for artificial parents
 export const splitTermIntoSegments = (
 	containerTerm: string,
 	containedTerms: NestedTerm[],
 	parentGroups: string[],
+	parentSourceTerm?: string,
 ): NestedTerm[] => {
 	if (containedTerms.length === 0) {
 		return [];
 	}
 
 	// Step 1: Find positions of all contained terms and filter out those not found
+	// Filter out artificial terms - we only want original terms as direct children
 	const termsWithPositions: TermWithPosition[] = containedTerms
+		.filter((term) => !term.artificial)
 		.map((term) => {
 			const pos = findTermPosition(containerTerm, term.term);
 			return pos ? { term, start: pos.start, end: pos.end } : null;
@@ -604,6 +656,7 @@ export const splitTermIntoSegments = (
 				createFillerSegment(
 					containerTerm.slice(currentPos, groupStart),
 					parentGroups,
+					parentSourceTerm,
 				),
 			);
 		}
@@ -612,9 +665,14 @@ export const splitTermIntoSegments = (
 			// Single term - no overlap
 			segments.push(processSingleTerm(group[0]!, containedTerms, parentGroups));
 		} else {
-			// Multiple overlapping terms
+			// Multiple overlapping terms - pass all terms for group computation
 			segments.push(
-				...processOverlappingTerms(group, containerTerm, parentGroups),
+				...processOverlappingTerms(
+					group,
+					termsWithPositions,
+					containerTerm,
+					parentGroups,
+				),
 			);
 		}
 
@@ -624,7 +682,11 @@ export const splitTermIntoSegments = (
 	// Add any remaining filler text at the end
 	if (currentPos < containerTerm.length) {
 		segments.push(
-			createFillerSegment(containerTerm.slice(currentPos), parentGroups),
+			createFillerSegment(
+				containerTerm.slice(currentPos),
+				parentGroups,
+				parentSourceTerm,
+			),
 		);
 	}
 
@@ -661,23 +723,33 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 
 		if (containedTerms.length === 0) {
 			// No contained terms - just add this term as-is
-			acc[index] = term;
+			acc[index] = {
+				term: term.term,
+				groups: term.groups,
+				...(term.artificial && { artificial: true }),
+			};
 			return acc;
 		}
 
 		// Determine parent groups to pass down (artificial parents don't pass groups)
 		const parentGroups = term.artificial ? [] : term.groups;
 
+		// For non-artificial parents, pass slugified term so fillers get proper sourceTerm
+		// For artificial parents, don't pass parentSourceTerm (fillers will compute from covering terms)
+		const parentSourceTerm = term.artificial ? undefined : term.term;
+
 		// Use the new segment-based splitting which handles N overlapping terms
 		const subTerms = splitTermIntoSegments(
 			term.term,
 			containedTerms,
 			parentGroups,
+			parentSourceTerm,
 		);
 
 		acc[index] = {
 			term: term.term,
 			groups: term.groups,
+			...(term.artificial && { artificial: true }),
 			...(subTerms.length > 0 && { subTerms }),
 		};
 
@@ -710,13 +782,25 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 			value: term.term,
 		};
 	}
+
+	// Determine the term attribute value:
+	// - If sourceTerm is explicitly set (string), use it
+	// - If sourceTerm is null, use null
+	// - If sourceTerm is undefined (root term), use slugified term.term
+	const termAttribute =
+		term.sourceTerm === null
+			? null
+			: term.sourceTerm !== undefined
+				? slugify(term.sourceTerm)
+				: slugify(term.term);
+
 	if (term.subTerms?.length && term.groups.length === 0) {
 		return {
 			tag: "highlight",
 			value: term.subTerms.map(termToTag),
 			attributes: {
 				groups: [] as string[],
-				term: term.term,
+				term: termAttribute,
 				noAnchor: true,
 			} as HighlightTag["attributes"],
 		};
@@ -734,7 +818,7 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 				],
 		attributes: {
 			groups: term.groups,
-			term: term.term,
+			term: termAttribute,
 		} as HighlightTag["attributes"],
 	};
 };
