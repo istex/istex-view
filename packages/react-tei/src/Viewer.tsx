@@ -37,6 +37,7 @@ export const Viewer = ({
 	const isSmallScreen = useMediaQuery(theme.breakpoints.down("xl"));
 
 	const documentRef = useRef<HTMLDivElement | null>(null);
+	const tocRef = useRef<HTMLDivElement | null>(null);
 	const sidePanelRef = useRef<HTMLDivElement | null>(null);
 
 	const jsonDocument = useDocumentParser(document);
@@ -84,6 +85,7 @@ export const Viewer = ({
 			>
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					<DocumentNavigationContextProvider
+						tocRef={tocRef}
 						documentRef={documentRef}
 						sidePanelRef={sidePanelRef}
 					>
@@ -109,7 +111,10 @@ export const Viewer = ({
 						>
 							<Stack direction="row" flexGrow={1} justifyContent="center">
 								{!isSmallScreen && (
-									<TableOfContent tableOfContent={tableOfContent} />
+									<TableOfContent
+										tableOfContent={tableOfContent}
+										ref={tocRef}
+									/>
 								)}
 
 								<Stack

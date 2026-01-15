@@ -11,6 +11,7 @@ import { useDocumentNavigation } from "./useNavigateToSection";
 
 function createDocumentWrapper() {
 	const documentElement = document.createElement("div");
+	const tocElement = document.createElement("div");
 	const sidePaneElement = document.createElement("div");
 
 	return {
@@ -21,6 +22,11 @@ function createDocumentWrapper() {
 					documentRef={
 						{
 							current: documentElement,
+						} as unknown as RefObject<HTMLDivElement | null>
+					}
+					tocRef={
+						{
+							current: tocElement,
 						} as unknown as RefObject<HTMLDivElement | null>
 					}
 					sidePanelRef={
@@ -40,6 +46,7 @@ function createSidePaneWrapper(
 	panel: Partial<DocumentContextType["panel"]> = {},
 ) {
 	const documentElement = document.createElement("div");
+	const tocElement = document.createElement("div");
 	const sidePaneElement = document.createElement("div");
 
 	return {
@@ -72,6 +79,11 @@ function createSidePaneWrapper(
 					documentRef={
 						{
 							current: documentElement,
+						} as unknown as RefObject<HTMLDivElement | null>
+					}
+					tocRef={
+						{
+							current: tocElement,
 						} as unknown as RefObject<HTMLDivElement | null>
 					}
 					sidePanelRef={

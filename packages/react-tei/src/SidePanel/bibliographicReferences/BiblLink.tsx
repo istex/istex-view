@@ -1,4 +1,5 @@
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import { type ReactNode, useMemo } from "react";
@@ -28,16 +29,14 @@ export const BiblLink = ({
 				payload={data}
 				inline
 			>
-				<Stack
+				<Box
 					sx={{
 						fontSize: "1rem",
 					}}
-					direction="row"
-					gap={1}
 					role="note"
 				>
 					{children}
-				</Stack>
+				</Box>
 			</DebugTag>
 		);
 	}
