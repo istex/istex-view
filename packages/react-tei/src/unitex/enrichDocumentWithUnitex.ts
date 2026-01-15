@@ -18,7 +18,7 @@ export const termToRegex = (term: string): RegExp => {
 type NormalizedTerm = {
 	term: string;
 	group: string;
-	hybrid?: boolean;
+	artificial?: boolean;
 };
 
 // Step 1: Normalize terms from termByGroup into flat list with word arrays
@@ -118,7 +118,7 @@ export const getTermOverlap = (
 			{
 				term: `${prefix}${wordOverlap}${suffix}`,
 				group: [termA.group, termB.group].sort().join("+"),
-				hybrid: true,
+				artificial: true,
 			},
 		];
 	}
@@ -130,7 +130,7 @@ export const getTermOverlap = (
 			{
 				term: `${prefix}${wordOverlap}${suffix}`,
 				group: [termA.group, termB.group].sort().join("+"),
-				hybrid: true,
+				artificial: true,
 			},
 		];
 	}

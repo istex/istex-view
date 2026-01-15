@@ -281,7 +281,7 @@ describe("enrichDocumentWithUnitex", () => {
 			expect(overlappingTerms).toEqual([
 				{
 					group: "group1+group2",
-					hybrid: true,
+					artificial: true,
 					term: "Prince Charles Xavier",
 				},
 			]);
@@ -306,7 +306,7 @@ describe("enrichDocumentWithUnitex", () => {
 			expect(overlappingTerms).toEqual([
 				{
 					group: "group1+group2",
-					hybrid: true,
+					artificial: true,
 					term: "United States of America and Canada",
 				},
 			]);
@@ -426,27 +426,27 @@ describe("enrichDocumentWithUnitex", () => {
 			expect(overlappingTerms).toEqual([
 				{
 					group: "group1+group1",
-					hybrid: true,
+					artificial: true,
 					term: "Prince Charles Xavier",
 				},
 				{
 					group: "group1+group1",
-					hybrid: true,
+					artificial: true,
 					term: "Prince Charles the bold",
 				},
 				{
 					group: "group1+group1",
-					hybrid: true,
+					artificial: true,
 					term: "Prince Charles Quint",
 				},
 				{
 					group: "group1+group1+group2",
-					hybrid: true,
+					artificial: true,
 					term: "Prince Charles the bold font",
 				},
 				{
 					group: "group1+group2",
-					hybrid: true,
+					artificial: true,
 					term: "Charles the bold font",
 				},
 			]);
