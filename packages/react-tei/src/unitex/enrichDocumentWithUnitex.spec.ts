@@ -451,6 +451,47 @@ describe("enrichDocumentWithUnitex", () => {
 				},
 			]);
 		});
+
+		it("should properly create complex overlaps (more than 2 overlapping)", () => {
+			const terms = [
+				{
+					group: "group1",
+					term: "Prince Charles",
+					frequency: 1,
+					displayed: true,
+				},
+				{
+					group: "group2",
+					term: "Charles The Bold",
+					frequency: 1,
+					displayed: true,
+				},
+				{
+					group: "group3",
+					term: "The Bold Font",
+					frequency: 1,
+					displayed: true,
+				},
+			];
+			const overlappingTerms = getOverlappingTermsFromList(terms);
+			expect(overlappingTerms).toEqual([
+				{
+					group: "group1+group2",
+					artificial: true,
+					term: "Prince Charles The Bold",
+				},
+				{
+					group: "group1+group2+group3",
+					artificial: true,
+					term: "Prince Charles The Bold Font",
+				},
+				{
+					group: "group2+group3",
+					artificial: true,
+					term: "Charles The Bold Font",
+				},
+			]);
+		});
 	});
 
 	describe("isContainedIn", () => {
@@ -1025,6 +1066,93 @@ describe("enrichDocumentWithUnitex", () => {
 			]);
 		});
 
+		it("should handle complex overlapping", () => {
+			const termByGroup = {
+				group1: [{ term: "Prince Charles", frequency: 1, displayed: true }],
+				group2: [{ term: "Charles The Bold", frequency: 1, displayed: true }],
+				group3: [{ term: "The Bold Font", frequency: 1, displayed: true }],
+			};
+
+			const terms = computeEnrichedTerms(termByGroup);
+
+			expect(terms).toEqual([
+				{
+					term: "Prince Charles The Bold Font",
+					groups: ["group1+group2+group3"],
+					subTerms: [
+						{
+							term: "Prince ",
+							groups: ["group1"],
+						},
+						{
+							term: "Charles",
+							groups: ["group1", "group2"],
+						},
+						{
+							term: " ",
+							groups: ["group2"],
+						},
+						{
+							term: "The Bold",
+							groups: ["group2", "group3"],
+						},
+						{
+							term: " Font",
+							groups: ["group3"],
+						},
+					],
+				},
+				{
+					term: "Prince Charles The Bold",
+					groups: ["group1+group2"],
+					subTerms: [
+						{
+							groups: ["group1", "group2"],
+							term: "Prince ",
+						},
+						{
+							groups: ["group1", "group2"],
+							term: "Charles",
+						},
+						{
+							groups: ["group1", "group2"],
+							term: " The Bold",
+						},
+					],
+				},
+				{
+					term: "Charles The Bold Font",
+					groups: ["group2+group3"],
+					subTerms: [
+						{
+							groups: ["group2", "group3"],
+							term: "Charles ",
+						},
+						{
+							groups: ["group2", "group3"],
+							term: "The Bold",
+						},
+						{
+							groups: ["group3"],
+							term: " Font",
+						},
+					],
+				},
+				{
+					groups: ["group2"],
+					term: "Charles The Bold",
+				},
+				{
+					groups: ["group1"],
+					term: "Prince Charles",
+				},
+				{
+					groups: ["group3"],
+					term: "The Bold Font",
+				},
+			]);
+		});
+
 		it("should handle everything at once", () => {
 			const termByGroup = {
 				group1: [
@@ -1286,6 +1414,171 @@ describe("enrichDocumentWithUnitex", () => {
 							value: "Unitex",
 						},
 						{ tag: "#text", value: " highlighting." },
+					],
+				},
+			],
+		});
+	});
+
+	it('replace terms containing nested terms (e.g., "New York City" containing "York")', () => {
+		const document = {
+			tag: "root",
+			value: [{ tag: "#text", value: "Welcome to New York City!" }],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "New York City", frequency: 1, displayed: true }],
+			group2: [{ term: "York", frequency: 1, displayed: true }],
+		};
+
+		const enrichedDocument = enrichDocumentWithUnitex(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "highlightedText",
+					value: [
+						{
+							tag: "#text",
+							value: "Welcome to ",
+						},
+						{
+							attributes: {
+								groups: ["group1"],
+								term: "new-york-city",
+							},
+							tag: "highlight",
+							value: [
+								{
+									attributes: {
+										groups: ["group1"],
+										term: "New ",
+									},
+									tag: "highlight",
+									value: [
+										{
+											tag: "#text",
+											value: "New ",
+										},
+									],
+								},
+								{
+									attributes: {
+										groups: ["group1", "group2"],
+										term: "York",
+									},
+									tag: "highlight",
+									value: [
+										{
+											tag: "#text",
+											value: "York",
+										},
+									],
+								},
+								{
+									attributes: {
+										groups: ["group1"],
+										term: " City",
+									},
+									tag: "highlight",
+									value: [
+										{
+											tag: "#text",
+											value: " City",
+										},
+									],
+								},
+							],
+						},
+						{
+							tag: "#text",
+							value: "!",
+						},
+					],
+				},
+			],
+		});
+	});
+
+	it('should replace term overlapping another term (e.g., "Prince Charles" and "Charles Xavier")', () => {
+		const document = {
+			tag: "root",
+			value: [{ tag: "#text", value: "Prince Charles The Bold Font" }],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Prince Charles", frequency: 1, displayed: true }],
+			group2: [{ term: "Charles The Bold", frequency: 1, displayed: true }],
+			group3: [{ term: "The Bold Font", frequency: 1, displayed: true }],
+		};
+
+		const enrichedDocument = enrichDocumentWithUnitex(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "highlightedText",
+					value: [
+						{
+							attributes: {
+								groups: ["group1+group2+group3"],
+								term: "prince-charles-the-bold-font",
+							},
+							tag: "highlight",
+							value: [
+								{
+									tag: "highlight",
+									value: [{ tag: "#text", value: "Prince " }],
+									attributes: {
+										groups: ["group1"],
+										term: "prince-charles",
+									},
+								},
+								{
+									tag: "highlight",
+									value: [{ tag: "#text", value: "Charles" }],
+									attributes: {
+										groups: ["group1", "group2"],
+										term: null,
+									},
+								},
+								{
+									tag: "highlight",
+									value: [
+										{
+											tag: "#text",
+											value: " ",
+										},
+									],
+									attributes: {
+										groups: ["group2"],
+										term: null,
+									},
+								},
+								{
+									tag: "highlight",
+									value: [{ tag: "#text", value: "The Bold" }],
+									attributes: {
+										groups: ["group2", "group3"],
+										term: "the-bold-font",
+									},
+								},
+								{
+									tag: "highlight",
+									value: [{ tag: "#text", value: " Font" }],
+									attributes: {
+										groups: ["group3"],
+										term: null,
+									},
+								},
+							],
+						},
 					],
 				},
 			],
