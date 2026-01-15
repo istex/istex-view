@@ -1,10 +1,15 @@
 import { mapTargetTags } from "../helper/mapTargetTags";
 import type { DocumentJson } from "../parser/document";
-import { highlightTermsInTextTag, isTextTag } from "./highlightTermsInTextTag";
+import {
+	type HighlightTag,
+	highlightTermsInTextTag,
+	isTextTag,
+	type TextTag,
+} from "./highlightTermsInTextTag";
 import type { TermStatistic } from "./parseUnitexEnrichment";
 
 const escapeRegexChars = (str: string): string => {
-	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replaceAll("-", "[-–]");
 };
 
 export const termToRegex = (term: string): RegExp => {
@@ -168,6 +173,7 @@ export const getOverlappingTermsFromList = (
 type GroupedTerm = {
 	term: string;
 	groups: string[];
+	artificial?: boolean;
 };
 
 export const mergeIdenticalTerms = (terms: NormalizedTerm[]): GroupedTerm[] => {
@@ -292,6 +298,28 @@ export const getRemainingStringParts = (
 	return getRemainingStringParts(newFullString, restSubTerms);
 };
 
+// Helper to recursively update subTerms with accumulated ancestor groups
+const updateSubTermsWithAncestorGroups = (
+	subTerms: NestedTerm[],
+	ancestorGroups: string[],
+): NestedTerm[] => {
+	return subTerms.map((st) => {
+		// Combine ancestor groups with own groups (ancestors first, deduplicated)
+		const newGroups = [...new Set([...ancestorGroups, ...st.groups])];
+
+		// For recursive subTerms, pass down the combined groups as the new ancestor groups
+		const updatedSubTerms = st.subTerms
+			? updateSubTermsWithAncestorGroups(st.subTerms, newGroups)
+			: undefined;
+
+		return {
+			...st,
+			groups: newGroups,
+			...(updatedSubTerms && { subTerms: updatedSubTerms }),
+		};
+	});
+};
+
 export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 	// handle smaller terms first
 	const sortedTerms = terms.sort((a, b) => a.term.length - b.term.length);
@@ -301,7 +329,7 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 			.filter((otherTerm) => isContainedIn(term, otherTerm))
 			.map(({ groups, ...rest }) => ({
 				...rest,
-				groups: groups.filter((g) => !term.groups.includes(g)),
+				groups,
 			}));
 
 		if (!containedTerms.length) {
@@ -423,12 +451,31 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 			processedTerms.map((t) => t.term),
 		);
 
+		// Determine parent groups to pass down (artificial parents don't pass groups)
+		const parentGroups = term.artificial ? [] : term.groups;
+
 		// Build subTerms in correct order by reconstructing the string
+		// Parent groups should be included in children, with parent groups first and duplicates removed
+		// If a child has subTerms, recursively update them with accumulated ancestor groups
 		const allParts = [
-			...processedTerms,
+			...processedTerms.map((t) => {
+				// Calculate combined groups for this child
+				const combinedGroups = [...new Set([...parentGroups, ...t.groups])];
+
+				// If child has existing subTerms, update them recursively with accumulated ancestor groups
+				const updatedSubTerms = t.subTerms
+					? updateSubTermsWithAncestorGroups(t.subTerms, combinedGroups)
+					: undefined;
+
+				return {
+					...t,
+					groups: combinedGroups,
+					...(updatedSubTerms && { subTerms: updatedSubTerms }),
+				};
+			}),
 			...remainingStringParts.map((t) => ({
 				term: t,
-				groups: [] as string[],
+				groups: parentGroups,
 				artificial: true,
 			})),
 		];
@@ -494,6 +541,42 @@ export const computeEnrichedTerms = (
 	return nestedTerms.sort((a, b) => b.term.length - a.term.length);
 };
 
+export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
+	if (term.groups.length === 0 && !term.subTerms?.length) {
+		return {
+			tag: "#text",
+			value: term.term,
+		};
+	}
+	if (term.subTerms?.length && term.groups.length === 0) {
+		return {
+			tag: "highlight",
+			value: term.subTerms.map(termToTag),
+			attributes: {
+				groups: [] as string[],
+				term: term.term,
+				noAnchor: true,
+			} as HighlightTag["attributes"],
+		};
+	}
+
+	return {
+		tag: "highlight",
+		value: term.subTerms
+			? term.subTerms.map(termToTag)
+			: [
+					{
+						tag: "#text",
+						value: term.term,
+					},
+				],
+		attributes: {
+			groups: term.groups,
+			term: term.term,
+		} as HighlightTag["attributes"],
+	};
+};
+
 export const enrichDocumentWithUnitex = (
 	document: DocumentJson,
 	termByGroup: Record<string, TermStatistic[]>,
@@ -501,9 +584,10 @@ export const enrichDocumentWithUnitex = (
 	const terms = computeEnrichedTerms(termByGroup);
 
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
-	const termRegexes = sortedTerms.map(({ term, groups }) => ({
+	const termRegexes = sortedTerms.map(({ term, groups, subTerms }) => ({
 		termRegex: termToRegex(term),
 		groups,
+		value: subTerms?.length ? subTerms.map(termToTag) : term,
 	}));
 
 	const enrichNode = (node: DocumentJson) => {

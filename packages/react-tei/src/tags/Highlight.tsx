@@ -10,7 +10,7 @@ export const Highlight = ({
 		tag: "highlight";
 		attributes: {
 			term: string;
-			group: string[];
+			groups: string[];
 		};
 		value: string | DocumentJson[];
 	};
@@ -20,13 +20,13 @@ export const Highlight = ({
 		<Box
 			component="span"
 			data-term={attributes?.term}
-			data-group={attributes?.group.join(" ")}
+			data-group={attributes?.groups.join(" ")}
 			sx={{
-				boxShadow: attributes.group
+				boxShadow: attributes.groups
 					.map((g, index) =>
 						index === 0
 							? `inset 0 -3px 0 ${chipColors[g as keyof typeof chipColors]}`
-							: `0 ${(index + 1) * 3}px 0 ${chipColors[g as keyof typeof chipColors]}`,
+							: `0 ${index * 3}px 0 ${chipColors[g as keyof typeof chipColors]}`,
 					)
 					.join(", "),
 			}}

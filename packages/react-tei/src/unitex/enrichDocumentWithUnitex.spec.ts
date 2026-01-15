@@ -591,15 +591,15 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "America",
-							groups: ["group2"],
+							groups: ["group1", "group2"],
 						},
 						{
 							term: "States of America",
-							groups: ["group3"],
+							groups: ["group1", "group3"],
 							subTerms: [
 								{
 									term: "America",
-									groups: ["group2"],
+									groups: ["group1", "group3", "group2"],
 								},
 							],
 						},
@@ -615,11 +615,11 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "States of America",
-							groups: ["group3"],
+							groups: ["group1", "group3"],
 							subTerms: [
 								{
 									term: "America",
-									groups: ["group2"],
+									groups: ["group1", "group3", "group2"],
 								},
 							],
 						},
@@ -649,12 +649,12 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "States of ",
-							groups: [],
+							groups: ["group2"],
 							artificial: true,
 						},
 						{
 							term: "America",
-							groups: ["group3"],
+							groups: ["group2", "group3"],
 						},
 					],
 				},
@@ -664,21 +664,21 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "United ",
-							groups: [],
+							groups: ["group1"],
 							artificial: true,
 						},
 						{
 							term: "States of America",
-							groups: ["group2"],
+							groups: ["group1", "group2"],
 							subTerms: [
 								{
 									term: "States of ",
-									groups: [],
+									groups: ["group1", "group2"],
 									artificial: true,
 								},
 								{
 									term: "America",
-									groups: ["group3"],
+									groups: ["group1", "group2", "group3"],
 								},
 							],
 						},
@@ -728,20 +728,20 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "France",
-							groups: ["group3"],
+							groups: ["group1", "group3"],
 						},
 						{
 							term: " Organization of ",
-							groups: [],
+							groups: ["group1"],
 							artificial: true,
 						},
 						{
 							term: "cat",
-							groups: ["group2", "group3"],
+							groups: ["group1", "group2", "group3"],
 						},
 						{
 							term: " lover",
-							groups: [],
+							groups: ["group1"],
 							artificial: true,
 						},
 					],
@@ -774,13 +774,13 @@ describe("enrichDocumentWithUnitex", () => {
 					term: "New York City",
 					groups: ["group1"],
 					subTerms: [
-						{ term: "New ", groups: [], artificial: true },
+						{ term: "New ", groups: ["group1"], artificial: true },
 
 						{
 							term: "York",
-							groups: ["group2"],
+							groups: ["group1", "group2"],
 						},
-						{ term: " City", groups: [], artificial: true },
+						{ term: " City", groups: ["group1"], artificial: true },
 					],
 				},
 				{
@@ -847,16 +847,16 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "San Francisco",
-							groups: ["group2"],
+							groups: ["group1", "group2"],
 						},
 						{
 							term: " ",
-							groups: [],
+							groups: ["group1"],
 							artificial: true,
 						},
 						{
 							term: "Bay Area",
-							groups: ["group3"],
+							groups: ["group1", "group3"],
 						},
 					],
 				},
@@ -893,19 +893,19 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "Union ratatinée des ",
-							groups: [],
+							groups: ["group1"],
 							artificial: true,
 						},
 						{
 							term: "saucisson sec",
-							groups: ["group2"],
+							groups: ["group1", "group2"],
 							subTerms: [
 								{
-									groups: ["group3"],
+									groups: ["group1", "group2", "group3"],
 									term: "saucisson",
 								},
 								{
-									groups: [],
+									groups: ["group1", "group2"],
 									artificial: true,
 									term: " sec",
 								},
@@ -919,10 +919,10 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "saucisson",
-							groups: ["group3"],
+							groups: ["group2", "group3"],
 						},
 						{
-							groups: [],
+							groups: ["group2"],
 							artificial: true,
 							term: " sec",
 						},
@@ -969,12 +969,12 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "United States of ",
-							groups: [],
+							groups: ["group1"],
 							artificial: true,
 						},
 						{
 							term: "America",
-							groups: ["group2"],
+							groups: ["group1", "group2"],
 						},
 					],
 				},
@@ -1105,16 +1105,16 @@ describe("enrichDocumentWithUnitex", () => {
 					groups: ["group1"],
 					subTerms: [
 						{
-							groups: ["group4"],
+							groups: ["group1", "group4"],
 							term: "United",
 						},
 						{
 							artificial: true,
-							groups: [],
+							groups: ["group1"],
 							term: " ",
 						},
 						{
-							groups: ["group4"],
+							groups: ["group1", "group4"],
 							term: "Nations",
 						},
 					],
@@ -1124,16 +1124,16 @@ describe("enrichDocumentWithUnitex", () => {
 					groups: ["group1"],
 					subTerms: [
 						{
-							groups: ["group4"],
+							groups: ["group1", "group4"],
 							term: "Gamers",
 						},
 						{
 							artificial: true,
-							groups: [],
+							groups: ["group1"],
 							term: " ",
 						},
 						{
-							groups: ["group4"],
+							groups: ["group1", "group4"],
 							term: "United",
 						},
 					],
@@ -1144,16 +1144,16 @@ describe("enrichDocumentWithUnitex", () => {
 					subTerms: [
 						{
 							term: "United",
-							groups: ["group4"],
+							groups: ["group3", "group4"],
 						},
 						{
 							term: " ",
 							artificial: true,
-							groups: [],
+							groups: ["group3"],
 						},
 						{
 							term: "States",
-							groups: ["group2", "group4"],
+							groups: ["group3", "group2", "group4"],
 						},
 					],
 				},
@@ -1184,8 +1184,7 @@ describe("enrichDocumentWithUnitex", () => {
 		});
 	});
 
-	// TODO: update test once enrichDocumentWithUnitex is implemented
-	it.skip("replace all #text nodes with enriched nodes", () => {
+	it("replace all #text nodes with enriched nodes", () => {
 		const document = {
 			tag: "root",
 			value: [
@@ -1212,12 +1211,7 @@ describe("enrichDocumentWithUnitex", () => {
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "test" },
-							value: [
-								{
-									tag: "#text",
-									value: "test",
-								},
-							],
+							value: "test",
 						},
 						{ tag: "#text", value: "." },
 					],
@@ -1232,12 +1226,7 @@ describe("enrichDocumentWithUnitex", () => {
 								{
 									tag: "highlight",
 									attributes: { groups: ["group1"], term: "test" },
-									value: [
-										{
-											tag: "#text",
-											value: "test",
-										},
-									],
+									value: "test",
 								},
 								{ tag: "#text", value: " here." },
 							],
@@ -1248,8 +1237,7 @@ describe("enrichDocumentWithUnitex", () => {
 		});
 	});
 
-	// TODO: update test once enrichDocumentWithUnitex is implemented
-	it.skip("replace several terms from different groups in #text nodes", () => {
+	it("replace several terms from different groups in #text nodes", () => {
 		const document = {
 			tag: "root",
 			value: [
@@ -1283,34 +1271,19 @@ describe("enrichDocumentWithUnitex", () => {
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "is" },
-							value: [
-								{
-									tag: "#text",
-									value: "is",
-								},
-							],
+							value: "is",
 						},
 						{ tag: "#text", value: " a " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "test" },
-							value: [
-								{
-									tag: "#text",
-									value: "test",
-								},
-							],
+							value: "test",
 						},
 						{ tag: "#text", value: " of " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group2"], term: "unitex" },
-							value: [
-								{
-									tag: "#text",
-									value: "Unitex",
-								},
-							],
+							value: "Unitex",
 						},
 						{ tag: "#text", value: " highlighting." },
 					],

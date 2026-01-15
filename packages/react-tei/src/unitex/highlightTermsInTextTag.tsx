@@ -31,6 +31,7 @@ export const highlightTermInString = (
 	text: string,
 	termRegex: RegExp,
 	groups: string[],
+	value: string | (TextTag | HighlightTag)[] | undefined,
 ): (TextTag | HighlightTag)[] => {
 	const matches = Array.from(text.matchAll(termRegex));
 
@@ -61,7 +62,7 @@ export const highlightTermInString = (
 		// Add the highlighted term as an object
 		result.push({
 			tag: "highlight" as const,
-			value: [
+			value: value ?? [
 				{
 					tag: "#text" as const,
 					value: matchText,
@@ -93,6 +94,7 @@ export const highlightTermInTextTag = (
 	textFragments: (HighlightTag | TextTag)[],
 	termRegex: RegExp,
 	groups: string[],
+	value?: string | (TextTag | HighlightTag)[],
 ): (HighlightTag | TextTag)[] => {
 	const stack = [...textFragments];
 	const result: (HighlightTag | TextTag)[] = [];
@@ -110,6 +112,7 @@ export const highlightTermInTextTag = (
 				textFragment.value,
 				termRegex,
 				groups,
+				value,
 			);
 			result.push(...highlighted);
 		}
@@ -118,13 +121,19 @@ export const highlightTermInTextTag = (
 	return result;
 };
 
+type TermRegex = {
+	termRegex: RegExp;
+	groups: string[];
+	value?: (TextTag | HighlightTag)[] | string;
+};
+
 export const highlightTermsInTextTag = (
 	textTag: TextTag,
-	termRegexes: { termRegex: RegExp; groups: string[] }[],
+	termRegexes: TermRegex[],
 ): HighlightedTextTag => {
 	const value = termRegexes.reduce(
-		(textTag: (HighlightTag | TextTag)[], { termRegex, groups }) =>
-			highlightTermInTextTag(textTag, termRegex, groups),
+		(textTag: (HighlightTag | TextTag)[], { termRegex, groups, value }) =>
+			highlightTermInTextTag(textTag, termRegex, groups, value),
 		[textTag] as (HighlightTag | TextTag)[],
 	);
 
