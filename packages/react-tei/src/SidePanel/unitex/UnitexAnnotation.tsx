@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import Chip from "@mui/material/Chip";
 import { grey } from "@mui/material/colors";
-import Tooltip, { tooltipClasses } from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
 
@@ -46,10 +46,7 @@ export function UnitexAnnotation({
 					slotProps={{
 						popper: {
 							sx: {
-								[`&.${tooltipClasses.popper}[data-popper-placement*="left"] .${tooltipClasses.tooltip}`]:
-									{
-										marginRight: "48px",
-									},
+								marginRight: "44px !important",
 							},
 						},
 					}}
