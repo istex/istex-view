@@ -2,7 +2,7 @@ import { createContext, useCallback, useEffect, useMemo, useRef } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 
 export type DocumentNavigationContextValue = {
-	navigateToBodyTargetSelector(querySelector: string): void;
+	navigateToBodyTargetSelector(querySelector: string, order?: number): void;
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
 	navigateToFootnoteRef(id: string): void;
@@ -91,7 +91,7 @@ export function DocumentNavigationContextProvider({
 	const currentSelectorRef = useRef<CurrentSelectorRef | null>(null);
 
 	const navigateToTargetLoop = useCallback(
-		(wrapperElement: HTMLElement, querySelector: string) => {
+		(wrapperElement: HTMLElement, querySelector: string, direction = 1) => {
 			const targetElements =
 				wrapperElement.querySelectorAll<HTMLElement>(querySelector);
 
@@ -111,7 +111,10 @@ export function DocumentNavigationContextProvider({
 				};
 			} else {
 				currentSelectorRef.current.index =
-					(currentSelectorRef.current.index + 1) % targetElements.length;
+					(currentSelectorRef.current.index +
+						direction +
+						targetElements.length) %
+					targetElements.length;
 			}
 
 			const index = currentSelectorRef.current.index;
@@ -133,7 +136,7 @@ export function DocumentNavigationContextProvider({
 	);
 
 	const navigateToBodyTargetSelector = useCallback(
-		(querySelector: string) => {
+		(querySelector: string, direction = 1) => {
 			const documentElement = documentRef.current;
 
 			if (!documentElement) {
@@ -141,7 +144,7 @@ export function DocumentNavigationContextProvider({
 				return;
 			}
 
-			navigateToTargetLoop(documentElement, querySelector);
+			navigateToTargetLoop(documentElement, querySelector, direction);
 		},
 		[documentRef, navigateToTargetLoop],
 	);

@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { useMemo } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
+import { kebabCasify } from "../helper/kebabCasify";
 import { chipColors } from "../SidePanel/unitex/unitexAnnotationBlocks";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
@@ -10,17 +11,17 @@ export const Highlight = ({ data }: HighlightProps) => {
 	const { unitexEnrichment } = useDocumentContext();
 
 	const groups = useMemo(() => {
-		if (!attributes?.groups || !unitexEnrichment || typeof value !== "string") {
+		if (!attributes?.groups || !unitexEnrichment) {
 			return [];
 		}
 		return ([] as string[]).concat(attributes?.groups).filter((group) => {
 			const term = unitexEnrichment?.document?.[group]?.find(
-				(term) => term.term === value,
+				({ term }) => kebabCasify(term) === attributes?.term,
 			);
 
 			return term?.displayed ?? false;
 		});
-	}, [unitexEnrichment, attributes?.groups, value]);
+	}, [unitexEnrichment, attributes?.groups, attributes?.term]);
 
 	if (groups.length === 0) {
 		return <Value data={value} />;

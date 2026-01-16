@@ -49,6 +49,8 @@ export const en: Translation = {
 		toggleBlock_hide: "Deactivate underlining of words in the text",
 		toggleTerm_show: 'Activate underlining for the term "{{term}}"',
 		toggleTerm_hide: 'Deactivate underlining for the term "{{term}}"',
+		previous: "Go to previous",
+		next: "Go to next",
 
 		date_one: "Date ({{count}})",
 		date_other: "Dates ({{count}})",
