@@ -13,7 +13,7 @@ describe("highlightTermInTextTag", () => {
 		it("should return original fragment in at #text tag if termsRegexp has no match", () => {
 			const text = "This is a sample text.";
 			const term: RegExp = /^search text$/gi;
-			const result = highlightTermInString(text, term, "word");
+			const result = highlightTermInString(text, term, ["word"], undefined);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -25,7 +25,7 @@ describe("highlightTermInTextTag", () => {
 		it("should highlight single term in text", () => {
 			const text = "This is a sample text.";
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInString(text, term, "word");
+			const result = highlightTermInString(text, term, ["word"], undefined);
 
 			expect(result).toStrictEqual([
 				{
@@ -34,8 +34,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "word", term: "sample" },
+					value: [
+						{
+							tag: "#text",
+							value: "sample",
+						},
+					],
+					attributes: { groups: ["word"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -47,7 +52,7 @@ describe("highlightTermInTextTag", () => {
 		it("should highlight all occurrences of a single term in text", () => {
 			const text = "This is a sample text for testing called sample.";
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInString(text, term, "group");
+			const result = highlightTermInString(text, term, ["group"], undefined);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -55,14 +60,14 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group", term: "sample" },
+					value: [{ tag: "#text", value: "sample" }],
+					attributes: { groups: ["group"], term: "sample" },
 				},
 				{ tag: "#text", value: " text for testing called " },
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group", term: "sample" },
+					value: [{ tag: "#text", value: "sample" }],
+					attributes: { groups: ["group"], term: "sample" },
 				},
 				{ tag: "#text", value: "." },
 			]);
@@ -71,13 +76,18 @@ describe("highlightTermInTextTag", () => {
 		it("should preserve space between words when highlighting", () => {
 			const text = "Highlight  this   term.";
 			const term: RegExp = /this/gi;
-			const result = highlightTermInString(text, term, "group");
+			const result = highlightTermInString(text, term, ["group"], undefined);
 			expect(result).toStrictEqual([
 				{ tag: "#text", value: "Highlight  " },
 				{
 					tag: "highlight",
-					value: "this",
-					attributes: { group: "group", term: "this" },
+					value: [
+						{
+							tag: "#text",
+							value: "this",
+						},
+					],
+					attributes: { groups: ["group"], term: "this" },
 				},
 				{ tag: "#text", value: "   term." },
 			]);
@@ -95,14 +105,19 @@ describe("highlightTermInTextTag", () => {
 					tag: "highlight",
 					attributes: {
 						term: "sample",
-						group: "group1",
+						groups: ["group1"],
 					},
-					value: "This is a sample fragment.",
-				},
+					value: [
+						{
+							tag: "#text",
+							value: "This is a sample fragment.",
+						},
+					],
+				} as HighlightTag,
 				{ tag: "#text", value: "Another sample here." },
 			];
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInTextTag(fragments, term, "group2");
+			const result = highlightTermInTextTag(fragments, term, ["group2"]);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -110,8 +125,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group2", term: "sample" },
+					value: [
+						{
+							tag: "#text",
+							value: "sample",
+						},
+					],
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -121,9 +141,14 @@ describe("highlightTermInTextTag", () => {
 					tag: "highlight",
 					attributes: {
 						term: "sample",
-						group: "group1",
+						groups: ["group1"],
 					},
-					value: "This is a sample fragment.",
+					value: [
+						{
+							tag: "#text",
+							value: "This is a sample fragment.",
+						},
+					],
 				},
 				{
 					tag: "#text",
@@ -131,8 +156,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group2", term: "sample" },
+					value: [
+						{
+							tag: "#text",
+							value: "sample",
+						},
+					],
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -161,7 +191,7 @@ describe("highlightTermInTextTag", () => {
 				},
 			];
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInTextTag(fragments, term, "group2");
+			const result = highlightTermInTextTag(fragments, term, ["group2"]);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -169,8 +199,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group2", term: "sample" },
+					value: [
+						{
+							tag: "#text",
+							value: "sample",
+						},
+					],
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -182,8 +217,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group2", term: "sample" },
+					value: [
+						{
+							tag: "#text",
+							value: "sample",
+						},
+					],
+					attributes: { groups: ["group2"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -195,7 +235,7 @@ describe("highlightTermInTextTag", () => {
 		it("should return empty array when given empty fragments", () => {
 			const fragments: (HighlightTag | TextTag)[] = [];
 			const term: RegExp = /sample/gi;
-			const result = highlightTermInTextTag(fragments, term, "group");
+			const result = highlightTermInTextTag(fragments, term, ["group"]);
 			expect(result).toStrictEqual([]);
 		});
 	});
@@ -209,9 +249,9 @@ describe("highlightTermInTextTag", () => {
 			value: "This is a sample text for testing.",
 		};
 		const terms = [
-			{ termRegex: /sample/gi, group: "group1" },
-			{ termRegex: /testing/gi, group: "group2" },
-			{ termRegex: /example/gi, group: "group3" },
+			{ termRegex: /sample/gi, groups: ["group1"] },
+			{ termRegex: /testing/gi, groups: ["group2"] },
+			{ termRegex: /example/gi, groups: ["group3"] },
 		];
 		const result = highlightTermsInTextTag(textTag, terms);
 		expect(result).toStrictEqual({
@@ -224,8 +264,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "sample",
-					attributes: { group: "group1", term: "sample" },
+					value: [
+						{
+							tag: "#text",
+							value: "sample",
+						},
+					],
+					attributes: { groups: ["group1"], term: "sample" },
 				},
 				{
 					tag: "#text",
@@ -233,8 +278,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "testing",
-					attributes: { group: "group2", term: "testing" },
+					value: [
+						{
+							tag: "#text",
+							value: "testing",
+						},
+					],
+					attributes: { groups: ["group2"], term: "testing" },
 				},
 				{
 					tag: "#text",
@@ -253,8 +303,8 @@ describe("highlightTermInTextTag", () => {
 			value: "This is a sample text for testing.",
 		};
 		const terms = [
-			{ termRegex: /example/gi, group: "group1" },
-			{ termRegex: /demo/gi, group: "group2" },
+			{ termRegex: /example/gi, groups: ["group1"] },
+			{ termRegex: /demo/gi, groups: ["group2"] },
 		];
 		const result = highlightTermsInTextTag(fragments as any, terms);
 		expect(result).toStrictEqual({
@@ -297,8 +347,8 @@ describe("highlightTermInTextTag", () => {
 			value: "Term1  Term2",
 		};
 		const terms = [
-			{ termRegex: /Term1/gi, group: "group1" },
-			{ termRegex: /Term2/gi, group: "group2" },
+			{ termRegex: /Term1/gi, groups: ["group1"] },
+			{ termRegex: /Term2/gi, groups: ["group2"] },
 		];
 		const result = highlightTermsInTextTag(fragments, terms);
 		expect(result).toStrictEqual({
@@ -307,8 +357,13 @@ describe("highlightTermInTextTag", () => {
 			value: [
 				{
 					tag: "highlight",
-					value: "Term1",
-					attributes: { group: "group1", term: "term1" },
+					value: [
+						{
+							tag: "#text",
+							value: "Term1",
+						},
+					],
+					attributes: { groups: ["group1"], term: "term1" },
 				},
 				{
 					tag: "#text",
@@ -316,8 +371,13 @@ describe("highlightTermInTextTag", () => {
 				},
 				{
 					tag: "highlight",
-					value: "Term2",
-					attributes: { group: "group2", term: "term2" },
+					value: [
+						{
+							tag: "#text",
+							value: "Term2",
+						},
+					],
+					attributes: { groups: ["group2"], term: "term2" },
 				},
 			],
 		});
