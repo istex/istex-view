@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import {
 	DocumentContextProvider,
+	initialPanelState,
 	useDocumentContext,
 } from "./DocumentContextProvider";
 import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
@@ -19,25 +20,7 @@ describe("DocumentContextProvider", () => {
 				),
 			});
 
-			expect(result.current.panel.state).toStrictEqual({
-				isOpen: true,
-				sections: {
-					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
-				},
-			});
+			expect(result.current.panel.state).toStrictEqual(initialPanelState);
 		});
 
 		it("should expose togglePanel function to toggle panelState.isOpen", async () => {
@@ -51,47 +34,14 @@ describe("DocumentContextProvider", () => {
 
 			expect(result.current.panel).toHaveProperty("togglePanel");
 
-			expect(result.current.panel.state).toStrictEqual({
-				isOpen: true,
-				sections: {
-					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
-				},
-			});
+			expect(result.current.panel.state).toStrictEqual(initialPanelState);
 			act(() => {
 				result.current.panel.togglePanel();
 			});
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: false,
-				sections: {
-					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
-				},
+				sections: initialPanelState.sections,
 			});
 			act(() => {
 				result.current.panel.togglePanel();
@@ -99,22 +49,7 @@ describe("DocumentContextProvider", () => {
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
-				sections: {
-					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
-				},
+				sections: initialPanelState.sections,
 			});
 		});
 
@@ -134,20 +69,8 @@ describe("DocumentContextProvider", () => {
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
 				sections: {
+					...initialPanelState.sections,
 					authors: false,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
 				},
 			});
 
@@ -158,20 +81,8 @@ describe("DocumentContextProvider", () => {
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: false,
 				sections: {
+					...initialPanelState.sections,
 					authors: false,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
 				},
 			});
 		});
@@ -187,25 +98,7 @@ describe("DocumentContextProvider", () => {
 
 			expect(result.current.panel).toHaveProperty("toggleSection");
 
-			expect(result.current.panel.state).toStrictEqual({
-				isOpen: true,
-				sections: {
-					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
-				},
-			});
+			expect(result.current.panel.state).toStrictEqual(initialPanelState);
 			act(() => {
 				result.current.panel.toggleSection("authors");
 			});
@@ -213,20 +106,8 @@ describe("DocumentContextProvider", () => {
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
 				sections: {
+					...initialPanelState.sections,
 					authors: false,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
 				},
 			});
 		});
@@ -252,20 +133,8 @@ describe("DocumentContextProvider", () => {
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: false,
 				sections: {
+					...initialPanelState.sections,
 					authors: false,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
 				},
 			});
 
@@ -277,20 +146,8 @@ describe("DocumentContextProvider", () => {
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: true,
 				sections: {
+					...initialPanelState.sections,
 					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
 				},
 			});
 		});
@@ -310,22 +167,7 @@ describe("DocumentContextProvider", () => {
 
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: false,
-				sections: {
-					authors: true,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
-				},
+				sections: initialPanelState.sections,
 			});
 
 			act(() => {
@@ -335,20 +177,8 @@ describe("DocumentContextProvider", () => {
 			expect(result.current.panel.state).toStrictEqual({
 				isOpen: false,
 				sections: {
+					...initialPanelState.sections,
 					authors: false,
-					keywords: true,
-					source: true,
-					footnotes: true,
-					bibliographicReferences: true,
-					unitext_date: true,
-					unitext_orgName: true,
-					unitext_persName: true,
-					unitext_placeName: true,
-					unitext_geogName: true,
-					multicat_inist: true,
-					multicat_wos: true,
-					multicat_science_metrix: true,
-					multicat_scopus: true,
 				},
 			});
 		});

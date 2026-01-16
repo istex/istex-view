@@ -3,10 +3,143 @@ import {
 	exractTermFromAnnotationBlock,
 	getAnnotationFrequency,
 	getAnnotationTerm,
+	getListAnnotationType,
 	parseUnitexEnrichment,
 } from "./parseUnitexEnrichment";
 
 describe("parseUnitexEnrichment", () => {
+	describe("getListAnnotationType", () => {
+		it("should return correct type for orgName with funder subtype", () => {
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "orgName",
+					"@subtype": "funder",
+				},
+				value: [],
+			});
+
+			expect(result).toBe("orgNameFunder");
+		});
+
+		it("should return correct type for orgName with provider subtype", () => {
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "orgName",
+					"@subtype": "provider",
+				},
+				value: [],
+			});
+
+			expect(result).toBe("orgNameProvider");
+		});
+
+		it("should return orgName for orgName without subtype", () => {
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "orgName",
+				},
+				value: [],
+			});
+
+			expect(result).toBe("orgName");
+		});
+
+		it("should return null for other type un changed", () => {
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "otherType",
+				},
+				value: [],
+			});
+
+			expect(result).toBe("otherType");
+		});
+
+		it("should return null for ref with unknown subtype", () => {
+			const consoleWarnSpy = vi
+				.spyOn(console, "warn")
+				.mockImplementation(() => {});
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "ref",
+					"@subtype": "unknownSubtype",
+				},
+				value: [],
+			});
+
+			expect(result).toBeNull();
+			expect(consoleWarnSpy).toHaveBeenCalledWith(
+				"Unknown ref subType, ignoring listAnnotation",
+				{
+					tag: "listAnnotation",
+					attributes: {
+						"@type": "ref",
+						"@subtype": "unknownSubtype",
+					},
+					value: [],
+				},
+			);
+			consoleWarnSpy.mockRestore();
+		});
+
+		it("should return refBibl for ref with bibl subtype", () => {
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "ref",
+					"@subtype": "bibl",
+				},
+				value: [],
+			});
+
+			expect(result).toBe("refBibl");
+		});
+
+		it("should return refUrl for ref with url subtype", () => {
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "ref",
+					"@subtype": "url",
+				},
+				value: [],
+			});
+
+			expect(result).toBe("refUrl");
+		});
+
+		it("should return null when @type attribute is ref and there is no subtype", () => {
+			const consoleWarnSpy = vi
+				.spyOn(console, "warn")
+				.mockImplementation(() => {});
+			const result = getListAnnotationType({
+				tag: "listAnnotation",
+				attributes: {
+					"@type": "ref",
+				},
+				value: [],
+			});
+
+			expect(result).toBeNull();
+			expect(consoleWarnSpy).toHaveBeenCalledWith(
+				"Unknown ref subType, ignoring listAnnotation",
+				{
+					tag: "listAnnotation",
+					attributes: {
+						"@type": "ref",
+					},
+					value: [],
+				},
+			);
+			consoleWarnSpy.mockRestore();
+		});
+	});
+
 	describe("getAnnotationTerm", () => {
 		it("should return the term text when term tag is present", () => {
 			const result = getAnnotationTerm({

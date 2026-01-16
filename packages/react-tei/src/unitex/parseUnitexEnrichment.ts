@@ -72,6 +72,43 @@ export const exractTermFromAnnotationBlock = (
 	};
 };
 
+export const getListAnnotationType = (
+	listAnnotation: DocumentJson,
+): string | null => {
+	if (!listAnnotation.attributes?.["@type"]) {
+		return null;
+	}
+
+	switch (listAnnotation.attributes["@type"]) {
+		case "orgName": {
+			switch (listAnnotation.attributes?.["@subtype"]) {
+				case "funder":
+					return "orgNameFunder";
+				case "provider":
+					return "orgNameProvider";
+				default:
+					return "orgName";
+			}
+		}
+		case "ref": {
+			switch (listAnnotation.attributes?.["@subtype"]) {
+				case "bibl":
+					return "refBibl";
+				case "url":
+					return "refUrl";
+				default:
+					console.warn(
+						"Unknown ref subType, ignoring listAnnotation",
+						listAnnotation,
+					);
+					return null;
+			}
+		}
+		default:
+			return listAnnotation.attributes["@type"];
+	}
+};
+
 export const parseUnitexEnrichment = (
 	unitexEnrichment: DocumentJson[] | null | undefined,
 ): Record<string, TermStatistic[]> => {
@@ -91,7 +128,8 @@ export const parseUnitexEnrichment = (
 
 	const highlightsGroup = listAnnotations.reduce(
 		(acc, listAnnotation) => {
-			if (!listAnnotation.attributes?.["@type"]) {
+			const type = getListAnnotationType(listAnnotation);
+			if (!type) {
 				console.warn("listAnnotation without type attribute", listAnnotation);
 				return acc;
 			}
@@ -102,7 +140,7 @@ export const parseUnitexEnrichment = (
 				.map(exractTermFromAnnotationBlock)
 				.filter((term): term is TermStatistic => term !== null);
 
-			acc[listAnnotation.attributes["@type"]] = terms;
+			acc[type] = terms;
 			return acc;
 		},
 		{} as Record<string, TermStatistic[]>,
