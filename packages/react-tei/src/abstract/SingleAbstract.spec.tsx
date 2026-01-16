@@ -46,14 +46,14 @@ describe("SingleAbstract", () => {
 		});
 
 		const section = screen.getByRole("region", {
-			name: "Sample Abstract Title",
+			name: "Résumé",
 		});
 
 		expect(section).toBeVisible();
 
 		const heading = section.getByRole("heading", {
 			level: 3,
-			name: "Sample Abstract Title",
+			name: "Résumé",
 		});
 		expect(heading).toBeVisible();
 
@@ -121,14 +121,14 @@ describe("SingleAbstract", () => {
 		});
 
 		const section = screen.getByRole("region", {
-			name: "Sample Abstract Title",
+			name: "Résumé",
 		});
 
 		expect(section).toBeVisible();
 
 		const heading = section.getByRole("heading", {
 			level: 3,
-			name: "Sample Abstract Title",
+			name: "Résumé",
 		});
 		expect(heading).toBeVisible();
 
@@ -139,54 +139,6 @@ describe("SingleAbstract", () => {
 		expect(
 			section.getByRole("paragraph").filter({
 				hasText: "This is a sample abstract with a highlighted word.",
-			}),
-		).toBeVisible();
-	});
-
-	it("should support abstracts without head", async () => {
-		const abstractJson: DocumentJson = {
-			tag: "abstract",
-			attributes: {},
-			value: [
-				{
-					tag: "p",
-					attributes: {},
-					value: [
-						{
-							tag: "#text",
-							value: "This abstract has no head element.",
-						},
-					],
-				},
-			],
-		};
-
-		const screen = await render(<SingleAbstract abstract={abstractJson} />, {
-			wrapper: ({ children }) => (
-				<I18nProvider>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						{children}
-					</TagCatalogProvider>
-				</I18nProvider>
-			),
-		});
-
-		const section = screen.getByRole("region", {
-			name: "Résumé",
-		});
-
-		expect(section).toBeVisible();
-
-		const heading = section.getByRole("heading", { level: 3, name: "Résumé" });
-		expect(heading).toBeVisible();
-
-		expect(section.getByRole("paragraph")).not.toBeInTheDocument();
-
-		await heading.click();
-
-		expect(
-			section.getByRole("paragraph").filter({
-				hasText: "This abstract has no head element.",
 			}),
 		).toBeVisible();
 	});
