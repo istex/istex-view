@@ -16,6 +16,7 @@ import {
 	DocumentSidePanel,
 	SIDEPANEL_WIDTH,
 } from "./SidePanel/DocumentSidePanel";
+import { useParseMulticatCategories } from "./SidePanel/multicat/useParseMulticatCategories";
 import { TagCatalogProvider } from "./tags/TagCatalogProvider";
 import { tagCatalog } from "./tags/tagCatalog";
 import { TableOfContent } from "./toc/TableOfContent";
@@ -27,10 +28,14 @@ import { useUnitexEnrichmentParser } from "./unitex/useUnitexEnrichmentParser";
 export const Viewer = ({
 	document,
 	unitexEnrichment,
+	multicatEnrichment,
+	nbEnrichment,
 	height = "100vh",
 }: {
 	document: string;
 	unitexEnrichment?: string | null;
+	multicatEnrichment?: string | null;
+	nbEnrichment?: string | null;
 	height?: string;
 }) => {
 	const theme = useTheme();
@@ -42,6 +47,9 @@ export const Viewer = ({
 	const jsonDocument = useDocumentParser(document);
 
 	const jsonUnitexEnrichment = useUnitexEnrichmentParser(unitexEnrichment);
+
+	const jsonMulticatEnrichment = useParseMulticatCategories(multicatEnrichment);
+	const jsonNbEnrichment = useParseMulticatCategories(nbEnrichment);
 
 	const teiHeader = getDocumentJsonAtPath(jsonDocument ?? [], [
 		"TEI",
@@ -81,6 +89,7 @@ export const Viewer = ({
 			<DocumentContextProvider
 				jsonDocument={jsonDocument}
 				jsonUnitexEnrichment={jsonUnitexEnrichment}
+				multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
 			>
 				<TagCatalogProvider tagCatalog={tagCatalog}>
 					<DocumentNavigationContextProvider

@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
+    xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:tei="http://www.tei-c.org/ns/1.0"
+    xmlns:sa="http://www.elsevier.com/xml/common/struct-aff/dtd"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd"
+    xml:lang="en"
+>
+    <teiHeader>
+        <fileDesc>
+            <titleStmt>
+                <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+            </titleStmt>
+            <sourceDesc>
+                <biblStruct>
+                    <analytic>
+                        <title level="a" type="main">Sample <hi rend="italic">TEI</hi> File</title>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Mr</roleName>
+                                <forename>Victor</forename>
+                                <surname>Hugo</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <surname>Paul</surname>
+                                <genName>II</genName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <forename>Jean</forename>
+                                <nameLink>De</nameLink>
+                                <surname>La Fontaine</surname>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <roleName type="honorific">Dr</roleName>
+                                <forename>Marie</forename>
+                                <surname>Curie</surname>
+                                <roleName type="degree">PhD</roleName>
+                            </persName>
+                        </author>
+                        <author>
+                            <persName>
+                                <orgName>Dead Poets Society</orgName>
+                            </persName>
+                        </author>
+                    </analytic>
+                </biblStruct>
+            </sourceDesc>
+        </fileDesc>
+        <profileDesc>
+            <textClass>
+                <keywords>
+                    <term>TEI</term>
+                    <term>XML</term>
+                    <term>Sample Document</term>
+                </keywords>
+                <keywords>
+                    <list>
+                        <head>Subject Areas</head>
+                        <item>
+
+                            <term>Literature</term>
+                        </item>
+                        <item>
+                            <term>Mathematics</term>
+                        </item>
+                        <item>
+                            <term>Physics</term>
+                        </item>
+                    </list>
+                </keywords>
+                <keywords rend="tocHeading1">
+                    <term>ignored</term>
+                    <term>tocHeading1</term>
+                    <term>keywords</term>
+                </keywords>
+                <keywords scheme="heading">
+                    <term>ignored</term>
+                    <term>heading</term>
+                    <term>keywords</term>
+                </keywords>
+            </textClass>
+        </profileDesc>
+    </teiHeader>
+    <text>
+        <body>
+            <div type="ElsevierSections">
+                <div type="1" xml:id="s0001">
+                    <head>Introduction</head>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus lacinia
+                        suscipit justo, quis eleifend odio rutrum tincidunt. Sed quis Leo eu nibh
+                        auctor aliquam eget a sem. Quisque convallis nisi vel dictum pulvinar. Nulla
+                        facilisi. In lectus lorem, porta eu elit at, molestie vestibulum velit.
+                        Nullam eu est placerat, tempus sem id, dignissim nisl. Vivamus non semper
+                        sapien, a tincidunt quam. Nancy id luctus sapien,
+                        a eleifend Leo. Etiam id lacus tellus. Nancy
+                        ullamcorper vel ipsum in gravida. Sed vel urna placerat, faucibus velit a,
+                        gravida ligula.</p>
+                </div>
+            </div>
+        </body>
+    </text>
+</TEI>

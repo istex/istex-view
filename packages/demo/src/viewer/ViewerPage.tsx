@@ -3,7 +3,13 @@ import { Viewer } from "@istex/react-tei/Viewer.js";
 import { useViewerContext } from "./useViewerContext";
 
 export function ViewerPage() {
-	const { viewerLaunched, document, unitexEnrichment } = useViewerContext();
+	const {
+		viewerLaunched,
+		document,
+		unitexEnrichment,
+		multicatEnrichment,
+		nbEnrichment,
+	} = useViewerContext();
 
 	if (!viewerLaunched || !document) {
 		return null;
@@ -13,6 +19,8 @@ export function ViewerPage() {
 		<Viewer
 			document={document.content}
 			unitexEnrichment={unitexEnrichment?.content}
+			multicatEnrichment={multicatEnrichment?.content}
+			nbEnrichment={nbEnrichment?.content}
 			height="calc(100dvh - 49.5px - 118.5px)"
 		/>
 	);

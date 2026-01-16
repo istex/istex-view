@@ -66,6 +66,7 @@ function createSidePaneWrapper(
 						},
 						...panel,
 					},
+					multicatEnrichment: [],
 				}}
 			>
 				<DocumentNavigationContextProvider

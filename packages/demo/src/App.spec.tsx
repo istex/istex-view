@@ -9,7 +9,7 @@ describe("App", () => {
 
 		expect(
 			screen.getByRole("button", {
-				name: "Sélectionner un fichier TEI à visualiser",
+				name: "Document TEI",
 			}),
 		).toBeInTheDocument();
 	});

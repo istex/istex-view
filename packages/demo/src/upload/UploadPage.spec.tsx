@@ -15,10 +15,16 @@ describe("UploadPage", () => {
 		});
 
 		await expect
-			.element(screen.getByText("upload.teiFile upload.noFileSelected"))
+			.element(screen.getByText("upload.document.buttonLabel"))
 			.toBeInTheDocument();
 		await expect
-			.element(screen.getByText("upload.unitexFile upload.noFileSelected"))
+			.element(screen.getByText("upload.document.placeholder"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.unitex.buttonLabel"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.unitex.placeholder"))
 			.toBeInTheDocument();
 		await expect
 			.element(screen.getByText("upload.launchViewer"))
@@ -36,7 +42,10 @@ describe("UploadPage", () => {
 		});
 
 		await expect
-			.element(screen.getByText("upload.teiFile upload.noFileSelected"))
+			.element(screen.getByText("upload.document.buttonLabel"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.document.placeholder"))
 			.toBeInTheDocument();
 		await expect
 			.element(screen.getByText("upload.launchViewer"))
@@ -53,9 +62,7 @@ describe("UploadPage", () => {
 
 		await userEvent.upload(input, file);
 
-		await expect
-			.element(screen.getByText("upload.teiFile example.tei"))
-			.toBeInTheDocument();
+		await expect.element(screen.getByText("example.tei")).toBeInTheDocument();
 		await expect
 			.element(screen.getByText("upload.launchViewer"))
 			.not.toBeDisabled();
@@ -69,7 +76,10 @@ describe("UploadPage", () => {
 		});
 
 		await expect
-			.element(screen.getByText("upload.unitexFile upload.noFileSelected"))
+			.element(screen.getByText("upload.unitex.buttonLabel"))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("upload.unitex.placeholder"))
 			.toBeInTheDocument();
 		await expect
 			.element(screen.getByText("upload.launchViewer"))
@@ -87,7 +97,7 @@ describe("UploadPage", () => {
 		await userEvent.upload(input, file);
 
 		await expect
-			.element(screen.getByText("upload.unitexFile example.unitex"))
+			.element(screen.getByText("example.unitex"))
 			.toBeInTheDocument();
 		await expect
 			.element(screen.getByText("upload.launchViewer"))

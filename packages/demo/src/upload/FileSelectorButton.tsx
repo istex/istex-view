@@ -1,38 +1,114 @@
+import ClearIcon from "@mui/icons-material/Clear";
 import Button from "@mui/material/Button";
-import { useRef } from "react";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
+import Typography from "@mui/material/Typography";
+import { useCallback, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export function FileSelectorButton({
-	label,
+	placeholder,
+	buttonLabel,
 	onChange,
 	dataTestId,
+	required = false,
 }: FileSelectorButtonProps) {
+	const { t } = useTranslation();
+
 	const inputRef = useRef<HTMLInputElement>(null);
+	const [file, setFile] = useState<File | null>(null);
 
-	const handleButtonClick = () => {
+	const handleButtonClick = useCallback(() => {
 		inputRef.current?.click();
-	};
+	}, []);
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		if (!event.target.files?.length) {
-			return onChange(null);
-		}
+	const handleChange = useCallback(
+		(event: React.ChangeEvent<HTMLInputElement>) => {
+			if (!event.target.files?.length) {
+				return setFile(null);
+			}
+			const file = event.target.files[0] ?? null;
 
-		onChange(event.target.files[0] ?? null);
-	};
+			setFile(file);
+			onChange(file);
+		},
+		[onChange],
+	);
+
+	const handleReset = useCallback(
+		(e: React.MouseEvent<HTMLButtonElement>) => {
+			e.stopPropagation();
+
+			if (!inputRef.current || required) {
+				return;
+			}
+
+			inputRef.current.value = "";
+			setFile(null);
+			onChange(null);
+		},
+		[required, onChange],
+	);
 
 	return (
 		<>
-			<Button
-				role="button"
+			<Stack
+				direction={{
+					xs: "column",
+					md: "row",
+				}}
+				gap={2}
 				onClick={handleButtonClick}
 				sx={{
 					width: "100%",
+					padding: 1,
+					alignItems: "center",
+					border: (theme) => `1px solid ${theme.palette.divider}`,
+					borderRadius: 1,
+					cursor: "pointer",
+					height: "48px",
 				}}
-				color="primary"
-				variant="contained"
 			>
-				{label}
-			</Button>
+				<Button
+					role="button"
+					color="primary"
+					variant="contained"
+					size="small"
+					sx={{
+						minWidth: { xs: "100%", md: "25%" },
+						width: { xs: "100%", md: "25%" },
+						height: "100%",
+					}}
+				>
+					{buttonLabel ?? t("upload.selectFile")}
+				</Button>
+				{file ? (
+					<>
+						<Typography
+							sx={{ flexGrow: 1, textAlign: { xs: "center", md: "initial" } }}
+						>
+							{file.name}
+						</Typography>
+						{!required && (
+							<IconButton size="small" onClick={handleReset}>
+								<ClearIcon />
+							</IconButton>
+						)}
+					</>
+				) : (
+					<Typography
+						color="text.secondary"
+						sx={{
+							flexGrow: 1,
+							fontStyle: "italic",
+							textAlign: { xs: "center", md: "initial" },
+						}}
+					>
+						{placeholder ?? t("upload.noFileSelected")}
+					</Typography>
+				)}
+			</Stack>
+
 			<input
 				type="file"
 				style={{ display: "none" }}
@@ -48,7 +124,9 @@ export function FileSelectorButton({
 }
 
 export type FileSelectorButtonProps = {
-	label: string;
+	placeholder?: string;
+	buttonLabel?: string;
 	onChange(file: File | null): void;
 	dataTestId?: string;
+	required?: boolean;
 };

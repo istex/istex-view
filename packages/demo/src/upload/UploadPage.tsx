@@ -1,5 +1,6 @@
-import { Button, List, ListItem } from "@mui/material";
+import { Button } from "@mui/material";
 import Stack from "@mui/material/Stack";
+import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { useViewerContext } from "../viewer/useViewerContext";
 import { FileSelectorButton } from "./FileSelectorButton";
@@ -28,29 +29,63 @@ export function UploadPage() {
 		viewerLaunched,
 		launchViewer,
 		document,
-		unitexEnrichment,
 		openDocument,
 		openUnitexEnrichment,
+		openMulticatEnrichment,
+		openNbEnrichment,
 	} = useViewerContext();
 
-	const handleDocumentChange = async (file: File | null) => {
-		if (!file) {
-			return;
-		}
+	const handleDocumentChange = useCallback(
+		async (file: File | null) => {
+			if (!file) {
+				return;
+			}
 
-		const content = await getFileContent(file);
+			const content = await getFileContent(file);
 
-		openDocument({ filename: file.name, content });
-	};
+			openDocument({ filename: file.name, content });
+		},
+		[openDocument],
+	);
 
-	const handleUnitexEnrichmentChange = async (file: File | null) => {
-		if (!file) {
-			return;
-		}
+	const handleUnitexEnrichmentChange = useCallback(
+		async (file: File | null) => {
+			if (!file) {
+				openUnitexEnrichment(null);
+				return;
+			}
 
-		const content = await getFileContent(file);
-		openUnitexEnrichment({ filename: file.name, content });
-	};
+			const content = await getFileContent(file);
+			openUnitexEnrichment({ filename: file.name, content });
+		},
+		[openUnitexEnrichment],
+	);
+
+	const handleMulticatEnrichmentChange = useCallback(
+		async (file: File | null) => {
+			if (!file) {
+				openMulticatEnrichment(null);
+				return;
+			}
+
+			const content = await getFileContent(file);
+			openMulticatEnrichment({ filename: file.name, content });
+		},
+		[openMulticatEnrichment],
+	);
+
+	const handleNbEnrichmentChange = useCallback(
+		async (file: File | null) => {
+			if (!file) {
+				openNbEnrichment(null);
+				return;
+			}
+
+			const content = await getFileContent(file);
+			openNbEnrichment({ filename: file.name, content });
+		},
+		[openNbEnrichment],
+	);
 
 	if (viewerLaunched) {
 		return null;
@@ -60,8 +95,8 @@ export function UploadPage() {
 		<Stack
 			sx={{
 				flexGrow: 1,
-				maxWidth: "sm",
-				alignItems: "center",
+				maxWidth: "md",
+				width: "100%",
 				justifyContent: "center",
 				padding: 2,
 				margin: "0 auto",
@@ -71,25 +106,31 @@ export function UploadPage() {
 			<Stack gap={2}>
 				<FileSelectorButton
 					dataTestId="tei-file-selector-input"
-					label={t("upload.selectTeiFile")}
+					placeholder={t("upload.document.placeholder")}
+					buttonLabel={t("upload.document.buttonLabel")}
 					onChange={handleDocumentChange}
+					required
 				/>
 				<FileSelectorButton
 					dataTestId="unitex-enrichment-file-selector-input"
-					label={t("upload.selectUnitexEnrichment")}
+					placeholder={t("upload.unitex.placeholder")}
+					buttonLabel={t("upload.unitex.buttonLabel")}
 					onChange={handleUnitexEnrichmentChange}
 				/>
+				<FileSelectorButton
+					dataTestId="multicat-enrichment-file-selector-input"
+					placeholder={t("upload.multicat.placeholder")}
+					buttonLabel={t("upload.multicat.buttonLabel")}
+					onChange={handleMulticatEnrichmentChange}
+				/>
+
+				<FileSelectorButton
+					dataTestId="nb-enrichment-file-selector-input"
+					placeholder={t("upload.nb.placeholder")}
+					buttonLabel={t("upload.nb.buttonLabel")}
+					onChange={handleNbEnrichmentChange}
+				/>
 			</Stack>
-			<List>
-				<ListItem>
-					{`${t("upload.teiFile")} ${document?.filename ?? t("upload.noFileSelected")}`}
-				</ListItem>
-				<ListItem>
-					{`${t("upload.unitexFile")} ${
-						unitexEnrichment?.filename ?? t("upload.noFileSelected")
-					}`}
-				</ListItem>
-			</List>
 			<Button
 				disabled={!document}
 				onClick={launchViewer}

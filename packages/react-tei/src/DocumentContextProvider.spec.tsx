@@ -32,6 +32,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 		});
@@ -60,6 +64,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 			act(() => {
@@ -79,6 +87,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 			act(() => {
@@ -98,6 +110,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 		});
@@ -128,6 +144,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 
@@ -148,6 +168,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 		});
@@ -176,6 +200,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 			act(() => {
@@ -195,6 +223,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 		});
@@ -230,6 +262,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 
@@ -251,6 +287,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 		});
@@ -281,6 +321,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 
@@ -301,6 +345,10 @@ describe("DocumentContextProvider", () => {
 					unitext_persName: true,
 					unitext_placeName: true,
 					unitext_geogName: true,
+					multicat_inist: true,
+					multicat_wos: true,
+					multicat_science_metrix: true,
+					multicat_scopus: true,
 				},
 			});
 		});

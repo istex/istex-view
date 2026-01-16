@@ -59,6 +59,12 @@ export const fr = {
 		geogName_one: "Nom de lieu géographique ({{count}})",
 		geogName_other: "Noms de lieux géographiques ({{count}})",
 	},
+	multicat: {
+		inist: "Catégorie INIST",
+		wos: "Catégorie WOS",
+		science_metrix: "Catégorie Science-Metrix",
+		scopus: "Catégorie Scopus",
+	},
 };
 
 export type Translation = typeof fr;
