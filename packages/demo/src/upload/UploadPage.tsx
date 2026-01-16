@@ -103,7 +103,7 @@ export function UploadPage() {
 				gap: 4,
 			}}
 		>
-			<Stack gap={2} sx={{}}>
+			<Stack gap={2}>
 				<FileSelectorButton
 					dataTestId="tei-file-selector-input"
 					placeholder={t("upload.document.placeholder")}
