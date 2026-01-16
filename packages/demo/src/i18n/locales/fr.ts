@@ -30,6 +30,10 @@ export const fr = {
 			placeholder: "Aucun fichier d'enrichissement sélectionné (optionnel)",
 			buttonLabel: "Enrichissement Nb",
 		},
+		teeft: {
+			placeholder: "Aucun fichier d'enrichissement sélectionné (optionnel)",
+			buttonLabel: "Enrichissement TEEFT",
+		},
 	},
 };
 

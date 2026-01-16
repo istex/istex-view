@@ -36,6 +36,7 @@ export const Viewer = ({
 	unitexEnrichment?: string | null;
 	multicatEnrichment?: string | null;
 	nbEnrichment?: string | null;
+	teeftEnrichment?: string | null;
 	height?: string;
 }) => {
 	const theme = useTheme();

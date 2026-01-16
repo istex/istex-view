@@ -33,6 +33,7 @@ export function UploadPage() {
 		openUnitexEnrichment,
 		openMulticatEnrichment,
 		openNbEnrichment,
+		openTeeftEnrichment,
 	} = useViewerContext();
 
 	const handleDocumentChange = useCallback(
@@ -87,6 +88,19 @@ export function UploadPage() {
 		[openNbEnrichment],
 	);
 
+	const handleTeeftEnrichmentChange = useCallback(
+		async (file: File | null) => {
+			if (!file) {
+				openTeeftEnrichment(null);
+				return;
+			}
+
+			const content = await getFileContent(file);
+			openTeeftEnrichment({ filename: file.name, content });
+		},
+		[openTeeftEnrichment],
+	);
+
 	if (viewerLaunched) {
 		return null;
 	}
@@ -129,6 +143,13 @@ export function UploadPage() {
 					placeholder={t("upload.nb.placeholder")}
 					buttonLabel={t("upload.nb.buttonLabel")}
 					onChange={handleNbEnrichmentChange}
+				/>
+
+				<FileSelectorButton
+					dataTestId="teeft-enrichment-file-selector-input"
+					placeholder={t("upload.teeft.placeholder")}
+					buttonLabel={t("upload.teeft.buttonLabel")}
+					onChange={handleTeeftEnrichmentChange}
 				/>
 			</Stack>
 			<Button

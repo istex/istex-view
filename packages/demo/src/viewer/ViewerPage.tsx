@@ -9,6 +9,7 @@ export function ViewerPage() {
 		unitexEnrichment,
 		multicatEnrichment,
 		nbEnrichment,
+		teeftEnrichment,
 	} = useViewerContext();
 
 	if (!viewerLaunched || !document) {
@@ -21,6 +22,7 @@ export function ViewerPage() {
 			unitexEnrichment={unitexEnrichment?.content}
 			multicatEnrichment={multicatEnrichment?.content}
 			nbEnrichment={nbEnrichment?.content}
+			teeftEnrichment={teeftEnrichment?.content}
 			height="calc(100dvh - 49.5px - 118.5px)"
 		/>
 	);
