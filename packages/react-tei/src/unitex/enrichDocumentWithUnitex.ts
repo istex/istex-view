@@ -1,3 +1,4 @@
+import { kebabCasify } from "../helper/kebabCasify";
 import { mapTargetTags } from "../helper/mapTargetTags";
 import { escapeRegexChars, termToRegex } from "../helper/termToRegex";
 import type { DocumentJson } from "../parser/document";
@@ -27,11 +28,6 @@ const normalizeTerms = (
 	);
 
 	return normalized;
-};
-
-// Convert term text to slug format (lowercase, spaces to hyphens, preserve unicode letters)
-const slugify = (text: string): string => {
-	return text.toLowerCase().trim().replace(/\s+/g, "-");
 };
 
 export const isContainedIn = (
@@ -148,8 +144,8 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 		term.sourceTerm === null
 			? null
 			: term.sourceTerm !== undefined
-				? slugify(term.sourceTerm)
-				: slugify(term.term);
+				? kebabCasify(term.sourceTerm)
+				: kebabCasify(term.term);
 
 	if (term.subTerms?.length && term.groups.length === 0) {
 		return {
