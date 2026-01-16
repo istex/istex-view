@@ -239,9 +239,9 @@ export function DocumentNavigationContextProvider({
 					}
 
 					// This is an anti-pattern for react, but this improves performance a lot, especially on large documents by avoiding re-renders
-					tocRef.current.querySelectorAll("[aria-current]").forEach((el) => {
-						el.removeAttribute("aria-current");
-					});
+					tocRef.current
+						.querySelector("[aria-current]")
+						?.removeAttribute("aria-current");
 
 					const tocElement = tocRef.current.querySelector(
 						`[data-navigate-to="${id}"]`,
