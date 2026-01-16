@@ -5,7 +5,6 @@ import {
 
 export const testNavigationContextProviderValue: DocumentNavigationContextValue =
 	{
-		currentHeadingId: null,
 		navigateToHeading: () => {
 			throw new Error("navigateToBodyTargetSelector has been called");
 		},

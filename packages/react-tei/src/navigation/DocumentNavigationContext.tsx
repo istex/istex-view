@@ -1,15 +1,7 @@
-import {
-	createContext,
-	useCallback,
-	useEffect,
-	useMemo,
-	useRef,
-	useState,
-} from "react";
+import { createContext, useCallback, useEffect, useMemo, useRef } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 
 export type DocumentNavigationContextValue = {
-	currentHeadingId: string | null;
 	navigateToBodyTargetSelector(querySelector: string): void;
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
@@ -25,6 +17,7 @@ type DocumentNavigationContextProviderProps = {
 	children: React.ReactNode;
 
 	documentRef: React.RefObject<HTMLDivElement | null>;
+	tocRef: React.RefObject<HTMLDivElement | null>;
 	sidePanelRef: React.RefObject<HTMLDivElement | null>;
 };
 
@@ -64,14 +57,36 @@ export function buildDataSelector(target: string, dataTarget: string): string {
 		.join(", ");
 }
 
+function scrollIntoViewIfNeeded(
+	parentElement: HTMLElement,
+	element: Element | null | undefined,
+) {
+	if (!element) {
+		return;
+	}
+
+	const parentBoundingRect = parentElement.getBoundingClientRect();
+	const elementBoundingRect = element.getBoundingClientRect();
+
+	// Element is below or above the visible area
+	if (
+		elementBoundingRect.bottom > parentBoundingRect.height ||
+		elementBoundingRect.top >= parentBoundingRect.top
+	) {
+		element.scrollIntoView({
+			behavior: "smooth",
+			block: "center",
+		});
+	}
+}
+
 export function DocumentNavigationContextProvider({
+	tocRef,
 	documentRef,
 	sidePanelRef,
 	children,
 }: DocumentNavigationContextProviderProps) {
 	const { panel } = useDocumentContext();
-
-	const [currentHeadingId, setCurrentHeadingId] = useState<string | null>(null);
 
 	const currentSelectorRef = useRef<CurrentSelectorRef | null>(null);
 
@@ -219,7 +234,21 @@ export function DocumentNavigationContextProvider({
 							? intersectingElement.target.getAttribute("aria-labelledby")
 							: intersectingElement.target.id;
 
-					setCurrentHeadingId(id);
+					if (!tocRef.current || !id) {
+						return;
+					}
+
+					// This is an anti-pattern for react, but this improves performance a lot, especially on large documents by avoiding re-renders
+					tocRef.current
+						.querySelector("[aria-current]")
+						?.removeAttribute("aria-current");
+
+					const tocElement = tocRef.current.querySelector(
+						`[data-navigate-to="${id}"]`,
+					);
+
+					tocElement?.setAttribute("aria-current", "true");
+					scrollIntoViewIfNeeded(tocRef.current, tocElement);
 				});
 			},
 			{
@@ -239,7 +268,7 @@ export function DocumentNavigationContextProvider({
 		return () => {
 			observer.disconnect();
 		};
-	}, [documentRef]);
+	}, [documentRef, tocRef]);
 
 	const navigateToBibliographicReferenceRef = useCallback(
 		(id: string) => {
@@ -250,7 +279,6 @@ export function DocumentNavigationContextProvider({
 
 	const value = useMemo(
 		() => ({
-			currentHeadingId,
 			navigateToBodyTargetSelector,
 			navigateToHeading,
 			navigateToFootnote,
@@ -259,7 +287,6 @@ export function DocumentNavigationContextProvider({
 			navigateToBibliographicReferenceRef,
 		}),
 		[
-			currentHeadingId,
 			navigateToBodyTargetSelector,
 			navigateToHeading,
 			navigateToFootnote,

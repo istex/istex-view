@@ -2,7 +2,7 @@ import { Box } from "@mui/material";
 import { TocHeading } from "./TocHeading";
 import type { Heading } from "./useTableOfContent";
 
-export function TableOfContent({ tableOfContent }: TableOfContentProps) {
+export function TableOfContent({ tableOfContent, ref }: TableOfContentProps) {
 	return (
 		<Box
 			component="aside"
@@ -29,6 +29,7 @@ export function TableOfContent({ tableOfContent }: TableOfContentProps) {
 						fontSize: "0.875rem",
 					},
 				}}
+				ref={ref}
 			>
 				<TocHeading headings={tableOfContent} />
 			</Box>
@@ -38,4 +39,5 @@ export function TableOfContent({ tableOfContent }: TableOfContentProps) {
 
 type TableOfContentProps = {
 	tableOfContent: Heading[];
+	ref?: React.RefObject<HTMLDivElement | null>;
 };

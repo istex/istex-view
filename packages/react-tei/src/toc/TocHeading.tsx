@@ -17,7 +17,7 @@ export function TocHeading({
 	isMobile = false,
 }: TocHeadingProps) {
 	const { t } = useTranslation();
-	const { navigateToHeading, currentHeadingId } = useDocumentNavigation();
+	const { navigateToHeading } = useDocumentNavigation();
 	return (
 		<List
 			disablePadding
@@ -56,20 +56,22 @@ export function TocHeading({
 							marginBottom: 0,
 							cursor: "pointer",
 							height: ITEM_TEXT_HEIGHT,
+							'&[aria-current="true"] .indicator': {
+								opacity: 1,
+							},
 						}}
 						data-navigate-to={heading.id}
 						onClick={() => {
 							navigateToHeading(heading.id);
 						}}
 						role="treeitem"
-						aria-current={heading.id === currentHeadingId ? "true" : undefined}
 					>
 						{!isMobile && (
 							<Box
 								aria-hidden="true"
 								component="span"
 								sx={{
-									opacity: heading.id === currentHeadingId ? 1 : 0,
+									opacity: 0,
 									position: "absolute",
 									left: 0,
 									width: "4px",
@@ -77,6 +79,7 @@ export function TocHeading({
 									backgroundColor: (theme) => theme.palette.divider,
 									transition: "opacity 0.3s ease-in-out",
 								}}
+								className="indicator"
 							/>
 						)}
 						<Tooltip title={<Value data={heading.content} />} placement="right">
