@@ -11,3 +11,9 @@ export type NestedTerm = {
 	artificial?: boolean;
 	sourceTerm?: string | null;
 };
+
+export type GroupedTerm = {
+	term: string;
+	groups: string[];
+	artificial?: boolean;
+};

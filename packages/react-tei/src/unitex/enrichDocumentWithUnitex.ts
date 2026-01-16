@@ -8,9 +8,10 @@ import {
 	isTextTag,
 	type TextTag,
 } from "./highlightTermsInTextTag";
+import { mergeIdenticalTerms } from "./mergeIdenticalTerms";
 import type { TermStatistic } from "./parseUnitexEnrichment";
 import { removeDuplicateNestedTerms } from "./removeDuplicateNestedTerms";
-import type { NestedTerm, NormalizedTerm } from "./types";
+import type { GroupedTerm, NestedTerm, NormalizedTerm } from "./types";
 
 // Step 1: Normalize terms from termByGroup into flat list
 const normalizeTerms = (
@@ -25,35 +26,6 @@ const normalizeTerms = (
 	);
 
 	return normalized;
-};
-
-type GroupedTerm = {
-	term: string;
-	groups: string[];
-	artificial?: boolean;
-};
-
-export const mergeIdenticalTerms = (terms: NormalizedTerm[]): GroupedTerm[] => {
-	const mergedTerms: GroupedTerm[] = terms.reduce(
-		(acc, { group, term, ...termRest }) => {
-			const existing = acc.find((t) => t.term === term);
-			if (existing) {
-				if (!existing.groups.includes(group)) {
-					existing.groups.push(group);
-				}
-			} else {
-				acc.push({
-					term,
-					groups: [group],
-					...termRest,
-				});
-			}
-			return acc;
-		},
-		[] as GroupedTerm[],
-	);
-
-	return mergedTerms;
 };
 
 // Convert term text to slug format (lowercase, spaces to hyphens, preserve unicode letters)
