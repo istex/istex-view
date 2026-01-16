@@ -69,6 +69,7 @@ export const enrichDocumentWithUnitex = (
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
 	const termRegexes = sortedTerms.map(({ term, groups, subTerms }) => ({
 		termRegex: termToRegex(term),
+		term,
 		groups,
 		value: subTerms?.length ? subTerms.map(termToTag) : term,
 	}));

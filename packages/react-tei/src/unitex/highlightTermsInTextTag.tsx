@@ -23,16 +23,22 @@ export type HighlightedTextTag = {
 	value: (HighlightTag | TextTag)[];
 } & DocumentJson;
 
+export type TermData = {
+	termRegex: RegExp;
+	term: string;
+	groups: string[];
+	value?: (TextTag | HighlightTag)[] | string;
+};
+
 export const isTextTag = (node: DocumentJson): node is TextTag => {
 	return node.tag === "#text";
 };
 
 export const highlightTermInString = (
 	text: string,
-	termRegex: RegExp,
-	groups: string[],
-	value: string | (TextTag | HighlightTag)[] | undefined,
+	termData: TermData,
 ): (TextTag | HighlightTag)[] => {
+	const { termRegex, term, groups, value } = termData;
 	const matches = Array.from(text.matchAll(termRegex));
 
 	if (!matches.length) {
@@ -70,7 +76,7 @@ export const highlightTermInString = (
 			],
 			attributes: {
 				groups,
-				term: kebabCasify(matchText),
+				term: kebabCasify(term),
 			},
 		} as HighlightTag);
 
@@ -92,9 +98,7 @@ export const highlightTermInString = (
 
 export const highlightTermInTextTag = (
 	textFragments: (HighlightTag | TextTag)[],
-	termRegex: RegExp,
-	groups: string[],
-	value?: string | (TextTag | HighlightTag)[],
+	termData: TermData,
 ): (HighlightTag | TextTag)[] => {
 	const stack = [...textFragments];
 	const result: (HighlightTag | TextTag)[] = [];
@@ -108,12 +112,7 @@ export const highlightTermInTextTag = (
 				value: textFragment.value,
 			});
 		} else {
-			const highlighted = highlightTermInString(
-				textFragment.value,
-				termRegex,
-				groups,
-				value,
-			);
+			const highlighted = highlightTermInString(textFragment.value, termData);
 			result.push(...highlighted);
 		}
 	}
@@ -121,19 +120,13 @@ export const highlightTermInTextTag = (
 	return result;
 };
 
-type TermRegex = {
-	termRegex: RegExp;
-	groups: string[];
-	value?: (TextTag | HighlightTag)[] | string;
-};
-
 export const highlightTermsInTextTag = (
 	textTag: TextTag,
-	termRegexes: TermRegex[],
+	termDataList: TermData[],
 ): HighlightedTextTag => {
-	const value = termRegexes.reduce(
-		(textTag: (HighlightTag | TextTag)[], { termRegex, groups, value }) =>
-			highlightTermInTextTag(textTag, termRegex, groups, value),
+	const value = termDataList.reduce(
+		(textTag: (HighlightTag | TextTag)[], termData) =>
+			highlightTermInTextTag(textTag, termData),
 		[textTag] as (HighlightTag | TextTag)[],
 	);
 
