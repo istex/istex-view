@@ -47,6 +47,8 @@ export const fr = {
 		toggleBlock_hide: "Désactiver le soulignement des mots dans le texte",
 		toggleTerm_show: 'Activer le soulignement pour le terme "{{term}}"',
 		toggleTerm_hide: 'Désactiver le soulignement pour le terme "{{term}}"',
+		previous: "Aller au précédent",
+		next: "Aller au suivant",
 
 		date_one: "Date ({{count}})",
 		date_other: "Dates ({{count}})",

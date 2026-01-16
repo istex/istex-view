@@ -68,7 +68,7 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 				<Box
 					sx={{
 						display: "grid",
-						gridTemplateColumns: "max-content 1fr",
+						gridTemplateColumns: "max-content 1fr max-content",
 						gridTemplateRows: "auto",
 						columnGap: 0.5,
 						rowGap: 1,

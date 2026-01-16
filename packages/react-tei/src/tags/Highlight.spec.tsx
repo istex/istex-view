@@ -11,12 +11,11 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 			jsonDocument={[]}
 			jsonUnitexEnrichment={{
 				persName: [
-					{ term: "Paris", displayed: true, frequency: 1 },
+					{ term: "Albert Einstein", displayed: true, frequency: 1 },
 					{ term: "Einstein", displayed: true, frequency: 2 },
 					{ term: "Nancy", displayed: true, frequency: 5 },
 				],
 				placeName: [
-					{ term: "Paris", displayed: true, frequency: 1 },
 					{
 						term: "London",
 						displayed: false,
@@ -91,5 +90,50 @@ describe("Highlight", () => {
 		await expect.element(element).toHaveTextContent("Nancy");
 		await expect.element(element).toHaveAttribute("data-term", "nancy");
 		await expect.element(element).toHaveAttribute("data-group", "persName");
+	});
+
+	it("should support nested highlights", async () => {
+		const screen = await render(
+			<Highlight
+				data={{
+					tag: "highlight",
+					attributes: { groups: "persName", term: "albert-einstein" },
+					value: [
+						{
+							tag: "#text",
+							value: "Albert ",
+						},
+						{
+							tag: "highlight",
+							attributes: { groups: "persName", term: "einstein" },
+							value: "Einstein",
+						},
+					],
+				}}
+			/>,
+			{
+				wrapper: TestWrapper,
+			},
+		);
+
+		const outerElement = screen.getByRole("mark").filter({
+			hasText: "Albert Einstein",
+			exact: true,
+		});
+		await expect.element(outerElement).toBeInTheDocument();
+		await expect.element(outerElement).toHaveTextContent("Albert Einstein");
+		await expect
+			.element(outerElement)
+			.toHaveAttribute("data-term", "albert-einstein");
+		await expect
+			.element(outerElement)
+			.toHaveAttribute("data-group", "persName");
+
+		const innerElement = screen.getByText("Einstein", { exact: true });
+		await expect.element(innerElement).toBeInTheDocument();
+		await expect.element(innerElement).toHaveAttribute("data-term", "einstein");
+		await expect
+			.element(innerElement)
+			.toHaveAttribute("data-group", "persName");
 	});
 });
