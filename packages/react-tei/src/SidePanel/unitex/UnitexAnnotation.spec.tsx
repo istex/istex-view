@@ -8,7 +8,7 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 }
 
 describe("UnitexAnnotation", () => {
-	it("should render the annotation with term and frequency", async () => {
+	it("should render the annotation with term", async () => {
 		const onToggle = vi.fn();
 		const screen = await render(
 			<UnitexAnnotation
@@ -21,9 +21,7 @@ describe("UnitexAnnotation", () => {
 			},
 		);
 
-		await expect
-			.element(screen.getByRole("note"))
-			.toHaveTextContent("example | 5");
+		await expect.element(screen.getByRole("note")).toHaveTextContent("example");
 
 		expect(onToggle).not.toHaveBeenCalled();
 	});

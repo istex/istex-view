@@ -37,14 +37,14 @@ describe("UnitexAnnotationBlock", () => {
 		{
 			type: "date",
 			expectedLabel: "Date (1)",
-			expectedTerms: ["2021 | 3"],
+			expectedTerms: ["2021"],
 		},
 		{
 			type: "placeName",
 			expectedLabel: "Noms de lieux administratifs (2)",
-			expectedTerms: ["Paris | 2", "London | 1"],
+			expectedTerms: ["Paris", "London"],
 		},
-	])("should render a list of terms with their frequencies for $type", async ({
+	])("should render a list of terms for $type", async ({
 		type,
 		expectedLabel,
 		expectedTerms,
