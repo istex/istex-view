@@ -98,10 +98,10 @@ export const getListAnnotationType = (
 					return "refUrl";
 				default:
 					console.warn(
-						"Unknown ref subType, defaulting to ref which will get ignored",
+						"Unknown ref subType, ignoring listAnnotation",
 						listAnnotation,
 					);
-					return "ref";
+					return null;
 			}
 		}
 		default:
