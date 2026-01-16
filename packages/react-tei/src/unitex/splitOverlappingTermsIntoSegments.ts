@@ -2,7 +2,9 @@ import { createSegmentFromBoundary } from "./createSegmentFromBoundary";
 import type { NestedTerm, SubTermAtPosition, TermWithPosition } from "./types";
 
 // Collect all boundary points from overlapping terms and their subTerms
-const collectBoundaries = (overlappingGroup: TermWithPosition[]): number[] => {
+export const collectBoundaries = (
+	overlappingGroup: TermWithPosition[],
+): number[] => {
 	const boundaries = new Set<number>();
 
 	for (const t of overlappingGroup) {
@@ -24,7 +26,7 @@ const collectBoundaries = (overlappingGroup: TermWithPosition[]): number[] => {
 };
 
 // Build subTerms position map from overlapping terms
-const buildSubTermsPositionMap = (
+export const buildSubTermsPositionMap = (
 	overlappingGroup: TermWithPosition[],
 ): SubTermAtPosition[] => {
 	return overlappingGroup.flatMap((t) => {
