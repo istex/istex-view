@@ -2,30 +2,9 @@ import { describe, expect, it } from "vitest";
 import {
 	computeEnrichedTerms,
 	enrichDocumentWithUnitex,
-	getRemainingStringParts,
 } from "./enrichDocumentWithUnitex";
 
 describe("enrichDocumentWithUnitex", () => {
-	describe("getRemainingStringParts", () => {
-		it("should return the remaining parts of a string after removing a term at the start", () => {
-			const terms = ["New York", "great"];
-			const text = "New York City is great";
-			const result = getRemainingStringParts([text], terms);
-			expect(result).toStrictEqual([" City is "]);
-		});
-
-		it("should return the several remaining parts of a string after removing multiple terms", () => {
-			const terms = ["New York", "great"];
-			const text = "The famous New York City is great and wonderful";
-			const result = getRemainingStringParts([text], terms);
-			expect(result).toStrictEqual([
-				"The famous ",
-				" City is ",
-				" and wonderful",
-			]);
-		});
-	});
-
 	describe("computeEnrichedTerms", () => {
 		it('should regroup identical terms from different groups (e.g., "cat" from group1 and group2)', () => {
 			const termByGroup = {

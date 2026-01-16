@@ -29,22 +29,6 @@ const normalizeTerms = (
 	return normalized;
 };
 
-export const getRemainingStringParts = (
-	fullString: string[],
-	subTerms: string[],
-): string[] => {
-	const [subTerm, ...restSubTerms] = subTerms;
-
-	if (!subTerm) {
-		return fullString;
-	}
-	const newFullString = fullString.flatMap((part) => {
-		return part.split(subTerm).filter((p) => p !== "");
-	});
-
-	return getRemainingStringParts(newFullString, restSubTerms);
-};
-
 export const computeEnrichedTerms = (
 	termByGroup: Record<string, TermStatistic[]>,
 ): NestedTerm[] => {
