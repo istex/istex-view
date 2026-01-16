@@ -17,3 +17,9 @@ export type GroupedTerm = {
 	groups: string[];
 	artificial?: boolean;
 };
+
+export type TermWithPosition = {
+	term: NestedTerm;
+	start: number;
+	end: number;
+};

@@ -2,46 +2,14 @@
 // Handles N overlapping terms by merging overlapping regions
 
 import { findTermPosition } from "./findTermPosition";
-import type { NestedTerm } from "./types";
-
-type TermWithPosition = {
-	term: NestedTerm;
-	start: number;
-	end: number;
-};
+import { groupOverlappingTerms } from "./groupOverlappingTerms";
+import type { NestedTerm, TermWithPosition } from "./types";
 
 type SubTermAtPosition = {
 	subTerm: NestedTerm;
 	start: number;
 	end: number;
 	fromTermGroups: string[];
-};
-
-// Group overlapping terms together (terms that share positions are in the same group)
-const groupOverlappingTerms = (
-	terms: TermWithPosition[],
-): TermWithPosition[][] => {
-	if (terms.length === 0) return [];
-
-	return terms.reduce<TermWithPosition[][]>((groups, term) => {
-		const lastGroup = groups[groups.length - 1];
-
-		if (!lastGroup) {
-			// First term starts a new group
-			return [[term]];
-		}
-
-		const groupEnd = Math.max(...lastGroup.map((t) => t.end));
-		if (term.start < groupEnd) {
-			// Term overlaps with current group - add to it
-			lastGroup.push(term);
-		} else {
-			// No overlap - start a new group
-			groups.push([term]);
-		}
-
-		return groups;
-	}, []);
 };
 
 // Create filler segment for gaps between terms
