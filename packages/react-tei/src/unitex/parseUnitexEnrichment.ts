@@ -81,7 +81,7 @@ export const getListAnnotationType = (
 
 	switch (listAnnotation.attributes["@type"]) {
 		case "orgName": {
-			switch (listAnnotation.attributes?.["@subType"]) {
+			switch (listAnnotation.attributes?.["@subtype"]) {
 				case "funder":
 					return "orgNameFunder";
 				case "provider":
@@ -91,12 +91,16 @@ export const getListAnnotationType = (
 			}
 		}
 		case "ref": {
-			switch (listAnnotation.attributes?.["@subType"]) {
+			switch (listAnnotation.attributes?.["@subtype"]) {
 				case "bibl":
 					return "refBibl";
 				case "url":
 					return "refUrl";
 				default:
+					console.warn(
+						"Unknown ref subType, defaulting to ref which will get ignored",
+						listAnnotation,
+					);
 					return "ref";
 			}
 		}

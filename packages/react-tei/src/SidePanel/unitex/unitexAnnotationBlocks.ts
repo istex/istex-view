@@ -1,6 +1,10 @@
 export const UNITEX_ANNOTATION_BLOCKS = [
 	"date",
 	"orgName",
+	"orgNameFunder",
+	"orgNameProvider",
+	"refBibl",
+	"refUrl",
 	"persName",
 	"placeName",
 	"geogName",
@@ -10,9 +14,13 @@ export type UnitexAnnotationBlockType =
 	(typeof UNITEX_ANNOTATION_BLOCKS)[number];
 
 export const chipColors: Record<UnitexAnnotationBlockType, string> = {
-	date: "#31768F",
-	orgName: "#2C6010",
-	persName: "#8F317E",
-	placeName: "#967714",
-	geogName: "#8F3931",
+	date: "#8FBAC9",
+	orgName: "#6BEAB2",
+	orgNameFunder: "#34CE3B",
+	orgNameProvider: "#C4D733",
+	refBibl: "#FEACC1",
+	refUrl: "#D57AC5",
+	persName: "#F6C53E",
+	placeName: "#D3926F",
+	geogName: "#46D2EE",
 };

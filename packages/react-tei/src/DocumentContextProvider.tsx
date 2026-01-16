@@ -21,6 +21,10 @@ export type PanelState = {
 
 		unitext_date?: boolean;
 		unitext_orgName?: boolean;
+		unitext_orgNameFunder?: boolean;
+		unitext_orgNameProvider?: boolean;
+		unitext_refBibl?: boolean;
+		unitext_refUrl?: boolean;
 		unitext_persName?: boolean;
 		unitext_placeName?: boolean;
 		unitext_geogName?: boolean;
@@ -67,6 +71,32 @@ type UnitexEnrichmentAction =
 			term: string;
 	  };
 
+export const initialPanelState: PanelState = {
+	isOpen: true,
+	sections: {
+		authors: true,
+		keywords: true,
+		source: true,
+		footnotes: true,
+		bibliographicReferences: true,
+
+		unitext_date: true,
+		unitext_orgName: true,
+		unitext_orgNameFunder: true,
+		unitext_orgNameProvider: true,
+		unitext_persName: true,
+		unitext_placeName: true,
+		unitext_geogName: true,
+		unitext_refBibl: true,
+		unitext_refUrl: true,
+
+		multicat_inist: true,
+		multicat_wos: true,
+		multicat_science_metrix: true,
+		multicat_scopus: true,
+	},
+};
+
 export function DocumentContextProvider({
 	children,
 	jsonDocument,
@@ -96,27 +126,7 @@ export function DocumentContextProvider({
 					return state;
 			}
 		},
-		{
-			isOpen: true,
-			sections: {
-				authors: true,
-				keywords: true,
-				source: true,
-				footnotes: true,
-				bibliographicReferences: true,
-
-				unitext_date: true,
-				unitext_orgName: true,
-				unitext_persName: true,
-				unitext_placeName: true,
-				unitext_geogName: true,
-
-				multicat_inist: true,
-				multicat_wos: true,
-				multicat_science_metrix: true,
-				multicat_scopus: true,
-			},
-		} satisfies PanelState,
+		initialPanelState,
 	);
 
 	const togglePanel = useCallback(() => {
