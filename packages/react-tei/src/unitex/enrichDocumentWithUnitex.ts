@@ -9,7 +9,10 @@ import {
 import type { TermStatistic } from "./parseUnitexEnrichment";
 
 const escapeRegexChars = (str: string): string => {
-	return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&").replaceAll("-", "[-–]");
+	return str
+		.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")
+		.replaceAll("-", "[-–]")
+		.replaceAll(/\s/g, "\\s");
 };
 
 export const termToRegex = (term: string): RegExp => {

@@ -55,6 +55,23 @@ describe("enrichDocumentWithUnitex", () => {
 				text: "Between 1920, 1921 and 1922, many events happened.",
 				expected: true,
 			},
+			{
+				term: "1920 and 1921",
+				text: "Between 1920 and\n1921, many events happened.",
+				expected: true,
+			},
+			{
+				term: "1920 and 1921",
+				// with non-breaking space
+				text: "Between 1920\u00A0and\u00A01921, many events happened.",
+				expected: true,
+			},
+			{
+				term: "1920 and 1921",
+				// with tabs
+				text: "Between 1920	and	1921, many events happened.",
+				expected: true,
+			},
 		])("should return $expected when trying to match term: $term on text: $text", ({
 			term,
 			text,
