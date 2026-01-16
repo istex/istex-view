@@ -8,6 +8,8 @@ import {
 	type TextTag,
 } from "./highlightTermsInTextTag";
 import type { TermStatistic } from "./parseUnitexEnrichment";
+import { removeDuplicateNestedTerms } from "./removeDuplicateNestedTerms";
+import type { NestedTerm } from "./types";
 
 type NormalizedTerm = {
 	term: string;
@@ -15,7 +17,7 @@ type NormalizedTerm = {
 	artificial?: boolean;
 };
 
-// Step 1: Normalize terms from termByGroup into flat list with word arrays
+// Step 1: Normalize terms from termByGroup into flat list
 const normalizeTerms = (
 	termByGroup: Record<string, TermStatistic[]>,
 ): NormalizedTerm[] => {
@@ -188,14 +190,6 @@ export const mergeIdenticalTerms = (terms: NormalizedTerm[]): GroupedTerm[] => {
 	return mergedTerms;
 };
 
-type NestedTerm = {
-	term: string;
-	groups: string[];
-	subTerms?: NestedTerm[];
-	artificial?: boolean;
-	sourceTerm?: string | null;
-};
-
 // Convert term text to slug format (lowercase, spaces to hyphens, preserve unicode letters)
 const slugify = (text: string): string => {
 	return text.toLowerCase().trim().replace(/\s+/g, "-");
@@ -216,65 +210,6 @@ export const isContainedIn = (
 	);
 	if (longer.term.match(shorterWordRegex)) return true;
 	return false;
-};
-
-export const hasIdenticalTermInSubTerms = (
-	term: NestedTerm,
-	subTerms: NestedTerm[],
-): boolean => {
-	for (const subTerm of subTerms) {
-		if (subTerm.term === term.term) {
-			return true;
-		}
-		if (subTerm.subTerms?.length) {
-			if (hasIdenticalTermInSubTerms(term, subTerm.subTerms)) {
-				return true;
-			}
-		}
-	}
-	return false;
-};
-
-// remove nestedTerms if they are already present in lower levels
-// do this recursively on nested subterms
-export const removeDuplicateNestedTerms = (
-	terms: NestedTerm[],
-): NestedTerm[] => {
-	// First, recursively process all subTerms
-	const termsWithProcessedSubTerms = terms.map((term) => {
-		if (!term.subTerms || !term.subTerms.length) {
-			return term;
-		}
-		return {
-			...term,
-			subTerms: removeDuplicateNestedTerms(term.subTerms),
-		};
-	});
-
-	// Then filter out duplicates at this level
-	return termsWithProcessedSubTerms.map((term) => {
-		if (!term.subTerms || !term.subTerms.length) {
-			return term;
-		}
-
-		// Filter out subTerms that are already present in any other sibling's nested structure
-		// Skip artificial terms - they are allowed to be duplicated
-		const filteredSubTerms = term.subTerms.filter((subTerm, index) => {
-			// Don't filter artificial terms
-			if (subTerm.artificial) return true;
-
-			const otherSiblings = [
-				...term.subTerms!.slice(0, index),
-				...term.subTerms!.slice(index + 1),
-			];
-			return !hasIdenticalTermInSubTerms(subTerm, otherSiblings);
-		});
-
-		return {
-			...term,
-			subTerms: filteredSubTerms,
-		};
-	});
 };
 
 export const getRemainingStringParts = (
