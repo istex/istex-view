@@ -23,3 +23,10 @@ export type TermWithPosition = {
 	start: number;
 	end: number;
 };
+
+export type SubTermAtPosition = {
+	subTerm: NestedTerm;
+	start: number;
+	end: number;
+	fromTermGroups: string[];
+};
