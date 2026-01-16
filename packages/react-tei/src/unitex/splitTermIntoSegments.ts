@@ -240,7 +240,7 @@ const createSegmentFromBoundary = (
 };
 
 // Process multiple overlapping terms into segments
-const processOverlappingTerms = (
+const splitOverlappingTermsIntoSegments = (
 	overlappingGroup: TermWithPosition[],
 	allTerms: TermWithPosition[],
 	containerTerm: string,
@@ -336,7 +336,7 @@ export const splitTermIntoSegments = (
 		} else {
 			// Multiple overlapping terms - pass all terms for group computation
 			segments.push(
-				...processOverlappingTerms(
+				...splitOverlappingTermsIntoSegments(
 					group,
 					termsWithPositions,
 					containerTerm,
