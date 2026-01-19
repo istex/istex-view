@@ -7,7 +7,7 @@ import {
 	useDocumentContext,
 } from "./DocumentContextProvider";
 import type { EnrichmentTermAnnotationBlockType } from "./SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
-import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
+import type { TermStatistic } from "./termEnrichment/parseUnitexEnrichment";
 
 describe("DocumentContextProvider", () => {
 	describe("panel", () => {

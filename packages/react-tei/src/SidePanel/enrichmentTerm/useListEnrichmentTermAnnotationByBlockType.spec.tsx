@@ -2,7 +2,7 @@ import { act } from "react";
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
-import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
+import type { TermStatistic } from "../../termEnrichment/parseUnitexEnrichment";
 import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 import { useListEnrichmentTermAnnotationByBlockType } from "./useListEnrichmentTermAnnotationByBlockType";
 

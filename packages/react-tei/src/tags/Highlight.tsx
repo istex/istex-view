@@ -3,7 +3,7 @@ import { useMemo } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { kebabCasify } from "../helper/kebabCasify";
 import { chipColors } from "../SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
-import type { TermStatistic } from "../unitex/parseUnitexEnrichment";
+import type { TermStatistic } from "../termEnrichment/parseUnitexEnrichment";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 

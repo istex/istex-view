@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
-import { enrichDocumentWithUnitex } from "./enrichDocumentWithUnitex";
+import { enrichDocumentWithTerms } from "./enrichDocumentWithTerm";
 
-describe("enrichDocumentWithUnitex", () => {
+describe("enrichDocumentWithTerms", () => {
 	it("replace all #text nodes with enriched nodes", () => {
 		const document = {
 			tag: "root",
@@ -14,7 +14,7 @@ describe("enrichDocumentWithUnitex", () => {
 			group1: [{ term: "test", frequency: 2, displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithUnitex(
+		const enrichedDocument = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -74,7 +74,7 @@ describe("enrichDocumentWithUnitex", () => {
 			group2: [{ term: "Unitex", frequency: 1, displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithUnitex(
+		const enrichedDocument = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -120,7 +120,7 @@ describe("enrichDocumentWithUnitex", () => {
 			group2: [{ term: "York", frequency: 1, displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithUnitex(
+		const enrichedDocument = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -205,7 +205,7 @@ describe("enrichDocumentWithUnitex", () => {
 			group3: [{ term: "The Bold Font", frequency: 1, displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithUnitex(
+		const enrichedDocument = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);

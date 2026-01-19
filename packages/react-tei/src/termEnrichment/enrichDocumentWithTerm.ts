@@ -60,7 +60,7 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 	};
 };
 
-export const enrichDocumentWithUnitex = (
+export const enrichDocumentWithTerms = (
 	document: DocumentJson,
 	termByGroup: Record<string, TermStatistic[]>,
 ): DocumentJson => {

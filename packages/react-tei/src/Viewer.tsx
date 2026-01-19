@@ -20,11 +20,11 @@ import { useParseMulticatCategories } from "./SidePanel/multicat/useParseMultica
 import { TagCatalogProvider } from "./tags/TagCatalogProvider";
 import { tagCatalog } from "./tags/tagCatalog";
 import { useTeeftEnrichmentParser } from "./teeft/useTeeftEnrichmentParser";
+import { enrichDocumentWithTerms } from "./termEnrichment/enrichDocumentWithTerm";
+import { useUnitexEnrichmentParser } from "./termEnrichment/useUnitexEnrichmentParser";
 import { TableOfContent } from "./toc/TableOfContent";
 import { TableOfContentAccordion } from "./toc/TableOfContentAccordion";
 import { useTableOfContent } from "./toc/useTableOfContent";
-import { enrichDocumentWithUnitex } from "./unitex/enrichDocumentWithUnitex";
-import { useUnitexEnrichmentParser } from "./unitex/useUnitexEnrichmentParser";
 
 export const Viewer = ({
 	document,
@@ -86,7 +86,7 @@ export const Viewer = ({
 	}, [jsonUnitexEnrichment, jsonTeeftEnrichment]);
 	const enrichedBody = useMemo(() => {
 		if (body && allEnrichments) {
-			return enrichDocumentWithUnitex(body, allEnrichments);
+			return enrichDocumentWithTerms(body, allEnrichments);
 		}
 		return body;
 	}, [body, allEnrichments]);

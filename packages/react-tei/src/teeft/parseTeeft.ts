@@ -4,7 +4,7 @@ import {
 	getAnnotationFrequency,
 	getAnnotationTerm,
 	type TermStatistic,
-} from "../unitex/parseUnitexEnrichment";
+} from "../termEnrichment/parseUnitexEnrichment";
 
 const extractTermFromTermTag = (
 	termTag: DocumentJson,

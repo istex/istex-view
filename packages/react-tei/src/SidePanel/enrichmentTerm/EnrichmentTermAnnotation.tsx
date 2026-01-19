@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
-import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
+import type { TermStatistic } from "../../termEnrichment/parseUnitexEnrichment";
 import { useEnrichmentAnnotationNavigation } from "./useEnrichmentAnnotationNavigation";
 
 export function EnrichmentTermAnnotation({

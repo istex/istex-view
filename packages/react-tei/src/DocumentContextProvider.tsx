@@ -8,7 +8,7 @@ import {
 import type { DocumentJson } from "./parser/document";
 import type { EnrichmentTermAnnotationBlockType } from "./SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
 import type { MulticatCategory } from "./SidePanel/multicat/useParseMulticatCategories";
-import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
+import type { TermStatistic } from "./termEnrichment/parseUnitexEnrichment";
 
 export type PanelState = {
 	isOpen: boolean;

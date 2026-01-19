@@ -5,10 +5,13 @@ export const escapeRegexChars = (str: string): string => {
 		.replaceAll(/\s/g, "\\s");
 };
 
-export const termToRegex = (term: string): RegExp => {
+export const termToRegex = (
+	term: string,
+	caseInsensitive?: boolean,
+): RegExp => {
 	const escapedTerm = escapeRegexChars(term);
 	return new RegExp(
 		`(?<![\\p{L}\\p{N}])${escapedTerm}(?![\\p{L}\\p{N}])`,
-		"gu",
+		caseInsensitive ? "gui" : "gu",
 	);
 };
