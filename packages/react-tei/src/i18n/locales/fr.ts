@@ -76,6 +76,10 @@ export const fr = {
 		science_metrix: "Catégorie Science-Metrix",
 		scopus: "Catégorie Scopus",
 	},
+	fullScreen: {
+		enter: "Passer en mode plein écran",
+		exit: "Quitter le mode plein écran",
+	},
 };
 
 export type Translation = typeof fr;

@@ -77,4 +77,8 @@ export const en: Translation = {
 		science_metrix: "Science-Metrix Category",
 		scopus: "Scopus Category",
 	},
+	fullScreen: {
+		enter: "Enter full screen mode",
+		exit: "Exit full screen mode",
+	},
 };

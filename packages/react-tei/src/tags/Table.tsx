@@ -4,6 +4,7 @@ import MuiTable from "@mui/material/Table";
 import MuiTableBody from "@mui/material/TableBody";
 import MuiTableHead from "@mui/material/TableHead";
 import { DebugTag } from "../debug/DebugTag";
+import { FullScreen } from "../fullscreen/FullScreen";
 import { TableCaption } from "./TableCaption";
 import { TableNotes } from "./TableNotes";
 import { TableRow } from "./TableRow";
@@ -52,46 +53,48 @@ export function Table({ data: { tag, value, attributes } }: ComponentProps) {
 	const notesGroup = value.filter((item) => item.tag === "note");
 
 	return (
-		<Stack gap={1}>
-			<Box
-				sx={{
-					width: "100%",
-					maxWidth: "100%",
-					overflowX: "auto",
-				}}
-			>
-				<MuiTable
-					aria-labelledby={captionId}
-					id={getTableId(attributes?.["@xml:id"])}
+		<FullScreen>
+			<Stack gap={1}>
+				<Box
 					sx={{
-						"& caption": {
-							color(theme) {
-								return theme.palette.text.primary;
-							},
-							borderBottom(theme) {
-								return `1px solid ${theme.palette.divider}`;
-							},
-						},
+						width: "100%",
+						maxWidth: "100%",
+						overflowX: "auto",
 					}}
 				>
-					<TableCaption
-						id={captionId}
-						label={tableLabel}
-						titles={tableTitles}
-					/>
-					<MuiTableHead>
-						{tableHead.map((row, rowIndex) => (
-							<TableRow key={rowIndex} data={row} />
-						))}
-					</MuiTableHead>
-					<MuiTableBody>
-						{rows.map((row, rowIndex) => (
-							<TableRow key={rowIndex} data={row} />
-						))}
-					</MuiTableBody>
-				</MuiTable>
-			</Box>
-			<TableNotes notes={notesGroup} />
-		</Stack>
+					<MuiTable
+						aria-labelledby={captionId}
+						id={getTableId(attributes?.["@xml:id"])}
+						sx={{
+							"& caption": {
+								color(theme) {
+									return theme.palette.text.primary;
+								},
+								borderBottom(theme) {
+									return `1px solid ${theme.palette.divider}`;
+								},
+							},
+						}}
+					>
+						<TableCaption
+							id={captionId}
+							label={tableLabel}
+							titles={tableTitles}
+						/>
+						<MuiTableHead>
+							{tableHead.map((row, rowIndex) => (
+								<TableRow key={rowIndex} data={row} />
+							))}
+						</MuiTableHead>
+						<MuiTableBody>
+							{rows.map((row, rowIndex) => (
+								<TableRow key={rowIndex} data={row} />
+							))}
+						</MuiTableBody>
+					</MuiTable>
+				</Box>
+				<TableNotes notes={notesGroup} />
+			</Stack>
+		</FullScreen>
 	);
 }
