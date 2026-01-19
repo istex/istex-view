@@ -347,7 +347,7 @@ describe("DocumentContextProvider", () => {
 				},
 			});
 
-			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual(
 				teeftEnrichment,
 			);
 		});
@@ -376,7 +376,7 @@ describe("DocumentContextProvider", () => {
 				},
 			});
 
-			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual(
 				teeftEnrichment,
 			);
 
@@ -384,7 +384,7 @@ describe("DocumentContextProvider", () => {
 				result.current.teeftEnrichment?.toggleTerm("neural network");
 			});
 
-			expect(result.current.teeftEnrichment?.document).toStrictEqual([
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual([
 				{
 					term: "functional programming",
 					frequency: 12,
@@ -398,7 +398,7 @@ describe("DocumentContextProvider", () => {
 				result.current.teeftEnrichment?.toggleTerm("neural network");
 			});
 
-			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual(
 				teeftEnrichment,
 			);
 		});
@@ -427,7 +427,7 @@ describe("DocumentContextProvider", () => {
 				},
 			});
 
-			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual(
 				teeftEnrichment,
 			);
 
@@ -436,7 +436,7 @@ describe("DocumentContextProvider", () => {
 				result.current.teeftEnrichment?.toggleTerm("neural network");
 			});
 
-			expect(result.current.teeftEnrichment?.document).toStrictEqual([
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual([
 				{
 					term: "functional programming",
 					frequency: 12,
@@ -448,11 +448,11 @@ describe("DocumentContextProvider", () => {
 
 			// Now, toggle the block
 			act(() => {
-				result.current.teeftEnrichment?.toggleBlock();
+				result.current.teeftEnrichment?.toggleAll();
 			});
 
 			// All terms should be displayed
-			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+			expect(result.current.teeftEnrichment?.annotations).toStrictEqual(
 				teeftEnrichment,
 			);
 		});

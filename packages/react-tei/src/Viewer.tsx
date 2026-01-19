@@ -31,6 +31,7 @@ export const Viewer = ({
 	unitexEnrichment,
 	multicatEnrichment,
 	nbEnrichment,
+	teeftEnrichment,
 	height = "100vh",
 }: {
 	document: string;
@@ -54,7 +55,7 @@ export const Viewer = ({
 	const jsonMulticatEnrichment = useParseMulticatCategories(multicatEnrichment);
 	const jsonNbEnrichment = useParseMulticatCategories(nbEnrichment);
 
-	const jsonTeeftEnrichment = useTeeftEnrichmentParser(unitexEnrichment);
+	const jsonTeeftEnrichment = useTeeftEnrichmentParser(teeftEnrichment);
 
 	const teiHeader = getDocumentJsonAtPath(jsonDocument ?? [], [
 		"TEI",

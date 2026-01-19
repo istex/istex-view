@@ -12,6 +12,7 @@ import { FootnotesSection } from "./footNotes/FootnotesSection";
 import { KeywordSection } from "./keywords/KeywordSection";
 import { MulticatCategories } from "./multicat/MulticatCategories";
 import { SourceSection } from "./source/SourceSection";
+import { TeeftSection } from "./teeft/TeeftSection";
 import { UnitexSection } from "./unitex/UnitexSection";
 
 type DocumentSidePanelprops = {
@@ -80,6 +81,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<SourceSection />
 					<UnitexSection />
 					<MulticatCategories />
+					<TeeftSection />
 					<FootnotesSection />
 					<BibliographicReferencesSection />
 				</Stack>

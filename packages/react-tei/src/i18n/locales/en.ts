@@ -73,6 +73,13 @@ export const en: Translation = {
 		refUrl_one: "URL ({{count}})",
 		refUrl_other: "URLs ({{count}})",
 	},
+	teeft: {
+		block: "Specific Terms (Teeft) ({{count}})",
+		toggleAll_show: "Show all Teeft annotations",
+		toggleAll_hide: "Hide all Teeft annotations",
+		toggleTerm_show: 'Show annotations for the term "{{term}}"',
+		toggleTerm_hide: 'Hide annotations for the term "{{term}}"',
+	},
 	multicat: {
 		inist: "INIST Category",
 		wos: "WOS Category",

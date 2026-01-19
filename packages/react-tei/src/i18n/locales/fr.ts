@@ -72,6 +72,13 @@ export const fr = {
 		refUrl_one: "URL ({{count}})",
 		refUrl_other: "URLs ({{count}})",
 	},
+	teeft: {
+		block: "Termes spécifiques (Teeft) ({{count}})",
+		toggleAll_show: "Afficher toutes les annotations Teeft",
+		toggleAll_hide: "Masquer toutes les annotations Teeft",
+		toggleTerm_show: 'Afficher les annotations pour le terme "{{term}}"',
+		toggleTerm_hide: 'Masquer les annotations pour le terme "{{term}}"',
+	},
 	multicat: {
 		inist: "Catégorie INIST",
 		wos: "Catégorie WOS",

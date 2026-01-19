@@ -33,6 +33,8 @@ export type PanelState = {
 		multicat_wos?: boolean;
 		multicat_science_metrix?: boolean;
 		multicat_scopus?: boolean;
+
+		teeft?: boolean;
 	};
 };
 
@@ -53,8 +55,8 @@ export type DocumentContextType = {
 		toggleTerm: (block: UnitexAnnotationBlockType, term: string) => void;
 	};
 	teeftEnrichment?: {
-		document: TermStatistic[];
-		toggleBlock: () => void;
+		annotations: TermStatistic[];
+		toggleAll: () => void;
 		toggleTerm: (term: string) => void;
 	};
 	multicatEnrichment: MulticatCategory[];
@@ -106,6 +108,8 @@ export const initialPanelState: PanelState = {
 		multicat_wos: true,
 		multicat_science_metrix: true,
 		multicat_scopus: true,
+
+		teeft: true,
 	},
 };
 
@@ -276,8 +280,8 @@ export function DocumentContextProvider({
 				: undefined,
 			teeftEnrichment: jsonTeeftEnrichment
 				? {
-						document: jsonTeeftEnrichment,
-						toggleBlock: toggleTeeftAnnotationBlock,
+						annotations: jsonTeeftEnrichment,
+						toggleAll: toggleTeeftAnnotationBlock,
 						toggleTerm: toggleTeeftAnnotation,
 					}
 				: undefined,
