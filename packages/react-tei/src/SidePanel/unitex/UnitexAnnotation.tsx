@@ -8,9 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
-import { kebabCasify } from "../../helper/kebabCasify";
-import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
+import { useUnitexAnnotationNavigation } from "./useUnitexAnnotationNavigation";
 
 export function UnitexAnnotation({
 	annotation,
@@ -18,22 +17,15 @@ export function UnitexAnnotation({
 	onToggle,
 }: UnitexAnnotationProps) {
 	const { t } = useTranslation();
-	const { navigateToBodyTargetSelector } = useDocumentNavigation();
 
 	const checkBoxLabel = t("unitex.toggleTerm", {
 		context: annotation.displayed ? "hide" : "show",
 		term: annotation.term,
 	});
 
-	const selector = `[data-term=${kebabCasify(annotation.term)}]`;
-
-	const handleGoToPrevious = () => {
-		navigateToBodyTargetSelector(selector, -1);
-	};
-
-	const handleGoToNext = () => {
-		navigateToBodyTargetSelector(selector, 1);
-	};
+	const { goToNext, goToPrevious } = useUnitexAnnotationNavigation(
+		annotation.term,
+	);
 
 	return (
 		<>
@@ -86,7 +78,7 @@ export function UnitexAnnotation({
 				<IconButton
 					size="small"
 					disabled={!annotation.displayed}
-					onClick={handleGoToPrevious}
+					onClick={goToPrevious}
 					aria-label={t("unitex.previous")}
 				>
 					<ArrowUpIcon />
@@ -94,7 +86,7 @@ export function UnitexAnnotation({
 				<IconButton
 					size="small"
 					disabled={!annotation.displayed}
-					onClick={handleGoToNext}
+					onClick={goToNext}
 					aria-label={t("unitex.next")}
 				>
 					<ArrowDownIcon />

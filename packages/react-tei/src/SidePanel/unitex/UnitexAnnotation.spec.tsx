@@ -1,7 +1,11 @@
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../../i18n/I18nProvider";
-import type { DocumentNavigationContextValue } from "../../navigation/DocumentNavigationContext";
+import {
+	DIRECTION_NEXT,
+	DIRECTION_PREVIOUS,
+	type DocumentNavigationContextValue,
+} from "../../navigation/DocumentNavigationContext";
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
 import { UnitexAnnotation } from "./UnitexAnnotation";
 
@@ -117,14 +121,14 @@ describe("UnitexAnnotation", () => {
 
 		await previousButton.click();
 		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith(
-			"[data-term=example]",
-			-1,
+			'[data-term="example"]',
+			DIRECTION_PREVIOUS,
 		);
 
 		await nextButton.click();
 		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith(
-			"[data-term=example]",
-			1,
+			'[data-term="example"]',
+			DIRECTION_NEXT,
 		);
 	});
 });
