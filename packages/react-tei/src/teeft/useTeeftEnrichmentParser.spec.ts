@@ -37,18 +37,16 @@ describe("useTeeftEnrichmentParser", () => {
     `),
 		);
 
-		expect(result.result.current).toEqual({
-			teeft: [
-				{ term: "machine learning", frequency: 5, displayed: true },
-				{ term: "artificial intelligence", frequency: 10, displayed: true },
-			],
-		});
+		expect(result.result.current).toEqual([
+			{ term: "machine learning", frequency: 5, displayed: true },
+			{ term: "artificial intelligence", frequency: 10, displayed: true },
+		]);
 	});
 
 	it("should return empty object if no teeft enrichment provided", async () => {
 		const result = await renderHook(() => useTeeftEnrichmentParser(undefined));
 
-		expect(result.result.current).toEqual({});
+		expect(result.result.current).toEqual([]);
 	});
 
 	it("should return empty object if no matching tags found", async () => {
@@ -60,7 +58,7 @@ describe("useTeeftEnrichmentParser", () => {
                 </TEI>
     `),
 		);
-		expect(result.result.current).toEqual({});
+		expect(result.result.current).toEqual([]);
 	});
 
 	it("should return empty object if listAnnotation type is not rd-teeft", async () => {
@@ -81,7 +79,7 @@ describe("useTeeftEnrichmentParser", () => {
                 </TEI>
     `),
 		);
-		expect(result.result.current).toEqual({});
+		expect(result.result.current).toEqual([]);
 	});
 
 	it("should default frequency to 0 when not provided", async () => {
@@ -103,8 +101,8 @@ describe("useTeeftEnrichmentParser", () => {
     `),
 		);
 
-		expect(result.result.current).toEqual({
-			teeft: [{ term: "neural network", frequency: 0, displayed: true }],
-		});
+		expect(result.result.current).toEqual([
+			{ term: "neural network", frequency: 0, displayed: true },
+		]);
 	});
 });

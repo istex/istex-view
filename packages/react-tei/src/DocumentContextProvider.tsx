@@ -38,7 +38,7 @@ export type PanelState = {
 
 export type PanelSection = keyof PanelState["sections"];
 
-export type JsonUnitexEnrichment = Partial<Record<string, TermStatistic[]>>;
+export type JsonUnitexTermEnrichment = Partial<Record<string, TermStatistic[]>>;
 
 export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
@@ -48,9 +48,14 @@ export type DocumentContextType = {
 		toggleSection: (section: keyof PanelState["sections"]) => void;
 	};
 	unitexEnrichment?: {
-		document: JsonUnitexEnrichment;
+		document: JsonUnitexTermEnrichment;
 		toggleBlock: (block: UnitexAnnotationBlockType) => void;
 		toggleTerm: (block: UnitexAnnotationBlockType, term: string) => void;
+	};
+	teeftEnrichment?: {
+		document: TermStatistic[];
+		toggleBlock: () => void;
+		toggleTerm: (term: string) => void;
 	};
 	multicatEnrichment: MulticatCategory[];
 };
@@ -68,6 +73,13 @@ type UnitexEnrichmentAction =
 	| {
 			type: "TOGGLE_ANNOTATION";
 			block: UnitexAnnotationBlockType;
+			term: string;
+	  };
+
+type TeeftEnrichmentAction =
+	| { type: "TOGGLE_BLOCK" }
+	| {
+			type: "TOGGLE_ANNOTATION";
 			term: string;
 	  };
 
@@ -100,12 +112,14 @@ export const initialPanelState: PanelState = {
 export function DocumentContextProvider({
 	children,
 	jsonDocument,
-	jsonUnitexEnrichment: initialJsonUnitexEnrichment,
+	jsonUnitexEnrichment: initialJsonTermEnrichment,
+	jsonTeeftEnrichment: initialJsonTeeftEnrichment,
 	multicatEnrichment = [],
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: JsonUnitexEnrichment;
+	jsonUnitexEnrichment?: JsonUnitexTermEnrichment;
+	jsonTeeftEnrichment?: TermStatistic[];
 	multicatEnrichment?: MulticatCategory[];
 }) {
 	const [panelState, dispatchPanelAction] = useReducer(
@@ -139,7 +153,7 @@ export function DocumentContextProvider({
 
 	const [jsonUnitexEnrichment, dispatchUnitexEnrichmentAction] = useReducer(
 		(
-			state: JsonUnitexEnrichment | undefined,
+			state: JsonUnitexTermEnrichment | undefined,
 			action: UnitexEnrichmentAction,
 		) => {
 			if (!state) {
@@ -178,7 +192,7 @@ export function DocumentContextProvider({
 					return state;
 			}
 		},
-		initialJsonUnitexEnrichment,
+		initialJsonTermEnrichment,
 	);
 
 	const toggleUnitexAnnotationBlock = useCallback(
@@ -202,6 +216,49 @@ export function DocumentContextProvider({
 		[],
 	);
 
+	const [jsonTeeftEnrichment, dispatchTeeftEnrichmentAction] = useReducer(
+		(state: TermStatistic[] | undefined, action: TeeftEnrichmentAction) => {
+			if (!state) {
+				return state;
+			}
+
+			switch (action.type) {
+				case "TOGGLE_BLOCK": {
+					const allDisplayed = state.every(
+						(annotation) => annotation.displayed,
+					);
+					return state.map((annotation) => ({
+						...annotation,
+						displayed: !allDisplayed,
+					}));
+				}
+				case "TOGGLE_ANNOTATION": {
+					return state.map((annotation) =>
+						annotation.term === action.term
+							? { ...annotation, displayed: !annotation.displayed }
+							: annotation,
+					);
+				}
+				default:
+					return state;
+			}
+		},
+		initialJsonTeeftEnrichment,
+	);
+
+	const toggleTeeftAnnotationBlock = useCallback(() => {
+		dispatchTeeftEnrichmentAction({
+			type: "TOGGLE_BLOCK",
+		});
+	}, []);
+
+	const toggleTeeftAnnotation = useCallback((term: string) => {
+		dispatchTeeftEnrichmentAction({
+			type: "TOGGLE_ANNOTATION",
+			term,
+		});
+	}, []);
+
 	const contextValue = useMemo<DocumentContextType>(
 		() => ({
 			jsonDocument,
@@ -217,6 +274,13 @@ export function DocumentContextProvider({
 						toggleTerm: toggleUnitexAnnotation,
 					}
 				: undefined,
+			teeftEnrichment: jsonTeeftEnrichment
+				? {
+						document: jsonTeeftEnrichment,
+						toggleBlock: toggleTeeftAnnotationBlock,
+						toggleTerm: toggleTeeftAnnotation,
+					}
+				: undefined,
 			multicatEnrichment,
 		}),
 		[
@@ -228,6 +292,9 @@ export function DocumentContextProvider({
 			toggleSection,
 			toggleUnitexAnnotationBlock,
 			toggleUnitexAnnotation,
+			jsonTeeftEnrichment,
+			toggleTeeftAnnotationBlock,
+			toggleTeeftAnnotation,
 		],
 	);
 

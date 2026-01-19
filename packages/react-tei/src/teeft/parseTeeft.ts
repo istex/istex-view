@@ -29,9 +29,9 @@ const extractTermFromTermTag = (
 
 export const parseTeeft = (
 	teeftEnrichment: DocumentJson[] | null | undefined,
-): { teeft?: TermStatistic[] } => {
+): TermStatistic[] => {
 	if (!teeftEnrichment) {
-		return {};
+		return [];
 	}
 
 	const teeftListAnnotation = findTagByName(
@@ -40,24 +40,24 @@ export const parseTeeft = (
 	);
 
 	if (!teeftListAnnotation || !Array.isArray(teeftListAnnotation.value)) {
-		return {};
+		return [];
 	}
 
 	if (teeftListAnnotation.attributes?.["@type"] !== "rd-teeft") {
 		console.warn("Unknown teeft listAnnotation type", teeftListAnnotation);
-		return {};
+		return [];
 	}
 
 	const keywordsTag = findTagByName(teeftListAnnotation, "keywords");
 
 	if (!keywordsTag || !Array.isArray(keywordsTag.value)) {
-		return {};
+		return [];
 	}
 
 	const rootTerms = keywordsTag.value.filter((tag) => tag.tag === "term");
 
 	if (!rootTerms.length) {
-		return {};
+		return [];
 	}
 
 	const terms = rootTerms
@@ -65,8 +65,8 @@ export const parseTeeft = (
 		.filter((term): term is TermStatistic => term !== null);
 
 	if (!terms?.length) {
-		return {};
+		return [];
 	}
 
-	return { teeft: terms };
+	return terms;
 };

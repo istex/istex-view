@@ -4,12 +4,12 @@ import { parseTeeft } from "./parseTeeft";
 describe("parseTeeft", () => {
 	it("should return empty object when teeftEnrichment is null", () => {
 		const result = parseTeeft(null);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object when teeftEnrichment is undefined", () => {
 		const result = parseTeeft(undefined);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object when ns1:listAnnotation is not found", () => {
@@ -19,7 +19,7 @@ describe("parseTeeft", () => {
 				value: [],
 			},
 		]);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object when ns1:listAnnotation value is not an array", () => {
@@ -34,7 +34,7 @@ describe("parseTeeft", () => {
 				],
 			},
 		]);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object and warn when listAnnotation type is not rd-teeft", () => {
@@ -52,7 +52,7 @@ describe("parseTeeft", () => {
 			},
 		]);
 
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 		expect(consoleWarnSpy).toHaveBeenCalledWith(
 			"Unknown teeft listAnnotation type",
 			expect.objectContaining({
@@ -78,7 +78,7 @@ describe("parseTeeft", () => {
 				],
 			},
 		]);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object when keywords value is not an array", () => {
@@ -96,7 +96,7 @@ describe("parseTeeft", () => {
 				],
 			},
 		]);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object when no term tags found in keywords", () => {
@@ -119,7 +119,7 @@ describe("parseTeeft", () => {
 				],
 			},
 		]);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should return empty object when terms cannot be extracted", () => {
@@ -142,7 +142,7 @@ describe("parseTeeft", () => {
 				],
 			},
 		]);
-		expect(result).toEqual({});
+		expect(result).toEqual([]);
 	});
 
 	it("should parse teeft enrichment and return terms", () => {
@@ -199,15 +199,13 @@ describe("parseTeeft", () => {
 			},
 		]);
 
-		expect(result).toEqual({
-			teeft: [
-				{
-					term: "machine learning",
-					frequency: 5,
-					displayed: true,
-				},
-			],
-		});
+		expect(result).toEqual([
+			{
+				term: "machine learning",
+				frequency: 5,
+				displayed: true,
+			},
+		]);
 	});
 
 	it("should parse multiple terms", () => {
@@ -301,20 +299,18 @@ describe("parseTeeft", () => {
 			},
 		]);
 
-		expect(result).toEqual({
-			teeft: [
-				{
-					term: "artificial intelligence",
-					frequency: 10,
-					displayed: true,
-				},
-				{
-					term: "deep learning",
-					frequency: 3,
-					displayed: true,
-				},
-			],
-		});
+		expect(result).toEqual([
+			{
+				term: "artificial intelligence",
+				frequency: 10,
+				displayed: true,
+			},
+			{
+				term: "deep learning",
+				frequency: 3,
+				displayed: true,
+			},
+		]);
 	});
 
 	it("should default frequency to 0 when not provided", () => {
@@ -348,15 +344,13 @@ describe("parseTeeft", () => {
 			},
 		]);
 
-		expect(result).toEqual({
-			teeft: [
-				{
-					term: "neural network",
-					frequency: 0,
-					displayed: true,
-				},
-			],
-		});
+		expect(result).toEqual([
+			{
+				term: "neural network",
+				frequency: 0,
+				displayed: true,
+			},
+		]);
 	});
 
 	it("should filter out invalid terms and keep valid ones", () => {
@@ -438,14 +432,12 @@ describe("parseTeeft", () => {
 			},
 		]);
 
-		expect(result).toEqual({
-			teeft: [
-				{
-					term: "valid term",
-					frequency: 9,
-					displayed: true,
-				},
-			],
-		});
+		expect(result).toEqual([
+			{
+				term: "valid term",
+				frequency: 9,
+				displayed: true,
+			},
+		]);
 	});
 });

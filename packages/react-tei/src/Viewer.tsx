@@ -19,6 +19,7 @@ import {
 import { useParseMulticatCategories } from "./SidePanel/multicat/useParseMulticatCategories";
 import { TagCatalogProvider } from "./tags/TagCatalogProvider";
 import { tagCatalog } from "./tags/tagCatalog";
+import { useTeeftEnrichmentParser } from "./teeft/useTeeftEnrichmentParser";
 import { TableOfContent } from "./toc/TableOfContent";
 import { TableOfContentAccordion } from "./toc/TableOfContentAccordion";
 import { useTableOfContent } from "./toc/useTableOfContent";
@@ -52,6 +53,8 @@ export const Viewer = ({
 
 	const jsonMulticatEnrichment = useParseMulticatCategories(multicatEnrichment);
 	const jsonNbEnrichment = useParseMulticatCategories(nbEnrichment);
+
+	const jsonTeeftEnrichment = useTeeftEnrichmentParser(unitexEnrichment);
 
 	const teiHeader = getDocumentJsonAtPath(jsonDocument ?? [], [
 		"TEI",
@@ -91,6 +94,7 @@ export const Viewer = ({
 			<DocumentContextProvider
 				jsonDocument={jsonDocument}
 				jsonUnitexEnrichment={jsonUnitexEnrichment}
+				jsonTeeftEnrichment={jsonTeeftEnrichment}
 				multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
 			>
 				<TagCatalogProvider tagCatalog={tagCatalog}>

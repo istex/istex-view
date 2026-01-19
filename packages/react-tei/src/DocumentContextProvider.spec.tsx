@@ -313,6 +313,150 @@ describe("DocumentContextProvider", () => {
 			).toBe(true);
 		});
 	});
+
+	describe("teeftEnrichment", () => {
+		it("should be undefined if no teeft document is provided", async () => {
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper({ children }: { children: React.ReactNode }) {
+					return (
+						<DocumentContextProvider jsonDocument={[]}>
+							{children}
+						</DocumentContextProvider>
+					);
+				},
+			});
+
+			expect(result.current.teeftEnrichment).toBeUndefined();
+		});
+
+		it("should contain the teeft document if provided", async () => {
+			const teeftEnrichment = [
+				{ term: "neural network", frequency: 5, displayed: true },
+			];
+
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper({ children }: { children: React.ReactNode }) {
+					return (
+						<DocumentContextProvider
+							jsonDocument={[]}
+							jsonTeeftEnrichment={teeftEnrichment}
+						>
+							{children}
+						</DocumentContextProvider>
+					);
+				},
+			});
+
+			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+				teeftEnrichment,
+			);
+		});
+
+		it('should expose toggleTerm function that updates the "displayed" property of the term', async () => {
+			const teeftEnrichment = [
+				{
+					term: "functional programming",
+					frequency: 12,
+					displayed: true,
+				},
+				{ term: "neural network", frequency: 5, displayed: true },
+				{ term: "machine learning", frequency: 8, displayed: true },
+			];
+
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper({ children }: { children: React.ReactNode }) {
+					return (
+						<DocumentContextProvider
+							jsonDocument={[]}
+							jsonTeeftEnrichment={teeftEnrichment}
+						>
+							{children}
+						</DocumentContextProvider>
+					);
+				},
+			});
+
+			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+				teeftEnrichment,
+			);
+
+			act(() => {
+				result.current.teeftEnrichment?.toggleTerm("neural network");
+			});
+
+			expect(result.current.teeftEnrichment?.document).toStrictEqual([
+				{
+					term: "functional programming",
+					frequency: 12,
+					displayed: true,
+				},
+				{ term: "neural network", frequency: 5, displayed: false },
+				{ term: "machine learning", frequency: 8, displayed: true },
+			]);
+
+			act(() => {
+				result.current.teeftEnrichment?.toggleTerm("neural network");
+			});
+
+			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+				teeftEnrichment,
+			);
+		});
+
+		it("should expose toggleBlock function that displays all terms", async () => {
+			const teeftEnrichment = [
+				{
+					term: "functional programming",
+					frequency: 12,
+					displayed: true,
+				},
+				{ term: "neural network", frequency: 5, displayed: true },
+				{ term: "machine learning", frequency: 8, displayed: true },
+			];
+
+			const { result } = await renderHook(() => useDocumentContext(), {
+				wrapper({ children }: { children: React.ReactNode }) {
+					return (
+						<DocumentContextProvider
+							jsonDocument={[]}
+							jsonTeeftEnrichment={teeftEnrichment}
+						>
+							{children}
+						</DocumentContextProvider>
+					);
+				},
+			});
+
+			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+				teeftEnrichment,
+			);
+
+			// First, hide one term
+			act(() => {
+				result.current.teeftEnrichment?.toggleTerm("neural network");
+			});
+
+			expect(result.current.teeftEnrichment?.document).toStrictEqual([
+				{
+					term: "functional programming",
+					frequency: 12,
+					displayed: true,
+				},
+				{ term: "neural network", frequency: 5, displayed: false },
+				{ term: "machine learning", frequency: 8, displayed: true },
+			]);
+
+			// Now, toggle the block
+			act(() => {
+				result.current.teeftEnrichment?.toggleBlock();
+			});
+
+			// All terms should be displayed
+			expect(result.current.teeftEnrichment?.document).toStrictEqual(
+				teeftEnrichment,
+			);
+		});
+	});
 });
 
 describe("useDocumentContext", () => {
