@@ -1,3 +1,5 @@
+import { TEEFT_COLOR } from "../teeft/TeeftSection";
+
 export const UNITEX_ANNOTATION_BLOCKS = [
 	"date",
 	"orgName",
@@ -13,7 +15,7 @@ export const UNITEX_ANNOTATION_BLOCKS = [
 export type UnitexAnnotationBlockType =
 	(typeof UNITEX_ANNOTATION_BLOCKS)[number];
 
-export const chipColors: Record<UnitexAnnotationBlockType, string> = {
+export const chipColors: Record<UnitexAnnotationBlockType | "teeft", string> = {
 	date: "#8FBAC9",
 	orgName: "#6BEAB2",
 	orgNameFunder: "#34CE3B",
@@ -23,4 +25,5 @@ export const chipColors: Record<UnitexAnnotationBlockType, string> = {
 	persName: "#F6C53E",
 	placeName: "#D3926F",
 	geogName: "#46D2EE",
+	teeft: TEEFT_COLOR,
 };

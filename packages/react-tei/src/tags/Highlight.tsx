@@ -3,25 +3,29 @@ import { useMemo } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { kebabCasify } from "../helper/kebabCasify";
 import { chipColors } from "../SidePanel/unitex/unitexAnnotationBlocks";
+import type { TermStatistic } from "../unitex/parseUnitexEnrichment";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
 export const Highlight = ({ data }: HighlightProps) => {
 	const { value, attributes } = data;
-	const { unitexEnrichment } = useDocumentContext();
+	const { unitexEnrichment, teeftEnrichment } = useDocumentContext();
 
 	const groups = useMemo(() => {
-		if (!attributes?.groups || !unitexEnrichment) {
+		if (!attributes?.groups || (!unitexEnrichment && !teeftEnrichment)) {
 			return [];
 		}
 		return ([] as string[]).concat(attributes?.groups).filter((group) => {
-			const term = unitexEnrichment?.document?.[group]?.find(
+			const allTerms: TermStatistic[] = ([] as TermStatistic[])
+				.concat(unitexEnrichment?.document?.[group] ?? [])
+				.concat(teeftEnrichment?.annotations ?? []);
+			const term = allTerms.find(
 				({ term }) => kebabCasify(term) === attributes?.term,
 			);
 
 			return term?.displayed ?? false;
 		});
-	}, [unitexEnrichment, attributes?.groups, attributes?.term]);
+	}, [unitexEnrichment, teeftEnrichment, attributes?.groups, attributes?.term]);
 
 	if (groups.length === 0) {
 		return <Value data={value} />;

@@ -77,12 +77,19 @@ export const Viewer = ({
 
 		return transformBody(body);
 	}, [jsonDocument]);
+
+	const allEnrichments = useMemo(() => {
+		return {
+			...jsonUnitexEnrichment,
+			teeft: jsonTeeftEnrichment,
+		};
+	}, [jsonUnitexEnrichment, jsonTeeftEnrichment]);
 	const enrichedBody = useMemo(() => {
-		if (body && jsonUnitexEnrichment) {
-			return enrichDocumentWithUnitex(body, jsonUnitexEnrichment);
+		if (body && allEnrichments) {
+			return enrichDocumentWithUnitex(body, allEnrichments);
 		}
 		return body;
-	}, [body, jsonUnitexEnrichment]);
+	}, [body, allEnrichments]);
 
 	const tableOfContent = useTableOfContent(enrichedBody);
 
