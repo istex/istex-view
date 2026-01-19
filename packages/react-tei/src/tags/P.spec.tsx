@@ -159,9 +159,9 @@ describe("P", () => {
 			),
 		});
 
-		expect(screen.getByRole("paragraph")).toHaveTextContent(
-			"This is a paragraph with italic text.",
-		);
+		await expect
+			.element(screen.getByRole("paragraph"))
+			.toHaveTextContent("This is a paragraph with italic text.");
 	});
 
 	it("should render paragraph tag with multiple <hi> tags formatted", async () => {
@@ -196,22 +196,20 @@ describe("P", () => {
 			),
 		});
 
-		expect(screen.getByRole("paragraph")).toHaveTextContent(
-			"This is a paragraph with italic text and bold text.",
-		);
+		await expect
+			.element(screen.getByRole("paragraph"))
+			.toHaveTextContent("This is a paragraph with italic text and bold text.");
 
-		expect(screen.container.querySelector("em")).toHaveTextContent(
-			"italic text",
-			{
+		await expect
+			.element(screen.container.querySelector("em"))
+			.toHaveTextContent("italic text", {
 				normalizeWhitespace: true,
-			},
-		);
-		expect(screen.container.querySelector("strong")).toHaveTextContent(
-			"bold text",
-			{
+			});
+		await expect
+			.element(screen.container.querySelector("strong"))
+			.toHaveTextContent("bold text", {
 				normalizeWhitespace: true,
-			},
-		);
+			});
 	});
 
 	it("should render a table when it is inside a paragraph", async () => {
@@ -236,10 +234,12 @@ describe("P", () => {
 			),
 		});
 
-		expect(screen.getByRole("table")).toBeInTheDocument();
-		expect(screen.getByRole("table")).toHaveAttribute("id", "table-test");
+		await expect.element(screen.getByRole("table")).toBeInTheDocument();
+		await expect
+			.element(screen.getByRole("table"))
+			.toHaveAttribute("id", "table-test");
 
-		expect(screen.getByRole("paragraph")).not.toBeInTheDocument();
+		await expect.element(screen.getByRole("paragraph")).not.toBeInTheDocument();
 	});
 
 	it("should render a table with content before", async () => {
@@ -265,12 +265,14 @@ describe("P", () => {
 			),
 		});
 
-		expect(screen.getByRole("paragraph")).toHaveTextContent(
-			"Text before table.",
-		);
+		await expect
+			.element(screen.getByRole("paragraph"))
+			.toHaveTextContent("Text before table.");
 
-		expect(screen.getByRole("table")).toBeInTheDocument();
-		expect(screen.getByRole("table")).toHaveAttribute("id", "table-test");
+		await expect.element(screen.getByRole("table")).toBeInTheDocument();
+		await expect
+			.element(screen.getByRole("table"))
+			.toHaveAttribute("id", "table-test");
 	});
 
 	it("should not render empty text nodes inside paragraph", async () => {
@@ -295,6 +297,8 @@ describe("P", () => {
 			),
 		});
 
-		expect(screen.getByRole("paragraph")).toHaveTextContent("Valid text");
+		await expect
+			.element(screen.getByRole("paragraph"))
+			.toHaveTextContent("Valid text");
 	});
 });

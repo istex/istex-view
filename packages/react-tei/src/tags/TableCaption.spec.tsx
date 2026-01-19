@@ -117,7 +117,7 @@ describe("TableCaption", () => {
 			wrapper: TestWrapper,
 		});
 
-		expect(screen.getByRole("caption")).not.toBeInTheDocument();
+		await expect.element(screen.getByRole("caption")).not.toBeInTheDocument();
 	});
 
 	it("should render the fullscreen button", async () => {
@@ -142,11 +142,11 @@ describe("TableCaption", () => {
 		const button = screen.getByRole("button", {
 			name: "Passer en mode plein écran",
 		});
-		expect(button).toBeVisible();
+		await expect.element(button).toBeVisible();
 
 		const caption = screen.getByRole("caption");
-		expect(caption).toBeVisible();
-		expect(button).toBeVisible();
+		await expect.element(caption).toBeVisible();
+		await expect.element(button).toBeVisible();
 
 		await button.click();
 		expect(enterFullScreen).toHaveBeenCalled();

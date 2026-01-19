@@ -22,9 +22,9 @@ describe("Title", () => {
 				),
 			},
 		);
-		expect(screen.getByText("Main Title")).toBeVisible();
-		expect(screen.container.querySelector("span")).toBeTruthy();
-		expect(screen.container.querySelector("span")).toHaveStyle({
+		await expect.element(screen.getByText("Main Title")).toBeVisible();
+		await expect.element(screen.container.querySelector("span")).toBeTruthy();
+		await expect.element(screen.container.querySelector("span")).toHaveStyle({
 			fontWeight: "bold",
 		});
 	});
@@ -46,7 +46,7 @@ describe("Title", () => {
 				),
 			},
 		);
-		expect(screen.getByText("Subtitle")).toBeVisible();
+		await expect.element(screen.getByText("Subtitle")).toBeVisible();
 		expect(
 			screen.container.querySelector("span.MuiTypography-subtitle1"),
 		).toBeTruthy();
@@ -69,7 +69,7 @@ describe("Title", () => {
 				),
 			},
 		);
-		expect(screen.getByText("Plain Title")).toBeVisible();
-		expect(screen.container.querySelector("span")).toBeNull();
+		await expect.element(screen.getByText("Plain Title")).toBeVisible();
+		await expect.element(screen.container.querySelector("span")).toBeNull();
 	});
 });

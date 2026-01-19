@@ -17,7 +17,7 @@ describe("Value", () => {
 			),
 		});
 
-		expect(screen.getByText("Hello!")).toBeInTheDocument();
+		await expect.element(screen.getByText("Hello!")).toBeInTheDocument();
 	});
 
 	it("should render an array of nodes correctly", async () => {
@@ -39,7 +39,7 @@ describe("Value", () => {
 			),
 		});
 
-		expect(screen.getByText("Hello, world!")).toBeInTheDocument();
+		await expect.element(screen.getByText("Hello, world!")).toBeInTheDocument();
 	});
 
 	it("should render nested tags correctly", async () => {
@@ -65,9 +65,9 @@ describe("Value", () => {
 			),
 		});
 
-		expect(screen.getByRole("paragraph")).toHaveTextContent(
-			"This is a nested value.",
-		);
+		await expect
+			.element(screen.getByRole("paragraph"))
+			.toHaveTextContent("This is a nested value.");
 	});
 
 	it("should not render unsupported tags when DEBUG is disabled", async () => {
@@ -84,6 +84,6 @@ describe("Value", () => {
 				</TagCatalogProvider>
 			),
 		});
-		expect(screen.container).toBeEmptyDOMElement();
+		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 });

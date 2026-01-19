@@ -56,29 +56,37 @@ describe("Table", () => {
 			),
 		});
 
-		expect(
-			screen.getByRole("table", {
-				name: "Table 1 Sample Table",
-			}),
-		).toBeVisible();
+		await expect
+			.element(
+				screen.getByRole("table", {
+					name: "Table 1 Sample Table",
+				}),
+			)
+			.toBeVisible();
 
-		expect(screen.getByRole("caption")).toBeVisible();
-		expect(screen.getByRole("caption")).toHaveTextContent(
-			"Table 1 Sample Table",
-		);
+		await expect.element(screen.getByRole("caption")).toBeVisible();
+		await expect
+			.element(screen.getByRole("caption"))
+			.toHaveTextContent("Table 1 Sample Table");
 
-		expect(
-			screen.getByRole("columnheader", { name: "Header 1" }),
-		).toBeVisible();
-		expect(
-			screen.getByRole("columnheader", { name: "Header 2" }),
-		).toBeVisible();
+		await expect
+			.element(screen.getByRole("columnheader", { name: "Header 1" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("columnheader", { name: "Header 2" }))
+			.toBeVisible();
 
-		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
-		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Data 1" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Data 2" }))
+			.toBeVisible();
 
-		expect(screen.getByRole("note")).toBeVisible();
-		expect(screen.getByRole("note")).toHaveTextContent("This is a table note.");
+		await expect.element(screen.getByRole("note")).toBeVisible();
+		await expect
+			.element(screen.getByRole("note"))
+			.toHaveTextContent("This is a table note.");
 	});
 
 	it("should render a table without caption and notes", async () => {
@@ -113,21 +121,25 @@ describe("Table", () => {
 			),
 		});
 
-		expect(screen.getByRole("table")).toBeVisible();
+		await expect.element(screen.getByRole("table")).toBeVisible();
 
-		expect(screen.getByRole("caption")).not.toBeInTheDocument();
+		await expect.element(screen.getByRole("caption")).not.toBeInTheDocument();
 
-		expect(
-			screen.getByRole("columnheader", { name: "Header A" }),
-		).toBeVisible();
-		expect(
-			screen.getByRole("columnheader", { name: "Header B" }),
-		).toBeVisible();
+		await expect
+			.element(screen.getByRole("columnheader", { name: "Header A" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("columnheader", { name: "Header B" }))
+			.toBeVisible();
 
-		expect(screen.getByRole("cell", { name: "Data A1" })).toBeVisible();
-		expect(screen.getByRole("cell", { name: "Data B1" })).toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Data A1" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Data B1" }))
+			.toBeVisible();
 
-		expect(screen.getByRole("paragraph")).not.toBeInTheDocument();
+		await expect.element(screen.getByRole("paragraph")).not.toBeInTheDocument();
 	});
 
 	it("should support fullscreen mode", async () => {
@@ -168,20 +180,20 @@ describe("Table", () => {
 		const fullScreenButton = screen.getByRole("button", {
 			name: "Passer en mode plein écran",
 		});
-		expect(fullScreenButton).toBeVisible();
+		await expect.element(fullScreenButton).toBeVisible();
 
 		await fullScreenButton.click();
 
 		const dialog = screen.getByRole("dialog");
-		expect(dialog).toBeVisible();
+		await expect.element(dialog).toBeVisible();
 
 		const exitFullScreenButton = screen.getByRole("button", {
 			name: "Quitter le mode plein écran",
 		});
-		expect(exitFullScreenButton).toBeVisible();
+		await expect.element(exitFullScreenButton).toBeVisible();
 
 		await exitFullScreenButton.click();
 
-		expect(dialog).not.toBeInTheDocument();
+		await expect.element(dialog).not.toBeInTheDocument();
 	});
 });

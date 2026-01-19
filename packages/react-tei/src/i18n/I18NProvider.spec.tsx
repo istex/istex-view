@@ -18,6 +18,6 @@ describe("I18NProvider", () => {
 			</I18nProvider>,
 		);
 
-		expect(screen.getByText("Résumé")).toBeDefined();
+		await expect.element(screen.getByText("Résumé")).toBeDefined();
 	});
 });
