@@ -6,7 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { PanelSection } from "../../DocumentContextProvider";
 import { Accordion } from "../Accordion";
-import { UnitexAnnotation } from "../unitex/UnitexAnnotation";
+import { EnrichmentTermAnnotation } from "../enrichmentsTerms/EnrichmentTermAnnotation";
 import { useListTeeftAnnotation } from "./useListTeeftAnnotation";
 
 export const TEEFT_COLOR = "#C7C0FD";
@@ -63,7 +63,7 @@ export function TeeftSection() {
 				<Box
 					sx={{
 						display: "grid",
-						gridTemplateColumns: "max-content 1fr",
+						gridTemplateColumns: "max-content 1fr max-content",
 						gridTemplateRows: "auto",
 						columnGap: 0.5,
 						rowGap: 1,
@@ -75,7 +75,8 @@ export function TeeftSection() {
 					aria-label={t(`teeft.toggleTerm`, { count: annotations.length })}
 				>
 					{annotations.map((annotation) => (
-						<UnitexAnnotation
+						<EnrichmentTermAnnotation
+							enrichment="teeft"
 							key={annotation.term}
 							annotation={annotation}
 							color={TEEFT_COLOR}

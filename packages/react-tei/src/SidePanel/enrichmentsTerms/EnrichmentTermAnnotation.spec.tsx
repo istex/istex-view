@@ -7,7 +7,7 @@ import {
 	type DocumentNavigationContextValue,
 } from "../../navigation/DocumentNavigationContext";
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
-import { UnitexAnnotation } from "./UnitexAnnotation";
+import { EnrichmentTermAnnotation } from "./EnrichmentTermAnnotation";
 
 function TestWrapper({
 	navigateToBodyTargetSelector,
@@ -27,12 +27,13 @@ function TestWrapper({
 	);
 }
 
-describe("UnitexAnnotation", () => {
+describe("EnrichmentTermAnnotation", () => {
 	it("should render the annotation with term", async () => {
 		const onToggle = vi.fn();
 		const screen = await render(
-			<UnitexAnnotation
+			<EnrichmentTermAnnotation
 				annotation={{ term: "example", frequency: 5, displayed: true }}
+				enrichment="unitex"
 				color="blue"
 				onToggle={onToggle}
 			/>,
@@ -49,7 +50,8 @@ describe("UnitexAnnotation", () => {
 	it("should call onToggle when checkbox changes", async () => {
 		const onToggle = vi.fn();
 		const screen = await render(
-			<UnitexAnnotation
+			<EnrichmentTermAnnotation
+				enrichment="unitex"
 				annotation={{ term: "example", frequency: 5, displayed: true }}
 				color="blue"
 				onToggle={onToggle}
@@ -69,7 +71,8 @@ describe("UnitexAnnotation", () => {
 
 	it("should disable navigation buttons when annotation is not displayed", async () => {
 		const screen = await render(
-			<UnitexAnnotation
+			<EnrichmentTermAnnotation
+				enrichment="unitex"
 				annotation={{ term: "example", frequency: 5, displayed: false }}
 				color="blue"
 				onToggle={() => {}}
@@ -93,7 +96,8 @@ describe("UnitexAnnotation", () => {
 	it("should call navigateToBodyTargetSelector when navigation buttons are clicked", async () => {
 		const navigateToBodyTargetSelector = vi.fn();
 		const screen = await render(
-			<UnitexAnnotation
+			<EnrichmentTermAnnotation
+				enrichment="unitex"
 				annotation={{ term: "example", frequency: 5, displayed: true }}
 				color="blue"
 				onToggle={() => {}}

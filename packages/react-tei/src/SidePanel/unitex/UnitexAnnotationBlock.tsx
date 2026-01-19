@@ -6,7 +6,7 @@ import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { PanelSection } from "../../DocumentContextProvider";
 import { Accordion } from "../Accordion";
-import { UnitexAnnotation } from "./UnitexAnnotation";
+import { EnrichmentTermAnnotation } from "../enrichmentsTerms/EnrichmentTermAnnotation";
 import {
 	chipColors,
 	type UnitexAnnotationBlockType,
@@ -80,8 +80,9 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 					aria-label={t(`unitex.${block}`, { count: annotations.length })}
 				>
 					{annotations.map((annotation) => (
-						<UnitexAnnotation
+						<EnrichmentTermAnnotation
 							key={annotation.term}
+							enrichment="unitex"
 							annotation={annotation}
 							color={color}
 							onToggle={() => toggleTerm(annotation.term)}

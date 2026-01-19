@@ -76,8 +76,8 @@ export const fr = {
 		block: "Termes spécifiques (Teeft) ({{count}})",
 		toggleAll_show: "Afficher toutes les annotations Teeft",
 		toggleAll_hide: "Masquer toutes les annotations Teeft",
-		toggleTerm_show: 'Afficher les annotations pour le terme "{{term}}"',
-		toggleTerm_hide: 'Masquer les annotations pour le terme "{{term}}"',
+		toggleTerm_show: 'Activer le soulignement pour le terme "{{term}}"',
+		toggleTerm_hide: 'Désactiver le soulignement pour le terme "{{term}}"',
 	},
 	multicat: {
 		inist: "Catégorie INIST",
