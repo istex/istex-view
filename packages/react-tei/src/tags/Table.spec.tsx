@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-
+import { I18nProvider } from "../i18n/I18nProvider";
 import type { DocumentJson } from "../parser/document";
 import { Table } from "./Table";
 import { TagCatalogProvider } from "./TagCatalogProvider";
@@ -128,5 +128,60 @@ describe("Table", () => {
 		expect(screen.getByRole("cell", { name: "Data B1" })).toBeVisible();
 
 		expect(screen.getByRole("paragraph")).not.toBeInTheDocument();
+	});
+
+	it("should support fullscreen mode", async () => {
+		const jsonDocument: DocumentJson = {
+			tag: "table",
+			attributes: { "@xml:id": "t3" },
+			value: [
+				{ tag: "head", attributes: { "@type": "label" }, value: "Table 3" },
+				{
+					tag: "row",
+					attributes: { "@role": "label" },
+					value: [
+						{ tag: "cell", attributes: {}, value: "H1" },
+						{ tag: "cell", attributes: {}, value: "H2" },
+					],
+				},
+				{
+					tag: "row",
+					attributes: { "@role": "data" },
+					value: [
+						{ tag: "cell", attributes: {}, value: "D1" },
+						{ tag: "cell", attributes: {}, value: "D2" },
+					],
+				},
+			],
+		};
+
+		const screen = await render(<Table data={jsonDocument} />, {
+			wrapper: ({ children }) => (
+				<I18nProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</I18nProvider>
+			),
+		});
+
+		const fullScreenButton = screen.getByRole("button", {
+			name: "Passer en mode plein écran",
+		});
+		expect(fullScreenButton).toBeVisible();
+
+		await fullScreenButton.click();
+
+		const dialog = screen.getByRole("dialog");
+		expect(dialog).toBeVisible();
+
+		const exitFullScreenButton = screen.getByRole("button", {
+			name: "Quitter le mode plein écran",
+		});
+		expect(exitFullScreenButton).toBeVisible();
+
+		await exitFullScreenButton.click();
+
+		expect(dialog).not.toBeInTheDocument();
 	});
 });

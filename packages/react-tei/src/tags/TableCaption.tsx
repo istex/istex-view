@@ -1,7 +1,7 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-
+import { FullScreenButton } from "../fullscreen/FullScreenButton";
 import type { DocumentJson } from "../parser/document";
 import { Value } from "./Value";
 
@@ -15,23 +15,26 @@ export function TableCaption({ id, label, titles }: TableCaptionProps) {
 
 	return (
 		<Typography component="caption" id={id}>
-			<Stack gap={1}>
-				<Box component="span">
-					{label?.value && (
-						<Typography
-							component="span"
-							sx={{ fontWeight: "bold", marginRight: 1 }}
-						>
-							<Value data={label.value} />{" "}
-						</Typography>
-					)}
-					{title?.value && <Value data={title.value} />}
-				</Box>
-				{rest.map((t, index) => (
-					<Box component="div" key={index}>
-						<Value data={t.value} />
+			<Stack direction="row" gap={2} alignItems="center">
+				<FullScreenButton />
+				<Stack gap={1} flexGrow={1}>
+					<Box component="span">
+						{label?.value && (
+							<Typography
+								component="span"
+								sx={{ fontWeight: "bold", marginRight: 1 }}
+							>
+								<Value data={label.value} />{" "}
+							</Typography>
+						)}
+						{title?.value && <Value data={title.value} />}
 					</Box>
-				))}
+					{rest.map((t, index) => (
+						<Box component="div" key={index}>
+							<Value data={t.value} />
+						</Box>
+					))}
+				</Stack>
 			</Stack>
 		</Typography>
 	);
