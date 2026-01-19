@@ -4,9 +4,9 @@ import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
-import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
-import { UnitexSection } from "./UnitexSection";
-import type { UnitexAnnotationBlockType } from "./unitexAnnotationBlocks";
+import type { TermStatistic } from "../../termEnrichment/parseUnitexEnrichment";
+import { EnrichmentTermSection } from "./EnrichmentTermSection";
+import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 
 const enrichments = {
 	date: [{ term: "2021", frequency: 3, displayed: true }],
@@ -14,7 +14,7 @@ const enrichments = {
 		{ term: "Paris", frequency: 2, displayed: true },
 		{ term: "London", frequency: 1, displayed: true },
 	],
-} satisfies Partial<Record<UnitexAnnotationBlockType, TermStatistic[]>>;
+} satisfies Partial<Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>>;
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
@@ -31,7 +31,7 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 	);
 }
 
-describe("UnitexSection", () => {
+describe("EnrichmentTermSection", () => {
 	it.each<{
 		expectedLabel: string;
 		expectedTerms: string[];
@@ -48,7 +48,7 @@ describe("UnitexSection", () => {
 		expectedLabel,
 		expectedTerms,
 	}) => {
-		const screen = await render(<UnitexSection />, {
+		const screen = await render(<EnrichmentTermSection />, {
 			wrapper: TestWrapper,
 		});
 
@@ -67,7 +67,7 @@ describe("UnitexSection", () => {
 	});
 
 	it("should note render anything for a block type with no annotations", async () => {
-		const screen = await render(<UnitexSection />, {
+		const screen = await render(<EnrichmentTermSection />, {
 			wrapper: TestWrapper,
 		});
 

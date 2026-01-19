@@ -43,7 +43,7 @@ export const en: Translation = {
 			title_other: "References ({{count}})",
 		},
 	},
-	unitex: {
+	termEnrichment: {
 		underlineWordsInText: "Underline words in the text",
 		toggleBlock_show: "Activate underlining of words in the text",
 		toggleBlock_hide: "Deactivate underlining of words in the text",
@@ -72,6 +72,8 @@ export const en: Translation = {
 		refBibl_other: "Citations ({{count}})",
 		refUrl_one: "URL ({{count}})",
 		refUrl_other: "URLs ({{count}})",
+		teeft_one: "Specific term (Teeft) ({{count}})",
+		teeft_other: "Specific terms (Teeft) ({{count}})",
 	},
 	multicat: {
 		inist: "INIST Category",

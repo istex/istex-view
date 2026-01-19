@@ -19,23 +19,26 @@ import {
 import { useParseMulticatCategories } from "./SidePanel/multicat/useParseMulticatCategories";
 import { TagCatalogProvider } from "./tags/TagCatalogProvider";
 import { tagCatalog } from "./tags/tagCatalog";
+import { useTeeftEnrichmentParser } from "./teeft/useTeeftEnrichmentParser";
+import { enrichDocumentWithTerms } from "./termEnrichment/enrichDocumentWithTerm";
+import { useUnitexEnrichmentParser } from "./termEnrichment/useUnitexEnrichmentParser";
 import { TableOfContent } from "./toc/TableOfContent";
 import { TableOfContentAccordion } from "./toc/TableOfContentAccordion";
 import { useTableOfContent } from "./toc/useTableOfContent";
-import { enrichDocumentWithUnitex } from "./unitex/enrichDocumentWithUnitex";
-import { useUnitexEnrichmentParser } from "./unitex/useUnitexEnrichmentParser";
 
 export const Viewer = ({
 	document,
 	unitexEnrichment,
 	multicatEnrichment,
 	nbEnrichment,
+	teeftEnrichment,
 	height = "100vh",
 }: {
 	document: string;
 	unitexEnrichment?: string | null;
 	multicatEnrichment?: string | null;
 	nbEnrichment?: string | null;
+	teeftEnrichment?: string | null;
 	height?: string;
 }) => {
 	const theme = useTheme();
@@ -51,6 +54,8 @@ export const Viewer = ({
 
 	const jsonMulticatEnrichment = useParseMulticatCategories(multicatEnrichment);
 	const jsonNbEnrichment = useParseMulticatCategories(nbEnrichment);
+
+	const jsonTeeftEnrichment = useTeeftEnrichmentParser(teeftEnrichment);
 
 	const teiHeader = getDocumentJsonAtPath(jsonDocument ?? [], [
 		"TEI",
@@ -72,12 +77,19 @@ export const Viewer = ({
 
 		return transformBody(body);
 	}, [jsonDocument]);
+
+	const allEnrichments = useMemo(() => {
+		return {
+			...jsonUnitexEnrichment,
+			teeft: jsonTeeftEnrichment,
+		};
+	}, [jsonUnitexEnrichment, jsonTeeftEnrichment]);
 	const enrichedBody = useMemo(() => {
-		if (body && jsonUnitexEnrichment) {
-			return enrichDocumentWithUnitex(body, jsonUnitexEnrichment);
+		if (body && allEnrichments) {
+			return enrichDocumentWithTerms(body, allEnrichments);
 		}
 		return body;
-	}, [body, jsonUnitexEnrichment]);
+	}, [body, allEnrichments]);
 
 	const tableOfContent = useTableOfContent(enrichedBody);
 
@@ -90,6 +102,7 @@ export const Viewer = ({
 			<DocumentContextProvider
 				jsonDocument={jsonDocument}
 				jsonUnitexEnrichment={jsonUnitexEnrichment}
+				jsonTeeftEnrichment={jsonTeeftEnrichment}
 				multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
 			>
 				<TagCatalogProvider tagCatalog={tagCatalog}>

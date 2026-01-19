@@ -6,12 +6,14 @@ export type ViewerContextType = {
 	unitexEnrichment: DocumentFile | null;
 	multicatEnrichment: DocumentFile | null;
 	nbEnrichment: DocumentFile | null;
+	teeftEnrichment: DocumentFile | null;
 
 	launchViewer(): void;
 	openDocument(document: DocumentFile): void;
 	openUnitexEnrichment(enrichment: DocumentFile | null): void;
 	openMulticatEnrichment(enrichment: DocumentFile | null): void;
 	openNbEnrichment(enrichment: DocumentFile | null): void;
+	openTeeftEnrichment(enrichment: DocumentFile | null): void;
 	closeDocument(): void;
 };
 
@@ -35,6 +37,10 @@ export function ViewerContextProvider({
 
 	const [nbEnrichment, setNbEnrichment] = useState<DocumentFile | null>(null);
 
+	const [teeftEnrichment, setTeeftEnrichment] = useState<DocumentFile | null>(
+		null,
+	);
+
 	const value = useMemo(
 		() => ({
 			viewerLaunched,
@@ -42,6 +48,7 @@ export function ViewerContextProvider({
 			unitexEnrichment,
 			multicatEnrichment,
 			nbEnrichment,
+			teeftEnrichment,
 			launchViewer() {
 				if (!document) {
 					return;
@@ -60,6 +67,9 @@ export function ViewerContextProvider({
 			openNbEnrichment(enrichment: DocumentFile | null) {
 				setNbEnrichment(enrichment);
 			},
+			openTeeftEnrichment(enrichment: DocumentFile | null) {
+				setTeeftEnrichment(enrichment);
+			},
 			closeDocument() {
 				setDocument(null);
 				setUnitexEnrichment(null);
@@ -71,6 +81,7 @@ export function ViewerContextProvider({
 			unitexEnrichment,
 			multicatEnrichment,
 			nbEnrichment,
+			teeftEnrichment,
 		],
 	);
 

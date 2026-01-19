@@ -6,7 +6,7 @@ import {
 } from "../../navigation/DocumentNavigationContext";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 
-export function useUnitexAnnotationNavigation(term: string) {
+export function useEnrichmentAnnotationNavigation(term: string) {
 	const { navigateToBodyTargetSelector } = useDocumentNavigation();
 
 	const selector = useMemo(() => `[data-term="${kebabCasify(term)}"]`, [term]);

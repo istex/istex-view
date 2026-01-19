@@ -1,4 +1,4 @@
-export const UNITEX_ANNOTATION_BLOCKS = [
+export const ENRICHMENT_ANNOTATION_BLOCKS = [
 	"date",
 	"orgName",
 	"orgNameFunder",
@@ -8,12 +8,13 @@ export const UNITEX_ANNOTATION_BLOCKS = [
 	"persName",
 	"placeName",
 	"geogName",
+	"teeft",
 ] as const;
 
-export type UnitexAnnotationBlockType =
-	(typeof UNITEX_ANNOTATION_BLOCKS)[number];
+export type EnrichmentTermAnnotationBlockType =
+	(typeof ENRICHMENT_ANNOTATION_BLOCKS)[number];
 
-export const chipColors: Record<UnitexAnnotationBlockType, string> = {
+export const chipColors: Record<EnrichmentTermAnnotationBlockType, string> = {
 	date: "#8FBAC9",
 	orgName: "#6BEAB2",
 	orgNameFunder: "#34CE3B",
@@ -23,4 +24,5 @@ export const chipColors: Record<UnitexAnnotationBlockType, string> = {
 	persName: "#F6C53E",
 	placeName: "#D3926F",
 	geogName: "#46D2EE",
+	teeft: "#C7C0FD",
 };

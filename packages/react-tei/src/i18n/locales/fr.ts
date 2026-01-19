@@ -41,7 +41,7 @@ export const fr = {
 			title_other: "Références bibliographiques ({{count}})",
 		},
 	},
-	unitex: {
+	termEnrichment: {
 		underlineWordsInText: "Souligner les mots dans le texte",
 		toggleBlock_show: "Activer le soulignement des mots dans le texte",
 		toggleBlock_hide: "Désactiver le soulignement des mots dans le texte",
@@ -71,6 +71,8 @@ export const fr = {
 		refBibl_other: "Citations ({{count}})",
 		refUrl_one: "URL ({{count}})",
 		refUrl_other: "URLs ({{count}})",
+		teeft_one: "Terme spécifique (Teeft) ({{count}})",
+		teeft_other: "Termes spécifiques (Teeft) ({{count}})",
 	},
 	multicat: {
 		inist: "Catégorie INIST",

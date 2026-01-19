@@ -7,12 +7,12 @@ import {
 	type Direction,
 } from "../../navigation/DocumentNavigationContext";
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
-import { useUnitexAnnotationNavigation } from "./useUnitexAnnotationNavigation";
+import { useEnrichmentAnnotationNavigation } from "./useEnrichmentAnnotationNavigation";
 
-describe("useUnitexAnnotationNavigation", () => {
+describe("useEnrichmentAnnotationNavigation", () => {
 	it.each<{
 		direction: Direction;
-		fnName: keyof ReturnType<typeof useUnitexAnnotationNavigation>;
+		fnName: keyof ReturnType<typeof useEnrichmentAnnotationNavigation>;
 	}>([
 		{ direction: DIRECTION_PREVIOUS, fnName: "goToPrevious" },
 		{ direction: DIRECTION_NEXT, fnName: "goToNext" },
@@ -22,7 +22,7 @@ describe("useUnitexAnnotationNavigation", () => {
 	}) => {
 		const navigateToBodyTargetSelector = vi.fn();
 		const { result } = await renderHook(
-			() => useUnitexAnnotationNavigation("example"),
+			() => useEnrichmentAnnotationNavigation("example"),
 			{
 				wrapper: ({ children }) => (
 					<TestDocumentNavigationContextProvider

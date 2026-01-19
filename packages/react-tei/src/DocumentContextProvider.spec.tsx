@@ -6,8 +6,8 @@ import {
 	initialPanelState,
 	useDocumentContext,
 } from "./DocumentContextProvider";
-import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
-import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
+import type { EnrichmentTermAnnotationBlockType } from "./SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
+import type { TermStatistic } from "./termEnrichment/parseUnitexEnrichment";
 
 describe("DocumentContextProvider", () => {
 	describe("panel", () => {
@@ -184,14 +184,16 @@ describe("DocumentContextProvider", () => {
 		});
 	});
 
-	describe("unitexEnrichment", () => {
+	describe("termEnrichment", () => {
 		const enrichments = {
 			date: [{ term: "2021", frequency: 3, displayed: true }],
 			placeName: [
 				{ term: "Paris", frequency: 2, displayed: true },
 				{ term: "London", frequency: 1, displayed: true },
 			],
-		} satisfies Partial<Record<UnitexAnnotationBlockType, TermStatistic[]>>;
+		} satisfies Partial<
+			Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>
+		>;
 
 		const Wrapper = ({ children }: { children: React.ReactNode }) => (
 			<DocumentContextProvider
@@ -213,7 +215,7 @@ describe("DocumentContextProvider", () => {
 				},
 			});
 
-			expect(result.current.unitexEnrichment).toBeUndefined();
+			expect(result.current.termEnrichment).toBeUndefined();
 		});
 
 		it("should contain the unitex document if provided", async () => {
@@ -221,9 +223,10 @@ describe("DocumentContextProvider", () => {
 				wrapper: Wrapper,
 			});
 
-			expect(result.current.unitexEnrichment?.document).toStrictEqual(
-				enrichments,
-			);
+			expect(result.current.termEnrichment?.document).toStrictEqual({
+				...enrichments,
+				teeft: undefined,
+			});
 		});
 
 		it('should expose toggleBlock function that updates the "displayed" property of all terms in the block', async () => {
@@ -232,27 +235,27 @@ describe("DocumentContextProvider", () => {
 			});
 
 			expect(
-				result.current.unitexEnrichment?.document.placeName?.every(
+				result.current.termEnrichment?.document.placeName?.every(
 					(annotation) => annotation.displayed,
 				),
 			).toBe(true);
 
 			act(() => {
-				result.current.unitexEnrichment?.toggleBlock("placeName");
+				result.current.termEnrichment?.toggleBlock("placeName");
 			});
 
 			expect(
-				result.current.unitexEnrichment?.document.placeName?.every(
+				result.current.termEnrichment?.document.placeName?.every(
 					(annotation) => !annotation.displayed,
 				),
 			).toBe(true);
 
 			act(() => {
-				result.current.unitexEnrichment?.toggleBlock("placeName");
+				result.current.termEnrichment?.toggleBlock("placeName");
 			});
 
 			expect(
-				result.current.unitexEnrichment?.document.placeName?.every(
+				result.current.termEnrichment?.document.placeName?.every(
 					(annotation) => annotation.displayed,
 				),
 			).toBe(true);
@@ -265,23 +268,23 @@ describe("DocumentContextProvider", () => {
 
 			// First, hide one term
 			act(() => {
-				result.current.unitexEnrichment?.toggleTerm("placeName", "London");
+				result.current.termEnrichment?.toggleTerm("placeName", "London");
 			});
 
 			expect(
-				result.current.unitexEnrichment?.document.placeName?.find(
+				result.current.termEnrichment?.document.placeName?.find(
 					(annotation) => annotation.term === "London",
 				)?.displayed,
 			).toBe(false);
 
 			// Now, toggle the block
 			act(() => {
-				result.current.unitexEnrichment?.toggleBlock("placeName");
+				result.current.termEnrichment?.toggleBlock("placeName");
 			});
 
 			// All terms should be displayed
 			expect(
-				result.current.unitexEnrichment?.document.placeName?.every(
+				result.current.termEnrichment?.document.placeName?.every(
 					(annotation) => annotation.displayed,
 				),
 			).toBe(true);
@@ -292,25 +295,25 @@ describe("DocumentContextProvider", () => {
 				wrapper: Wrapper,
 			});
 
-			expect(
-				result.current.unitexEnrichment?.document.date?.[0]?.displayed,
-			).toBe(true);
+			expect(result.current.termEnrichment?.document.date?.[0]?.displayed).toBe(
+				true,
+			);
 
 			act(() => {
-				result.current.unitexEnrichment?.toggleTerm("date", "2021");
+				result.current.termEnrichment?.toggleTerm("date", "2021");
 			});
 
-			expect(
-				result.current.unitexEnrichment?.document.date?.[0]?.displayed,
-			).toBe(false);
+			expect(result.current.termEnrichment?.document.date?.[0]?.displayed).toBe(
+				false,
+			);
 
 			act(() => {
-				result.current.unitexEnrichment?.toggleTerm("date", "2021");
+				result.current.termEnrichment?.toggleTerm("date", "2021");
 			});
 
-			expect(
-				result.current.unitexEnrichment?.document.date?.[0]?.displayed,
-			).toBe(true);
+			expect(result.current.termEnrichment?.document.date?.[0]?.displayed).toBe(
+				true,
+			);
 		});
 	});
 });

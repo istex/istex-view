@@ -8,22 +8,22 @@ import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
-import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
-import { useUnitexAnnotationNavigation } from "./useUnitexAnnotationNavigation";
+import type { TermStatistic } from "../../termEnrichment/parseUnitexEnrichment";
+import { useEnrichmentAnnotationNavigation } from "./useEnrichmentAnnotationNavigation";
 
-export function UnitexAnnotation({
+export function EnrichmentTermAnnotation({
 	annotation,
 	color,
 	onToggle,
-}: UnitexAnnotationProps) {
+}: EnrichmentTermAnnotationProps) {
 	const { t } = useTranslation();
 
-	const checkBoxLabel = t("unitex.toggleTerm", {
+	const checkBoxLabel = t(`termEnrichment.toggleTerm`, {
 		context: annotation.displayed ? "hide" : "show",
 		term: annotation.term,
 	});
 
-	const { goToNext, goToPrevious } = useUnitexAnnotationNavigation(
+	const { goToNext, goToPrevious } = useEnrichmentAnnotationNavigation(
 		annotation.term,
 	);
 
@@ -79,7 +79,7 @@ export function UnitexAnnotation({
 					size="small"
 					disabled={!annotation.displayed}
 					onClick={goToPrevious}
-					aria-label={t("unitex.previous")}
+					aria-label={t(`termEnrichment.previous`)}
 				>
 					<ArrowUpIcon />
 				</IconButton>
@@ -87,7 +87,7 @@ export function UnitexAnnotation({
 					size="small"
 					disabled={!annotation.displayed}
 					onClick={goToNext}
-					aria-label={t("unitex.next")}
+					aria-label={t(`termEnrichment.next`)}
 				>
 					<ArrowDownIcon />
 				</IconButton>
@@ -96,7 +96,7 @@ export function UnitexAnnotation({
 	);
 }
 
-type UnitexAnnotationProps = {
+type EnrichmentTermAnnotationProps = {
 	annotation: TermStatistic;
 	color?: string;
 	onToggle: () => void;

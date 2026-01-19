@@ -1,13 +1,13 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
-import type { UnitexAnnotationBlockType } from "./unitexAnnotationBlocks";
+import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 
-export function useListUnitexAnnotationByBlockType(
-	block: UnitexAnnotationBlockType,
+export function useListEnrichmentTermAnnotationByBlockType(
+	block: EnrichmentTermAnnotationBlockType,
 ) {
-	const { unitexEnrichment } = useDocumentContext();
+	const { termEnrichment } = useDocumentContext();
 	return useMemo(() => {
-		const annotations = unitexEnrichment?.document?.[block] ?? [];
+		const annotations = termEnrichment?.document?.[block] ?? [];
 
 		const displayedStatus = annotations.reduce<{
 			someDisplayed: boolean;
@@ -34,11 +34,11 @@ export function useListUnitexAnnotationByBlockType(
 						: "none",
 
 			toggleBlock() {
-				return unitexEnrichment?.toggleBlock(block);
+				return termEnrichment?.toggleBlock(block);
 			},
 			toggleTerm(term: string) {
-				return unitexEnrichment?.toggleTerm(block, term);
+				return termEnrichment?.toggleTerm(block, term);
 			},
 		};
-	}, [unitexEnrichment, block]);
+	}, [termEnrichment, block]);
 }

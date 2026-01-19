@@ -6,9 +6,9 @@ import {
 	useReducer,
 } from "react";
 import type { DocumentJson } from "./parser/document";
+import type { EnrichmentTermAnnotationBlockType } from "./SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
 import type { MulticatCategory } from "./SidePanel/multicat/useParseMulticatCategories";
-import type { UnitexAnnotationBlockType } from "./SidePanel/unitex/unitexAnnotationBlocks";
-import type { TermStatistic } from "./unitex/parseUnitexEnrichment";
+import type { TermStatistic } from "./termEnrichment/parseUnitexEnrichment";
 
 export type PanelState = {
 	isOpen: boolean;
@@ -19,26 +19,29 @@ export type PanelState = {
 		footnotes: boolean;
 		bibliographicReferences?: boolean;
 
-		unitext_date?: boolean;
-		unitext_orgName?: boolean;
-		unitext_orgNameFunder?: boolean;
-		unitext_orgNameProvider?: boolean;
-		unitext_refBibl?: boolean;
-		unitext_refUrl?: boolean;
-		unitext_persName?: boolean;
-		unitext_placeName?: boolean;
-		unitext_geogName?: boolean;
+		termEnrichment_date?: boolean;
+		termEnrichment_orgName?: boolean;
+		termEnrichment_orgNameFunder?: boolean;
+		termEnrichment_orgNameProvider?: boolean;
+		termEnrichment_refBibl?: boolean;
+		termEnrichment_refUrl?: boolean;
+		termEnrichment_persName?: boolean;
+		termEnrichment_placeName?: boolean;
+		termEnrichment_geogName?: boolean;
+		termEnrichment_teeft?: boolean;
 
 		multicat_inist?: boolean;
 		multicat_wos?: boolean;
 		multicat_science_metrix?: boolean;
 		multicat_scopus?: boolean;
+
+		teeft?: boolean;
 	};
 };
 
 export type PanelSection = keyof PanelState["sections"];
 
-export type JsonUnitexEnrichment = Partial<Record<string, TermStatistic[]>>;
+export type JsonTermEnrichment = Partial<Record<string, TermStatistic[]>>;
 
 export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
@@ -47,10 +50,13 @@ export type DocumentContextType = {
 		togglePanel: () => void;
 		toggleSection: (section: keyof PanelState["sections"]) => void;
 	};
-	unitexEnrichment?: {
-		document: JsonUnitexEnrichment;
-		toggleBlock: (block: UnitexAnnotationBlockType) => void;
-		toggleTerm: (block: UnitexAnnotationBlockType, term: string) => void;
+	termEnrichment?: {
+		document: JsonTermEnrichment;
+		toggleBlock: (block: EnrichmentTermAnnotationBlockType) => void;
+		toggleTerm: (
+			block: EnrichmentTermAnnotationBlockType,
+			term: string,
+		) => void;
 	};
 	multicatEnrichment: MulticatCategory[];
 };
@@ -63,11 +69,11 @@ type PanelAction =
 	| { type: "TOGGLE_PANEL" }
 	| { type: "TOGGLE_SECTION"; section: keyof PanelState["sections"] };
 
-type UnitexEnrichmentAction =
-	| { type: "TOGGLE_BLOCK"; block: UnitexAnnotationBlockType }
+type TermEnrichmentAction =
+	| { type: "TOGGLE_BLOCK"; block: EnrichmentTermAnnotationBlockType }
 	| {
 			type: "TOGGLE_ANNOTATION";
-			block: UnitexAnnotationBlockType;
+			block: EnrichmentTermAnnotationBlockType;
 			term: string;
 	  };
 
@@ -80,20 +86,23 @@ export const initialPanelState: PanelState = {
 		footnotes: true,
 		bibliographicReferences: true,
 
-		unitext_date: true,
-		unitext_orgName: true,
-		unitext_orgNameFunder: true,
-		unitext_orgNameProvider: true,
-		unitext_persName: true,
-		unitext_placeName: true,
-		unitext_geogName: true,
-		unitext_refBibl: true,
-		unitext_refUrl: true,
+		termEnrichment_date: true,
+		termEnrichment_orgName: true,
+		termEnrichment_orgNameFunder: true,
+		termEnrichment_orgNameProvider: true,
+		termEnrichment_persName: true,
+		termEnrichment_placeName: true,
+		termEnrichment_geogName: true,
+		termEnrichment_refBibl: true,
+		termEnrichment_refUrl: true,
+		termEnrichment_teeft: true,
 
 		multicat_inist: true,
 		multicat_wos: true,
 		multicat_science_metrix: true,
 		multicat_scopus: true,
+
+		teeft: true,
 	},
 };
 
@@ -101,13 +110,26 @@ export function DocumentContextProvider({
 	children,
 	jsonDocument,
 	jsonUnitexEnrichment: initialJsonUnitexEnrichment,
+	jsonTeeftEnrichment: initialJsonTeeftEnrichment,
 	multicatEnrichment = [],
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
-	jsonUnitexEnrichment?: JsonUnitexEnrichment;
+	jsonUnitexEnrichment?: JsonTermEnrichment;
+	jsonTeeftEnrichment?: TermStatistic[];
 	multicatEnrichment?: MulticatCategory[];
 }) {
+	const initialJsonTermEnrichment = useMemo(() => {
+		if (!initialJsonUnitexEnrichment && !initialJsonTeeftEnrichment) {
+			return undefined;
+		}
+
+		return {
+			...initialJsonUnitexEnrichment,
+			teeft: initialJsonTeeftEnrichment,
+		};
+	}, [initialJsonUnitexEnrichment, initialJsonTeeftEnrichment]);
+
 	const [panelState, dispatchPanelAction] = useReducer(
 		(state: PanelState, action: PanelAction) => {
 			switch (action.type) {
@@ -137,11 +159,8 @@ export function DocumentContextProvider({
 		dispatchPanelAction({ type: "TOGGLE_SECTION", section });
 	}, []);
 
-	const [jsonUnitexEnrichment, dispatchUnitexEnrichmentAction] = useReducer(
-		(
-			state: JsonUnitexEnrichment | undefined,
-			action: UnitexEnrichmentAction,
-		) => {
+	const [jsonTermEnrichment, dispatchTermEnrichmentAction] = useReducer(
+		(state: JsonTermEnrichment | undefined, action: TermEnrichmentAction) => {
 			if (!state) {
 				return state;
 			}
@@ -178,12 +197,12 @@ export function DocumentContextProvider({
 					return state;
 			}
 		},
-		initialJsonUnitexEnrichment,
+		initialJsonTermEnrichment,
 	);
 
-	const toggleUnitexAnnotationBlock = useCallback(
-		(block: UnitexAnnotationBlockType) => {
-			dispatchUnitexEnrichmentAction({
+	const toggleEnrichmentAnnotationBlock = useCallback(
+		(block: EnrichmentTermAnnotationBlockType) => {
+			dispatchTermEnrichmentAction({
 				type: "TOGGLE_BLOCK",
 				block,
 			});
@@ -191,9 +210,9 @@ export function DocumentContextProvider({
 		[],
 	);
 
-	const toggleUnitexAnnotation = useCallback(
-		(block: UnitexAnnotationBlockType, term: string) => {
-			dispatchUnitexEnrichmentAction({
+	const toggleEnrichmentAnnotation = useCallback(
+		(block: EnrichmentTermAnnotationBlockType, term: string) => {
+			dispatchTermEnrichmentAction({
 				type: "TOGGLE_ANNOTATION",
 				block,
 				term,
@@ -210,24 +229,24 @@ export function DocumentContextProvider({
 				togglePanel,
 				toggleSection,
 			},
-			unitexEnrichment: jsonUnitexEnrichment
+			termEnrichment: jsonTermEnrichment
 				? {
-						document: jsonUnitexEnrichment,
-						toggleBlock: toggleUnitexAnnotationBlock,
-						toggleTerm: toggleUnitexAnnotation,
+						document: jsonTermEnrichment,
+						toggleBlock: toggleEnrichmentAnnotationBlock,
+						toggleTerm: toggleEnrichmentAnnotation,
 					}
 				: undefined,
 			multicatEnrichment,
 		}),
 		[
 			jsonDocument,
-			jsonUnitexEnrichment,
+			jsonTermEnrichment,
 			multicatEnrichment,
 			panelState,
 			togglePanel,
 			toggleSection,
-			toggleUnitexAnnotationBlock,
-			toggleUnitexAnnotation,
+			toggleEnrichmentAnnotationBlock,
+			toggleEnrichmentAnnotation,
 		],
 	);
 
