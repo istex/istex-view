@@ -1,5 +1,8 @@
 import { describe, expect, it } from "vitest";
-import { enrichDocumentWithTerms } from "./enrichDocumentWithTerm";
+import {
+	enrichDocumentWithTerms,
+	getTermRegexes,
+} from "./enrichDocumentWithTerm";
 
 describe("enrichDocumentWithTerms", () => {
 	it("replace all #text nodes with enriched nodes", () => {
@@ -274,6 +277,118 @@ describe("enrichDocumentWithTerms", () => {
 					],
 				},
 			],
+		});
+	});
+
+	describe("getTermRegexes", () => {
+		it("should return regexes for terms with correct flags (case insensitive for teeft only)", () => {
+			const terms = [
+				{ term: "Unitex", groups: ["teeft"], subTerms: [] },
+				{ term: "test", groups: ["other"], subTerms: [] },
+			];
+
+			const regexes = getTermRegexes(terms);
+
+			expect(regexes).toEqual([
+				{
+					termRegex: /(?<![\p{L}\p{N}])Unitex(?![\p{L}\p{N}])/giu,
+					term: "Unitex",
+					groups: ["teeft"],
+					value: "Unitex",
+				},
+				{
+					termRegex: /(?<![\p{L}\p{N}])test(?![\p{L}\p{N}])/gu,
+					term: "test",
+					groups: ["other"],
+					value: "test",
+				},
+			]);
+		});
+
+		it("should handle terms in with several groups including teeft", () => {
+			const terms = [
+				{ term: "Example", groups: ["teeft", "other"], subTerms: [] },
+			];
+
+			const regexes = getTermRegexes(terms);
+
+			expect(regexes).toEqual([
+				{
+					termRegex: /(?<![\p{L}\p{N}])Example(?![\p{L}\p{N}])/giu,
+					term: "Example",
+					groups: ["teeft"],
+					value: "Example",
+				},
+				{
+					termRegex: /(?<![\p{L}\p{N}])Example(?![\p{L}\p{N}])/gu,
+					term: "Example",
+					groups: ["other"],
+					value: "Example",
+				},
+			]);
+		});
+
+		it("should handle terms with subTerms", () => {
+			const terms = [
+				{
+					term: "New York City",
+					groups: ["place", "teeft"],
+					subTerms: [
+						{ term: "New", groups: ["place"] },
+						{ term: "York", groups: ["place", "teeft"] },
+						{ term: "City", groups: ["place"] },
+					],
+				},
+			];
+
+			const regexes = getTermRegexes(terms);
+
+			expect(regexes).toEqual([
+				{
+					termRegex: /(?<![\p{L}\p{N}])New\sYork\sCity(?![\p{L}\p{N}])/giu,
+					term: "New York City",
+					groups: ["teeft"],
+					value: [
+						{
+							tag: "highlight",
+							value: [{ tag: "#text", value: "New" }],
+							attributes: { groups: ["place"], term: "new" },
+						},
+						{
+							tag: "highlight",
+							value: [{ tag: "#text", value: "York" }],
+							attributes: { groups: ["place", "teeft"], term: "york" },
+						},
+						{
+							tag: "highlight",
+							value: [{ tag: "#text", value: "City" }],
+							attributes: { groups: ["place"], term: "city" },
+						},
+					],
+				},
+				{
+					termRegex: /(?<![\p{L}\p{N}])New\sYork\sCity(?![\p{L}\p{N}])/gu,
+					term: "New York City",
+					groups: ["place"],
+					value: [
+						{
+							tag: "highlight",
+							value: [{ tag: "#text", value: "New" }],
+							attributes: { groups: ["place"], term: "new" },
+						},
+						{
+							tag: "highlight",
+							value: [{ tag: "#text", value: "York" }],
+							attributes: { groups: ["place", "teeft"], term: "york" },
+						},
+						{
+							tag: "highlight",
+							value: [{ tag: "#text", value: "City" }],
+							attributes: { groups: ["place"], term: "city" },
+						},
+					],
+				},
+			]);
 		});
 	});
 });

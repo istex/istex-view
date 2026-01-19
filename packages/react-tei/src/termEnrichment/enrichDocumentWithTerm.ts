@@ -60,6 +60,46 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 	};
 };
 
+export const getTermRegexes = (terms: NestedTerm[]) => {
+	return terms.flatMap(({ term, groups, subTerms }) => {
+		if (groups.includes("teeft")) {
+			if (groups.length > 1) {
+				return [
+					{
+						termRegex: termToRegex(term, true),
+						term,
+						groups: ["teeft"],
+						value: subTerms?.length ? subTerms.map(termToTag) : term,
+					},
+					{
+						termRegex: termToRegex(term, false),
+						term,
+						groups: groups.filter((g) => g !== "teeft"),
+						value: subTerms?.length ? subTerms.map(termToTag) : term,
+					},
+				];
+			}
+
+			return [
+				{
+					termRegex: termToRegex(term, true),
+					term,
+					groups: ["teeft"],
+					value: subTerms?.length ? subTerms.map(termToTag) : term,
+				},
+			];
+		}
+		return [
+			{
+				termRegex: termToRegex(term),
+				term,
+				groups,
+				value: subTerms?.length ? subTerms.map(termToTag) : term,
+			},
+		];
+	});
+};
+
 export const enrichDocumentWithTerms = (
 	document: DocumentJson,
 	termByGroup: Record<string, TermStatistic[]>,
@@ -67,12 +107,7 @@ export const enrichDocumentWithTerms = (
 	const terms = computeEnrichedTerms(termByGroup);
 
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
-	const termRegexes = sortedTerms.map(({ term, groups, subTerms }) => ({
-		termRegex: termToRegex(term),
-		term,
-		groups,
-		value: subTerms?.length ? subTerms.map(termToTag) : term,
-	}));
+	const termRegexes = getTermRegexes(sortedTerms);
 
 	const enrichNode = (node: DocumentJson) => {
 		if (isTextTag(node)) {
