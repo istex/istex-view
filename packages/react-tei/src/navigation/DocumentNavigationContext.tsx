@@ -1,8 +1,15 @@
 import { createContext, useCallback, useEffect, useMemo, useRef } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 
+export const DIRECTION_NEXT = "next";
+export const DIRECTION_PREVIOUS = "previous";
+export type Direction = typeof DIRECTION_NEXT | typeof DIRECTION_PREVIOUS;
+
 export type DocumentNavigationContextValue = {
-	navigateToBodyTargetSelector(querySelector: string): void;
+	navigateToBodyTargetSelector(
+		querySelector: string,
+		direction?: Direction,
+	): void;
 	navigateToHeading(headingId: string): void;
 	navigateToFootnote(footnoteId: string): void;
 	navigateToFootnoteRef(id: string): void;
@@ -91,7 +98,11 @@ export function DocumentNavigationContextProvider({
 	const currentSelectorRef = useRef<CurrentSelectorRef | null>(null);
 
 	const navigateToTargetLoop = useCallback(
-		(wrapperElement: HTMLElement, querySelector: string) => {
+		(
+			wrapperElement: HTMLElement,
+			querySelector: string,
+			direction: Direction = DIRECTION_NEXT,
+		) => {
 			const targetElements =
 				wrapperElement.querySelectorAll<HTMLElement>(querySelector);
 
@@ -110,8 +121,12 @@ export function DocumentNavigationContextProvider({
 					index: 0,
 				};
 			} else {
+				const directionValue = direction === "next" ? 1 : -1;
 				currentSelectorRef.current.index =
-					(currentSelectorRef.current.index + 1) % targetElements.length;
+					(currentSelectorRef.current.index +
+						directionValue +
+						targetElements.length) %
+					targetElements.length;
 			}
 
 			const index = currentSelectorRef.current.index;
@@ -133,7 +148,7 @@ export function DocumentNavigationContextProvider({
 	);
 
 	const navigateToBodyTargetSelector = useCallback(
-		(querySelector: string) => {
+		(querySelector: string, direction: Direction = DIRECTION_NEXT) => {
 			const documentElement = documentRef.current;
 
 			if (!documentElement) {
@@ -141,7 +156,7 @@ export function DocumentNavigationContextProvider({
 				return;
 			}
 
-			navigateToTargetLoop(documentElement, querySelector);
+			navigateToTargetLoop(documentElement, querySelector, direction);
 		},
 		[documentRef, navigateToTargetLoop],
 	);

@@ -1,10 +1,15 @@
+import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import ArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import Chip from "@mui/material/Chip";
 import { grey } from "@mui/material/colors";
+import IconButton from "@mui/material/IconButton";
+import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
+import { useUnitexAnnotationNavigation } from "./useUnitexAnnotationNavigation";
 
 export function UnitexAnnotation({
 	annotation,
@@ -17,6 +22,10 @@ export function UnitexAnnotation({
 		context: annotation.displayed ? "hide" : "show",
 		term: annotation.term,
 	});
+
+	const { goToNext, goToPrevious } = useUnitexAnnotationNavigation(
+		annotation.term,
+	);
 
 	return (
 		<>
@@ -57,14 +66,32 @@ export function UnitexAnnotation({
 						slotProps={{
 							root: {
 								sx: {
-									backgroundColor: annotation.displayed ? color : grey[600],
-									color: "white",
+									backgroundColor: annotation.displayed ? color : grey[100],
+									color: "black",
 								},
 							},
 						}}
 					/>
 				</Tooltip>
 			</Box>
+			<Stack gap={0.5} direction="row">
+				<IconButton
+					size="small"
+					disabled={!annotation.displayed}
+					onClick={goToPrevious}
+					aria-label={t("unitex.previous")}
+				>
+					<ArrowUpIcon />
+				</IconButton>
+				<IconButton
+					size="small"
+					disabled={!annotation.displayed}
+					onClick={goToNext}
+					aria-label={t("unitex.next")}
+				>
+					<ArrowDownIcon />
+				</IconButton>
+			</Stack>
 		</>
 	);
 }
