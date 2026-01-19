@@ -2,6 +2,7 @@ import type { ComponentType } from "react";
 import { DateTag } from "./DateTag";
 import { Div } from "./Div";
 import { Emph } from "./Emph";
+import { Figure } from "./Figure";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
@@ -34,4 +35,5 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	biblScope: NoOp,
 	date: DateTag,
 	s: NoOp,
+	figure: Figure,
 };

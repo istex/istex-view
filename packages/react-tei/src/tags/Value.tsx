@@ -39,6 +39,7 @@ export function Value({ data }: ValueProps) {
 			attributes={data.attributes}
 			message={`No value for tag <${tag}>`}
 			payload={data}
+			type="error"
 		>
 			{value?.map((data, index) => (
 				<Value data={data} key={index} />

@@ -1,6 +1,7 @@
+import ErrorIcon from "@mui/icons-material/Error";
 import WarningIcon from "@mui/icons-material/Warning";
 import Box from "@mui/material/Box";
-import { orange } from "@mui/material/colors";
+import { orange, red } from "@mui/material/colors";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import Typography from "@mui/material/Typography";
@@ -13,6 +14,7 @@ export function DebugTag({
 	children,
 	payload,
 	inline = false,
+	type = "warning",
 }: InlineDebugProps) {
 	if (!IS_DEBUG) {
 		return children;
@@ -27,14 +29,16 @@ export function DebugTag({
 			: ""
 	}>`;
 
+	const Icon = type === "error" ? ErrorIcon : WarningIcon;
+
 	return (
 		<Box
 			component="span"
 			sx={{
 				display: inline ? "inline-flex" : "flex",
 				flexDirection: inline ? "row" : "column",
-				border: `1px dashed ${orange[500]}`,
-				color: orange[700],
+				border: `1px dashed ${type === "error" ? red[700] : orange[500]}`,
+				color: type === "error" ? red[700] : orange[700],
 				padding: 0.5,
 			}}
 			className="debug"
@@ -44,11 +48,11 @@ export function DebugTag({
 					title={`${message}${payload ? " (Click icon to see payload in console warnings)" : ""}`}
 					placement="top"
 				>
-					<WarningIcon
+					<Icon
 						sx={{
 							cursor: payload ? "pointer" : "default",
 						}}
-						onClick={() => payload && console.warn(message, payload)}
+						onClick={() => payload && console.error(message, payload)}
 					/>
 				</Tooltip>
 
@@ -69,5 +73,6 @@ type InlineDebugProps = {
 	message: string;
 	payload?: unknown;
 	inline?: boolean;
+	type?: "error" | "warning";
 	children?: React.ReactNode;
 };

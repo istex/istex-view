@@ -45,7 +45,9 @@ export function Table({ data: { tag, value, attributes } }: ComponentProps) {
 		(item) => item.tag === "row" && item.attributes?.["@role"] === "label",
 	);
 	const rows = value.filter(
-		(item) => item.tag === "row" && item.attributes?.["@role"] === "data",
+		(item) =>
+			item.tag === "row" &&
+			(!item.attributes?.["@role"] || item.attributes?.["@role"] === "data"),
 	);
 
 	const captionId = `table_caption_${attributes?.["@xml:id"]}`;
