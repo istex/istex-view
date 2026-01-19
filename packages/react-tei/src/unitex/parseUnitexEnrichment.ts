@@ -10,7 +10,7 @@ export type TermStatistic = {
 };
 
 export const getAnnotationTerm = (
-	annotationBlock: DocumentJson,
+	annotationBlock: DocumentJson | DocumentJson[],
 ): string | null => {
 	const termTag = findTagByName(annotationBlock, "term");
 	if (!termTag) {
@@ -57,13 +57,13 @@ export const getAnnotationFrequency = (
 };
 
 export const exractTermFromAnnotationBlock = (
-	annotationBlock: DocumentJson,
+	documentFragment: DocumentJson,
 ): TermStatistic | null => {
-	const term = getAnnotationTerm(annotationBlock);
+	const term = getAnnotationTerm(documentFragment);
 	if (!term) {
 		return null;
 	}
-	const frequency = getAnnotationFrequency(annotationBlock) || 0;
+	const frequency = getAnnotationFrequency(documentFragment) || 0;
 
 	return {
 		term,

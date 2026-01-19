@@ -1,0 +1,72 @@
+import { findTagByName } from "../helper/findTagByName";
+import type { DocumentJson } from "../parser/document";
+import {
+	getAnnotationFrequency,
+	getAnnotationTerm,
+	type TermStatistic,
+} from "../unitex/parseUnitexEnrichment";
+
+const extractTermFromTermTag = (
+	termTag: DocumentJson,
+): TermStatistic | null => {
+	if (!Array.isArray(termTag.value)) {
+		return null;
+	}
+	const term = getAnnotationTerm(termTag.value);
+
+	if (!term) {
+		return null;
+	}
+
+	const frequency = getAnnotationFrequency(termTag) ?? 0;
+
+	return {
+		term,
+		frequency,
+		displayed: true,
+	};
+};
+
+export const parseTeeft = (
+	teeftEnrichment: DocumentJson[] | null | undefined,
+): { teeft?: TermStatistic[] } => {
+	if (!teeftEnrichment) {
+		return {};
+	}
+
+	const teeftListAnnotation = findTagByName(
+		teeftEnrichment,
+		"ns1:listAnnotation",
+	);
+
+	if (!teeftListAnnotation || !Array.isArray(teeftListAnnotation.value)) {
+		return {};
+	}
+
+	if (teeftListAnnotation.attributes?.["@type"] !== "rd-teeft") {
+		console.warn("Unknown teeft listAnnotation type", teeftListAnnotation);
+		return {};
+	}
+
+	const keywordsTag = findTagByName(teeftListAnnotation, "keywords");
+
+	if (!keywordsTag || !Array.isArray(keywordsTag.value)) {
+		return {};
+	}
+
+	const rootTerms = keywordsTag.value.filter((tag) => tag.tag === "term");
+
+	if (!rootTerms.length) {
+		return {};
+	}
+
+	const terms = rootTerms
+		.map(extractTermFromTermTag)
+		.filter((term): term is TermStatistic => term !== null);
+
+	if (!terms?.length) {
+		return {};
+	}
+
+	return { teeft: terms };
+};
