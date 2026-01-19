@@ -2,30 +2,30 @@ import { Box } from "@mui/material";
 import { useMemo } from "react";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { kebabCasify } from "../helper/kebabCasify";
-import { chipColors } from "../SidePanel/unitex/unitexAnnotationBlocks";
+import { chipColors } from "../SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
 import type { TermStatistic } from "../unitex/parseUnitexEnrichment";
 import type { ComponentProps } from "./type";
 import { Value } from "./Value";
 
 export const Highlight = ({ data }: HighlightProps) => {
 	const { value, attributes } = data;
-	const { unitexEnrichment, teeftEnrichment } = useDocumentContext();
+	const { termEnrichment } = useDocumentContext();
 
 	const groups = useMemo(() => {
-		if (!attributes?.groups || (!unitexEnrichment && !teeftEnrichment)) {
+		if (!attributes?.groups || !termEnrichment) {
 			return [];
 		}
 		return ([] as string[]).concat(attributes?.groups).filter((group) => {
-			const allTerms: TermStatistic[] = ([] as TermStatistic[])
-				.concat(unitexEnrichment?.document?.[group] ?? [])
-				.concat(teeftEnrichment?.annotations ?? []);
+			const allTerms: TermStatistic[] = ([] as TermStatistic[]).concat(
+				termEnrichment?.document?.[group] ?? [],
+			);
 			const term = allTerms.find(
 				({ term }) => kebabCasify(term) === attributes?.term,
 			);
 
 			return term?.displayed ?? false;
 		});
-	}, [unitexEnrichment, teeftEnrichment, attributes?.groups, attributes?.term]);
+	}, [termEnrichment, attributes?.groups, attributes?.term]);
 
 	if (groups.length === 0) {
 		return <Value data={value} />;

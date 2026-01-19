@@ -1,10 +1,13 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
+import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 
-export function useListTeeftAnnotation() {
-	const { teeftEnrichment } = useDocumentContext();
+export function useListEnrichmentTermAnnotationByBlockType(
+	block: EnrichmentTermAnnotationBlockType,
+) {
+	const { termEnrichment } = useDocumentContext();
 	return useMemo(() => {
-		const annotations = teeftEnrichment?.annotations ?? [];
+		const annotations = termEnrichment?.document?.[block] ?? [];
 
 		const displayedStatus = annotations.reduce<{
 			someDisplayed: boolean;
@@ -30,12 +33,12 @@ export function useListTeeftAnnotation() {
 						? "all"
 						: "none",
 
-			toggleAll() {
-				return teeftEnrichment?.toggleAll();
+			toggleBlock() {
+				return termEnrichment?.toggleBlock(block);
 			},
 			toggleTerm(term: string) {
-				return teeftEnrichment?.toggleTerm(term);
+				return termEnrichment?.toggleTerm(block, term);
 			},
 		};
-	}, [teeftEnrichment]);
+	}, [termEnrichment, block]);
 }

@@ -15,11 +15,10 @@ export function EnrichmentTermAnnotation({
 	annotation,
 	color,
 	onToggle,
-	enrichment,
 }: EnrichmentTermAnnotationProps) {
 	const { t } = useTranslation();
 
-	const checkBoxLabel = t(`${enrichment}.toggleTerm`, {
+	const checkBoxLabel = t(`termEnrichment.toggleTerm`, {
 		context: annotation.displayed ? "hide" : "show",
 		term: annotation.term,
 	});
@@ -80,7 +79,7 @@ export function EnrichmentTermAnnotation({
 					size="small"
 					disabled={!annotation.displayed}
 					onClick={goToPrevious}
-					aria-label={t(`${enrichment}.previous`)}
+					aria-label={t(`termEnrichment.previous`)}
 				>
 					<ArrowUpIcon />
 				</IconButton>
@@ -88,7 +87,7 @@ export function EnrichmentTermAnnotation({
 					size="small"
 					disabled={!annotation.displayed}
 					onClick={goToNext}
-					aria-label={t(`${enrichment}.next`)}
+					aria-label={t(`termEnrichment.next`)}
 				>
 					<ArrowDownIcon />
 				</IconButton>
@@ -99,7 +98,6 @@ export function EnrichmentTermAnnotation({
 
 type EnrichmentTermAnnotationProps = {
 	annotation: TermStatistic;
-	enrichment: "unitex" | "teeft";
 	color?: string;
 	onToggle: () => void;
 };

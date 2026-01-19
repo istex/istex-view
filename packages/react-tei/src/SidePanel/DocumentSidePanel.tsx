@@ -8,12 +8,11 @@ import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { AuthorSection } from "./authors/AuthorSection";
 import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographiceferencesSection";
+import { EnrichmentTermSection } from "./enrichmentTerm/EnrichmentTermSection";
 import { FootnotesSection } from "./footNotes/FootnotesSection";
 import { KeywordSection } from "./keywords/KeywordSection";
 import { MulticatCategories } from "./multicat/MulticatCategories";
 import { SourceSection } from "./source/SourceSection";
-import { TeeftSection } from "./teeft/TeeftSection";
-import { UnitexSection } from "./unitex/UnitexSection";
 
 type DocumentSidePanelprops = {
 	ref: React.RefObject<HTMLDivElement | null>;
@@ -79,9 +78,8 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<AuthorSection />
 					<KeywordSection />
 					<SourceSection />
-					<UnitexSection />
+					<EnrichmentTermSection />
 					<MulticatCategories />
-					<TeeftSection />
 					<FootnotesSection />
 					<BibliographicReferencesSection />
 				</Stack>

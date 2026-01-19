@@ -6,23 +6,27 @@ import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import type { PanelSection } from "../../DocumentContextProvider";
 import { Accordion } from "../Accordion";
-import { EnrichmentTermAnnotation } from "../enrichmentsTerms/EnrichmentTermAnnotation";
+import { EnrichmentTermAnnotation } from "./EnrichmentTermAnnotation";
 import {
 	chipColors,
-	type UnitexAnnotationBlockType,
-} from "./unitexAnnotationBlocks";
-import { useListUnitexAnnotationByBlockType } from "./useListUnitexAnnotationByBlockType";
+	type EnrichmentTermAnnotationBlockType,
+} from "./enrichmentTermAnnotationBlocks";
+import { useListEnrichmentTermAnnotationByBlockType } from "./useListEnrichmentTermAnnotationByBlockType";
 
-export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
+export function EnrichmentTermAnnotationBlock({
+	block,
+}: EnrichmentTermAnnotationBlockProps) {
 	const { t } = useTranslation();
 
 	const color = chipColors[block];
 	const { annotations, displayStatus, toggleBlock, toggleTerm } =
-		useListUnitexAnnotationByBlockType(block);
+		useListEnrichmentTermAnnotationByBlockType(block);
 
 	const toggleContext = displayStatus === "all" ? "hide" : "show";
-	const sectionlabel = t(`unitex.${block}`, { count: annotations.length });
-	const checkboxLabel = t("unitex.toggleBlock", {
+	const sectionlabel = t(`termEnrichment.${block}`, {
+		count: annotations.length,
+	});
+	const checkboxLabel = t("termEnrichment.toggleBlock", {
 		context: toggleContext,
 	});
 
@@ -32,8 +36,8 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 
 	return (
 		<Accordion
-			name={`unitext_${block}` as PanelSection}
-			label={t(`unitex.${block}`, { count: annotations.length })}
+			name={`termEnrichment_${block}` as PanelSection}
+			label={t(`termEnrichment.${block}`, { count: annotations.length })}
 		>
 			<Stack
 				sx={{
@@ -77,12 +81,13 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 						contain: "style paint inline-size",
 					}}
 					role="list"
-					aria-label={t(`unitex.${block}`, { count: annotations.length })}
+					aria-label={t(`termEnrichment.${block}`, {
+						count: annotations.length,
+					})}
 				>
 					{annotations.map((annotation) => (
 						<EnrichmentTermAnnotation
 							key={annotation.term}
-							enrichment="unitex"
 							annotation={annotation}
 							color={color}
 							onToggle={() => toggleTerm(annotation.term)}
@@ -94,6 +99,6 @@ export function UnitexAnnotationBlock({ block }: UnitexAnnotationBlockProps) {
 	);
 }
 
-type UnitexAnnotationBlockProps = {
-	block: UnitexAnnotationBlockType;
+type EnrichmentTermAnnotationBlockProps = {
+	block: EnrichmentTermAnnotationBlockType;
 };

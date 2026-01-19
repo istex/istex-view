@@ -32,5 +32,9 @@ export const en: Translation = {
 			placeholder: "No enrichment file selected (optional)",
 			buttonLabel: "Nb Enrichment",
 		},
+		teeft: {
+			placeholder: "No enrichment file selected (optional)",
+			buttonLabel: "Teeft Enrichment",
+		},
 	},
 };

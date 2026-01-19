@@ -3,8 +3,8 @@ import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
-import type { UnitexAnnotationBlockType } from "./unitexAnnotationBlocks";
-import { useListUnitexAnnotationByBlockType } from "./useListUnitexAnnotationByBlockType";
+import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
+import { useListEnrichmentTermAnnotationByBlockType } from "./useListEnrichmentTermAnnotationByBlockType";
 
 const enrichments = {
 	date: [{ term: "2021", frequency: 3, displayed: true }],
@@ -12,7 +12,7 @@ const enrichments = {
 		{ term: "Paris", frequency: 2, displayed: true },
 		{ term: "London", frequency: 1, displayed: true },
 	],
-} satisfies Partial<Record<UnitexAnnotationBlockType, TermStatistic[]>>;
+} satisfies Partial<Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>>;
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
@@ -25,8 +25,8 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 	);
 }
 
-describe("useListUnitexAnnotationByBlockType", () => {
-	it.each<{ type: UnitexAnnotationBlockType; terms: TermStatistic[] }>([
+describe("useListEnrichmentTermAnnotationByBlockType", () => {
+	it.each<{ type: EnrichmentTermAnnotationBlockType; terms: TermStatistic[] }>([
 		{
 			type: "date",
 			terms: enrichments.date,
@@ -40,7 +40,7 @@ describe("useListUnitexAnnotationByBlockType", () => {
 		terms,
 	}) => {
 		const result = await renderHook(
-			() => useListUnitexAnnotationByBlockType(type),
+			() => useListEnrichmentTermAnnotationByBlockType(type),
 			{ wrapper: TestWrapper },
 		);
 
@@ -49,7 +49,7 @@ describe("useListUnitexAnnotationByBlockType", () => {
 
 	it("should return an empty array for a block type with no annotations", async () => {
 		const result = await renderHook(
-			() => useListUnitexAnnotationByBlockType("orgName"),
+			() => useListEnrichmentTermAnnotationByBlockType("orgName"),
 			{ wrapper: TestWrapper },
 		);
 
@@ -58,7 +58,7 @@ describe("useListUnitexAnnotationByBlockType", () => {
 
 	it("should expose a toggleBlock function that calls the context toggleBlock function with the correct parameters", async () => {
 		const result = await renderHook(
-			() => useListUnitexAnnotationByBlockType("placeName"),
+			() => useListEnrichmentTermAnnotationByBlockType("placeName"),
 			{ wrapper: TestWrapper },
 		);
 
@@ -83,7 +83,7 @@ describe("useListUnitexAnnotationByBlockType", () => {
 
 	it("should expose a toggleTerm function that calls the context toggleTerm function with the correct parameters", async () => {
 		const result = await renderHook(
-			() => useListUnitexAnnotationByBlockType("date"),
+			() => useListEnrichmentTermAnnotationByBlockType("date"),
 			{ wrapper: TestWrapper },
 		);
 

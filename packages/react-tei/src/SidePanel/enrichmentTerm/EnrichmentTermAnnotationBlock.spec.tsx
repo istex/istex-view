@@ -5,8 +5,8 @@ import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
 import type { TermStatistic } from "../../unitex/parseUnitexEnrichment";
-import { UnitexAnnotationBlock } from "./UnitexAnnotationBlock";
-import type { UnitexAnnotationBlockType } from "./unitexAnnotationBlocks";
+import { EnrichmentTermAnnotationBlock } from "./EnrichmentTermAnnotationBlocks";
+import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 
 const enrichments = {
 	date: [{ term: "2021", frequency: 3, displayed: true }],
@@ -14,7 +14,7 @@ const enrichments = {
 		{ term: "Paris", frequency: 2, displayed: true },
 		{ term: "London", frequency: 1, displayed: true },
 	],
-} satisfies Partial<Record<UnitexAnnotationBlockType, TermStatistic[]>>;
+} satisfies Partial<Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>>;
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
@@ -31,9 +31,9 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 	);
 }
 
-describe("UnitexAnnotationBlock", () => {
+describe("EnrichmentTermAnnotationBlock", () => {
 	it.each<{
-		type: UnitexAnnotationBlockType;
+		type: EnrichmentTermAnnotationBlockType;
 		expectedLabel: string;
 		expectedTerms: string[];
 	}>([
@@ -52,9 +52,12 @@ describe("UnitexAnnotationBlock", () => {
 		expectedLabel,
 		expectedTerms,
 	}) => {
-		const screen = await render(<UnitexAnnotationBlock block={type} />, {
-			wrapper: TestWrapper,
-		});
+		const screen = await render(
+			<EnrichmentTermAnnotationBlock block={type} />,
+			{
+				wrapper: TestWrapper,
+			},
+		);
 
 		const list = screen.getByRole("list", {
 			name: expectedLabel,
@@ -71,17 +74,23 @@ describe("UnitexAnnotationBlock", () => {
 	});
 
 	it("should not render anything for a block type with no annotations", async () => {
-		const screen = await render(<UnitexAnnotationBlock block="orgName" />, {
-			wrapper: TestWrapper,
-		});
+		const screen = await render(
+			<EnrichmentTermAnnotationBlock block="orgName" />,
+			{
+				wrapper: TestWrapper,
+			},
+		);
 
 		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 
 	it("should toggle all terms display when clicking on the toggle all checkbox", async () => {
-		const screen = await render(<UnitexAnnotationBlock block="placeName" />, {
-			wrapper: TestWrapper,
-		});
+		const screen = await render(
+			<EnrichmentTermAnnotationBlock block="placeName" />,
+			{
+				wrapper: TestWrapper,
+			},
+		);
 
 		{
 			const checkbox = await expectBlockToBeChecked(screen, true);
@@ -106,9 +115,12 @@ describe("UnitexAnnotationBlock", () => {
 	});
 
 	it("should be partially checked when some terms are displayed and others are not", async () => {
-		const screen = await render(<UnitexAnnotationBlock block="placeName" />, {
-			wrapper: TestWrapper,
-		});
+		const screen = await render(
+			<EnrichmentTermAnnotationBlock block="placeName" />,
+			{
+				wrapper: TestWrapper,
+			},
+		);
 
 		await expectBlockToBeChecked(screen, true);
 		await expectTermToBeChecked(screen, "Paris", true);
