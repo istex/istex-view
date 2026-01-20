@@ -15,10 +15,10 @@
 	"dependencies": {
 		"@mui/icons-material": "catalog:",
 		"@mui/material": "catalog:",
+		"fast-xml-parser": "catalog:",
 		"i18next": "catalog:",
 		"i18next-browser-languagedetector": "catalog:",
 		"i18next-resources-to-backend": "catalog:",
-		"fast-xml-parser": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
 		"react-i18next": "catalog:"

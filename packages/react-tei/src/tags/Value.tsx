@@ -18,11 +18,37 @@ export function Value({ data }: ValueProps) {
 		return data;
 	}
 
-	const { tag, value } = data as DocumentJson;
+	const { tag: completeTag, value } = data as DocumentJson;
+
+	const tag =
+		!(completeTag in tagCatalog) && completeTag.includes(":")
+			? completeTag.split(":")[1]
+			: completeTag;
+
+	if (!tag) {
+		return (
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message={`Tag with XML prefix and without name`}
+				payload={data}
+				type="error"
+			>
+				<Value data={data.value} />
+			</DebugTag>
+		);
+	}
 
 	const TagComponent = tagCatalog[tag];
 	if (TagComponent) {
-		return <TagComponent data={data} />;
+		return (
+			<TagComponent
+				data={{
+					...data,
+					tag,
+				}}
+			/>
+		);
 	}
 
 	if (!IS_DEBUG) {

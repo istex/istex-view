@@ -3,6 +3,9 @@ import { DateTag } from "./DateTag";
 import { Div } from "./Div";
 import { Emph } from "./Emph";
 import { Figure } from "./Figure";
+import { Formula } from "./Formula";
+import { MathMLTag } from "./formula/mathml/MathMLTag";
+import { mathMLTagNames } from "./formula/mathml/mathMLTagNames";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
@@ -36,4 +39,13 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	date: DateTag,
 	s: NoOp,
 	figure: Figure,
+	formula: Formula,
+
+	...mathMLTagNames.reduce(
+		(acc, tagName) => {
+			acc[tagName] = MathMLTag;
+			return acc;
+		},
+		{} as Record<string, ComponentType<ComponentProps>>,
+	),
 };
