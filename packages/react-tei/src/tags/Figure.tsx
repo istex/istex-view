@@ -15,7 +15,9 @@ export function Figure({ data }: ComponentProps) {
 		if (!Array.isArray(data.value)) {
 			return data.value;
 		}
-		return data.value.filter(({ tag }) => ["graphic", "link"].includes(tag));
+		return data.value.filter(
+			({ tag }) => !["graphic", "link", "highlightedText"].includes(tag),
+		);
 	}, [data.value]);
 
 	if (!Array.isArray(value)) {
