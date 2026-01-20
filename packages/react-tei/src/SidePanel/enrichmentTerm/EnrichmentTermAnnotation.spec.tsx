@@ -32,7 +32,7 @@ describe("EnrichmentTermAnnotation", () => {
 		const onToggle = vi.fn();
 		const screen = await render(
 			<EnrichmentTermAnnotation
-				annotation={{ term: "example", frequency: 5, displayed: true }}
+				annotation={{ term: "example", displayed: true }}
 				color="blue"
 				onToggle={onToggle}
 			/>,
@@ -50,7 +50,7 @@ describe("EnrichmentTermAnnotation", () => {
 		const onToggle = vi.fn();
 		const screen = await render(
 			<EnrichmentTermAnnotation
-				annotation={{ term: "example", frequency: 5, displayed: true }}
+				annotation={{ term: "example", displayed: true }}
 				color="blue"
 				onToggle={onToggle}
 			/>,
@@ -70,7 +70,7 @@ describe("EnrichmentTermAnnotation", () => {
 	it("should disable navigation buttons when annotation is not displayed", async () => {
 		const screen = await render(
 			<EnrichmentTermAnnotation
-				annotation={{ term: "example", frequency: 5, displayed: false }}
+				annotation={{ term: "example", displayed: false }}
 				color="blue"
 				onToggle={() => {}}
 			/>,
@@ -94,7 +94,7 @@ describe("EnrichmentTermAnnotation", () => {
 		const navigateToBodyTargetSelector = vi.fn();
 		const screen = await render(
 			<EnrichmentTermAnnotation
-				annotation={{ term: "example", frequency: 5, displayed: true }}
+				annotation={{ term: "example", displayed: true }}
 				color="blue"
 				onToggle={() => {}}
 			/>,

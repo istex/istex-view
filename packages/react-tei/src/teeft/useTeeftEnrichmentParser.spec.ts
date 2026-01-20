@@ -38,8 +38,8 @@ describe("useTeeftEnrichmentParser", () => {
 		);
 
 		expect(result.result.current).toEqual([
-			{ term: "machine learning", frequency: 5, displayed: true },
-			{ term: "artificial intelligence", frequency: 10, displayed: true },
+			{ term: "machine learning", displayed: true },
+			{ term: "artificial intelligence", displayed: true },
 		]);
 	});
 
@@ -102,7 +102,7 @@ describe("useTeeftEnrichmentParser", () => {
 		);
 
 		expect(result.result.current).toEqual([
-			{ term: "neural network", frequency: 0, displayed: true },
+			{ term: "neural network", displayed: true },
 		]);
 	});
 });

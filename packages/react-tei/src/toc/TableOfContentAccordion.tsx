@@ -3,6 +3,7 @@ import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import { useTranslation } from "react-i18next";
+import { TableOfContentTagCatalogProvider } from "./TableOfContentTagCatalogProvider";
 import { TocHeading } from "./TocHeading";
 import type { Heading } from "./useTableOfContent";
 
@@ -45,7 +46,9 @@ export function TableOfContentAccordion({
 					gap: 2,
 				}}
 			>
-				<TocHeading headings={tableOfContent} isMobile />
+				<TableOfContentTagCatalogProvider>
+					<TocHeading headings={tableOfContent} isMobile />
+				</TableOfContentTagCatalogProvider>
 			</AccordionDetails>
 		</Accordion>
 	);

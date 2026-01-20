@@ -1,4 +1,3 @@
-import { lime } from "@mui/material/colors";
 import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
@@ -123,11 +122,12 @@ export const Viewer = ({
 									transition: "background-color 0.3s ease-in-out",
 								},
 								"& .tei-highlighted-group": {
-									backgroundColor: lime[50],
+									backgroundColor: "#F9FBEB",
 								},
-								"& .tei-highlighted": {
-									backgroundColor: lime[100],
-								},
+								"& .tei-highlighted, & .tei-highlighted .tei-highlighted-group":
+									{
+										backgroundColor: "#E3EF63",
+									},
 							}}
 							id="viewer"
 						>

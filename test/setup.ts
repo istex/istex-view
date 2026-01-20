@@ -7,6 +7,7 @@ declare global {
 }
 
 beforeEach(() => {
+	window.IS_REACT_ACT_ENVIRONMENT = true;
 	vi.spyOn(console, "warn").mockImplementation(() => {});
 });
 

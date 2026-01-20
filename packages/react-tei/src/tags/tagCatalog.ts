@@ -31,8 +31,11 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	// Structure tags
 	body: NoOp,
 	"#text": NoOp,
+
+	// Enrichment tags, we have specific implementations
 	highlightedText: NoOp,
-	highlight: Highlight,
+	highlight: Highlight as unknown as ComponentType<ComponentProps>,
+
 	title: Title,
 	bibl: NoOp,
 	biblScope: NoOp,

@@ -14,7 +14,7 @@ describe("enrichDocumentWithTerms", () => {
 			],
 		};
 		const unitexEnrichment = {
-			group1: [{ term: "test", frequency: 2, displayed: true }],
+			group1: [{ term: "test", displayed: true }],
 		};
 
 		const enrichedDocument = enrichDocumentWithTerms(
@@ -67,14 +67,13 @@ describe("enrichDocumentWithTerms", () => {
 		};
 		const unitexEnrichment = {
 			group1: [
-				{ term: "test", frequency: 1, displayed: true },
+				{ term: "test", displayed: true },
 				{
 					term: "is",
-					frequency: 1,
 					displayed: true,
 				},
 			],
-			group2: [{ term: "Unitex", frequency: 1, displayed: true }],
+			group2: [{ term: "Unitex", displayed: true }],
 		};
 
 		const enrichedDocument = enrichDocumentWithTerms(
@@ -119,8 +118,8 @@ describe("enrichDocumentWithTerms", () => {
 			value: [{ tag: "#text", value: "Welcome to New York City!" }],
 		};
 		const unitexEnrichment = {
-			group1: [{ term: "New York City", frequency: 1, displayed: true }],
-			group2: [{ term: "York", frequency: 1, displayed: true }],
+			group1: [{ term: "New York City", displayed: true }],
+			group2: [{ term: "York", displayed: true }],
 		};
 
 		const enrichedDocument = enrichDocumentWithTerms(
@@ -203,9 +202,9 @@ describe("enrichDocumentWithTerms", () => {
 			value: [{ tag: "#text", value: "Prince Charles The Bold Font" }],
 		};
 		const unitexEnrichment = {
-			group1: [{ term: "Prince Charles", frequency: 1, displayed: true }],
-			group2: [{ term: "Charles The Bold", frequency: 1, displayed: true }],
-			group3: [{ term: "The Bold Font", frequency: 1, displayed: true }],
+			group1: [{ term: "Prince Charles", displayed: true }],
+			group2: [{ term: "Charles The Bold", displayed: true }],
+			group3: [{ term: "The Bold Font", displayed: true }],
 		};
 
 		const enrichedDocument = enrichDocumentWithTerms(
@@ -273,6 +272,54 @@ describe("enrichDocumentWithTerms", () => {
 									},
 								},
 							],
+						},
+					],
+				},
+			],
+		});
+	});
+
+	it("should keep space between two different terms", () => {
+		const document = {
+			tag: "p",
+			value: [{ tag: "#text", value: "Gustave Eiffel Marie Curie" }],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Gustave Eiffel", displayed: true }],
+			group2: [{ term: "Marie Curie", displayed: true }],
+		};
+
+		const enrichedDocument = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "p",
+			value: [
+				{
+					attributes: undefined,
+					tag: "highlightedText",
+					value: [
+						{
+							attributes: {
+								groups: ["group1"],
+								term: "gustave-eiffel",
+							},
+							tag: "highlight",
+							value: "Gustave Eiffel",
+						},
+						{
+							tag: "#text",
+							value: " ",
+						},
+						{
+							attributes: {
+								groups: ["group2"],
+								term: "marie-curie",
+							},
+							tag: "highlight",
+							value: "Marie Curie",
 						},
 					],
 				},

@@ -74,14 +74,14 @@ describe("useUnitexEnrichmentParser", () => {
 
 		expect(result.result.current).toEqual({
 			date: [
-				{ term: "2023", frequency: 5, displayed: true },
-				{ term: "2024", frequency: 2, displayed: true },
+				{ term: "2023", displayed: true },
+				{ term: "2024", displayed: true },
 			],
 			person: [
-				{ term: "John Doe", frequency: 10, displayed: true },
-				{ term: "Jane Smith", frequency: 7, displayed: true },
+				{ term: "John Doe", displayed: true },
+				{ term: "Jane Smith", displayed: true },
 			],
-			orgName: [{ term: "Acme Corp", frequency: 3, displayed: true }],
+			orgName: [{ term: "Acme Corp", displayed: true }],
 		});
 	});
 

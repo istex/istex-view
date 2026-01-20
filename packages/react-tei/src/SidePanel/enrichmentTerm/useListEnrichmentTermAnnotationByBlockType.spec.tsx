@@ -7,10 +7,10 @@ import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotati
 import { useListEnrichmentTermAnnotationByBlockType } from "./useListEnrichmentTermAnnotationByBlockType";
 
 const enrichments = {
-	date: [{ term: "2021", frequency: 3, displayed: true }],
+	date: [{ term: "2021", displayed: true }],
 	placeName: [
-		{ term: "Paris", frequency: 2, displayed: true },
-		{ term: "London", frequency: 1, displayed: true },
+		{ term: "Paris", displayed: true },
+		{ term: "London", displayed: true },
 	],
 } satisfies Partial<Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>>;
 
@@ -67,8 +67,8 @@ describe("useListEnrichmentTermAnnotationByBlockType", () => {
 		});
 
 		expect(result.result.current.annotations).toEqual([
-			{ term: "Paris", frequency: 2, displayed: false },
-			{ term: "London", frequency: 1, displayed: false },
+			{ term: "Paris", displayed: false },
+			{ term: "London", displayed: false },
 		]);
 
 		act(() => {
@@ -76,8 +76,8 @@ describe("useListEnrichmentTermAnnotationByBlockType", () => {
 		});
 
 		expect(result.result.current.annotations).toEqual([
-			{ term: "Paris", frequency: 2, displayed: true },
-			{ term: "London", frequency: 1, displayed: true },
+			{ term: "Paris", displayed: true },
+			{ term: "London", displayed: true },
 		]);
 	});
 
@@ -92,7 +92,7 @@ describe("useListEnrichmentTermAnnotationByBlockType", () => {
 		});
 
 		expect(result.result.current.annotations).toEqual([
-			{ term: "2021", frequency: 3, displayed: false },
+			{ term: "2021", displayed: false },
 		]);
 
 		act(() => {
@@ -100,7 +100,7 @@ describe("useListEnrichmentTermAnnotationByBlockType", () => {
 		});
 
 		expect(result.result.current.annotations).toEqual([
-			{ term: "2021", frequency: 3, displayed: true },
+			{ term: "2021", displayed: true },
 		]);
 	});
 });
