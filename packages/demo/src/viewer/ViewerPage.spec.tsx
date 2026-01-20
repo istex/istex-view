@@ -33,7 +33,9 @@ describe("ViewerPage", () => {
 	it("should render Viewer when document is provided and viewerLaunched is true", async () => {
 		const screen = await render(<ViewerPage />);
 
-		expect(screen.getByText("TEI Test Title")).toBeInTheDocument();
+		await expect
+			.element(screen.getByText("TEI Test Title"))
+			.toBeInTheDocument();
 	});
 
 	it("should not render Viewer when document is not provided", async () => {
@@ -45,7 +47,9 @@ describe("ViewerPage", () => {
 
 		const screen = await render(<ViewerPage />);
 
-		expect(screen.getByText("TEI Test Title")).not.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("TEI Test Title"))
+			.not.toBeInTheDocument();
 	});
 
 	it("should not render Viewer when viewerLaunched is false", async () => {
@@ -68,6 +72,8 @@ describe("ViewerPage", () => {
 
 		const screen = await render(<ViewerPage />);
 
-		expect(screen.getByText("TEI Test Title")).not.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("TEI Test Title"))
+			.not.toBeInTheDocument();
 	});
 });

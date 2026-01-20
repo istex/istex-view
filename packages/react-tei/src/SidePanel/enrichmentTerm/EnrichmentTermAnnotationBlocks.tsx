@@ -23,9 +23,6 @@ export function EnrichmentTermAnnotationBlock({
 		useListEnrichmentTermAnnotationByBlockType(block);
 
 	const toggleContext = displayStatus === "all" ? "hide" : "show";
-	const sectionlabel = t(`termEnrichment.${block}`, {
-		count: annotations.length,
-	});
 	const checkboxLabel = t("termEnrichment.toggleBlock", {
 		context: toggleContext,
 	});
@@ -47,7 +44,7 @@ export function EnrichmentTermAnnotationBlock({
 				}}
 			>
 				<FormControlLabel
-					label={sectionlabel}
+					label={t("termEnrichment.underlineWordsInText")}
 					control={
 						<Tooltip title={checkboxLabel} placement="left">
 							<Checkbox

@@ -102,6 +102,6 @@ describe("Head", () => {
 				</TagCatalogProvider>
 			),
 		});
-		expect(screen.container).toBeEmptyDOMElement();
+		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 });

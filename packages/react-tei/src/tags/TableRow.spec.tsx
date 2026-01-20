@@ -32,7 +32,11 @@ describe("TableRow", () => {
 			),
 		});
 
-		expect(screen.getByRole("cell", { name: "Cell 1" })).toBeVisible();
-		expect(screen.getByRole("cell", { name: "Cell 2" })).toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Cell 1" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Cell 2" }))
+			.toBeVisible();
 	});
 });

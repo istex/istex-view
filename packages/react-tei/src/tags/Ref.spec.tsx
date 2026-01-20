@@ -84,7 +84,7 @@ describe("UriRef", () => {
 			),
 		});
 
-		expect(screen.getByText("No link here")).toBeInTheDocument();
+		await expect.element(screen.getByText("No link here")).toBeInTheDocument();
 	});
 
 	it("should render value and warn when ref is empty", async () => {
@@ -102,7 +102,7 @@ describe("UriRef", () => {
 			),
 		});
 
-		expect(screen.container).toBeEmptyDOMElement();
+		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 });
 
@@ -416,7 +416,7 @@ describe("Ref", () => {
 				</TagCatalogProvider>
 			),
 		});
-		expect(screen.getByText("Hello")).toBeInTheDocument();
+		await expect.element(screen.getByText("Hello")).toBeInTheDocument();
 	});
 
 	it.each<DocumentJsonValue[]>([

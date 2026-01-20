@@ -228,7 +228,7 @@ describe("MultilingualAbstract", () => {
 			wrapper: I18nProvider,
 		});
 
-		expect(screen.getByRole("region")).not.toBeInTheDocument();
+		await expect.element(screen.getByRole("region")).not.toBeInTheDocument();
 	});
 
 	it("should not render anything if no language attribute is present", async () => {

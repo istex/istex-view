@@ -26,7 +26,7 @@ describe("Hi", () => {
 				</TagCatalogProvider>
 			),
 		});
-		expect(screen.getByText("Hello")).toBeInTheDocument();
+		await expect.element(screen.getByText("Hello")).toBeInTheDocument();
 	});
 
 	it.each([

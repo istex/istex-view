@@ -65,6 +65,6 @@ describe("DateTag", () => {
 				</TagCatalogProvider>
 			),
 		});
-		expect(screen.container).toBeEmptyDOMElement();
+		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 });

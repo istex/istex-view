@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
 import App from "./App";
@@ -7,11 +7,13 @@ describe("App", () => {
 	it("should render the upload button", async () => {
 		const screen = await render(<App />);
 
-		expect(
-			screen.getByRole("button", {
-				name: "Document TEI",
-			}),
-		).toBeInTheDocument();
+		await expect
+			.element(
+				screen.getByRole("button", {
+					name: "Document TEI",
+				}),
+			)
+			.toBeInTheDocument();
 	});
 
 	it("should render the XML document when a tei file is uploaded", async () => {
@@ -49,8 +51,8 @@ describe("App", () => {
 
 		await screen.getByRole("button", { name: "Lancer la visionneuse" }).click();
 
-		await vi.waitFor(() => {
-			expect(screen.getByText("TEI Test Title")).toBeInTheDocument();
-		});
+		await expect
+			.element(screen.getByText("TEI Test Title"))
+			.toBeInTheDocument();
 	});
 });

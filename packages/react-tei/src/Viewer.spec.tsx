@@ -53,8 +53,12 @@ describe("Viewer", () => {
 			screen.getByRole("heading", { level: 3, name: "Section 1" }),
 		).toBeInTheDocument();
 
-		expect(screen.getByText("This is a test document.")).toBeInTheDocument();
-		expect(screen.getByText("Content of section 1.")).toBeInTheDocument();
+		await expect
+			.element(screen.getByText("This is a test document."))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByText("Content of section 1."))
+			.toBeInTheDocument();
 	});
 
 	it("should render a table", async () => {
@@ -98,10 +102,10 @@ describe("Viewer", () => {
 			}),
 		).toBeVisible();
 
-		expect(screen.getByRole("caption")).toBeVisible();
-		expect(screen.getByRole("caption")).toHaveTextContent(
-			"Table 1 Sample Table",
-		);
+		await expect.element(screen.getByRole("caption")).toBeVisible();
+		await expect
+			.element(screen.getByRole("caption"))
+			.toHaveTextContent("Table 1 Sample Table");
 
 		expect(
 			screen.getByRole("columnheader", { name: "Header 1" }),
@@ -110,8 +114,12 @@ describe("Viewer", () => {
 			screen.getByRole("columnheader", { name: "Header 2" }),
 		).toBeVisible();
 
-		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
-		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Data 1" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("cell", { name: "Data 2" }))
+			.toBeVisible();
 		expect(
 			screen.getByRole("note").filter({
 				hasText: "This is a table note.",
