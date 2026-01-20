@@ -84,6 +84,9 @@ export const fr = {
 		enter: "Passer en mode plein écran",
 		exit: "Quitter le mode plein écran",
 	},
+	figure: {
+		unloaded: "Image non chargée",
+	},
 };
 
 export type Translation = typeof fr;

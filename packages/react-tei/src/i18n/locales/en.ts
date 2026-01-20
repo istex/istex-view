@@ -85,4 +85,7 @@ export const en: Translation = {
 		enter: "Enter full screen mode",
 		exit: "Exit full screen mode",
 	},
+	figure: {
+		unloaded: "Image not loaded",
+	},
 };
