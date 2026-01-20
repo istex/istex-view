@@ -182,10 +182,10 @@ export function DocumentNavigationContextProvider({
 
 			if (!panel.state.sections[section]) {
 				panel.toggleSection(section);
-				await new Promise((resolve) => setTimeout(resolve, 300));
+				await new Promise((resolve) => setTimeout(resolve, 600));
 			} else if (!panel.state.isOpen) {
 				panel.togglePanel();
-				await new Promise((resolve) => setTimeout(resolve, 300));
+				await new Promise((resolve) => setTimeout(resolve, 600));
 			}
 
 			navigateToTargetLoop(sidePanelElement, querySelector);
