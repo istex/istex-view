@@ -66,7 +66,10 @@ export function FileSelectorButton({
 					border: (theme) => `1px solid ${theme.palette.divider}`,
 					borderRadius: 1,
 					cursor: "pointer",
-					height: "48px",
+					height: {
+						xs: "fit-content",
+						md: "48px",
+					},
 				}}
 			>
 				<Button
