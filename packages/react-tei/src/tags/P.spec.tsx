@@ -1,9 +1,57 @@
 import { describe, expect, it } from "vitest";
+import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document";
 import { groupConsecutiveNonTableValues, P } from "./P";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
+
+// ...existing code...
+
+it("should have a tooltip for InlineFigure inside paragraph if it contains displayable content", async () => {
+	const jsonValue: DocumentJson = {
+		tag: "p",
+		attributes: {},
+		value: [
+			{ tag: "#text", value: "This is a paragraph with an inline figure: " },
+			{
+				tag: "figure",
+				value: [
+					{
+						tag: "figDesc",
+						attributes: {},
+						value: [{ tag: "#text", value: "This is a figure description." }],
+					},
+				],
+			},
+			{
+				tag: "#text",
+				value: ".",
+			},
+		],
+	};
+
+	const screen = await render(<P data={jsonValue} />, {
+		wrapper: ({ children }) => (
+			<TagCatalogProvider tagCatalog={tagCatalog}>
+				{children}
+			</TagCatalogProvider>
+		),
+	});
+
+	const inlineFigure = screen.getByText("figure.unloaded");
+	await expect.element(inlineFigure).toBeVisible();
+
+	// Use userEvent.hover from vitest browser context
+	await userEvent.hover(inlineFigure.element());
+
+	// Wait for tooltip to appear
+	const tooltip = screen.getByRole("tooltip");
+	await expect.element(tooltip).toBeVisible();
+	await expect
+		.element(tooltip)
+		.toHaveTextContent("This is a figure description.");
+});
 
 describe("groupConsecutiveNonTableValues", () => {
 	it("should return a single group when there are no tables", () => {
@@ -300,5 +348,112 @@ describe("P", () => {
 		await expect
 			.element(screen.getByRole("paragraph"))
 			.toHaveTextContent("Valid text");
+	});
+
+	it("should interpret nested p as NoOp and not create nested <p> tags", async () => {
+		const jsonValue: DocumentJson = {
+			tag: "p",
+			attributes: {},
+			value: [
+				{ tag: "#text", value: "This is a paragraph with " },
+				{
+					tag: "p",
+					attributes: {},
+					value: [{ tag: "#text", value: "nested p tag" }],
+				},
+				{
+					tag: "#text",
+					value: ".",
+				},
+			],
+		};
+
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.getByRole("paragraph")).toHaveTextContent(
+			"This is a paragraph with nested p tag.",
+		);
+	});
+
+	it("should render figure with image as InlineFigure inside paragraph", async () => {
+		const jsonValue: DocumentJson = {
+			tag: "p",
+			attributes: {},
+			value: [
+				{ tag: "#text", value: "This is a paragraph with an inline figure: " },
+				{
+					tag: "figure",
+					value: [
+						{
+							tag: "graphic",
+						},
+					],
+				},
+				{
+					tag: "#text",
+					value: ".",
+				},
+			],
+		};
+
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.getByRole("paragraph")).toHaveTextContent(
+			"This is a paragraph with an inline figure: figure.unloaded.",
+		);
+	});
+
+	it("should have a tooltip for InlineFigure inside paragraph if it contains displayable content", async () => {
+		const jsonValue: DocumentJson = {
+			tag: "p",
+			attributes: {},
+			value: [
+				{ tag: "#text", value: "This is a paragraph with an inline figure: " },
+				{
+					tag: "figure",
+					value: [
+						{
+							tag: "figDesc",
+							attributes: {},
+							value: [{ tag: "#text", value: "This is a figure description." }],
+						},
+					],
+				},
+				{
+					tag: "#text",
+					value: ".",
+				},
+			],
+		};
+		userEvent.setup();
+
+		const screen = await render(<P data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		const inlineFigure = screen.getByText("figure.unloaded");
+		expect(inlineFigure).toBeVisible();
+
+		await userEvent.hover(inlineFigure.element());
+
+		const tooltip = screen.getByRole("tooltip");
+		expect(tooltip).toBeVisible();
+		expect(tooltip).toHaveTextContent("This is a figure description.");
 	});
 });
