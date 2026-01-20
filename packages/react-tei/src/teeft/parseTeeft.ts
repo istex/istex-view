@@ -1,7 +1,6 @@
 import { findTagByName } from "../helper/findTagByName";
 import type { DocumentJson } from "../parser/document";
 import {
-	getAnnotationFrequency,
 	getAnnotationTerm,
 	type TermStatistic,
 } from "../termEnrichment/parseUnitexEnrichment";
@@ -18,11 +17,8 @@ const extractTermFromTermTag = (
 		return null;
 	}
 
-	const frequency = getAnnotationFrequency(termTag) ?? 0;
-
 	return {
 		term,
-		frequency,
 		displayed: true,
 	};
 };

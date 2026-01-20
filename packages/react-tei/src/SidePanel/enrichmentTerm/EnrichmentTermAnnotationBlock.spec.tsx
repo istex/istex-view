@@ -9,10 +9,10 @@ import { EnrichmentTermAnnotationBlock } from "./EnrichmentTermAnnotationBlocks"
 import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 
 const enrichments = {
-	date: [{ term: "2021", frequency: 3, displayed: true }],
+	date: [{ term: "2021", displayed: true }],
 	placeName: [
-		{ term: "Paris", frequency: 2, displayed: true },
-		{ term: "London", frequency: 1, displayed: true },
+		{ term: "Paris", displayed: true },
+		{ term: "London", displayed: true },
 	],
 } satisfies Partial<Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>>;
 

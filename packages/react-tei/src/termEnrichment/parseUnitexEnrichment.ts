@@ -5,7 +5,6 @@ import type { DocumentJson } from "../parser/document";
 
 export type TermStatistic = {
 	term: string;
-	frequency: number;
 	displayed: boolean;
 };
 
@@ -19,43 +18,6 @@ export const getAnnotationTerm = (
 	return getTagText(termTag);
 };
 
-export const getAnnotationFrequency = (
-	annotationBlock: DocumentJson,
-): number | null => {
-	const fsTag = findTagByName(annotationBlock, "fs");
-	if (!fsTag || fsTag.attributes?.["@type"] !== "statistics") {
-		console.warn(
-			"No fs[type=statistics] tag found in annotationBlock",
-			annotationBlock,
-		);
-		return null;
-	}
-	const fTag = findChildrenByName(fsTag, "f").find(
-		(fTag) => fTag.attributes?.["@name"] === "frequency",
-	);
-
-	if (!fTag) {
-		console.warn("No f[name=frequency] tag found in fs statistics", fsTag);
-		return null;
-	}
-
-	const numericTag = findTagByName(fTag, "numeric");
-	if (!numericTag) {
-		console.warn("No numeric tag found in f frequency", fTag);
-		return null;
-	}
-
-	const frequency = numericTag.attributes?.["@value"]
-		? parseInt(numericTag.attributes["@value"], 10)
-		: null;
-
-	if (frequency === null || Number.isNaN(frequency)) {
-		console.warn("Invalid frequency value in numeric tag", numericTag);
-		return null;
-	}
-	return frequency;
-};
-
 export const exractTermFromAnnotationBlock = (
 	documentFragment: DocumentJson,
 ): TermStatistic | null => {
@@ -63,11 +25,9 @@ export const exractTermFromAnnotationBlock = (
 	if (!term) {
 		return null;
 	}
-	const frequency = getAnnotationFrequency(documentFragment) || 0;
 
 	return {
 		term,
-		frequency,
 		displayed: true,
 	};
 };

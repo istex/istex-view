@@ -104,6 +104,7 @@ export const highlightTermInTextTag = (
 	const result: (HighlightTag | TextTag)[] = [];
 
 	while (stack.length > 0) {
+		// biome-ignore lint/style/noNonNullAssertion: Stack is not empty here
 		const textFragment = stack.shift()!;
 
 		if (textFragment.tag === "highlight") {

@@ -54,4 +54,20 @@ describe("removeEmptyTextValues", () => {
 			},
 		]);
 	});
+
+	it('should keep "#text" nodes with a single space or newline', () => {
+		const documents = [
+			{ tag: "#text", value: " " },
+			{ tag: "#text", value: "\n" },
+			{ tag: "#text", value: "   " },
+			{ tag: "#text", value: "" },
+		];
+
+		const result = removeEmptyTextValues(documents);
+
+		expect(result).toEqual([
+			{ tag: "#text", value: " " },
+			{ tag: "#text", value: "\n" },
+		]);
+	});
 });

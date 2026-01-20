@@ -95,13 +95,11 @@ describe("getOverlappingTermsFromList", () => {
 			const termA = {
 				group: "group1",
 				term: "Prince Charles",
-				frequency: 1,
 				displayed: true,
 			};
 			const termB = {
 				group: "group2",
 				term: "Charles Xavier",
-				frequency: 1,
 				displayed: true,
 			};
 
@@ -120,13 +118,11 @@ describe("getOverlappingTermsFromList", () => {
 			const termA = {
 				group: "group1",
 				term: "United States of America",
-				frequency: 1,
 				displayed: true,
 			};
 			const termB = {
 				group: "group2",
 				term: "States of America and Canada",
-				frequency: 1,
 				displayed: true,
 			};
 
@@ -145,13 +141,11 @@ describe("getOverlappingTermsFromList", () => {
 			const termA = {
 				group: "group1",
 				term: "New York City",
-				frequency: 1,
 				displayed: true,
 			};
 			const termB = {
 				group: "group2",
 				term: "York City University",
-				frequency: 1,
 				displayed: true,
 			};
 			const overlappingTermsAB = getTermOverlap(termA, termB);
@@ -163,13 +157,11 @@ describe("getOverlappingTermsFromList", () => {
 			const termA = {
 				group: "group1",
 				term: "Charles Quint",
-				frequency: 1,
 				displayed: true,
 			};
 			const termB = {
 				group: "group2",
 				term: "Quintessence",
-				frequency: 1,
 				displayed: true,
 			};
 			const overlappingTerms = getTermOverlap(termA, termB);
@@ -180,13 +172,11 @@ describe("getOverlappingTermsFromList", () => {
 			const termA = {
 				group: "group1",
 				term: "écrire",
-				frequency: 1,
 				displayed: true,
 			};
 			const termB = {
 				group: "group2",
 				term: "créé",
-				frequency: 1,
 				displayed: true,
 			};
 			const overlappingTerms = getTermOverlap(termA, termB);
@@ -197,13 +187,11 @@ describe("getOverlappingTermsFromList", () => {
 			const termA = {
 				group: "group1",
 				term: "San Francisco",
-				frequency: 1,
 				displayed: true,
 			};
 			const termB = {
 				group: "group2",
 				term: "Los Angeles",
-				frequency: 1,
 				displayed: true,
 			};
 			const overlappingTerms = getTermOverlap(termA, termB);
@@ -215,20 +203,17 @@ describe("getOverlappingTermsFromList", () => {
 			{
 				group: "group1",
 				term: "Prince Charles",
-				frequency: 1,
 				displayed: true,
 			},
 			{
 				group: "group1",
 				term: "Charles Xavier",
-				frequency: 1,
 				displayed: true,
 			},
-			{ group: "group1", term: "Wolverine", frequency: 1, displayed: true },
+			{ group: "group1", term: "Wolverine", displayed: true },
 			{
 				group: "group1",
 				term: "Charles the bold",
-				frequency: 1,
 				displayed: true,
 			},
 			{
@@ -238,13 +223,11 @@ describe("getOverlappingTermsFromList", () => {
 			{
 				group: "group2",
 				term: "bold font",
-				frequency: 1,
 				displayed: true,
 			},
 			{
 				group: "group2",
 				term: "Quintessence",
-				frequency: 1,
 				displayed: true,
 			},
 		];
@@ -284,19 +267,16 @@ describe("getOverlappingTermsFromList", () => {
 			{
 				group: "group1",
 				term: "Prince Charles",
-				frequency: 1,
 				displayed: true,
 			},
 			{
 				group: "group2",
 				term: "Charles The Bold",
-				frequency: 1,
 				displayed: true,
 			},
 			{
 				group: "group3",
 				term: "The Bold Font",
-				frequency: 1,
 				displayed: true,
 			},
 		];

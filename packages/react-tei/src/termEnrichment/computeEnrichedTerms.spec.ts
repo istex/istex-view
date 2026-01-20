@@ -4,8 +4,8 @@ import { computeEnrichedTerms } from "./computeEnrichedTerms";
 describe("computeEnrichedTerms", () => {
 	it('should regroup identical terms from different groups (e.g., "cat" from group1 and group2)', () => {
 		const termByGroup = {
-			group1: [{ term: "cat", frequency: 1, displayed: true }],
-			group2: [{ term: "cat", frequency: 1, displayed: true }],
+			group1: [{ term: "cat", displayed: true }],
+			group2: [{ term: "cat", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -18,17 +18,16 @@ describe("computeEnrichedTerms", () => {
 			group1: [
 				{
 					term: "France Organization of cat lover",
-					frequency: 1,
 					displayed: true,
 				},
 			],
 			group2: [
-				{ term: "cat", frequency: 1, displayed: true },
-				{ term: "dog", frequency: 1, displayed: true },
+				{ term: "cat", displayed: true },
+				{ term: "dog", displayed: true },
 			],
 			group3: [
-				{ term: "France", frequency: 1, displayed: true },
-				{ term: "cat", frequency: 1, displayed: true },
+				{ term: "France", displayed: true },
+				{ term: "cat", displayed: true },
 			],
 		};
 
@@ -78,8 +77,8 @@ describe("computeEnrichedTerms", () => {
 
 	it('should handle nested terms correctly (e.g., "New York City" containing "York")', () => {
 		const termByGroup = {
-			group1: [{ term: "New York City", frequency: 1, displayed: true }],
-			group2: [{ term: "York", frequency: 1, displayed: true }],
+			group1: [{ term: "New York City", displayed: true }],
+			group2: [{ term: "York", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -117,8 +116,8 @@ describe("computeEnrichedTerms", () => {
 
 	it("should ignore nesting when terms are not words", () => {
 		const termByGroup = {
-			group1: [{ term: "overconfident", frequency: 1, displayed: true }],
-			group2: [{ term: "conf", frequency: 1, displayed: true }],
+			group1: [{ term: "overconfident", displayed: true }],
+			group2: [{ term: "conf", displayed: true }],
 		};
 		const terms = computeEnrichedTerms(termByGroup);
 
@@ -136,8 +135,8 @@ describe("computeEnrichedTerms", () => {
 
 	it("should ignore overlapping terms that have no words in common", () => {
 		const termByGroup = {
-			group1: [{ term: "concat", frequency: 1, displayed: true }],
-			group2: [{ term: "catastrophic", frequency: 1, displayed: true }],
+			group1: [{ term: "concat", displayed: true }],
+			group2: [{ term: "catastrophic", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -156,11 +155,9 @@ describe("computeEnrichedTerms", () => {
 
 	it("should handle multiple sub-terms", () => {
 		const termByGroup = {
-			group1: [
-				{ term: "San Francisco Bay Area", frequency: 1, displayed: true },
-			],
-			group2: [{ term: "San Francisco", frequency: 1, displayed: true }],
-			group3: [{ term: "Bay Area", frequency: 1, displayed: true }],
+			group1: [{ term: "San Francisco Bay Area", displayed: true }],
+			group2: [{ term: "San Francisco", displayed: true }],
+			group3: [{ term: "Bay Area", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -202,12 +199,11 @@ describe("computeEnrichedTerms", () => {
 			group1: [
 				{
 					term: "Union ratatinée des saucisson sec",
-					frequency: 1,
 					displayed: true,
 				},
 			],
-			group2: [{ term: "saucisson sec", frequency: 1, displayed: true }],
-			group3: [{ term: "saucisson", frequency: 1, displayed: true }],
+			group2: [{ term: "saucisson sec", displayed: true }],
+			group3: [{ term: "saucisson", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -267,8 +263,8 @@ describe("computeEnrichedTerms", () => {
 	it("should not nest terms that are in the same group", () => {
 		const termByGroup = {
 			group1: [
-				{ term: "cat lover", frequency: 1, displayed: true },
-				{ term: "cat", frequency: 1, displayed: true },
+				{ term: "cat lover", displayed: true },
+				{ term: "cat", displayed: true },
 			],
 		};
 
@@ -283,10 +279,10 @@ describe("computeEnrichedTerms", () => {
 	it("should nest terms that are in the same group, while leaving occurence outside of the group un-nested", () => {
 		const termByGroup = {
 			group1: [
-				{ term: "United States of America", frequency: 1, displayed: true },
-				{ term: "America", frequency: 1, displayed: true },
+				{ term: "United States of America", displayed: true },
+				{ term: "America", displayed: true },
 			],
-			group2: [{ term: "America", frequency: 1, displayed: true }],
+			group2: [{ term: "America", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -318,8 +314,8 @@ describe("computeEnrichedTerms", () => {
 	it('should handle overlapping terms from the same group correctly (e.g., "Prince Charles" and "Charles Xavier")', () => {
 		const termByGroup = {
 			group1: [
-				{ term: "Prince Charles", frequency: 1, displayed: true },
-				{ term: "Charles Xavier", frequency: 1, displayed: true },
+				{ term: "Prince Charles", displayed: true },
+				{ term: "Charles Xavier", displayed: true },
 			],
 		};
 
@@ -361,9 +357,9 @@ describe("computeEnrichedTerms", () => {
 
 	it("should handle complex overlapping", () => {
 		const termByGroup = {
-			group1: [{ term: "Prince Charles", frequency: 1, displayed: true }],
-			group2: [{ term: "Charles The Bold", frequency: 1, displayed: true }],
-			group3: [{ term: "The Bold Font", frequency: 1, displayed: true }],
+			group1: [{ term: "Prince Charles", displayed: true }],
+			group2: [{ term: "Charles The Bold", displayed: true }],
+			group3: [{ term: "The Bold Font", displayed: true }],
 		};
 
 		const terms = computeEnrichedTerms(termByGroup);
@@ -463,16 +459,16 @@ describe("computeEnrichedTerms", () => {
 	it("should handle everything at once", () => {
 		const termByGroup = {
 			group1: [
-				{ term: "United Nations", frequency: 1, displayed: true },
-				{ term: "Gamers United", frequency: 1, displayed: true },
+				{ term: "United Nations", displayed: true },
+				{ term: "Gamers United", displayed: true },
 			],
-			group3: [{ term: "United States", frequency: 1, displayed: true }],
-			group2: [{ term: "States", frequency: 1, displayed: true }],
+			group3: [{ term: "United States", displayed: true }],
+			group2: [{ term: "States", displayed: true }],
 			group4: [
-				{ term: "United", frequency: 1, displayed: true },
-				{ term: "States", frequency: 1, displayed: true },
-				{ term: "Nations", frequency: 1, displayed: true },
-				{ term: "Gamers", frequency: 1, displayed: true },
+				{ term: "United", displayed: true },
+				{ term: "States", displayed: true },
+				{ term: "Nations", displayed: true },
+				{ term: "Gamers", displayed: true },
 			],
 		};
 

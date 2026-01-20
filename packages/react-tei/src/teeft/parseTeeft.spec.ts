@@ -202,7 +202,6 @@ describe("parseTeeft", () => {
 		expect(result).toEqual([
 			{
 				term: "machine learning",
-				frequency: 5,
 				displayed: true,
 			},
 		]);
@@ -302,12 +301,10 @@ describe("parseTeeft", () => {
 		expect(result).toEqual([
 			{
 				term: "artificial intelligence",
-				frequency: 10,
 				displayed: true,
 			},
 			{
 				term: "deep learning",
-				frequency: 3,
 				displayed: true,
 			},
 		]);
@@ -347,7 +344,6 @@ describe("parseTeeft", () => {
 		expect(result).toEqual([
 			{
 				term: "neural network",
-				frequency: 0,
 				displayed: true,
 			},
 		]);
@@ -435,7 +431,6 @@ describe("parseTeeft", () => {
 		expect(result).toEqual([
 			{
 				term: "valid term",
-				frequency: 9,
 				displayed: true,
 			},
 		]);
