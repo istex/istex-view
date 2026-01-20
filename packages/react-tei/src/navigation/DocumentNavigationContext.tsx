@@ -1,5 +1,8 @@
 import { createContext, useCallback, useEffect, useMemo, useRef } from "react";
-import { useDocumentContext } from "../DocumentContextProvider";
+import {
+	type PanelSection,
+	useDocumentContext,
+} from "../DocumentContextProvider";
 
 export const DIRECTION_NEXT = "next";
 export const DIRECTION_PREVIOUS = "previous";
@@ -169,7 +172,7 @@ export function DocumentNavigationContextProvider({
 	);
 
 	const navigateToPanelTargetSelector = useCallback(
-		(querySelector: string) => {
+		async (section: PanelSection, querySelector: string) => {
 			const sidePanelElement = sidePanelRef.current;
 
 			if (!sidePanelElement) {
@@ -177,44 +180,34 @@ export function DocumentNavigationContextProvider({
 				return;
 			}
 
+			if (!panel.state.sections[section]) {
+				panel.toggleSection(section);
+				await new Promise((resolve) => setTimeout(resolve, 300));
+			} else if (!panel.state.isOpen) {
+				panel.togglePanel();
+				await new Promise((resolve) => setTimeout(resolve, 300));
+			}
+
 			navigateToTargetLoop(sidePanelElement, querySelector);
 		},
-		[sidePanelRef, navigateToTargetLoop],
+		[sidePanelRef, navigateToTargetLoop, panel],
 	);
 
 	const navigateToFootnote = useCallback(
 		(n: string) => {
-			const selector = buildDataSelector(n, "fn");
-
-			if (!panel.state.isOpen || !panel.state.sections.footnotes) {
-				panel.toggleSection("footnotes");
-				setTimeout(() => {
-					navigateToPanelTargetSelector(selector);
-				}, 600);
-				return;
-			}
-			return navigateToPanelTargetSelector(selector);
+			navigateToPanelTargetSelector("footnotes", buildDataSelector(n, "fn"));
 		},
-		[navigateToPanelTargetSelector, panel],
+		[navigateToPanelTargetSelector],
 	);
 
 	const navigateToBibliographicReference = useCallback(
 		(id: string) => {
-			const selector = buildDataSelector(id, "bibref");
-
-			if (
-				!panel.state.isOpen ||
-				!panel.state.sections.bibliographicReferences
-			) {
-				panel.toggleSection("bibliographicReferences");
-				setTimeout(() => {
-					navigateToPanelTargetSelector(selector);
-				}, 600);
-				return;
-			}
-			return navigateToPanelTargetSelector(selector);
+			return navigateToPanelTargetSelector(
+				"bibliographicReferences",
+				buildDataSelector(id, "bibref"),
+			);
 		},
-		[navigateToPanelTargetSelector, panel],
+		[navigateToPanelTargetSelector],
 	);
 
 	const navigateToFootnoteRef = useCallback(

@@ -344,6 +344,96 @@ describe("DocumentNavigationContextProvider", () => {
 			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
+
+		it("should open the side panel if it is closed when navigating to a footnote", async () => {
+			const toggleSection = vi.fn();
+			const togglePanel = vi.fn();
+			const { sidePaneElement, wrapper } = createSidePaneWrapper({
+				state: {
+					isOpen: false,
+					sections: {
+						footnotes: true,
+						authors: false,
+						keywords: false,
+						source: false,
+					},
+				},
+				toggleSection,
+				togglePanel,
+			});
+			const scrollIntoView = vi.fn();
+			const querySelectorAll = vi.fn().mockImplementation(() => {
+				const span = document.createElement("span");
+				span.scrollIntoView = scrollIntoView;
+
+				return [span];
+			});
+
+			vi.spyOn(sidePaneElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
+			);
+			const { result } = await renderHook(() => useDocumentNavigation(), {
+				wrapper,
+			});
+
+			act(() => {
+				result.current.navigateToFootnote("footnote-1");
+			});
+			expect(togglePanel).toHaveBeenCalled();
+			expect(querySelectorAll).not.toHaveBeenCalled();
+			expect(scrollIntoView).not.toHaveBeenCalled();
+			await new Promise((r) => setTimeout(r, 700)); // wait for the panel and section animation
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'[data-fn-id~="footnote-1"]',
+			);
+			expect(scrollIntoView).toHaveBeenCalled();
+		});
+
+		it('should open the side panel and the "footnotes" section if both are closed when navigating to a footnote', async () => {
+			const toggleSection = vi.fn();
+			const togglePanel = vi.fn();
+			const { sidePaneElement, wrapper } = createSidePaneWrapper({
+				state: {
+					isOpen: false,
+					sections: {
+						footnotes: false,
+						authors: false,
+						keywords: false,
+						source: false,
+					},
+				},
+				toggleSection,
+				togglePanel,
+			});
+			const scrollIntoView = vi.fn();
+			const querySelectorAll = vi.fn().mockImplementation(() => {
+				const span = document.createElement("span");
+				span.scrollIntoView = scrollIntoView;
+
+				return [span];
+			});
+
+			vi.spyOn(sidePaneElement, "querySelectorAll").mockImplementation(
+				querySelectorAll,
+			);
+			const { result } = await renderHook(() => useDocumentNavigation(), {
+				wrapper,
+			});
+
+			act(() => {
+				result.current.navigateToFootnote("footnote-1");
+			});
+			// toggleSection will open both the panel and the section
+			expect(toggleSection).toHaveBeenCalledWith("footnotes");
+			expect(togglePanel).not.toHaveBeenCalled();
+			expect(querySelectorAll).not.toHaveBeenCalled();
+			expect(scrollIntoView).not.toHaveBeenCalled();
+			await new Promise((r) => setTimeout(r, 1000)); // wait for the panel and section animation
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'[data-fn-id~="footnote-1"]',
+			);
+			expect(scrollIntoView).toHaveBeenCalled();
+		});
 	});
 
 	describe("navigateToBibliographicReferenceRef", () => {
