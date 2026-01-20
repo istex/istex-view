@@ -20,9 +20,10 @@ export function Value({ data }: ValueProps) {
 
 	const { tag: completeTag, value } = data as DocumentJson;
 
-	const tag = completeTag.includes(":")
-		? completeTag.split(":")[1]
-		: completeTag;
+	const tag =
+		!(completeTag in tagCatalog) && completeTag.includes(":")
+			? completeTag.split(":")[1]
+			: completeTag;
 
 	if (!tag) {
 		return (
