@@ -56,4 +56,52 @@ describe("Figure", () => {
 		expect(screen.getByRole("cell", { name: "Data 1" })).toBeVisible();
 		expect(screen.getByRole("cell", { name: "Data 2" })).toBeVisible();
 	});
+	it("should render unloaded figure for non-table types", async () => {
+		const jsonDocument: DocumentJson = {
+			tag: "figure",
+			attributes: { "@type": "image", "@xml:id": "f1" },
+			value: [],
+		};
+
+		const screen = await render(<Figure data={jsonDocument} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.getByText("figure.unloaded")).toBeVisible();
+	});
+
+	it("should render figure.unloaded along figure head and figDesc when they are presents", async () => {
+		const jsonDocument: DocumentJson = {
+			tag: "figure",
+			attributes: { "@type": "image", "@xml:id": "f2" },
+			value: [
+				{
+					tag: "head",
+					attributes: {},
+					value: "This is the figure head",
+				},
+				{
+					tag: "figDesc",
+					attributes: {},
+					value: "This is the figure description",
+				},
+			],
+		};
+
+		const screen = await render(<Figure data={jsonDocument} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		expect(screen.getByText("figure.unloaded")).toBeVisible();
+		expect(screen.getByText("This is the figure head")).toBeVisible();
+		expect(screen.getByText("This is the figure description")).toBeVisible();
+	});
 });
