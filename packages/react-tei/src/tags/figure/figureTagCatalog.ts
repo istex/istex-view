@@ -13,5 +13,5 @@ export const figureTagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	hi: Hi,
 	"#text": NoOp,
 	highlightedText: NoOp,
-	highlight: Highlight,
+	highlight: Highlight as unknown as ComponentType<ComponentProps>,
 };
