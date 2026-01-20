@@ -87,3 +87,120 @@ describe("Value", () => {
 		await expect.element(screen.container).toBeEmptyDOMElement();
 	});
 });
+
+describe("MathML", () => {
+	it.each<DocumentJson["attributes"]>([
+		{
+			"@xmlns": "http://www.w3.org/1998/Math/MathML",
+		},
+		{},
+	])("should render MathML tags without prefix", async (attributes) => {
+		const jsonValue: DocumentJson = {
+			tag: "math",
+			attributes,
+			value: [
+				{
+					tag: "mi",
+					attributes: {},
+					value: [{ tag: "#text", value: "x" }],
+				},
+				{
+					tag: "mo",
+					attributes: {},
+					value: [{ tag: "#text", value: "+" }],
+				},
+				{
+					tag: "mi",
+					attributes: {},
+					value: [{ tag: "#text", value: "y" }],
+				},
+			],
+		};
+
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		await expect.element(screen.getByRole("math")).toHaveTextContent("x+y");
+	});
+
+	it.each<string>([
+		"m",
+		"mml",
+	])("should render MathML tags with '%s' namespace prefix and xmlns attribute", async (prefix) => {
+		const jsonValue: DocumentJson = {
+			tag: `${prefix}:math`,
+			attributes: {
+				[`@xmlns:${prefix}`]: "http://www.w3.org/1998/Math/MathML",
+			},
+			value: [
+				{
+					tag: `${prefix}:mi`,
+					attributes: {},
+					value: [{ tag: "#text", value: "a" }],
+				},
+				{
+					tag: `${prefix}:mo`,
+					attributes: {},
+					value: [{ tag: "#text", value: "=" }],
+				},
+				{
+					tag: `${prefix}:mi`,
+					attributes: {},
+					value: [{ tag: "#text", value: "b" }],
+				},
+			],
+		};
+
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		await expect.element(screen.getByRole("math")).toHaveTextContent("a=b");
+	});
+
+	it.each<string>([
+		"m",
+		"mml",
+	])("should render MathML tags without xmlns", async (prefix) => {
+		const jsonValue: DocumentJson = {
+			tag: `${prefix}:math`,
+			attributes: {},
+			value: [
+				{
+					tag: `${prefix}:mi`,
+					attributes: {},
+					value: [{ tag: "#text", value: "p" }],
+				},
+				{
+					tag: `${prefix}:mo`,
+					attributes: {},
+					value: [{ tag: "#text", value: ">" }],
+				},
+				{
+					tag: `${prefix}:mi`,
+					attributes: {},
+					value: [{ tag: "#text", value: "q" }],
+				},
+			],
+		};
+
+		const screen = await render(<Value data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		await expect.element(screen.getByRole("math")).toHaveTextContent("p>q");
+	});
+});

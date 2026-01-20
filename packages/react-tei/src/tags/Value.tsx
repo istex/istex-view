@@ -1,16 +1,10 @@
 import { DebugTag } from "../debug/DebugTag";
 import { IS_DEBUG } from "../debug/debug.const";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
-import { MathMLContextProvider } from "./formula/mathml/MathMLContext";
-import { MathMLTag } from "./formula/mathml/MathMLTag";
-import { useMathMLContext } from "./formula/mathml/useMathMLContext";
 import { useTagCatalog } from "./TagCatalogProvider";
-
-const MATHML_NAMESPACE_URL = "http://www.w3.org/1998/Math/MathML";
 
 export function Value({ data }: ValueProps) {
 	const tagCatalog = useTagCatalog();
-	const mathMLNsPrefix = useMathMLContext();
 
 	if (!data) {
 		return null;
@@ -24,28 +18,36 @@ export function Value({ data }: ValueProps) {
 		return data;
 	}
 
-	const { tag, attributes, value } = data as DocumentJson;
+	const { tag: completeTag, value } = data as DocumentJson;
 
-	const mathMLNS = attributes
-		? Object.keys(attributes).find(
-				(key) =>
-					key.startsWith("@xmlns:") && attributes[key] === MATHML_NAMESPACE_URL,
-			)
-		: null;
+	const tag = completeTag.includes(":")
+		? completeTag.split(":")[1]
+		: completeTag;
 
-	if (mathMLNS) {
+	if (!tag) {
 		return (
-			<MathMLContextProvider nsPrefix={mathMLNS.replace("@xmlns:", "")}>
-				<MathMLTag data={data} />
-			</MathMLContextProvider>
+			<DebugTag
+				tag={data.tag}
+				attributes={data.attributes}
+				message={`Tag with XML prefix and without name`}
+				payload={data}
+				type="error"
+			>
+				<Value data={data.value} />
+			</DebugTag>
 		);
-	} else if (tag.startsWith(`${mathMLNsPrefix}:`)) {
-		return <MathMLTag data={data} />;
 	}
 
 	const TagComponent = tagCatalog[tag];
 	if (TagComponent) {
-		return <TagComponent data={data} />;
+		return (
+			<TagComponent
+				data={{
+					...data,
+					tag,
+				}}
+			/>
+		);
 	}
 
 	if (!IS_DEBUG) {
