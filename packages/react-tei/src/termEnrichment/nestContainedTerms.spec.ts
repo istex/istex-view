@@ -39,18 +39,6 @@ describe("nestContainedTerms", () => {
 			expect(isContainedIn(longerTerm, shorterTerm)).toBe(true);
 		});
 
-		it("should return false when longerTerm contain shorter one but they are of the same group", () => {
-			const longerTerm = {
-				term: "cat lover",
-				groups: ["group1"],
-			};
-			const shorterTerm = {
-				term: "cat",
-				groups: ["group1"],
-			};
-			expect(isContainedIn(longerTerm, shorterTerm)).toBe(false);
-		});
-
 		it('should return false when longerTerm contain shorter one but shorter is not a full word (e.g., "conf" in "overconfident")', () => {
 			const longerTerm = {
 				term: "overconfident",

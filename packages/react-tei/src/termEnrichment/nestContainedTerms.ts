@@ -7,9 +7,6 @@ export const isContainedIn = (
 	longer: GroupedTerm,
 	shorter: GroupedTerm,
 ): boolean => {
-	if (shorter.groups.every((g) => longer.groups.includes(g))) {
-		return false;
-	}
 	if (shorter.term === longer.term) return false;
 
 	const shorterWordRegex = new RegExp(
