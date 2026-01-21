@@ -260,7 +260,7 @@ describe("computeEnrichedTerms", () => {
 		]);
 	});
 
-	it("should not nest terms that are in the same group", () => {
+	it("should nest terms that are in the same group", () => {
 		const termByGroup = {
 			group1: [
 				{ term: "cat lover", displayed: true },
@@ -271,7 +271,22 @@ describe("computeEnrichedTerms", () => {
 		const terms = computeEnrichedTerms(termByGroup);
 
 		expect(terms).toEqual([
-			{ term: "cat lover", groups: ["group1"] },
+			{
+				term: "cat lover",
+				groups: ["group1"],
+				subTerms: [
+					{
+						groups: ["group1"],
+						term: "cat",
+					},
+					{
+						artificial: true,
+						groups: ["group1"],
+						sourceTerm: "cat lover",
+						term: " lover",
+					},
+				],
+			},
 			{ term: "cat", groups: ["group1"] },
 		]);
 	});
