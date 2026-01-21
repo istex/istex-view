@@ -1,11 +1,16 @@
 import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
-import App from "./App";
+import { I18nProvider } from "../../i18n/I18nProvider";
+import { FileViewer } from "./FileViewer";
 
-describe("App", () => {
+describe("FileViewer", () => {
 	it("should render the upload button", async () => {
-		const screen = await render(<App />);
+		const screen = await render(
+			<I18nProvider>
+				<FileViewer />
+			</I18nProvider>,
+		);
 
 		await expect
 			.element(
@@ -17,7 +22,11 @@ describe("App", () => {
 	});
 
 	it("should render the XML document when a tei file is uploaded", async () => {
-		const screen = await render(<App />);
+		const screen = await render(
+			<I18nProvider>
+				<FileViewer />
+			</I18nProvider>,
+		);
 
 		const file = new File(
 			[

@@ -35,6 +35,10 @@ export const fr = {
 			buttonLabel: "Enrichissement TEEFT",
 		},
 	},
+	ark: {
+		documentNotFound: "Le document demandé n'a pas été trouvé.",
+		goToIstexSearch: "Retourner sur Istex Search",
+	},
 };
 
 export type Translation = typeof fr;

@@ -37,4 +37,8 @@ export const en: Translation = {
 			buttonLabel: "Teeft Enrichment",
 		},
 	},
+	ark: {
+		documentNotFound: "The requested document was not found.",
+		goToIstexSearch: "Return to Istex Search",
+	},
 };

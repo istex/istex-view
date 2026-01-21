@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TEI xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://www.tei-c.org/ns/1.0"
+    xmlns:ns1="https://xml-schema.delivery.istex.fr/formats/ns1.xsd"
+    xsi:noNamespaceSchemaLocation="https://xml-schema.delivery.istex.fr/formats/tei-istex.xsd">
+    <ns1:standOff>
+        <teiHeader>
+            <fileDesc>
+                <titleStmt>
+                    <title>Reconnaissance d'entités nommées</title>
+                    <respStmt>
+                        <resp>enrichissement entités nommées ISTEX</resp>
+                        <name resp="istex">ISTEX</name>
+                    </respStmt>
+                </titleStmt>
+                <publicationStmt>
+                    <authority>Inist-CNRS</authority>
+                    <availability status="restricted">
+                        <licence target="http://creativecommons.org/licenses/by/4.0/">
+                            <p>L’élément standOff de ce document est distribué sous licence Creative
+                                Commons 4.0 non transposée (CC BY 4.0)</p>
+                            <p>Ce standOff a été créé dans le cadre du projet ISTEX – Initiative
+                                d’Excellence en Information Scientifique et Technique</p>
+                        </licence>
+                    </availability>
+                </publicationStmt>
+                <sourceDesc>
+                    <biblStruct>
+                        <analytic>
+                            <idno type="istex">FFB62FA182969C9489C724F53C0780B4522F4317</idno>
+                            <idno type="ark">ark:/67375/NVC-T6PRMGZV-8</idno>
+                            <idno type="DOI">10.1136/aim.26.2.69</idno>
+                        </analytic>
+                        <monogr>
+                            <imprint>
+                                <publisher>ISTEX</publisher>
+                            </imprint>
+                        </monogr>
+                    </biblStruct>
+                </sourceDesc>
+            </fileDesc>
+            <encodingDesc>
+                <appInfo>
+                    <application ident="unitex-cassys">
+                        <label>Unitex CasSys</label>
+                    </application>
+                </appInfo>
+            </encodingDesc>
+            <revisionDesc>
+                <change who="#istex" when="2020-07-20" xml:id="unitex-3.3.0-alpha" />
+            </revisionDesc>
+        </teiHeader>
+        <ns1:listAnnotation type="orgName" xml:lang="en">
+            <annotationBlock corresp="text">
+                <orgName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://orgname-entity.data.istex.fr">
+                    <term>Université Gustave Eiffel</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </orgName>
+            </annotationBlock>
+            <annotationBlock corresp="text">
+                <orgName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://orgname-entity.data.istex.fr">
+                    <term>Laboratoire Marie Curie de l'Université Saclay</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </orgName>
+            </annotationBlock>
+        </ns1:listAnnotation>
+        <ns1:listAnnotation type="persName" xml:lang="en">
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://persname-entity.data.istex.fr">
+                    <term>Eiffel G.</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://persname-entity.data.istex.fr">
+                    <term>Gustave Eiffel</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://persname-entity.data.istex.fr">
+                    <term>Marie Curie</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+        </ns1:listAnnotation>
+    </ns1:standOff>
+</TEI>

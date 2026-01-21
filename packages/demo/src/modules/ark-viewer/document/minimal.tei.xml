@@ -1,0 +1,76 @@
+<TEI version="3.3.0" xmlns="http://www.tei-c.org/ns/1.0">
+      <teiHeader>
+            <fileDesc>
+                  <titleStmt>
+                        <title>The shortest TEI Document Imaginable</title>
+                  </titleStmt>
+                  <publicationStmt>
+                        <p>First published as part of TEI P2, this is the P5
+                              version using a namespace.</p>
+                  </publicationStmt>
+                  <sourceDesc>
+                        <p>No source: this is an original work.</p>
+                  </sourceDesc>
+            </fileDesc>
+      </teiHeader>
+      <text>
+            <body>
+                  <div>
+                        <head>Correspondance simple</head>
+                        <p>lorem ipsum Gustave Eiffel</p>
+
+                        <head>Entité encadrée par une ponctuation</head>
+                        <p>lorem ipsum (Gustave Eiffel)</p>
+
+                        <head>Entité suivie d'une ponctuation</head>
+                        <p>Gustave Eiffel, lorem ipsum</p>
+
+                        <head>Entité avec abréviation</head>
+                        <p>Eiffel G., lorem ipsum</p>
+
+                        <head>Entité contenant un caractère HTML</head>
+                        <p>Gustave&#9;Eiffel, lorem ipsum</p>
+                  </div>
+                  <div>
+                        <head>Juxtaposition</head>
+                        <p>Gustave Eiffel Marie Curie</p>
+                  </div>
+                  <div>
+                        <head>Rendition complète : L'intégralité de l'entité est formatée</head>
+                        <p>lorem ipsum <hi rend="bold">Gustave Eiffel</hi></p>
+
+                        <head>Rendition partielle : L'entité est partiellement formatée</head>
+                        <p>lorem ipsum (Gustave <hi rend="bold">Eiffel</hi>)</p>
+
+                        <head>Rendition imbriquée : Renditions imbriquées sur l'entité</head>
+                        <p>lorem ipsum (<hi rend="italic">Gustave <hi rend="bold">Eiffel</hi></hi>)</p>
+                  </div>
+                  <div>
+                        <head>Inclusion totale : Une entité est complètement incluse dans une autre</head>
+                        <p>Laboratoire Marie Curie de l'Université Saclay</p>
+                  </div>
+                  <div>
+                        <head>Overlap : Une entité est partiellement incluse dans une autre</head>
+                        <p>Université Gustave Eiffel, lorem ipsum</p>
+                  </div>
+
+                  <div>
+                        <head>Titre avec annotation: Gustave Eiffel</head>
+                        <p>Gustave Eiffel</p>
+                  </div>
+                  <div>
+                        <head>
+                              Overlap: deux annotations du même groupe se chevauchent partiellement
+                        </head>
+                        <p>Gustave Eiffel G.</p>
+                  </div>
+                  <div>
+                        <head>
+                              Overlap: deux annotations de groupes différents se chevauchent
+                              partiellement
+                        </head>
+                        <p>Université Gustave Eiffel G.</p>
+                  </div>
+            </body>
+      </text>
+</TEI>
