@@ -72,6 +72,9 @@ catalogs:
     react-i18next:
       specifier: ^16.5.0
       version: 16.5.0
+    temml:
+      specifier: 0.13.1
+      version: 0.13.1
     turbo:
       specifier: ^2.6.3
       version: 2.6.3
@@ -245,6 +248,9 @@ importers:
       react-i18next:
         specifier: 'catalog:'
         version: 16.5.0(i18next@25.7.2(typescript@5.9.3))(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)
+      temml:
+        specifier: 'catalog:'
+        version: 0.13.1
     devDependencies:
       '@types/node':
         specifier: 'catalog:'
@@ -1435,6 +1441,10 @@ packages:
   supports-preserve-symlinks-flag@1.0.0:
     resolution: {integrity: sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==}
     engines: {node: '>= 0.4'}
+
+  temml@0.13.1:
+    resolution: {integrity: sha512-/fL1utq8QUD9YpcLeZHPRnp9Cbzbexq5hZl5uSBhf8mNYiKkcS4eYbLidDB+/nF8C+RHAcBQbKw2bKoS83mz1Q==}
+    engines: {node: '>=18.13.0'}
 
   tinybench@2.9.0:
     resolution: {integrity: sha512-0+DUvqWMValLmha6lr4kD8iAMK1HzV0/aKnCtWb9v9641TnP/MFb7Pc2bxoxQjTXAErryXVgUOfv2YqNllqGeg==}
@@ -2658,6 +2668,8 @@ snapshots:
       has-flag: 4.0.0
 
   supports-preserve-symlinks-flag@1.0.0: {}
+
+  temml@0.13.1: {}
 
   tinybench@2.9.0: {}
 

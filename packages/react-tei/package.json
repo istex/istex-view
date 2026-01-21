@@ -21,7 +21,8 @@
 		"i18next-resources-to-backend": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
-		"react-i18next": "catalog:"
+		"react-i18next": "catalog:",
+		"temml": "catalog:"
 	},
 	"devDependencies": {
 		"@types/node": "catalog:",

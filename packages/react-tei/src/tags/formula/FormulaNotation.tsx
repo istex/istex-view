@@ -1,5 +1,6 @@
 import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../type";
+import { FormulaNotationLatex } from "./FormulaNotationLatex";
 import { FormulaNotationMathML } from "./FormulaNotationMathML";
 
 export function FormulaNotation({ data }: ComponentProps) {
@@ -8,7 +9,8 @@ export function FormulaNotation({ data }: ComponentProps) {
 	switch (notation) {
 		case "mathml":
 			return <FormulaNotationMathML data={data} />;
-
+		case "tex":
+			return <FormulaNotationLatex data={data} />;
 		default:
 			return (
 				<DebugTag
