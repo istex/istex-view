@@ -52,7 +52,8 @@ export function Figure({ data }: ComponentProps) {
 				<CardMedia
 					sx={{
 						background: (theme) => theme.palette.grey[100],
-						minHeight: 200,
+						minHeight: 240,
+						minWidth: 320,
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "center",
@@ -70,7 +71,8 @@ export function Figure({ data }: ComponentProps) {
 				<CardMedia
 					sx={{
 						background: (theme) => theme.palette.grey[100],
-						minHeight: 200,
+						minHeight: 240,
+						minWidth: 320,
 						display: "flex",
 						alignItems: "center",
 						justifyContent: "center",
