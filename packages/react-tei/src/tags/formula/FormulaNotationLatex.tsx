@@ -41,7 +41,6 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 		() => findTagByName(data, "#text")?.value as string | undefined,
 		[data],
 	);
-
 	if (!text) {
 		return (
 			<DebugTag
@@ -61,7 +60,7 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 					}
 					temml.render(text, element, {
 						displayMode: true,
-						// throwOnError: true,
+						throwOnError: true,
 					});
 				}}
 			/>
