@@ -49,7 +49,7 @@ describe("FormulaRend", () => {
 		expect(screen.getByRole("figure")).toHaveTextContent("E = mc^2");
 	});
 
-	it("should render the display formula", async () => {
+	it("should render the display formula with mathml content", async () => {
 		const document: DocumentJson = {
 			tag: "formula",
 			attributes: {
@@ -105,11 +105,40 @@ describe("FormulaRend", () => {
 			</TestWrapper>,
 		);
 
-		expect(screen.getByRole("figure")).toHaveTextContent("x+y");
 		expect(screen.getByRole("math")).toHaveTextContent("x+y");
 	});
 
-	it("should not render tex formula if mathml is present", async () => {
+	it("should render the display formula with latex content", async () => {
+		const document: DocumentJson = {
+			tag: "formula",
+			attributes: {
+				"@rend": "display",
+			},
+			value: [
+				{
+					tag: "formula",
+					attributes: {
+						"@notation": "tex",
+					},
+					value: [
+						{
+							tag: "#text",
+							value: "\\frac{a}{b}",
+						},
+					],
+				},
+			],
+		};
+		const screen = await render(
+			<TestWrapper>
+				<FormulaRend data={document} />
+			</TestWrapper>,
+		);
+
+		expect(screen.getByRole("math")).toHaveTextContent("ab");
+	});
+
+	it("should render mathml formula if both latex and mathml are present", async () => {
 		const document: DocumentJson = {
 			tag: "formula",
 			attributes: {
@@ -168,7 +197,58 @@ describe("FormulaRend", () => {
 			</TestWrapper>,
 		);
 
-		expect(screen.getByRole("figure")).toHaveTextContent("ab");
 		expect(screen.getByRole("math")).toHaveTextContent("ab");
+	});
+
+	it("should wrap formula inside a div when rend attribute is display", async () => {
+		const document: DocumentJson = {
+			tag: "formula",
+			attributes: {
+				"@rend": "display",
+			},
+			value: [
+				{
+					tag: "#text",
+					value: "E = mc^2",
+				},
+			],
+		};
+		const screen = await render(
+			<TestWrapper>
+				<FormulaRend data={document} />
+			</TestWrapper>,
+		);
+
+		screen.debug();
+
+		expect(screen.container.querySelector("div[role='figure']")).toBeDefined();
+		expect(
+			screen.container.querySelector("div[role='figure']"),
+		).toHaveTextContent("E = mc^2");
+	});
+
+	it("should wrap formula inside a span when rend attribute is inline", async () => {
+		const document: DocumentJson = {
+			tag: "formula",
+			attributes: {
+				"@rend": "inline",
+			},
+			value: [
+				{
+					tag: "#text",
+					value: "E = mc^2",
+				},
+			],
+		};
+		const screen = await render(
+			<TestWrapper>
+				<FormulaRend data={document} />
+			</TestWrapper>,
+		);
+
+		expect(screen.container.querySelector("span[role='figure']")).toBeDefined();
+		expect(
+			screen.container.querySelector("span[role='figure']"),
+		).toHaveTextContent("E = mc^2");
 	});
 });
