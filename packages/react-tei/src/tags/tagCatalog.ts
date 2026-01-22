@@ -6,6 +6,7 @@ import { Figure } from "./Figure";
 import { Formula } from "./Formula";
 import { MathMLTag } from "./formula/mathml/MathMLTag";
 import { mathMLTagNames } from "./formula/mathml/mathMLTagNames";
+import { Graphic } from "./Graphic";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
@@ -27,6 +28,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	head: Head,
 	table: Table,
 	ref: Ref,
+	graphic: Graphic,
 	sc: NoOp,
 	// Structure tags
 	body: NoOp,

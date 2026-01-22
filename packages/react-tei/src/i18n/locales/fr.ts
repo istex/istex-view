@@ -85,7 +85,7 @@ export const fr = {
 		exit: "Quitter le mode plein écran",
 	},
 	figure: {
-		unloaded: "Image non chargée",
+		unloaded: "Image non disponible",
 	},
 };
 

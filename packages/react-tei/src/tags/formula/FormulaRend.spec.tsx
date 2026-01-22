@@ -251,4 +251,29 @@ describe("FormulaRend", () => {
 			screen.container.querySelector("span[role='figure']"),
 		).toHaveTextContent("E = mc^2");
 	});
+
+	it("should render image not available for formula with graphic child", async () => {
+		const document: DocumentJson = {
+			tag: "formula",
+			attributes: {
+				"@rend": "inline",
+			},
+			value: [
+				{
+					tag: "graphic",
+					attributes: {
+						"@url": "formula-image.png",
+					},
+					value: [],
+				},
+			],
+		};
+		const screen = await render(
+			<TestWrapper>
+				<FormulaRend data={document} />
+			</TestWrapper>,
+		);
+
+		expect(screen.getByText("figure.unloaded")).toBeInTheDocument();
+	});
 });

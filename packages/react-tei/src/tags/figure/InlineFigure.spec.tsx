@@ -66,7 +66,9 @@ describe("InlineFigure", () => {
 			),
 		});
 
-		await expect.element(screen.getByText("Image non chargée")).toBeVisible();
+		await expect
+			.element(screen.getByText("Image non disponible"))
+			.toBeVisible();
 	});
 
 	it("should render unloaded message when value only contains filtered tags", async () => {
@@ -90,7 +92,9 @@ describe("InlineFigure", () => {
 			),
 		});
 
-		await expect.element(screen.getByText("Image non chargée")).toBeVisible();
+		await expect
+			.element(screen.getByText("Image non disponible"))
+			.toBeVisible();
 	});
 
 	it("should render tooltip with figure content when value has displayable content", async () => {
@@ -117,6 +121,8 @@ describe("InlineFigure", () => {
 			),
 		});
 
-		await expect.element(screen.getByText("Image non chargée")).toBeVisible();
+		await expect
+			.element(screen.getByText("Image non disponible"))
+			.toBeVisible();
 	});
 });
