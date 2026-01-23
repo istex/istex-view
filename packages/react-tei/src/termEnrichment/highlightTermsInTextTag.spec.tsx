@@ -15,7 +15,7 @@ describe("highlightTermInTextTag", () => {
 			const text = "This is a sample text.";
 			const termData: TermData = {
 				termRegex: /^search text$/gi,
-				term: "search text",
+				targetText: "search text",
 				groups: ["word"],
 			};
 			const result = highlightTermInString(text, termData);
@@ -31,7 +31,7 @@ describe("highlightTermInTextTag", () => {
 			const text = "This is a sample text.";
 			const termData: TermData = {
 				termRegex: /sample/gi,
-				term: "sample",
+				targetText: "sample",
 				groups: ["word"],
 			};
 
@@ -64,7 +64,7 @@ describe("highlightTermInTextTag", () => {
 
 			const termData: TermData = {
 				termRegex: /sample/gi,
-				term: "sample",
+				targetText: "sample",
 				groups: ["group"],
 			};
 			const result = highlightTermInString(text, termData);
@@ -92,7 +92,7 @@ describe("highlightTermInTextTag", () => {
 			const text = "Highlight  this   term.";
 			const termData: TermData = {
 				termRegex: /this/gi,
-				term: "this",
+				targetText: "this",
 				groups: ["group"],
 			};
 			const result = highlightTermInString(text, termData);
@@ -116,7 +116,7 @@ describe("highlightTermInTextTag", () => {
 			const text = "Testing matching\nTERM with complex regex.";
 			const termData: TermData = {
 				termRegex: /matching\sterm/gi,
-				term: "term",
+				targetText: "term",
 				groups: ["group"],
 			};
 			const result = highlightTermInString(text, termData);
@@ -161,7 +161,7 @@ describe("highlightTermInTextTag", () => {
 			];
 			const termData: TermData = {
 				termRegex: /sample/gi,
-				term: "sample",
+				targetText: "sample",
 				groups: ["group2"],
 			};
 			const result = highlightTermInTextTag(fragments, termData);
@@ -239,7 +239,7 @@ describe("highlightTermInTextTag", () => {
 			];
 			const termData: TermData = {
 				termRegex: /sample/gi,
-				term: "sample",
+				targetText: "sample",
 				groups: ["group2"],
 			};
 			const result = highlightTermInTextTag(fragments, termData);
@@ -287,7 +287,7 @@ describe("highlightTermInTextTag", () => {
 			const fragments: (HighlightTag | TextTag)[] = [];
 			const termData: TermData = {
 				termRegex: /sample/gi,
-				term: "sample",
+				targetText: "sample",
 				groups: ["group"],
 			};
 			const result = highlightTermInTextTag(fragments, termData);
@@ -304,9 +304,9 @@ describe("highlightTermInTextTag", () => {
 			value: "This is a sample text for testing.",
 		};
 		const termDataList = [
-			{ termRegex: /sample/gi, term: "sample", groups: ["group1"] },
-			{ termRegex: /testing/gi, term: "testing", groups: ["group2"] },
-			{ termRegex: /example/gi, term: "example", groups: ["group3"] },
+			{ termRegex: /sample/gi, targetText: "sample", groups: ["group1"] },
+			{ termRegex: /testing/gi, targetText: "testing", groups: ["group2"] },
+			{ termRegex: /example/gi, targetText: "example", groups: ["group3"] },
 		];
 		const result = highlightTermsInTextTag(textTag, termDataList);
 		expect(result).toStrictEqual({
@@ -358,8 +358,8 @@ describe("highlightTermInTextTag", () => {
 			value: "This is a sample text for testing.",
 		};
 		const termDataList: TermData[] = [
-			{ termRegex: /example/gi, term: "example", groups: ["group1"] },
-			{ termRegex: /demo/gi, term: "demo", groups: ["group2"] },
+			{ termRegex: /example/gi, targetText: "example", groups: ["group1"] },
+			{ termRegex: /demo/gi, targetText: "demo", groups: ["group2"] },
 		];
 		const result = highlightTermsInTextTag(fragments as any, termDataList);
 		expect(result).toStrictEqual({
@@ -402,8 +402,8 @@ describe("highlightTermInTextTag", () => {
 			value: "Term1  Term2",
 		};
 		const termDataList: TermData[] = [
-			{ termRegex: /Term1/gi, term: "term1", groups: ["group1"] },
-			{ termRegex: /Term2/gi, term: "term2", groups: ["group2"] },
+			{ termRegex: /Term1/gi, targetText: "term1", groups: ["group1"] },
+			{ termRegex: /Term2/gi, targetText: "term2", groups: ["group2"] },
 		];
 		const result = highlightTermsInTextTag(fragments, termDataList);
 		expect(result).toStrictEqual({

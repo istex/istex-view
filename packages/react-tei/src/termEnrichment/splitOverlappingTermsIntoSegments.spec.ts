@@ -16,12 +16,12 @@ describe("splitOverlappingTermsIntoSegments", () => {
 		it("should collect start and end boundaries from terms", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello", groups: ["group1"] },
+					term: { targetText: "hello", groups: ["group1"] },
 					start: 0,
 					end: 5,
 				},
 				{
-					term: { term: "world", groups: ["group2"] },
+					term: { targetText: "world", groups: ["group2"] },
 					start: 3,
 					end: 8,
 				},
@@ -36,12 +36,12 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
 					term: {
-						term: "hello world",
+						targetText: "hello world",
 						groups: ["group1"],
 						subTerms: [
-							{ term: "hello", groups: ["group2"] },
-							{ term: " ", groups: [], artificial: true },
-							{ term: "world", groups: ["group3"] },
+							{ targetText: "hello", groups: ["group2"] },
+							{ targetText: " ", groups: [], artificial: true },
+							{ targetText: "world", groups: ["group3"] },
 						],
 					},
 					start: 0,
@@ -57,12 +57,12 @@ describe("splitOverlappingTermsIntoSegments", () => {
 		it("should deduplicate boundaries", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello", groups: ["group1"] },
+					term: { targetText: "hello", groups: ["group1"] },
 					start: 0,
 					end: 5,
 				},
 				{
-					term: { term: "hello", groups: ["group2"] },
+					term: { targetText: "hello", groups: ["group2"] },
 					start: 0,
 					end: 5,
 				},
@@ -76,12 +76,12 @@ describe("splitOverlappingTermsIntoSegments", () => {
 		it("should sort boundaries in ascending order", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "world", groups: ["group2"] },
+					term: { targetText: "world", groups: ["group2"] },
 					start: 6,
 					end: 11,
 				},
 				{
-					term: { term: "hello", groups: ["group1"] },
+					term: { targetText: "hello", groups: ["group1"] },
 					start: 0,
 					end: 5,
 				},
@@ -97,7 +97,7 @@ describe("splitOverlappingTermsIntoSegments", () => {
 		it("should return empty array for terms without subTerms", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello", groups: ["group1"] },
+					term: { targetText: "hello", groups: ["group1"] },
 					start: 0,
 					end: 5,
 				},
@@ -112,12 +112,12 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
 					term: {
-						term: "hello world",
+						targetText: "hello world",
 						groups: ["group1"],
 						subTerms: [
-							{ term: "hello", groups: ["group2"] },
-							{ term: " ", groups: [], artificial: true },
-							{ term: "world", groups: ["group3"] },
+							{ targetText: "hello", groups: ["group2"] },
+							{ targetText: " ", groups: [], artificial: true },
+							{ targetText: "world", groups: ["group3"] },
 						],
 					},
 					start: 0,
@@ -129,19 +129,19 @@ describe("splitOverlappingTermsIntoSegments", () => {
 
 			expect(result).toEqual([
 				{
-					subTerm: { term: "hello", groups: ["group2"] },
+					subTerm: { targetText: "hello", groups: ["group2"] },
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
 				},
 				{
-					subTerm: { term: " ", groups: [], artificial: true },
+					subTerm: { targetText: " ", groups: [], artificial: true },
 					start: 5,
 					end: 6,
 					fromTermGroups: ["group1"],
 				},
 				{
-					subTerm: { term: "world", groups: ["group3"] },
+					subTerm: { targetText: "world", groups: ["group3"] },
 					start: 6,
 					end: 11,
 					fromTermGroups: ["group1"],
@@ -153,11 +153,11 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
 					term: {
-						term: "hello world",
+						targetText: "hello world",
 						groups: ["group1"],
 						subTerms: [
-							{ term: "hello", groups: ["group2"] },
-							{ term: " world", groups: [], artificial: true },
+							{ targetText: "hello", groups: ["group2"] },
+							{ targetText: " world", groups: [], artificial: true },
 						],
 					},
 					start: 0,
@@ -165,11 +165,11 @@ describe("splitOverlappingTermsIntoSegments", () => {
 				},
 				{
 					term: {
-						term: "world peace",
+						targetText: "world peace",
 						groups: ["group3"],
 						subTerms: [
-							{ term: "world", groups: ["group4"] },
-							{ term: " peace", groups: [], artificial: true },
+							{ targetText: "world", groups: ["group4"] },
+							{ targetText: " peace", groups: [], artificial: true },
 						],
 					},
 					start: 6,
@@ -181,25 +181,25 @@ describe("splitOverlappingTermsIntoSegments", () => {
 
 			expect(result).toEqual([
 				{
-					subTerm: { term: "hello", groups: ["group2"] },
+					subTerm: { targetText: "hello", groups: ["group2"] },
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
 				},
 				{
-					subTerm: { term: " world", groups: [], artificial: true },
+					subTerm: { targetText: " world", groups: [], artificial: true },
 					start: 5,
 					end: 11,
 					fromTermGroups: ["group1"],
 				},
 				{
-					subTerm: { term: "world", groups: ["group4"] },
+					subTerm: { targetText: "world", groups: ["group4"] },
 					start: 6,
 					end: 11,
 					fromTermGroups: ["group3"],
 				},
 				{
-					subTerm: { term: " peace", groups: [], artificial: true },
+					subTerm: { targetText: " peace", groups: [], artificial: true },
 					start: 11,
 					end: 17,
 					fromTermGroups: ["group3"],
@@ -218,12 +218,12 @@ describe("splitOverlappingTermsIntoSegments", () => {
 		it("should split two overlapping terms into segments", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "Prince Charles", groups: ["group1"] },
+					term: { targetText: "Prince Charles", groups: ["group1"] },
 					start: 0,
 					end: 14,
 				},
 				{
-					term: { term: "Charles Xavier", groups: ["group2"] },
+					term: { targetText: "Charles Xavier", groups: ["group2"] },
 					start: 7,
 					end: 21,
 				},
@@ -238,21 +238,33 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			);
 
 			expect(result).toEqual([
-				{ term: "Prince ", groups: ["group1"], sourceTerm: "Prince Charles" },
-				{ term: "Charles", groups: ["group1", "group2"], sourceTerm: null },
-				{ term: " Xavier", groups: ["group2"], sourceTerm: "Charles Xavier" },
+				{
+					targetText: "Prince ",
+					groups: ["group1"],
+					sourceTerm: "Prince Charles",
+				},
+				{
+					targetText: "Charles",
+					groups: ["group1", "group2"],
+					sourceTerm: null,
+				},
+				{
+					targetText: " Xavier",
+					groups: ["group2"],
+					sourceTerm: "Charles Xavier",
+				},
 			]);
 		});
 
 		it("should include parent groups in segments", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: { targetText: "hello world", groups: ["group1"] },
 					start: 0,
 					end: 11,
 				},
 				{
-					term: { term: "world peace", groups: ["group2"] },
+					term: { targetText: "world peace", groups: ["group2"] },
 					start: 6,
 					end: 17,
 				},
@@ -269,17 +281,17 @@ describe("splitOverlappingTermsIntoSegments", () => {
 
 			expect(result).toEqual([
 				{
-					term: "hello ",
+					targetText: "hello ",
 					groups: ["group1", "parentGroup"],
 					sourceTerm: "hello world",
 				},
 				{
-					term: "world",
+					targetText: "world",
 					groups: ["group1", "group2", "parentGroup"],
 					sourceTerm: null,
 				},
 				{
-					term: " peace",
+					targetText: " peace",
 					groups: ["group2", "parentGroup"],
 					sourceTerm: "world peace",
 				},
@@ -290,18 +302,18 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
 					term: {
-						term: "New York",
+						targetText: "New York",
 						groups: ["group1"],
 						subTerms: [
-							{ term: "New ", groups: [], artificial: true },
-							{ term: "York", groups: ["group2"] },
+							{ targetText: "New ", groups: [], artificial: true },
+							{ targetText: "York", groups: ["group2"] },
 						],
 					},
 					start: 0,
 					end: 8,
 				},
 				{
-					term: { term: "York City", groups: ["group3"] },
+					term: { targetText: "York City", groups: ["group3"] },
 					start: 4,
 					end: 13,
 				},
@@ -319,24 +331,24 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			// from covering terms (group1, group3), not from subTerm definitions
 			expect(result).toEqual([
 				{
-					term: "New ",
+					targetText: "New ",
 					groups: ["group1"],
 					sourceTerm: "New York",
 					artificial: true,
 				},
 				{
-					term: "York",
+					targetText: "York",
 					groups: ["group1", "group3"],
 					sourceTerm: null,
 				},
-				{ term: " City", groups: ["group3"], sourceTerm: "York City" },
+				{ targetText: " City", groups: ["group3"], sourceTerm: "York City" },
 			]);
 		});
 
 		it("should use allTerms for group computation", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: { targetText: "hello world", groups: ["group1"] },
 					start: 0,
 					end: 11,
 				},
@@ -344,7 +356,7 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			const allTerms: TermWithPosition[] = [
 				...overlappingGroup,
 				{
-					term: { term: "hello world!", groups: ["group2"] },
+					term: { targetText: "hello world!", groups: ["group2"] },
 					start: 0,
 					end: 11,
 				},
@@ -360,7 +372,7 @@ describe("splitOverlappingTermsIntoSegments", () => {
 
 			expect(result).toEqual([
 				{
-					term: "hello world",
+					targetText: "hello world",
 					groups: ["group1", "group2"],
 					sourceTerm: "hello world",
 				},
@@ -370,17 +382,17 @@ describe("splitOverlappingTermsIntoSegments", () => {
 		it("should handle three overlapping terms", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "A B C", groups: ["group1"] },
+					term: { targetText: "A B C", groups: ["group1"] },
 					start: 0,
 					end: 5,
 				},
 				{
-					term: { term: "B C D", groups: ["group2"] },
+					term: { targetText: "B C D", groups: ["group2"] },
 					start: 2,
 					end: 7,
 				},
 				{
-					term: { term: "C D E", groups: ["group3"] },
+					term: { targetText: "C D E", groups: ["group3"] },
 					start: 4,
 					end: 9,
 				},
@@ -395,23 +407,27 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			);
 
 			expect(result).toEqual([
-				{ term: "A ", groups: ["group1"], sourceTerm: "A B C" },
-				{ term: "B ", groups: ["group1", "group2"], sourceTerm: null },
-				{ term: "C", groups: ["group1", "group2", "group3"], sourceTerm: null },
-				{ term: " D", groups: ["group2", "group3"], sourceTerm: null },
-				{ term: " E", groups: ["group3"], sourceTerm: "C D E" },
+				{ targetText: "A ", groups: ["group1"], sourceTerm: "A B C" },
+				{ targetText: "B ", groups: ["group1", "group2"], sourceTerm: null },
+				{
+					targetText: "C",
+					groups: ["group1", "group2", "group3"],
+					sourceTerm: null,
+				},
+				{ targetText: " D", groups: ["group2", "group3"], sourceTerm: null },
+				{ targetText: " E", groups: ["group3"], sourceTerm: "C D E" },
 			]);
 		});
 
 		it("should handle completely overlapping terms with same boundaries", () => {
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello", groups: ["group1"] },
+					term: { targetText: "hello", groups: ["group1"] },
 					start: 0,
 					end: 5,
 				},
 				{
-					term: { term: "hello", groups: ["group2"] },
+					term: { targetText: "hello", groups: ["group2"] },
 					start: 0,
 					end: 5,
 				},
@@ -426,7 +442,11 @@ describe("splitOverlappingTermsIntoSegments", () => {
 			);
 
 			expect(result).toEqual([
-				{ term: "hello", groups: ["group1", "group2"], sourceTerm: "hello" },
+				{
+					targetText: "hello",
+					groups: ["group1", "group2"],
+					sourceTerm: "hello",
+				},
 			]);
 		});
 	});

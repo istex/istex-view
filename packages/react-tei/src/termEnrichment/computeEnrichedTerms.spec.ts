@@ -10,7 +10,9 @@ describe("computeEnrichedTerms", () => {
 
 		const terms = computeEnrichedTerms(termByGroup);
 
-		expect(terms).toEqual([{ term: "cat", groups: ["group1", "group2"] }]);
+		expect(terms).toEqual([
+			{ targetText: "cat", groups: ["group1", "group2"] },
+		]);
 	});
 
 	it("should compute enriched terms with regrouped identical terms and nested contained terms", () => {
@@ -35,25 +37,25 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "France Organization of cat lover",
+				targetText: "France Organization of cat lover",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "France",
+						targetText: "France",
 						groups: ["group1", "group3"],
 					},
 					{
-						term: " Organization of ",
+						targetText: " Organization of ",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "France Organization of cat lover",
 					},
 					{
-						term: "cat",
+						targetText: "cat",
 						groups: ["group1", "group2", "group3"],
 					},
 					{
-						term: " lover",
+						targetText: " lover",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "France Organization of cat lover",
@@ -61,15 +63,15 @@ describe("computeEnrichedTerms", () => {
 				],
 			},
 			{
-				term: "France",
+				targetText: "France",
 				groups: ["group3"],
 			},
 			{
-				term: "cat",
+				targetText: "cat",
 				groups: ["group2", "group3"],
 			},
 			{
-				term: "dog",
+				targetText: "dog",
 				groups: ["group2"],
 			},
 		]);
@@ -85,22 +87,22 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "New York City",
+				targetText: "New York City",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "New ",
+						targetText: "New ",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "New York City",
 					},
 
 					{
-						term: "York",
+						targetText: "York",
 						groups: ["group1", "group2"],
 					},
 					{
-						term: " City",
+						targetText: " City",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "New York City",
@@ -108,7 +110,7 @@ describe("computeEnrichedTerms", () => {
 				],
 			},
 			{
-				term: "York",
+				targetText: "York",
 				groups: ["group2"],
 			},
 		]);
@@ -123,11 +125,11 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "overconfident",
+				targetText: "overconfident",
 				groups: ["group1"],
 			},
 			{
-				term: "conf",
+				targetText: "conf",
 				groups: ["group2"],
 			},
 		]);
@@ -143,11 +145,11 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "catastrophic",
+				targetText: "catastrophic",
 				groups: ["group2"],
 			},
 			{
-				term: "concat",
+				targetText: "concat",
 				groups: ["group1"],
 			},
 		]);
@@ -164,31 +166,31 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "San Francisco Bay Area",
+				targetText: "San Francisco Bay Area",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "San Francisco",
+						targetText: "San Francisco",
 						groups: ["group1", "group2"],
 					},
 					{
-						term: " ",
+						targetText: " ",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "San Francisco Bay Area",
 					},
 					{
-						term: "Bay Area",
+						targetText: "Bay Area",
 						groups: ["group1", "group3"],
 					},
 				],
 			},
 			{
-				term: "San Francisco",
+				targetText: "San Francisco",
 				groups: ["group2"],
 			},
 			{
-				term: "Bay Area",
+				targetText: "Bay Area",
 				groups: ["group3"],
 			},
 		]);
@@ -210,27 +212,27 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "Union ratatinée des saucisson sec",
+				targetText: "Union ratatinée des saucisson sec",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "Union ratatinée des ",
+						targetText: "Union ratatinée des ",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "Union ratatinée des saucisson sec",
 					},
 					{
-						term: "saucisson sec",
+						targetText: "saucisson sec",
 						groups: ["group1", "group2"],
 						subTerms: [
 							{
 								groups: ["group1", "group2", "group3"],
-								term: "saucisson",
+								targetText: "saucisson",
 							},
 							{
 								groups: ["group1", "group2"],
 								artificial: true,
-								term: " sec",
+								targetText: " sec",
 								sourceTerm: "saucisson sec",
 							},
 						],
@@ -238,23 +240,23 @@ describe("computeEnrichedTerms", () => {
 				],
 			},
 			{
-				term: "saucisson sec",
+				targetText: "saucisson sec",
 				groups: ["group2"],
 				subTerms: [
 					{
-						term: "saucisson",
+						targetText: "saucisson",
 						groups: ["group2", "group3"],
 					},
 					{
 						groups: ["group2"],
 						artificial: true,
-						term: " sec",
+						targetText: " sec",
 						sourceTerm: "saucisson sec",
 					},
 				],
 			},
 			{
-				term: "saucisson",
+				targetText: "saucisson",
 				groups: ["group3"],
 			},
 		]);
@@ -272,22 +274,22 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "cat lover",
+				targetText: "cat lover",
 				groups: ["group1"],
 				subTerms: [
 					{
 						groups: ["group1"],
-						term: "cat",
+						targetText: "cat",
 					},
 					{
 						artificial: true,
 						groups: ["group1"],
 						sourceTerm: "cat lover",
-						term: " lover",
+						targetText: " lover",
 					},
 				],
 			},
-			{ term: "cat", groups: ["group1"] },
+			{ targetText: "cat", groups: ["group1"] },
 		]);
 	});
 
@@ -304,23 +306,23 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "United States of America",
+				targetText: "United States of America",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "United States of ",
+						targetText: "United States of ",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "United States of America",
 					},
 					{
-						term: "America",
+						targetText: "America",
 						groups: ["group1", "group2"],
 					},
 				],
 			},
 			{
-				term: "America",
+				targetText: "America",
 				groups: ["group1", "group2"],
 			},
 		]);
@@ -338,34 +340,34 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "Prince Charles Xavier",
+				targetText: "Prince Charles Xavier",
 				groups: ["group1+group1"],
 				artificial: true,
 				subTerms: [
 					{
 						groups: ["group1"],
-						term: "Prince ",
+						targetText: "Prince ",
 						sourceTerm: "Prince Charles",
 					},
 					{
 						groups: ["group1"],
-						term: "Charles",
+						targetText: "Charles",
 						sourceTerm: null,
 					},
 					{
 						groups: ["group1"],
-						term: " Xavier",
+						targetText: " Xavier",
 						sourceTerm: "Charles Xavier",
 					},
 				],
 			},
 			{
 				groups: ["group1"],
-				term: "Prince Charles",
+				targetText: "Prince Charles",
 			},
 			{
 				groups: ["group1"],
-				term: "Charles Xavier",
+				targetText: "Charles Xavier",
 			},
 		]);
 	});
@@ -381,92 +383,92 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "Prince Charles The Bold Font",
+				targetText: "Prince Charles The Bold Font",
 				groups: ["group1+group2+group3"],
 				artificial: true,
 				subTerms: [
 					{
-						term: "Prince ",
+						targetText: "Prince ",
 						sourceTerm: "Prince Charles",
 						groups: ["group1"],
 					},
 					{
-						term: "Charles",
+						targetText: "Charles",
 						groups: ["group1", "group2"],
 						sourceTerm: null,
 					},
 					{
-						term: " ",
+						targetText: " ",
 						sourceTerm: "Charles The Bold",
 						groups: ["group2"],
 					},
 					{
-						term: "The Bold",
+						targetText: "The Bold",
 						sourceTerm: null,
 						groups: ["group2", "group3"],
 					},
 					{
-						term: " Font",
+						targetText: " Font",
 						sourceTerm: "The Bold Font",
 						groups: ["group3"],
 					},
 				],
 			},
 			{
-				term: "Prince Charles The Bold",
+				targetText: "Prince Charles The Bold",
 				groups: ["group1+group2"],
 				artificial: true,
 				subTerms: [
 					{
 						groups: ["group1"],
-						term: "Prince ",
+						targetText: "Prince ",
 						sourceTerm: "Prince Charles",
 					},
 					{
 						groups: ["group1", "group2"],
-						term: "Charles",
+						targetText: "Charles",
 						sourceTerm: null,
 					},
 					{
 						groups: ["group2"],
 						sourceTerm: "Charles The Bold",
-						term: " The Bold",
+						targetText: " The Bold",
 					},
 				],
 			},
 			{
-				term: "Charles The Bold Font",
+				targetText: "Charles The Bold Font",
 				groups: ["group2+group3"],
 				artificial: true,
 				subTerms: [
 					{
 						groups: ["group2"],
 						sourceTerm: "Charles The Bold",
-						term: "Charles ",
+						targetText: "Charles ",
 					},
 					{
 						groups: ["group2", "group3"],
 						sourceTerm: null,
-						term: "The Bold",
+						targetText: "The Bold",
 					},
 					{
 						groups: ["group3"],
 						sourceTerm: "The Bold Font",
-						term: " Font",
+						targetText: " Font",
 					},
 				],
 			},
 			{
 				groups: ["group2"],
-				term: "Charles The Bold",
+				targetText: "Charles The Bold",
 			},
 			{
 				groups: ["group1"],
-				term: "Prince Charles",
+				targetText: "Prince Charles",
 			},
 			{
 				groups: ["group3"],
-				term: "The Bold Font",
+				targetText: "The Bold Font",
 			},
 		]);
 	});
@@ -491,148 +493,148 @@ describe("computeEnrichedTerms", () => {
 
 		expect(terms).toEqual([
 			{
-				term: "Gamers United Nations",
+				targetText: "Gamers United Nations",
 				groups: ["group1+group1"],
 				artificial: true,
 				subTerms: [
 					{
 						groups: ["group1", "group4"],
-						term: "Gamers",
+						targetText: "Gamers",
 						sourceTerm: "Gamers United",
 					},
 					{
 						artificial: true,
 						groups: ["group1"],
-						term: " ",
+						targetText: " ",
 						sourceTerm: "Gamers United",
 					},
 					{
 						groups: ["group1", "group4"],
-						term: "United",
+						targetText: "United",
 						sourceTerm: null,
 					},
 					{
 						artificial: true,
 						groups: ["group1"],
-						term: " ",
+						targetText: " ",
 						sourceTerm: "United Nations",
 					},
 					{
 						groups: ["group1", "group4"],
-						term: "Nations",
+						targetText: "Nations",
 						sourceTerm: "United Nations",
 					},
 				],
 			},
 			{
-				term: "Gamers United States",
+				targetText: "Gamers United States",
 				groups: ["group1+group3"],
 				artificial: true,
 				subTerms: [
 					{
 						groups: ["group1", "group4"],
-						term: "Gamers",
+						targetText: "Gamers",
 						sourceTerm: "Gamers United",
 					},
 					{
 						artificial: true,
 						groups: ["group1"],
-						term: " ",
+						targetText: " ",
 						sourceTerm: "Gamers United",
 					},
 					{
 						groups: ["group1", "group3", "group4"],
-						term: "United",
+						targetText: "United",
 						sourceTerm: null,
 					},
 					{
 						artificial: true,
 						groups: ["group3"],
-						term: " ",
+						targetText: " ",
 						sourceTerm: "United States",
 					},
 					{
 						groups: ["group2", "group3", "group4"],
-						term: "States",
+						targetText: "States",
 						sourceTerm: "United States",
 					},
 				],
 			},
 			{
-				term: "United Nations",
+				targetText: "United Nations",
 				groups: ["group1"],
 				subTerms: [
 					{
 						groups: ["group1", "group4"],
-						term: "United",
+						targetText: "United",
 					},
 					{
 						artificial: true,
 						groups: ["group1"],
-						term: " ",
+						targetText: " ",
 						sourceTerm: "United Nations",
 					},
 					{
 						groups: ["group1", "group4"],
-						term: "Nations",
+						targetText: "Nations",
 					},
 				],
 			},
 			{
-				term: "Gamers United",
+				targetText: "Gamers United",
 				groups: ["group1"],
 				subTerms: [
 					{
 						groups: ["group1", "group4"],
-						term: "Gamers",
+						targetText: "Gamers",
 					},
 					{
 						artificial: true,
 						groups: ["group1"],
-						term: " ",
+						targetText: " ",
 						sourceTerm: "Gamers United",
 					},
 					{
 						groups: ["group1", "group4"],
-						term: "United",
+						targetText: "United",
 					},
 				],
 			},
 			{
-				term: "United States",
+				targetText: "United States",
 				groups: ["group3"],
 				subTerms: [
 					{
-						term: "United",
+						targetText: "United",
 						groups: ["group3", "group4"],
 					},
 					{
-						term: " ",
+						targetText: " ",
 						artificial: true,
 						groups: ["group3"],
 						sourceTerm: "United States",
 					},
 					{
-						term: "States",
+						targetText: "States",
 						groups: ["group3", "group2", "group4"],
 					},
 				],
 			},
 			{
 				groups: ["group4"],
-				term: "Nations",
+				targetText: "Nations",
 			},
 			{
 				groups: ["group2", "group4"],
-				term: "States",
+				targetText: "States",
 			},
 			{
 				groups: ["group4"],
-				term: "United",
+				targetText: "United",
 			},
 			{
 				groups: ["group4"],
-				term: "Gamers",
+				targetText: "Gamers",
 			},
 		]);
 	});

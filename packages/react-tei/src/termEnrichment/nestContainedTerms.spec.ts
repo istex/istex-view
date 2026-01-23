@@ -5,11 +5,11 @@ describe("nestContainedTerms", () => {
 	describe("isContainedIn", () => {
 		it("should return true when longerTerm contain shorter one ", () => {
 			const longerTerm = {
-				term: "cat lover",
+				targetText: "cat lover",
 				groups: ["group1"],
 			};
 			const shorterTerm = {
-				term: "cat",
+				targetText: "cat",
 				groups: ["group2"],
 			};
 			expect(isContainedIn(longerTerm, shorterTerm)).toBe(true);
@@ -17,11 +17,11 @@ describe("nestContainedTerms", () => {
 
 		it("should return true when longerTerm contain shorter one with punctuation", () => {
 			const longerTerm = {
-				term: "hello, world!",
+				targetText: "hello, world!",
 				groups: ["group1"],
 			};
 			const shorterTerm = {
-				term: "world",
+				targetText: "world",
 				groups: ["group2"],
 			};
 			expect(isContainedIn(longerTerm, shorterTerm)).toBe(true);
@@ -29,11 +29,11 @@ describe("nestContainedTerms", () => {
 
 		it("should return true when longerTerm contain shorterTerm between parentheses", () => {
 			const longerTerm = {
-				term: "example (test case)",
+				targetText: "example (test case)",
 				groups: ["group1"],
 			};
 			const shorterTerm = {
-				term: "test case",
+				targetText: "test case",
 				groups: ["group2"],
 			};
 			expect(isContainedIn(longerTerm, shorterTerm)).toBe(true);
@@ -41,11 +41,11 @@ describe("nestContainedTerms", () => {
 
 		it('should return false when longerTerm contain shorter one but shorter is not a full word (e.g., "conf" in "overconfident")', () => {
 			const longerTerm = {
-				term: "overconfident",
+				targetText: "overconfident",
 				groups: ["group1"],
 			};
 			const shorterTerm = {
-				term: "conf",
+				targetText: "conf",
 				groups: ["group2"],
 			};
 			expect(isContainedIn(longerTerm, shorterTerm)).toBe(false);
@@ -53,11 +53,11 @@ describe("nestContainedTerms", () => {
 
 		it("should return false when both terms are identical", () => {
 			const longerTerm = {
-				term: "Paris",
+				targetText: "Paris",
 				groups: ["group1"],
 			};
 			const shorterTerm = {
-				term: "Paris",
+				targetText: "Paris",
 				groups: ["group2"],
 			};
 			expect(isContainedIn(longerTerm, shorterTerm)).toBe(false);
@@ -65,55 +65,55 @@ describe("nestContainedTerms", () => {
 	});
 	it("should nest contained terms correctly", () => {
 		const terms = [
-			{ term: "United States of America", groups: ["group1"] },
+			{ targetText: "United States of America", groups: ["group1"] },
 
-			{ term: "States of America", groups: ["group2"] },
-			{ term: "America", groups: ["group3"] },
+			{ targetText: "States of America", groups: ["group2"] },
+			{ targetText: "America", groups: ["group3"] },
 		];
 		const nestedTerms = nestContainedTerms(terms);
 		expect(nestedTerms).toEqual([
 			{
-				term: "America",
+				targetText: "America",
 				groups: ["group3"],
 			},
 			{
-				term: "States of America",
+				targetText: "States of America",
 				groups: ["group2"],
 				subTerms: [
 					{
-						term: "States of ",
+						targetText: "States of ",
 						groups: ["group2"],
 						artificial: true,
 						sourceTerm: "States of America",
 					},
 					{
-						term: "America",
+						targetText: "America",
 						groups: ["group2", "group3"],
 					},
 				],
 			},
 			{
-				term: "United States of America",
+				targetText: "United States of America",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "United ",
+						targetText: "United ",
 						groups: ["group1"],
 						artificial: true,
 						sourceTerm: "United States of America",
 					},
 					{
-						term: "States of America",
+						targetText: "States of America",
 						groups: ["group1", "group2"],
 						subTerms: [
 							{
-								term: "States of ",
+								targetText: "States of ",
 								groups: ["group1", "group2"],
 								artificial: true,
 								sourceTerm: "States of America",
 							},
 							{
-								term: "America",
+								targetText: "America",
 								groups: ["group1", "group2", "group3"],
 							},
 						],

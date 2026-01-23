@@ -24,7 +24,7 @@ const computeSourceTerm = (
 	if (nonArtificialTerms.length === 0) return null;
 
 	const uniqueTermValues = [
-		...new Set(nonArtificialTerms.map((t) => t.term.term)),
+		...new Set(nonArtificialTerms.map((t) => t.term.targetText)),
 	];
 
 	if (uniqueTermValues.length === 1) {
@@ -85,7 +85,7 @@ export const createSegmentFromBoundary = (
 		}
 
 		return {
-			term: segmentText,
+			targetText: segmentText,
 			groups: allGroups,
 			sourceTerm,
 			...(baseSubTerm.artificial && { artificial: true }),
@@ -97,7 +97,7 @@ export const createSegmentFromBoundary = (
 	if (coveringTermsFromGroup.length === 0) {
 		// No covering term from the overlapping group - this is filler text
 		return {
-			term: segmentText,
+			targetText: segmentText,
 			groups: parentGroups,
 			artificial: true,
 		};
@@ -108,7 +108,7 @@ export const createSegmentFromBoundary = (
 	const sourceTerm = computeSourceTerm(coveringTermsFromGroup);
 
 	return {
-		term: segmentText,
+		targetText: segmentText,
 		groups,
 		sourceTerm,
 	};

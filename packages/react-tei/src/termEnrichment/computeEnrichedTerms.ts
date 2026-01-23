@@ -32,5 +32,5 @@ export const computeEnrichedTerms = (
 
 	const nestedTerms = nestContainedTerms(mergedNormalizedTerms);
 
-	return nestedTerms.sort((a, b) => b.term.length - a.term.length);
+	return nestedTerms.sort((a, b) => b.targetText.length - a.targetText.length);
 };

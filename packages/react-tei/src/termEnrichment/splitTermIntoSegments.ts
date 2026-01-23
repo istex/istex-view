@@ -15,7 +15,7 @@ const createFillerSegment = (
 	parentGroups: string[],
 	sourceTerm?: string,
 ): NestedTerm => ({
-	term: text,
+	targetText: text,
 	groups: parentGroups,
 	artificial: true,
 	...(sourceTerm !== undefined && { sourceTerm }),
@@ -40,22 +40,22 @@ const processSingleTerm = (
 		// Check if there are smaller contained terms we need to nest
 		const smallerContained = containedTerms.filter(
 			(ct) =>
-				ct.term !== termData.term &&
-				findTermPosition(termData.term, ct.term) !== null,
+				ct.targetText !== termData.targetText &&
+				findTermPosition(termData.targetText, ct.targetText) !== null,
 		);
 		if (smallerContained.length > 0) {
 			// Pass the slugified term as parentSourceTerm for filler segments
 			subTerms = splitTermIntoSegments(
-				termData.term,
+				termData.targetText,
 				smallerContained,
 				combinedGroups,
-				termData.term,
+				termData.targetText,
 			);
 		}
 	}
 
 	return {
-		term: termData.term,
+		targetText: termData.targetText,
 		groups: combinedGroups,
 		...(subTerms && subTerms.length > 0 && { subTerms }),
 	};
@@ -77,7 +77,7 @@ export const splitTermIntoSegments = (
 	const termsWithPositions: TermWithPosition[] = containedTerms
 		.filter((term) => !term.artificial)
 		.map((term) => {
-			const pos = findTermPosition(containerTerm, term.term);
+			const pos = findTermPosition(containerTerm, term.targetText);
 			return pos ? { term, start: pos.start, end: pos.end } : null;
 		})
 		.filter((t): t is TermWithPosition => t !== null)
