@@ -18,6 +18,7 @@ export type PanelState = {
 		source: boolean;
 		footnotes: boolean;
 		bibliographicReferences?: boolean;
+		documentIdentifier?: boolean;
 
 		termEnrichment_date?: boolean;
 		termEnrichment_orgName?: boolean;
@@ -85,6 +86,7 @@ export const initialPanelState: PanelState = {
 		source: true,
 		footnotes: true,
 		bibliographicReferences: true,
+		documentIdentifier: true,
 
 		termEnrichment_date: true,
 		termEnrichment_orgName: true,

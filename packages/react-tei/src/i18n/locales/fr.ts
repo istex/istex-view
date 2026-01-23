@@ -40,6 +40,9 @@ export const fr = {
 			title_one: "Référence bibliographique ({{count}})",
 			title_other: "Références bibliographiques ({{count}})",
 		},
+		documentIdentifier: {
+			title: "Identifiant du document",
+		},
 	},
 	termEnrichment: {
 		underlineWordsInText: "Souligner les mots dans le texte",

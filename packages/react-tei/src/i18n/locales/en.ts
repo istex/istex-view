@@ -42,6 +42,9 @@ export const en: Translation = {
 			title_one: "Reference ({{count}})",
 			title_other: "References ({{count}})",
 		},
+		documentIdentifier: {
+			title: "Document Identifier",
+		},
 	},
 	termEnrichment: {
 		underlineWordsInText: "Underline words in the text",
