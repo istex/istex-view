@@ -1,3 +1,4 @@
+import { Hi } from "../../tags/Hi";
 import { NoOp } from "../../tags/NoOp";
 import { Nothing } from "../../tags/Nothing";
 import { Keywords } from "./Keywords";
@@ -9,5 +10,6 @@ export const keywordTagCatalog = {
 	list: NoOp,
 	head: Nothing,
 	item: NoOp,
+	hi: Hi,
 	"#text": NoOp,
 };

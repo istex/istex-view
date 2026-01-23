@@ -21,4 +21,5 @@ export const authorTagCatalogs: Record<
 	name: Name,
 	affiliation: Nothing,
 	"#text": NoOp,
+	email: Nothing,
 };
