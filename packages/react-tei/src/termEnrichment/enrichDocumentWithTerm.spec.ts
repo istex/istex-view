@@ -378,8 +378,13 @@ describe("enrichDocumentWithTerms", () => {
 	describe("getTermRegexes", () => {
 		it("should return regexes for terms with correct flags (case insensitive for teeft only)", () => {
 			const terms = [
-				{ targetText: "Unitex", groups: ["teeft"], subTerms: [] },
-				{ targetText: "test", groups: ["other"], subTerms: [] },
+				{
+					targetText: "Unitex",
+					sourceTerm: [],
+					groups: ["teeft"],
+					subTerms: [],
+				},
+				{ targetText: "test", sourceTerm: [], groups: ["other"], subTerms: [] },
 			];
 
 			const regexes = getTermRegexes(terms);
@@ -402,7 +407,12 @@ describe("enrichDocumentWithTerms", () => {
 
 		it("should handle terms in with several groups including teeft", () => {
 			const terms = [
-				{ targetText: "Example", groups: ["teeft", "other"], subTerms: [] },
+				{
+					targetText: "Example",
+					sourceTerm: [],
+					groups: ["teeft", "other"],
+					subTerms: [],
+				},
 			];
 
 			const regexes = getTermRegexes(terms);
@@ -427,11 +437,12 @@ describe("enrichDocumentWithTerms", () => {
 			const terms = [
 				{
 					targetText: "New York City",
+					sourceTerm: [],
 					groups: ["place", "teeft"],
 					subTerms: [
-						{ targetText: "New", groups: ["place"] },
-						{ targetText: "York", groups: ["place", "teeft"] },
-						{ targetText: "City", groups: ["place"] },
+						{ targetText: "New", sourceTerm: [], groups: ["place"] },
+						{ targetText: "York", sourceTerm: [], groups: ["place", "teeft"] },
+						{ targetText: "City", sourceTerm: [], groups: ["place"] },
 					],
 				},
 			];

@@ -8,7 +8,9 @@ describe("splitTermIntoSegments", () => {
 	});
 
 	it("should return empty array when no contained terms match", () => {
-		const containedTerms = [{ targetText: "foo", groups: ["group2"] }];
+		const containedTerms = [
+			{ targetText: "foo", groups: ["group2"], sourceTerm: [] },
+		];
 		const result = splitTermIntoSegments("Hello World", containedTerms, [
 			"group1",
 		]);
@@ -16,7 +18,9 @@ describe("splitTermIntoSegments", () => {
 	});
 
 	it("should split container with single contained term at start", () => {
-		const containedTerms = [{ targetText: "Hello", groups: ["group2"] }];
+		const containedTerms = [
+			{ targetText: "Hello", groups: ["group2"], sourceTerm: [] },
+		];
 		const result = splitTermIntoSegments("Hello World", containedTerms, [
 			"group1",
 		]);
@@ -27,7 +31,9 @@ describe("splitTermIntoSegments", () => {
 	});
 
 	it("should split container with single contained term at end", () => {
-		const containedTerms = [{ targetText: "World", groups: ["group2"] }];
+		const containedTerms = [
+			{ targetText: "World", groups: ["group2"], sourceTerm: [] },
+		];
 		const result = splitTermIntoSegments("Hello World", containedTerms, [
 			"group1",
 		]);
@@ -38,7 +44,9 @@ describe("splitTermIntoSegments", () => {
 	});
 
 	it("should split container with single contained term in middle", () => {
-		const containedTerms = [{ targetText: "beautiful", groups: ["group2"] }];
+		const containedTerms = [
+			{ targetText: "beautiful", groups: ["group2"], sourceTerm: [] },
+		];
 		const result = splitTermIntoSegments(
 			"Hello beautiful World",
 			containedTerms,
@@ -53,8 +61,8 @@ describe("splitTermIntoSegments", () => {
 
 	it("should split container with multiple non-overlapping contained terms", () => {
 		const containedTerms = [
-			{ targetText: "Hello", groups: ["group2"] },
-			{ targetText: "World", groups: ["group3"] },
+			{ targetText: "Hello", groups: ["group2"], sourceTerm: [] },
+			{ targetText: "World", groups: ["group3"], sourceTerm: [] },
 		];
 		const result = splitTermIntoSegments(
 			"Hello beautiful World",
@@ -70,8 +78,8 @@ describe("splitTermIntoSegments", () => {
 
 	it("should split container with two overlapping terms", () => {
 		const containedTerms = [
-			{ targetText: "Prince Charles", groups: ["group1"] },
-			{ targetText: "Charles Xavier", groups: ["group2"] },
+			{ targetText: "Prince Charles", groups: ["group1"], sourceTerm: [] },
+			{ targetText: "Charles Xavier", groups: ["group2"], sourceTerm: [] },
 		];
 		const result = splitTermIntoSegments(
 			"Prince Charles Xavier",
@@ -82,21 +90,25 @@ describe("splitTermIntoSegments", () => {
 			{
 				targetText: "Prince ",
 				groups: ["group1"],
-				sourceTerm: "Prince Charles",
+				sourceTerm: ["Prince Charles"],
 			},
-			{ targetText: "Charles", groups: ["group1", "group2"], sourceTerm: null },
+			{
+				targetText: "Charles",
+				groups: ["group1", "group2"],
+				sourceTerm: ["Prince Charles", "Charles Xavier"],
+			},
 			{
 				targetText: " Xavier",
 				groups: ["group2"],
-				sourceTerm: "Charles Xavier",
+				sourceTerm: ["Charles Xavier"],
 			},
 		]);
 	});
 
 	it("should handle term that fully contains another term", () => {
 		const containedTerms = [
-			{ targetText: "New York", groups: ["group2"] },
-			{ targetText: "York", groups: ["group3"] },
+			{ targetText: "New York", groups: ["group2"], sourceTerm: [] },
+			{ targetText: "York", groups: ["group3"], sourceTerm: [] },
 		];
 		const result = splitTermIntoSegments("New York City", containedTerms, [
 			"group1",
@@ -122,8 +134,8 @@ describe("splitTermIntoSegments", () => {
 
 	it("should handle adjacent terms without gap", () => {
 		const containedTerms = [
-			{ targetText: "San Francisco", groups: ["group2"] },
-			{ targetText: "Bay Area", groups: ["group3"] },
+			{ targetText: "San Francisco", groups: ["group2"], sourceTerm: [] },
+			{ targetText: "Bay Area", groups: ["group3"], sourceTerm: [] },
 		];
 		const result = splitTermIntoSegments(
 			"San Francisco Bay Area",
@@ -143,10 +155,16 @@ describe("splitTermIntoSegments", () => {
 				targetText: "New York",
 				groups: ["group2"],
 				subTerms: [
-					{ targetText: "New", groups: ["group4"] },
-					{ targetText: " ", groups: ["group2"], artificial: true },
-					{ targetText: "York", groups: ["group3"] },
+					{ targetText: "New", groups: ["group4"], sourceTerm: [] },
+					{
+						targetText: " ",
+						groups: ["group2"],
+						artificial: true,
+						sourceTerm: [],
+					},
+					{ targetText: "York", groups: ["group3"], sourceTerm: [] },
 				],
+				sourceTerm: [],
 			},
 		];
 		const result = splitTermIntoSegments("New York City", containedTerms, [
@@ -167,7 +185,9 @@ describe("splitTermIntoSegments", () => {
 	});
 
 	it("should handle empty parentGroups", () => {
-		const containedTerms = [{ targetText: "test", groups: ["group1"] }];
+		const containedTerms = [
+			{ targetText: "test", groups: ["group1"], sourceTerm: [] },
+		];
 		const result = splitTermIntoSegments("a test here", containedTerms, []);
 		expect(result).toEqual([
 			{ targetText: "a ", groups: [], artificial: true },
@@ -177,7 +197,9 @@ describe("splitTermIntoSegments", () => {
 	});
 
 	it("should handle term at exact container boundaries", () => {
-		const containedTerms = [{ targetText: "Hello World", groups: ["group2"] }];
+		const containedTerms = [
+			{ targetText: "Hello World", groups: ["group2"], sourceTerm: [] },
+		];
 		const result = splitTermIntoSegments("Hello World", containedTerms, [
 			"group1",
 		]);

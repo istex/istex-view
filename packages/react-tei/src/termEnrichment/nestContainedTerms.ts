@@ -36,6 +36,7 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 				targetText: term.targetText,
 				groups: term.groups,
 				...(term.artificial && { artificial: true }),
+				sourceTerm: term.artificial ? [] : [term.targetText],
 			};
 			return acc;
 		}
@@ -60,6 +61,7 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 			groups: term.groups,
 			...(term.artificial && { artificial: true }),
 			...(subTerms.length > 0 && { subTerms }),
+			sourceTerm: parentSourceTerm ? [parentSourceTerm] : [],
 		};
 
 		return acc;

@@ -9,7 +9,7 @@ export type NestedTerm = {
 	groups: string[];
 	subTerms?: NestedTerm[];
 	artificial?: boolean;
-	sourceTerm?: string | null;
+	sourceTerm: string[];
 };
 
 export type GroupedTerm = {

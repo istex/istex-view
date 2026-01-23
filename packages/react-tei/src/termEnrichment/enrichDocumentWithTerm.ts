@@ -27,8 +27,8 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 	const termAttribute =
 		term.sourceTerm === null
 			? null
-			: term.sourceTerm !== undefined
-				? kebabCasify(term.sourceTerm)
+			: term.sourceTerm.length
+				? term.sourceTerm.map(kebabCasify).join(" ")
 				: kebabCasify(term.targetText);
 
 	if (term.subTerms?.length && term.groups.length === 0) {

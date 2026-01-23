@@ -18,7 +18,7 @@ const createFillerSegment = (
 	targetText: text,
 	groups: parentGroups,
 	artificial: true,
-	...(sourceTerm !== undefined && { sourceTerm }),
+	sourceTerm: sourceTerm ? [sourceTerm] : [],
 });
 
 // Process a single non-overlapping term
@@ -57,6 +57,7 @@ const processSingleTerm = (
 	return {
 		targetText: termData.targetText,
 		groups: combinedGroups,
+		sourceTerm: termData.sourceTerm,
 		...(subTerms && subTerms.length > 0 && { subTerms }),
 	};
 };

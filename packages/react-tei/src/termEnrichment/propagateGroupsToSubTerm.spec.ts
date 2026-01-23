@@ -6,6 +6,7 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should combine parent groups with subTerm groups", () => {
 		const subTerm: NestedTerm = {
 			targetText: "America",
+			sourceTerm: [],
 			groups: ["group2"],
 		};
 		const parentGroups = ["group1"];
@@ -14,6 +15,7 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "America",
+			sourceTerm: [],
 			groups: ["group1", "group2"],
 		});
 	});
@@ -21,6 +23,7 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should deduplicate groups when parent and subTerm share groups", () => {
 		const subTerm: NestedTerm = {
 			targetText: "America",
+			sourceTerm: [],
 			groups: ["group1", "group2"],
 		};
 		const parentGroups = ["group1", "group3"];
@@ -29,6 +32,7 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "America",
+			sourceTerm: [],
 			groups: ["group1", "group3", "group2"],
 		});
 	});
@@ -36,6 +40,7 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should deduplicate groups when parent and subTerm share groups ordering by group from parent first", () => {
 		const subTerm: NestedTerm = {
 			targetText: "America",
+			sourceTerm: [],
 			groups: ["group2", "group1"],
 		};
 		const parentGroups = ["group1", "group3"];
@@ -44,6 +49,7 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "America",
+			sourceTerm: [],
 			groups: ["group1", "group3", "group2"],
 		});
 	});
@@ -51,10 +57,16 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should propagate groups recursively to nested subTerms", () => {
 		const subTerm: NestedTerm = {
 			targetText: "States of America",
+			sourceTerm: [],
 			groups: ["group2"],
 			subTerms: [
-				{ targetText: "States of ", groups: [], artificial: true },
-				{ targetText: "America", groups: ["group3"] },
+				{
+					targetText: "States of ",
+					groups: [],
+					artificial: true,
+					sourceTerm: [],
+				},
+				{ targetText: "America", groups: ["group3"], sourceTerm: [] },
 			],
 		};
 		const parentGroups = ["group1"];
@@ -63,14 +75,20 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "States of America",
+			sourceTerm: [],
 			groups: ["group1", "group2"],
 			subTerms: [
 				{
 					targetText: "States of ",
+					sourceTerm: [],
 					groups: ["group1", "group2"],
 					artificial: true,
 				},
-				{ targetText: "America", groups: ["group1", "group2", "group3"] },
+				{
+					targetText: "America",
+					sourceTerm: [],
+					groups: ["group1", "group2", "group3"],
+				},
 			],
 		});
 	});
@@ -78,15 +96,22 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should propagate groups through multiple levels of nesting", () => {
 		const subTerm: NestedTerm = {
 			targetText: "United States of America",
+			sourceTerm: ["United States of America"],
 			groups: ["group1"],
 			subTerms: [
-				{ targetText: "United ", groups: [], artificial: true },
+				{ targetText: "United ", groups: [], artificial: true, sourceTerm: [] },
 				{
 					targetText: "States of America",
+					sourceTerm: [],
 					groups: ["group2"],
 					subTerms: [
-						{ targetText: "States of ", groups: [], artificial: true },
-						{ targetText: "America", groups: ["group3"] },
+						{
+							targetText: "States of ",
+							groups: [],
+							artificial: true,
+							sourceTerm: [],
+						},
+						{ targetText: "America", groups: ["group3"], sourceTerm: [] },
 					],
 				},
 			],
@@ -97,9 +122,15 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "United States of America",
+			sourceTerm: ["United States of America"],
 			groups: ["group1"],
 			subTerms: [
-				{ targetText: "United ", groups: ["group1"], artificial: true },
+				{
+					targetText: "United ",
+					sourceTerm: [],
+					groups: ["group1"],
+					artificial: true,
+				},
 				{
 					targetText: "States of America",
 					groups: ["group1", "group2"],
@@ -119,6 +150,7 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should handle subTerm with empty groups", () => {
 		const subTerm: NestedTerm = {
 			targetText: "some text",
+			sourceTerm: ["some text"],
 			groups: [],
 			artificial: true,
 		};
@@ -128,6 +160,7 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "some text",
+			sourceTerm: ["some text"],
 			groups: ["group1", "group2"],
 			artificial: true,
 		});
@@ -136,6 +169,7 @@ describe("propagateGroupsToSubTerm", () => {
 	it("should handle empty parent groups", () => {
 		const subTerm: NestedTerm = {
 			targetText: "America",
+			sourceTerm: ["America"],
 			groups: ["group1"],
 		};
 		const parentGroups: string[] = [];
@@ -144,6 +178,7 @@ describe("propagateGroupsToSubTerm", () => {
 
 		expect(result).toEqual({
 			targetText: "America",
+			sourceTerm: ["America"],
 			groups: ["group1"],
 		});
 	});
@@ -153,7 +188,7 @@ describe("propagateGroupsToSubTerm", () => {
 			targetText: "some text",
 			groups: ["group2"],
 			artificial: true,
-			sourceTerm: "original term",
+			sourceTerm: ["original term"],
 		};
 		const parentGroups = ["group1"];
 
@@ -163,15 +198,18 @@ describe("propagateGroupsToSubTerm", () => {
 			targetText: "some text",
 			groups: ["group1", "group2"],
 			artificial: true,
-			sourceTerm: "original term",
+			sourceTerm: ["original term"],
 		});
 	});
 
 	it("should not mutate the original subTerm", () => {
 		const subTerm: NestedTerm = {
 			targetText: "America",
+			sourceTerm: ["America"],
 			groups: ["group2"],
-			subTerms: [{ targetText: "nested", groups: ["group3"] }],
+			subTerms: [
+				{ targetText: "nested", groups: ["group3"], sourceTerm: ["nested"] },
+			],
 		};
 		const parentGroups = ["group1"];
 
