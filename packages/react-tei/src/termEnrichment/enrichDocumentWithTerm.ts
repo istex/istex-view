@@ -100,6 +100,15 @@ export const getTermRegexes = (terms: NestedTerm[]) => {
 	});
 };
 
+// A stop tag is a tag where term enrichment should not be applied within its children
+// We do not want to highlight terms inside latex or mathml formulas asd it would break the formula rendering
+export const isStopTag = (tag: DocumentJson): boolean => {
+	if (tag.tag === "formula") {
+		return true;
+	}
+	return false;
+};
+
 export const enrichDocumentWithTerms = (
 	document: DocumentJson,
 	termByGroup: Record<string, TermStatistic[]>,
@@ -116,5 +125,5 @@ export const enrichDocumentWithTerms = (
 		return node;
 	};
 
-	return mapTargetTags(document, "#text", enrichNode);
+	return mapTargetTags(document, "#text", enrichNode, isStopTag);
 };

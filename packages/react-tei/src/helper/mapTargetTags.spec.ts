@@ -115,4 +115,37 @@ describe("mapTargetTags", () => {
 			],
 		});
 	});
+
+	it("should skip processing children of stop tags", () => {
+		const document = {
+			tag: "div",
+			value: [
+				{
+					tag: "stopTag",
+					value: [{ tag: "span", value: "Should not change" }],
+				},
+				{ tag: "span", value: "Should change" },
+			],
+		};
+
+		const replaceTag = (tag: any) => ({
+			...tag,
+			tag: "strong",
+		});
+
+		const isStopTag = (tag: any) => tag.tag === "stopTag";
+
+		const result = mapTargetTags(document, "span", replaceTag, isStopTag);
+
+		expect(result).toEqual({
+			tag: "div",
+			value: [
+				{
+					tag: "stopTag",
+					value: [{ tag: "span", value: "Should not change" }],
+				},
+				{ tag: "strong", value: "Should change" },
+			],
+		});
+	});
 });

@@ -327,6 +327,54 @@ describe("enrichDocumentWithTerms", () => {
 		});
 	});
 
+	it('should not highlight terms inside "formula" tags ', () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "formula",
+					attributes: { "@notation": "tex" },
+					value: [{ tag: "#text", value: "\\hbox{$M_r^c$}" }],
+				},
+				{
+					tag: "#text",
+					value: "This is an example of the latex hbox keyword.",
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "hbox", displayed: true }],
+		};
+
+		const enrichedDocument = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "formula",
+					attributes: { "@notation": "tex" },
+					value: [{ tag: "#text", value: "\\hbox{$M_r^c$}" }],
+				},
+				{
+					tag: "highlightedText",
+					value: [
+						{ tag: "#text", value: "This is an example of the latex " },
+						{
+							tag: "highlight",
+							attributes: { groups: ["group1"], term: "hbox" },
+							value: "hbox",
+						},
+						{ tag: "#text", value: " keyword." },
+					],
+				},
+			],
+		});
+	});
+
 	describe("getTermRegexes", () => {
 		it("should return regexes for terms with correct flags (case insensitive for teeft only)", () => {
 			const terms = [
