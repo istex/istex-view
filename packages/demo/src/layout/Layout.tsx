@@ -1,12 +1,13 @@
+import { Outlet } from "react-router";
 import Header from "./Header";
 import Navbar from "./NavBar";
 
-export function Layout({ children }: { children: React.ReactNode }) {
+export function Layout() {
 	return (
 		<>
 			<Navbar />
 			<Header />
-			{children}
+			<Outlet />
 		</>
 	);
 }
