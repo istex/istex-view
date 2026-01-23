@@ -50,13 +50,29 @@ export function FormulaRend({ data }: ComponentProps) {
 	switch (rend) {
 		case "display":
 			return (
-				<Typography component="div" role="figure">
+				<Typography
+					component="div"
+					role="figure"
+					sx={{
+						"& math": {
+							display: "math block !important",
+						},
+					}}
+				>
 					<Value data={value} />
 				</Typography>
 			);
 		case "inline":
 			return (
-				<Typography component="span" role="figure">
+				<Typography
+					component="span"
+					role="figure"
+					sx={{
+						"& math": {
+							display: "math !important",
+						},
+					}}
+				>
 					<Value data={value} />
 				</Typography>
 			);
