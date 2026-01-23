@@ -22,7 +22,10 @@ export const arkViewerLoader: LoaderFunction = async ({
 }): Promise<ArkViewerLoaderData> => {
 	const { id } = params;
 
-	// Simulate loading time
+	/**
+	 * Simulate loading time
+	 * @todo In a real app, you would fetch the document by its id here
+	 */
 	await new Promise((resolve) => setTimeout(resolve, 1000));
 
 	if (!id) {
