@@ -51,6 +51,8 @@ export const useDocumentSources = (): DocumentJson[] => {
 				value.length > 0,
 		);
 
+		const idnos = monogr.value.filter(({ tag }) => tag === "idno");
+
 		if (subTitles.length > 1) {
 			console.warn("Multiple sub titles found in document monogr", {
 				subTitles,
@@ -63,9 +65,9 @@ export const useDocumentSources = (): DocumentJson[] => {
 		const subTitle = subTitles[0];
 
 		if (subTitle) {
-			return [mainTitle, subTitle];
+			return [mainTitle, subTitle, ...idnos];
 		}
 
-		return [mainTitle];
+		return [mainTitle, ...idnos];
 	}, [jsonDocument]);
 };
