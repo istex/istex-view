@@ -4,6 +4,7 @@ import { Div } from "./Div";
 import { Emph } from "./Emph";
 import { Figure } from "./Figure";
 import { Formula } from "./Formula";
+import { FloatingText } from "./floatingText/FloatingText";
 import { MathMLTag } from "./formula/mathml/MathMLTag";
 import { mathMLTagNames } from "./formula/mathml/mathMLTagNames";
 import { Graphic } from "./Graphic";
@@ -30,6 +31,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	ref: Ref,
 	graphic: Graphic,
 	sc: NoOp,
+	floatingText: FloatingText,
 	// Structure tags
 	body: NoOp,
 	"#text": NoOp,
