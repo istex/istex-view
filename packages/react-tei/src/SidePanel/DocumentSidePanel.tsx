@@ -8,6 +8,7 @@ import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { AuthorSection } from "./authors/AuthorSection";
 import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographiceferencesSection";
+import { DocumentIdentifierSection } from "./documentIdentifier/DocumentIdentifierSection";
 import { EnrichmentTermSection } from "./enrichmentTerm/EnrichmentTermSection";
 import { FootnotesSection } from "./footNotes/FootnotesSection";
 import { KeywordSection } from "./keywords/KeywordSection";
@@ -82,6 +83,7 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<MulticatCategories />
 					<FootnotesSection />
 					<BibliographicReferencesSection />
+					<DocumentIdentifierSection />
 				</Stack>
 			</Stack>
 		</Paper>
