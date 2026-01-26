@@ -10,7 +10,7 @@ import { Graphic } from "./Graphic";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
-import { List } from "./List";
+import { List } from "./list/List";
 import { NoOp } from "./NoOp";
 import { P } from "./P";
 import { Quote } from "./Quote";

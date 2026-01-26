@@ -1,8 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../i18n/I18nProvider";
-import { List } from "./List";
 import { nestedListDocument as labelledListDocument } from "./list/LabelledList.spec";
+import { List } from "./list/List";
 import { nestedListDocument as unlabelledListDocument } from "./list/UnlabelledList.spec";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";

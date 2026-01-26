@@ -1,12 +1,12 @@
 import { useId, useMemo } from "react";
 import { findChildrenByName } from "../../helper/findChildrenByName";
-import type { DocumentJson } from "../../parser/document";
+import type { ComponentProps } from "../type";
 
 const LABEL_TAG = "label";
 const PARAGRAPH_TAG = "p";
 const LIST_TAG = "list";
 
-export function useItem({ data }: useItemProps) {
+export function useListItem({ data }: ComponentProps) {
 	const id = useId();
 	const htmlId = useMemo(() => {
 		const attributesId = data.attributes?.["@xml:id"];
@@ -61,7 +61,3 @@ export function useItem({ data }: useItemProps) {
 		[htmlId, label, content, nestedList],
 	);
 }
-
-export type useItemProps = {
-	data: DocumentJson;
-};

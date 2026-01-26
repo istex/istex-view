@@ -1,29 +1,17 @@
 import MuiList, { type ListProps } from "@mui/material/List";
-import { useContext, useMemo } from "react";
+import { useMemo } from "react";
 import { findChildrenByName } from "../../helper/findChildrenByName";
 import type { ComponentProps } from "../type";
-import { ListContext, type ListContextValue } from "./ListContext";
+import { ListContext } from "./ListContext";
 import { UnlabelledItem } from "./UnlabelledItem";
+import { useListType } from "./useListType";
 
 export function UnlabelledList({ data }: ComponentProps) {
-	const parentListContext = useContext(ListContext);
-
 	const items = useMemo(() => {
 		return findChildrenByName(data, "item");
 	}, [data]);
 
-	const listType = useMemo<ListContextValue>(() => {
-		if (parentListContext) {
-			return parentListContext;
-		}
-
-		switch (data.attributes?.["@type"]) {
-			case "order":
-				return "ol";
-			default:
-				return "ul";
-		}
-	}, [parentListContext, data.attributes]);
+	const listType = useListType(data.attributes?.["@type"]);
 
 	const listStyle = useMemo<ListProps["sx"]>(() => {
 		return {

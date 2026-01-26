@@ -3,10 +3,10 @@ import ListItemText from "@mui/material/ListItemText";
 import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../type";
 import { Value } from "../Value";
-import { useItem } from "./useListItem";
+import { useListItem } from "./useListItem";
 
 export function LabelledItem({ data }: ComponentProps) {
-	const { htmlId, label, content, nestedList } = useItem({ data });
+	const { htmlId, label, content, nestedList } = useListItem({ data });
 
 	return (
 		<ListItem
