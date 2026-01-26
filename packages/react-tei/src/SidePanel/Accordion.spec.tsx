@@ -1,10 +1,10 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
-import {
-	DocumentContext,
-	DocumentContextProvider,
-} from "../DocumentContextProvider";
 import { Accordion } from "./Accordion";
+import {
+	DocumentSidePanelContext,
+	DocumentSidePanelContextProvider,
+} from "./DocumentSidePanelContext";
 
 describe("Accordion", () => {
 	it("should render accordion open if sections matching name is true (open)", async () => {
@@ -14,27 +14,24 @@ describe("Accordion", () => {
 			</Accordion>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentContext.Provider
+					<DocumentSidePanelContext.Provider
 						value={{
-							jsonDocument: [],
-							panel: {
-								state: {
-									isOpen: true,
-									sections: {
-										authors: true,
-										keywords: true,
-										source: true,
-										footnotes: true,
-									},
+							state: {
+								isOpen: true,
+								sections: {
+									authors: true,
+									keywords: true,
+									source: true,
+									footnotes: true,
 								},
-								togglePanel: () => {},
-								toggleSection: () => {},
 							},
-							multicatEnrichment: [],
+							togglePanel: () => {},
+							toggleSection: () => {},
+							openSection: () => {},
 						}}
 					>
 						{children}
-					</DocumentContext.Provider>
+					</DocumentSidePanelContext.Provider>
 				),
 			},
 		);
@@ -53,27 +50,24 @@ describe("Accordion", () => {
 			</Accordion>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentContext.Provider
+					<DocumentSidePanelContext.Provider
 						value={{
-							jsonDocument: [],
-							panel: {
-								state: {
-									isOpen: true,
-									sections: {
-										authors: false,
-										keywords: true,
-										source: true,
-										footnotes: true,
-									},
+							state: {
+								isOpen: true,
+								sections: {
+									authors: false,
+									keywords: true,
+									source: true,
+									footnotes: true,
 								},
-								togglePanel: () => {},
-								toggleSection: () => {},
 							},
-							multicatEnrichment: [],
+							togglePanel: () => {},
+							toggleSection: () => {},
+							openSection: () => {},
 						}}
 					>
 						{children}
-					</DocumentContext.Provider>
+					</DocumentSidePanelContext.Provider>
 				),
 			},
 		);
@@ -93,9 +87,9 @@ describe("Accordion", () => {
 			</Accordion>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentContextProvider jsonDocument={[]}>
+					<DocumentSidePanelContextProvider>
 						{children}
-					</DocumentContextProvider>
+					</DocumentSidePanelContextProvider>
 				),
 			},
 		);

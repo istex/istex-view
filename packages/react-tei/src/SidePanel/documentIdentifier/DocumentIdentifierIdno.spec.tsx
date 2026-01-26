@@ -2,6 +2,7 @@ import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { tagCatalog } from "../../tags/tagCatalog";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { DocumentIdentifierIdno } from "./DocumentIdentifierIdno";
 
 vi.mock("../../debug/debug.const", () => ({
@@ -9,7 +10,9 @@ vi.mock("../../debug/debug.const", () => ({
 }));
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-	<TagCatalogProvider tagCatalog={tagCatalog}>{children}</TagCatalogProvider>
+	<DocumentSidePanelContextProvider>
+		<TagCatalogProvider tagCatalog={tagCatalog}>{children}</TagCatalogProvider>
+	</DocumentSidePanelContextProvider>
 );
 
 // Mock Value and DebugTag for isolation

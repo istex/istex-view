@@ -2,28 +2,21 @@ import { act, type RefObject } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import {
-	DocumentContext,
-	DocumentContextProvider,
-	type DocumentContextType,
-} from "../DocumentContextProvider";
+	DocumentSidePanelContext,
+	DocumentSidePanelContextProvider,
+	type DocumentSidePanelContextType,
+} from "../SidePanel/DocumentSidePanelContext";
 import { DocumentNavigationContextProvider } from "./DocumentNavigationContext";
 import { useDocumentNavigation } from "./useNavigateToSection";
 
 function createDocumentWrapper() {
-	const documentElement = document.createElement("div");
 	const tocElement = document.createElement("div");
 	const sidePaneElement = document.createElement("div");
 
 	return {
-		documentElement,
 		wrapper: ({ children }: { children: React.ReactNode }) => (
-			<DocumentContextProvider jsonDocument={[]}>
+			<DocumentSidePanelContextProvider>
 				<DocumentNavigationContextProvider
-					documentRef={
-						{
-							current: documentElement,
-						} as unknown as RefObject<HTMLDivElement | null>
-					}
 					tocRef={
 						{
 							current: tocElement,
@@ -37,51 +30,44 @@ function createDocumentWrapper() {
 				>
 					{children}
 				</DocumentNavigationContextProvider>
-			</DocumentContextProvider>
+			</DocumentSidePanelContextProvider>
 		),
 	};
 }
 
 function createSidePaneWrapper(
-	panel: Partial<DocumentContextType["panel"]> = {},
+	panel: Partial<DocumentSidePanelContextType> = {},
 ) {
-	const documentElement = document.createElement("div");
 	const tocElement = document.createElement("div");
 	const sidePaneElement = document.createElement("div");
 
 	return {
 		sidePaneElement,
 		wrapper: ({ children }: { children: React.ReactNode }) => (
-			<DocumentContext.Provider
+			<DocumentSidePanelContext.Provider
 				value={{
-					jsonDocument: [],
-					panel: {
-						state: {
-							isOpen: true,
-							sections: {
-								footnotes: false,
-								authors: false,
-								keywords: false,
-								source: false,
-							},
+					state: {
+						isOpen: true,
+						sections: {
+							footnotes: false,
+							authors: false,
+							keywords: false,
+							source: false,
 						},
-						toggleSection: () => {
-							throw new Error("toggleSection should not be called");
-						},
-						togglePanel: () => {
-							throw new Error("togglePanel should not be called");
-						},
-						...panel,
 					},
-					multicatEnrichment: [],
+					toggleSection: () => {
+						throw new Error("toggleSection should not be called");
+					},
+					togglePanel: () => {
+						throw new Error("togglePanel should not be called");
+					},
+					openSection: () => {
+						throw new Error("openSection should not be called");
+					},
+					...panel,
 				}}
 			>
 				<DocumentNavigationContextProvider
-					documentRef={
-						{
-							current: documentElement,
-						} as unknown as RefObject<HTMLDivElement | null>
-					}
 					tocRef={
 						{
 							current: tocElement,
@@ -95,7 +81,7 @@ function createSidePaneWrapper(
 				>
 					{children}
 				</DocumentNavigationContextProvider>
-			</DocumentContext.Provider>
+			</DocumentSidePanelContext.Provider>
 		),
 	};
 }
@@ -103,7 +89,7 @@ function createSidePaneWrapper(
 describe("DocumentNavigationContextProvider", () => {
 	describe("navigateToHeading", () => {
 		it("should allow to navigate to target heading", async () => {
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const scrollIntoView = vi.fn();
 			const querySelectorAll = vi.fn().mockImplementation(() => {
@@ -114,7 +100,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [h2];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -123,14 +109,16 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			result.current.navigateToHeading("heading-1");
-			expect(querySelectorAll).toHaveBeenCalledWith(`#heading-1`);
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				`#document-container #heading-1`,
+			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
 	});
 
 	describe("navigateToFootnoteRef", () => {
 		it("should allow to navigate to target footnote reference", async () => {
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const scrollIntoView = vi.fn();
 			const querySelectorAll = vi.fn().mockImplementation(() => {
@@ -139,7 +127,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [span];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -148,11 +136,13 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			result.current.navigateToFootnoteRef("fn-1");
-			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-1"]');
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'#document-container [data-fn-id~="fn-1"]',
+			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
 		it("should cycle through multiple footnote references with the same id", async () => {
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const scrollIntoView1 = vi.fn();
 			const scrollIntoView2 = vi.fn();
@@ -171,7 +161,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [span1, span2, span3];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -183,7 +173,9 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToFootnoteRef("fn-1");
 			});
-			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-1"]');
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'#document-container [data-fn-id~="fn-1"]',
+			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
 			// Second call
@@ -206,7 +198,7 @@ describe("DocumentNavigationContextProvider", () => {
 		});
 
 		it("should restart from 0 when navigating to a different selector", async () => {
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const scrollIntoView1 = vi.fn();
 			const scrollIntoView2 = vi.fn();
@@ -225,7 +217,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [span1, span2, span3];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -237,7 +229,9 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToFootnoteRef("fn-1");
 			});
-			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-1"]');
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'#document-container [data-fn-id~="fn-1"]',
+			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
 			// Second call
@@ -250,7 +244,9 @@ describe("DocumentNavigationContextProvider", () => {
 			act(() => {
 				result.current.navigateToFootnoteRef("fn-2");
 			});
-			expect(querySelectorAll).toHaveBeenCalledWith('[data-fn-id~="fn-2"]');
+			expect(querySelectorAll).toHaveBeenCalledWith(
+				'#document-container [data-fn-id~="fn-2"]',
+			);
 			// Should call the first one again and not the third one
 			expect(scrollIntoView1).toHaveBeenCalledTimes(2);
 			expect(scrollIntoView3).toHaveBeenCalledTimes(0);
@@ -259,7 +255,7 @@ describe("DocumentNavigationContextProvider", () => {
 
 	describe("navigateToFootnote", () => {
 		it("should allow to navigate to target footnote in side panel directly when already open", async () => {
-			const toggleSection = vi.fn();
+			const openSection = vi.fn();
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
@@ -270,7 +266,7 @@ describe("DocumentNavigationContextProvider", () => {
 						source: false,
 					},
 				},
-				toggleSection,
+				openSection,
 			});
 
 			const scrollIntoView = vi.fn();
@@ -289,19 +285,19 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			act(() => {
-				result.current.navigateToFootnote("footnote-1");
+			await act(() => {
+				return result.current.navigateToFootnote("footnote-1");
 			});
 
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				'[data-fn-id~="footnote-1"]',
 			);
 			expect(scrollIntoView).toHaveBeenCalled();
-			expect(toggleSection).not.toHaveBeenCalled();
+			expect(openSection).toHaveBeenCalled();
 		});
 
 		it("should allow to navigate to target footnote in side panel opening it when closed", async () => {
-			const toggleSection = vi.fn();
+			const openSection = vi.fn();
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
@@ -312,7 +308,7 @@ describe("DocumentNavigationContextProvider", () => {
 						source: false,
 					},
 				},
-				toggleSection,
+				openSection,
 			});
 
 			const scrollIntoView = vi.fn();
@@ -331,14 +327,12 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			act(() => {
-				result.current.navigateToFootnote("footnote-1");
+			await act(() => {
+				return result.current.navigateToFootnote("footnote-1");
 			});
 
-			expect(toggleSection).toHaveBeenCalledWith("footnotes");
-			expect(querySelectorAll).not.toHaveBeenCalled();
-			expect(scrollIntoView).not.toHaveBeenCalled();
-			await new Promise((r) => setTimeout(r, 700)); // wait for the panel and section animation
+			expect(openSection).toHaveBeenCalledWith("footnotes");
+
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				'[data-fn-id~="footnote-1"]',
 			);
@@ -346,8 +340,7 @@ describe("DocumentNavigationContextProvider", () => {
 		});
 
 		it("should open the side panel if it is closed when navigating to a footnote", async () => {
-			const toggleSection = vi.fn();
-			const togglePanel = vi.fn();
+			const openSection = vi.fn();
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: false,
@@ -358,8 +351,7 @@ describe("DocumentNavigationContextProvider", () => {
 						source: false,
 					},
 				},
-				toggleSection,
-				togglePanel,
+				openSection,
 			});
 			const scrollIntoView = vi.fn();
 			const querySelectorAll = vi.fn().mockImplementation(() => {
@@ -376,12 +368,11 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			act(() => {
-				result.current.navigateToFootnote("footnote-1");
+			await act(() => {
+				return result.current.navigateToFootnote("footnote-1");
 			});
-			expect(togglePanel).toHaveBeenCalled();
-			expect(querySelectorAll).not.toHaveBeenCalled();
-			expect(scrollIntoView).not.toHaveBeenCalled();
+			expect(openSection).toHaveBeenCalled();
+
 			await new Promise((r) => setTimeout(r, 700)); // wait for the panel and section animation
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				'[data-fn-id~="footnote-1"]',
@@ -390,8 +381,7 @@ describe("DocumentNavigationContextProvider", () => {
 		});
 
 		it('should open the side panel and the "footnotes" section if both are closed when navigating to a footnote', async () => {
-			const toggleSection = vi.fn();
-			const togglePanel = vi.fn();
+			const openSection = vi.fn();
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: false,
@@ -402,8 +392,7 @@ describe("DocumentNavigationContextProvider", () => {
 						source: false,
 					},
 				},
-				toggleSection,
-				togglePanel,
+				openSection,
 			});
 			const scrollIntoView = vi.fn();
 			const querySelectorAll = vi.fn().mockImplementation(() => {
@@ -420,15 +409,11 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			act(() => {
-				result.current.navigateToFootnote("footnote-1");
+			await act(() => {
+				return result.current.navigateToFootnote("footnote-1");
 			});
-			// toggleSection will open both the panel and the section
-			expect(toggleSection).toHaveBeenCalledWith("footnotes");
-			expect(togglePanel).not.toHaveBeenCalled();
-			expect(querySelectorAll).not.toHaveBeenCalled();
-			expect(scrollIntoView).not.toHaveBeenCalled();
-			await new Promise((r) => setTimeout(r, 1000)); // wait for the panel and section animation
+			// openSection will open both the panel and the section
+			expect(openSection).toHaveBeenCalledWith("footnotes");
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				'[data-fn-id~="footnote-1"]',
 			);
@@ -440,7 +425,7 @@ describe("DocumentNavigationContextProvider", () => {
 		it("should allow to navigate to target bibliographic reference ref", async () => {
 			const scrollIntoView = vi.fn();
 
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const querySelectorAll = vi.fn().mockImplementation(() => {
 				const span = document.createElement("span");
@@ -448,7 +433,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [span];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -458,7 +443,7 @@ describe("DocumentNavigationContextProvider", () => {
 
 			result.current.navigateToBibliographicReferenceRef("bibref-1");
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				'[data-bibref-id~="bibref-1"]',
+				'#document-container [data-bibref-id~="bibref-1"]',
 			);
 			expect(scrollIntoView).toHaveBeenCalled();
 		});
@@ -468,7 +453,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const scrollIntoView2 = vi.fn();
 			const scrollIntoView3 = vi.fn();
 
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const querySelectorAll = vi.fn().mockImplementation(() => {
 				const span1 = document.createElement("span");
@@ -483,7 +468,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [span1, span2, span3];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -492,10 +477,11 @@ describe("DocumentNavigationContextProvider", () => {
 			});
 
 			// First call
-			result.current.navigateToBibliographicReferenceRef("bibref-1");
-			await new Promise((r) => setTimeout(r, 1));
+			act(() => {
+				result.current.navigateToBibliographicReferenceRef("bibref-1");
+			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				'[data-bibref-id~="bibref-1"]',
+				'#document-container [data-bibref-id~="bibref-1"]',
 			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
@@ -520,7 +506,7 @@ describe("DocumentNavigationContextProvider", () => {
 		});
 
 		it("should restart from 0 when navigating to a different selector", async () => {
-			const { documentElement, wrapper } = createDocumentWrapper();
+			const { wrapper } = createDocumentWrapper();
 
 			const scrollIntoView1 = vi.fn();
 			const scrollIntoView2 = vi.fn();
@@ -539,7 +525,7 @@ describe("DocumentNavigationContextProvider", () => {
 				return [span1, span2, span3];
 			});
 
-			vi.spyOn(documentElement, "querySelectorAll").mockImplementation(
+			vi.spyOn(document.body, "querySelectorAll").mockImplementation(
 				querySelectorAll,
 			);
 
@@ -552,7 +538,7 @@ describe("DocumentNavigationContextProvider", () => {
 				result.current.navigateToBibliographicReferenceRef("bibref-1");
 			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				'[data-bibref-id~="bibref-1"]',
+				'#document-container [data-bibref-id~="bibref-1"]',
 			);
 			expect(scrollIntoView1).toHaveBeenCalledTimes(1);
 
@@ -567,7 +553,7 @@ describe("DocumentNavigationContextProvider", () => {
 				result.current.navigateToBibliographicReferenceRef("bibref-2");
 			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
-				'[data-bibref-id~="bibref-2"]',
+				'#document-container [data-bibref-id~="bibref-2"]',
 			);
 			// Should call the first one again and not the third one
 			expect(scrollIntoView1).toHaveBeenCalledTimes(2);
@@ -577,7 +563,7 @@ describe("DocumentNavigationContextProvider", () => {
 
 	describe("navigateToBibliographicReference", () => {
 		it("should allow to navigate to target bibliographic reference in side panel directly when already open", async () => {
-			const toggleSection = vi.fn();
+			const openSection = vi.fn();
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
@@ -589,7 +575,7 @@ describe("DocumentNavigationContextProvider", () => {
 						bibliographicReferences: true,
 					},
 				},
-				toggleSection,
+				openSection,
 			});
 			const scrollIntoView = vi.fn();
 			const querySelectorAll = vi.fn().mockImplementation(() => {
@@ -606,17 +592,18 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			act(() => {
-				result.current.navigateToBibliographicReference("ref-1");
+			await act(() => {
+				return result.current.navigateToBibliographicReference("ref-1");
 			});
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				'[data-bibref-id~="ref-1"]',
 			);
 			expect(scrollIntoView).toHaveBeenCalled();
-			expect(toggleSection).not.toHaveBeenCalled();
+			expect(openSection).toHaveBeenCalled();
 		});
+
 		it("should allow to navigate to target bibliographic reference in side panel opening section and panel when closed", async () => {
-			const toggleSection = vi.fn();
+			const openSection = vi.fn();
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
@@ -628,7 +615,7 @@ describe("DocumentNavigationContextProvider", () => {
 						bibliographicReferences: false,
 					},
 				},
-				toggleSection,
+				openSection,
 			});
 			const scrollIntoView = vi.fn();
 			const querySelectorAll = vi.fn().mockImplementation(() => {
@@ -645,13 +632,11 @@ describe("DocumentNavigationContextProvider", () => {
 				wrapper,
 			});
 
-			act(() => {
-				result.current.navigateToBibliographicReference("ref-1");
+			await act(() => {
+				return result.current.navigateToBibliographicReference("ref-1");
 			});
-			expect(toggleSection).toHaveBeenCalledWith("bibliographicReferences");
-			expect(querySelectorAll).not.toHaveBeenCalled();
-			expect(scrollIntoView).not.toHaveBeenCalled();
-			await new Promise((r) => setTimeout(r, 700)); // wait for the panel and section animation
+			expect(openSection).toHaveBeenCalledWith("bibliographicReferences");
+
 			expect(querySelectorAll).toHaveBeenCalledWith(
 				'[data-bibref-id~="ref-1"]',
 			);

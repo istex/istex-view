@@ -10,47 +10,10 @@ import type { EnrichmentTermAnnotationBlockType } from "./SidePanel/enrichmentTe
 import type { MulticatCategory } from "./SidePanel/multicat/useParseMulticatCategories";
 import type { TermStatistic } from "./termEnrichment/parseUnitexEnrichment";
 
-export type PanelState = {
-	isOpen: boolean;
-	sections: {
-		authors: boolean;
-		keywords: boolean;
-		source: boolean;
-		footnotes: boolean;
-		bibliographicReferences?: boolean;
-		documentIdentifier?: boolean;
-
-		termEnrichment_date?: boolean;
-		termEnrichment_orgName?: boolean;
-		termEnrichment_orgNameFunder?: boolean;
-		termEnrichment_orgNameProvider?: boolean;
-		termEnrichment_refBibl?: boolean;
-		termEnrichment_refUrl?: boolean;
-		termEnrichment_persName?: boolean;
-		termEnrichment_placeName?: boolean;
-		termEnrichment_geogName?: boolean;
-		termEnrichment_teeft?: boolean;
-
-		multicat_inist?: boolean;
-		multicat_wos?: boolean;
-		multicat_science_metrix?: boolean;
-		multicat_scopus?: boolean;
-
-		teeft?: boolean;
-	};
-};
-
-export type PanelSection = keyof PanelState["sections"];
-
 export type JsonTermEnrichment = Partial<Record<string, TermStatistic[]>>;
 
 export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
-	panel: {
-		state: PanelState;
-		togglePanel: () => void;
-		toggleSection: (section: keyof PanelState["sections"]) => void;
-	};
 	termEnrichment?: {
 		document: JsonTermEnrichment;
 		toggleBlock: (block: EnrichmentTermAnnotationBlockType) => void;
@@ -66,10 +29,6 @@ export const DocumentContext = createContext<DocumentContextType | undefined>(
 	undefined,
 );
 
-type PanelAction =
-	| { type: "TOGGLE_PANEL" }
-	| { type: "TOGGLE_SECTION"; section: keyof PanelState["sections"] };
-
 type TermEnrichmentAction =
 	| { type: "TOGGLE_BLOCK"; block: EnrichmentTermAnnotationBlockType }
 	| {
@@ -77,36 +36,6 @@ type TermEnrichmentAction =
 			block: EnrichmentTermAnnotationBlockType;
 			term: string;
 	  };
-
-export const initialPanelState: PanelState = {
-	isOpen: true,
-	sections: {
-		authors: true,
-		keywords: true,
-		source: true,
-		footnotes: true,
-		bibliographicReferences: true,
-		documentIdentifier: true,
-
-		termEnrichment_date: true,
-		termEnrichment_orgName: true,
-		termEnrichment_orgNameFunder: true,
-		termEnrichment_orgNameProvider: true,
-		termEnrichment_persName: true,
-		termEnrichment_placeName: true,
-		termEnrichment_geogName: true,
-		termEnrichment_refBibl: true,
-		termEnrichment_refUrl: true,
-		termEnrichment_teeft: true,
-
-		multicat_inist: true,
-		multicat_wos: true,
-		multicat_science_metrix: true,
-		multicat_scopus: true,
-
-		teeft: true,
-	},
-};
 
 export function DocumentContextProvider({
 	children,
@@ -131,35 +60,6 @@ export function DocumentContextProvider({
 			teeft: initialJsonTeeftEnrichment,
 		};
 	}, [initialJsonUnitexEnrichment, initialJsonTeeftEnrichment]);
-
-	const [panelState, dispatchPanelAction] = useReducer(
-		(state: PanelState, action: PanelAction) => {
-			switch (action.type) {
-				case "TOGGLE_PANEL":
-					return { ...state, isOpen: !state.isOpen };
-				case "TOGGLE_SECTION":
-					return {
-						...state,
-						isOpen: !state.sections[action.section] ? true : state.isOpen,
-						sections: {
-							...state.sections,
-							[action.section]: !state.sections[action.section],
-						},
-					};
-				default:
-					return state;
-			}
-		},
-		initialPanelState,
-	);
-
-	const togglePanel = useCallback(() => {
-		dispatchPanelAction({ type: "TOGGLE_PANEL" });
-	}, []);
-
-	const toggleSection = useCallback((section: keyof PanelState["sections"]) => {
-		dispatchPanelAction({ type: "TOGGLE_SECTION", section });
-	}, []);
 
 	const [jsonTermEnrichment, dispatchTermEnrichmentAction] = useReducer(
 		(state: JsonTermEnrichment | undefined, action: TermEnrichmentAction) => {
@@ -226,11 +126,6 @@ export function DocumentContextProvider({
 	const contextValue = useMemo<DocumentContextType>(
 		() => ({
 			jsonDocument,
-			panel: {
-				state: panelState,
-				togglePanel,
-				toggleSection,
-			},
 			termEnrichment: jsonTermEnrichment
 				? {
 						document: jsonTermEnrichment,
@@ -244,9 +139,6 @@ export function DocumentContextProvider({
 			jsonDocument,
 			jsonTermEnrichment,
 			multicatEnrichment,
-			panelState,
-			togglePanel,
-			toggleSection,
 			toggleEnrichmentAnnotationBlock,
 			toggleEnrichmentAnnotation,
 		],

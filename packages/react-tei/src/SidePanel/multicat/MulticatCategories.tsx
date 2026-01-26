@@ -1,9 +1,7 @@
 import { useTranslation } from "react-i18next";
-import {
-	type PanelSection,
-	useDocumentContext,
-} from "../../DocumentContextProvider";
+import { useDocumentContext } from "../../DocumentContextProvider";
 import { Accordion } from "../Accordion";
+import type { PanelSection } from "../DocumentSidePanelContext";
 import { MulticatKeywords } from "./MulticatKeywords";
 
 export function MulticatCategories() {

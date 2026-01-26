@@ -4,6 +4,7 @@ import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { tagCatalog } from "../../tags/tagCatalog";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { SourceSection } from "./SourceSection";
 
 describe("SourceSection", () => {
@@ -69,11 +70,13 @@ describe("SourceSection", () => {
 		const { getByRole, getByText } = await render(<SourceSection />, {
 			wrapper: ({ children }) => (
 				<I18nProvider>
-					<DocumentContextProvider jsonDocument={jsonDocument}>
-						<TagCatalogProvider tagCatalog={tagCatalog}>
-							{children}
-						</TagCatalogProvider>
-					</DocumentContextProvider>
+					<DocumentSidePanelContextProvider>
+						<DocumentContextProvider jsonDocument={jsonDocument}>
+							<TagCatalogProvider tagCatalog={tagCatalog}>
+								{children}
+							</TagCatalogProvider>
+						</DocumentContextProvider>
+					</DocumentSidePanelContextProvider>
 				</I18nProvider>
 			),
 		});
@@ -105,11 +108,13 @@ describe("SourceSection", () => {
 		const { container } = await render(<SourceSection />, {
 			wrapper: ({ children }) => (
 				<I18nProvider>
-					<DocumentContextProvider jsonDocument={jsonDocumentWithoutTitle}>
-						<TagCatalogProvider tagCatalog={tagCatalog}>
-							{children}
-						</TagCatalogProvider>
-					</DocumentContextProvider>
+					<DocumentSidePanelContextProvider>
+						<DocumentContextProvider jsonDocument={jsonDocumentWithoutTitle}>
+							<TagCatalogProvider tagCatalog={tagCatalog}>
+								{children}
+							</TagCatalogProvider>
+						</DocumentContextProvider>
+					</DocumentSidePanelContextProvider>
 				</I18nProvider>
 			),
 		});

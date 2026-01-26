@@ -4,8 +4,8 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
-import type { PanelSection } from "../../DocumentContextProvider";
 import { Accordion } from "../Accordion";
+import type { PanelSection } from "../DocumentSidePanelContext";
 import { EnrichmentTermAnnotation } from "./EnrichmentTermAnnotation";
 import {
 	chipColors,

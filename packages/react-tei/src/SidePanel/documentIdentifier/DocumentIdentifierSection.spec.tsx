@@ -4,6 +4,7 @@ import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { tagCatalog } from "../../tags/tagCatalog";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { DocumentIdentifierSection } from "./DocumentIdentifierSection";
 
 describe("DocumentIdentifierSection", () => {
@@ -70,11 +71,13 @@ describe("DocumentIdentifierSection", () => {
 			{
 				wrapper: ({ children }) => (
 					<I18nProvider>
-						<DocumentContextProvider jsonDocument={jsonDocument}>
-							<TagCatalogProvider tagCatalog={tagCatalog}>
-								{children}
-							</TagCatalogProvider>
-						</DocumentContextProvider>
+						<DocumentSidePanelContextProvider>
+							<DocumentContextProvider jsonDocument={jsonDocument}>
+								<TagCatalogProvider tagCatalog={tagCatalog}>
+									{children}
+								</TagCatalogProvider>
+							</DocumentContextProvider>
+						</DocumentSidePanelContextProvider>
 					</I18nProvider>
 				),
 			},

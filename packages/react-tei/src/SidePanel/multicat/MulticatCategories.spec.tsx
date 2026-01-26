@@ -4,6 +4,7 @@ import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { tagCatalog } from "../../tags/tagCatalog";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { MulticatCategories } from "./MulticatCategories";
 import type { MulticatCategory } from "./useParseMulticatCategories";
 
@@ -44,14 +45,16 @@ describe("MulticatCategories", () => {
 
 		const screen = await render(
 			<I18nProvider>
-				<DocumentContextProvider
-					jsonDocument={[]}
-					multicatEnrichment={categories}
-				>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						<MulticatCategories />
-					</TagCatalogProvider>
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider
+						jsonDocument={[]}
+						multicatEnrichment={categories}
+					>
+						<TagCatalogProvider tagCatalog={tagCatalog}>
+							<MulticatCategories />
+						</TagCatalogProvider>
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			</I18nProvider>,
 		);
 
