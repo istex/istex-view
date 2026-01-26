@@ -19,7 +19,16 @@ export function Div({ data: { tag, value, attributes } }: ComponentProps) {
 		return (
 			<Box
 				component="section"
-				sx={{ mt: 2, display: "flex", flexDirection: "column", gap: 2 }}
+				sx={{
+					display: "flex",
+					flexDirection: "column",
+					gap: 1.5,
+					"&:has(h2)": { mt: 2 },
+					"&:has(h3)": { mt: 1.75 },
+					"&:has(h4)": { mt: 1.5 },
+					"&:has(h5)": { mt: 1 },
+					"&:has(h6)": { mt: 0.5 },
+				}}
 				aria-labelledby={attributes.id}
 			>
 				<Value data={value} />

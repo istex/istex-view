@@ -17,6 +17,10 @@ export function TableOfContent({ tableOfContent, ref }: TableOfContentProps) {
 					overflowX: "hidden",
 					overflowY: "auto",
 					padding: 4,
+					scrollbarWidth: "none",
+					"&::-webkit-scrollbar": {
+						display: "none",
+					},
 				}}
 			>
 				<Box
@@ -33,6 +37,18 @@ export function TableOfContent({ tableOfContent, ref }: TableOfContentProps) {
 					}}
 					ref={ref}
 				>
+					<Box
+						sx={{
+							background:
+								"linear-gradient(180deg,rgba(246, 249, 250, 0) 0%, rgba(246, 249, 250, 1) 100%)",
+							position: "fixed",
+							bottom: 0,
+							left: 0,
+							right: 0,
+							height: "2rem",
+							pointerEvents: "none",
+						}}
+					/>
 					<TocHeading headings={tableOfContent} />
 				</Box>
 			</Box>

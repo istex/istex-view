@@ -122,11 +122,13 @@ export const Viewer = ({
 									transition: "background-color 0.3s ease-in-out",
 								},
 								"& .tei-highlighted-group": {
-									backgroundColor: "#F9FBEB",
+									backgroundColor: "#E3EF63",
+									color: "#4A4A4A",
 								},
 								"& .tei-highlighted, & .tei-highlighted .tei-highlighted-group":
 									{
-										backgroundColor: "#E3EF63",
+										backgroundColor: "#C4D733",
+										color: "#1D1D1D",
 									},
 							}}
 							id="viewer"
@@ -144,10 +146,7 @@ export const Viewer = ({
 										flexGrow: 1,
 										overflowX: "hidden",
 										overflowY: "auto",
-										paddingInline: {
-											xs: 2,
-											xl: 0,
-										},
+										paddingInline: 0,
 										contain: {
 											xs: "size",
 											md: "none",
@@ -166,7 +165,7 @@ export const Viewer = ({
 									<Stack
 										marginInline={{
 											xs: "auto",
-											xl: "0px auto",
+											xl: "1rem auto",
 										}}
 										paddingBlock={4}
 										maxWidth={{
@@ -177,6 +176,8 @@ export const Viewer = ({
 										gap={4}
 										position="relative"
 									>
+										<DocumentTitle teiHeader={teiHeader} />
+
 										<DocumentAbstract teiHeader={teiHeader} />
 
 										{isSmallScreen && (
@@ -189,12 +190,14 @@ export const Viewer = ({
 											component="section"
 											sx={{
 												gap: 4,
-												padding: 8,
+												padding: {
+													xs: 2,
+													md: 8,
+												},
 												backgroundColor: "white",
 											}}
 											id="document-content"
 										>
-											<DocumentTitle teiHeader={teiHeader} />
 											<DocumentBody body={enrichedBody} />
 										</Stack>
 									</Stack>

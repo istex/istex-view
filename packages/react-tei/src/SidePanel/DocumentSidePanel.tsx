@@ -1,9 +1,11 @@
 import ChevronLeft from "@mui/icons-material/ChevronLeft";
-import ChevronRight from "@mui/icons-material/ChevronRight";
+import Close from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import Tooltip from "@mui/material/Tooltip";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../DocumentContextProvider";
 import { AuthorSection } from "./authors/AuthorSection";
@@ -43,38 +45,73 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					xs: "none",
 					md: "block",
 				},
+				scrollbarWidth: "none",
+				"&::-webkit-scrollbar": {
+					display: "none",
+				},
 				"& .MuiTypography-body1": {
 					fontSize: "1rem",
 				},
+				position: "relative",
 			}}
 			ref={ref}
 		>
-			<Stack direction="row">
-				<Box width={SIDEPANEL_PADDING} position="relative">
-					<IconButton
+			<Stack
+				sx={{
+					position: "relative",
+				}}
+			>
+				<Box
+					sx={{
+						position: "sticky",
+						top: 0,
+						backgroundColor: "background.paper",
+						zIndex: 9,
+						paddingBlock: 2,
+					}}
+				>
+					<Button
 						onClick={togglePanel}
-						aria-label={isOpen ? t("sidePanel.close") : t("sidePanel.open")}
+						aria-label={t("sidePanel.close")}
+						startIcon={<Close />}
+						variant="text"
+						size="small"
+						fullWidth
 						sx={{
-							position: "sticky",
-							top: "0.5rem",
+							display: isOpen ? "flex" : "none",
+							marginInline: 2,
 						}}
 					>
-						{isOpen ? <ChevronRight /> : <ChevronLeft />}
-					</IconButton>
+						{isOpen && t("sidePanel.close")}
+					</Button>
+
+					<Tooltip title={t("sidePanel.open")} placement="left">
+						<IconButton
+							onClick={togglePanel}
+							aria-label={t("sidePanel.open")}
+							sx={{
+								display: isOpen ? "none" : "flex",
+							}}
+						>
+							<ChevronLeft />
+						</IconButton>
+					</Tooltip>
 				</Box>
+
 				<Stack
 					sx={{
-						width: `calc(${SIDEPANEL_WIDTH} - ${SIDEPANEL_PADDING})`,
-						minWidth: `calc(${SIDEPANEL_WIDTH} - ${SIDEPANEL_PADDING})`,
-						paddingBlock: 4,
+						width: isOpen ? `${SIDEPANEL_WIDTH}px` : 0,
+						minWidth: isOpen ? `${SIDEPANEL_WIDTH}px` : 0,
+						opacity: isOpen ? 1 : 0,
+						paddingBlockEnd: 4,
 						paddingInlineEnd: 2,
+						transition: "opacity 0.3s, width 0.3s, min-width 0.3s",
 						"& .MuiList-root:not(.unstyled)": {
 							listStyle: "disc",
 							paddingInlineStart: "2.25rem",
 							paddingInlineRight: "2rem",
 						},
 					}}
-					gap={4}
 				>
 					<AuthorSection />
 					<KeywordSection />
@@ -85,6 +122,19 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<BibliographicReferencesSection />
 					<DocumentIdentifierSection />
 				</Stack>
+
+				<Box
+					sx={{
+						background:
+							"linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)",
+						position: "fixed",
+						bottom: 0,
+						left: 0,
+						right: 0,
+						height: "2rem",
+						pointerEvents: "none",
+					}}
+				/>
 			</Stack>
 		</Paper>
 	);

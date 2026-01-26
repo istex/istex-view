@@ -40,7 +40,7 @@ export function EnrichmentTermAnnotationBlock({
 				sx={{
 					gap: 1,
 					paddingInlineStart: 2,
-					paddingInlineEnd: 4,
+					paddingInlineEnd: 2,
 				}}
 			>
 				<FormControlLabel

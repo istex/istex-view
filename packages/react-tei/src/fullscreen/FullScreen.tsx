@@ -24,6 +24,7 @@ export function Switch({ children }: FullScreenProps) {
 					onClick={exitFullScreen}
 					aria-label={closeButtonLabel}
 					size="small"
+					color="primary"
 					sx={{
 						position: "fixed",
 						top: 16,

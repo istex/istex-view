@@ -126,6 +126,12 @@ export function UploadPage() {
 					required
 				/>
 				<FileSelectorButton
+					dataTestId="teeft-enrichment-file-selector-input"
+					placeholder={t("upload.teeft.placeholder")}
+					buttonLabel={t("upload.teeft.buttonLabel")}
+					onChange={handleTeeftEnrichmentChange}
+				/>
+				<FileSelectorButton
 					dataTestId="unitex-enrichment-file-selector-input"
 					placeholder={t("upload.unitex.placeholder")}
 					buttonLabel={t("upload.unitex.buttonLabel")}
@@ -137,19 +143,11 @@ export function UploadPage() {
 					buttonLabel={t("upload.multicat.buttonLabel")}
 					onChange={handleMulticatEnrichmentChange}
 				/>
-
 				<FileSelectorButton
 					dataTestId="nb-enrichment-file-selector-input"
 					placeholder={t("upload.nb.placeholder")}
 					buttonLabel={t("upload.nb.buttonLabel")}
 					onChange={handleNbEnrichmentChange}
-				/>
-
-				<FileSelectorButton
-					dataTestId="teeft-enrichment-file-selector-input"
-					placeholder={t("upload.teeft.placeholder")}
-					buttonLabel={t("upload.teeft.buttonLabel")}
-					onChange={handleTeeftEnrichmentChange}
 				/>
 			</Stack>
 			<Button
