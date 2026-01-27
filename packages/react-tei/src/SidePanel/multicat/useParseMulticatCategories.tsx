@@ -74,6 +74,60 @@ export function parseMulticatScheme(scheme: string | undefined) {
 	return scheme.replaceAll("#", "").replaceAll("-", "_");
 }
 
+function mergeKeywords(
+	keywords1: Keywords[],
+	keywords2: Keywords[],
+): Keywords[] {
+	const keywordToString = (keyword: DocumentJsonValue): string =>
+		JSON.stringify(keyword);
+
+	const mergedMap = [...keywords1, ...keywords2].reduce((acc, kw) => {
+		const key = keywordToString(kw.keyword);
+		const existing = acc.get(key);
+
+		if (!existing) {
+			return new Map(acc).set(key, kw);
+		}
+
+		if (existing.level === kw.level) {
+			return new Map(acc).set(key, {
+				level: existing.level,
+				keyword: existing.keyword,
+				children: mergeKeywords(existing.children, kw.children),
+			});
+		}
+
+		return acc;
+	}, new Map<string, Keywords>());
+
+	return Array.from(mergedMap.values());
+}
+
+export function mergeCategoriesByScheme(
+	categories: MulticatCategory[],
+): MulticatCategory[] {
+	if (categories.length === 0) {
+		return categories;
+	}
+
+	const groupedByScheme = categories.reduce(
+		(acc, category) => {
+			const scheme = category.scheme as string;
+			acc[scheme] = [...(acc[scheme] || []), category];
+			return acc;
+		},
+		{} as Record<string, MulticatCategory[]>,
+	);
+
+	return Object.entries(groupedByScheme).map(([scheme, cats]) => ({
+		scheme: scheme as MulticatCategory["scheme"],
+		keywords: cats.reduce(
+			(mergedKeywords, cat) => mergeKeywords(mergedKeywords, cat.keywords),
+			[] as Keywords[],
+		),
+	}));
+}
+
 export function useParseMulticatCategories(
 	document: string | null | undefined,
 ): MulticatCategory[] {
@@ -86,7 +140,7 @@ export function useParseMulticatCategories(
 		const annotationList = findTagByName(documentJson, "ns1:listAnnotation", 3);
 		const annotationBlock = findTagByName(annotationList, "annotationBlock", 2);
 
-		return findChildrenByName(annotationBlock, "keywords")
+		const categories = findChildrenByName(annotationBlock, "keywords")
 			.map((keywords) => {
 				const terms = findChildrenByName(keywords, "term");
 				return {
@@ -99,6 +153,8 @@ export function useParseMulticatCategories(
 					category.scheme as (typeof ALLOWED_MULTICAT_SCHEMES)[number],
 				);
 			});
+
+		return mergeCategoriesByScheme(categories);
 	}, [documentJson]);
 }
 
