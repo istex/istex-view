@@ -73,6 +73,7 @@ describe("EnrichmentTermAnnotation", () => {
 				annotation={{ term: "example", displayed: false }}
 				color="blue"
 				onToggle={() => {}}
+				count={2}
 			/>,
 			{
 				wrapper: TestWrapper,
@@ -97,6 +98,7 @@ describe("EnrichmentTermAnnotation", () => {
 				annotation={{ term: "example", displayed: true }}
 				color="blue"
 				onToggle={() => {}}
+				count={2}
 			/>,
 			{
 				wrapper: ({ children }) => (
@@ -130,5 +132,25 @@ describe("EnrichmentTermAnnotation", () => {
 			'[data-term="example"]',
 			DIRECTION_NEXT,
 		);
+	});
+
+	it("should only render the arrow down if count is 1", async () => {
+		const screen = await render(
+			<EnrichmentTermAnnotation
+				annotation={{ term: "example", displayed: true }}
+				color="blue"
+				onToggle={() => {}}
+				count={1}
+			/>,
+			{
+				wrapper: TestWrapper,
+			},
+		);
+		await expect
+			.element(screen.getByRole("button", { name: "Aller au suivant" }))
+			.toBeInTheDocument();
+		await expect
+			.element(screen.getByRole("button", { name: "Aller au précédent" }))
+			.not.toBeInTheDocument();
 	});
 });

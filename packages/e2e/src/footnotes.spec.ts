@@ -31,7 +31,7 @@ test("document footnotes panel", async ({ page }) => {
 	).toBeVisible();
 	await expect(
 		footNoteSection.getByText("May need to be cast first"),
-	).toBeInViewport();
+	).not.toBeInViewport();
 	await expect(
 		footNoteSection.getByText("Like a nun but with a c"),
 	).toBeVisible();

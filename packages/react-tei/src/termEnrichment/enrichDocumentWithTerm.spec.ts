@@ -17,7 +17,7 @@ describe("enrichDocumentWithTerms", () => {
 			group1: [{ term: "test", displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithTerms(
+		const { enrichedDocument } = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -76,7 +76,7 @@ describe("enrichDocumentWithTerms", () => {
 			group2: [{ term: "Unitex", displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithTerms(
+		const { enrichedDocument } = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -122,7 +122,7 @@ describe("enrichDocumentWithTerms", () => {
 			group2: [{ term: "York", displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithTerms(
+		const { enrichedDocument } = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -207,7 +207,7 @@ describe("enrichDocumentWithTerms", () => {
 			group3: [{ term: "The Bold Font", displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithTerms(
+		const { enrichedDocument } = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -289,7 +289,7 @@ describe("enrichDocumentWithTerms", () => {
 			group2: [{ term: "Marie Curie", displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithTerms(
+		const { enrichedDocument } = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -346,7 +346,7 @@ describe("enrichDocumentWithTerms", () => {
 			group1: [{ term: "hbox", displayed: true }],
 		};
 
-		const enrichedDocument = enrichDocumentWithTerms(
+		const { enrichedDocument } = enrichDocumentWithTerms(
 			document,
 			unitexEnrichment,
 		);
@@ -484,6 +484,41 @@ describe("enrichDocumentWithTerms", () => {
 					],
 				},
 			]);
+		});
+	});
+
+	it("should return the term count by group with nested elements", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "#text",
+					value: "Laboratoire Marie Curie de l'Université Saclay",
+				},
+			],
+		};
+		const unitexEnrichment = {
+			orgName: [
+				{
+					term: "Laboratoire Marie Curie de l'Université Saclay",
+					displayed: true,
+				},
+			],
+			persName: [{ term: "Marie Curie", displayed: true }],
+		};
+
+		const { termCountByGroup } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(termCountByGroup).toStrictEqual({
+			orgName: {
+				"laboratoire-marie-curie-de-l'université-saclay": 1,
+			},
+			persName: {
+				"marie-curie": 1,
+			},
 		});
 	});
 });

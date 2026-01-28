@@ -9,16 +9,25 @@ import {
 	type TextTag,
 } from "./highlightTermsInTextTag";
 
+function createTermCountByGroupRegistry() {
+	return {
+		word: {
+			sample: 0,
+		},
+	};
+}
+
 describe("highlightTermInTextTag", () => {
 	describe("highlightTermInString", () => {
 		it("should return original fragment in at #text tag if termsRegexp has no match", () => {
+			const registry = createTermCountByGroupRegistry();
 			const text = "This is a sample text.";
 			const termData: TermData = {
 				termRegex: /^search text$/gi,
 				term: "search text",
 				groups: ["word"],
 			};
-			const result = highlightTermInString(text, termData);
+			const result = highlightTermInString(registry, text, termData);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -28,6 +37,7 @@ describe("highlightTermInTextTag", () => {
 		});
 
 		it("should highlight single term in text", () => {
+			const registry = createTermCountByGroupRegistry();
 			const text = "This is a sample text.";
 			const termData: TermData = {
 				termRegex: /sample/gi,
@@ -35,7 +45,7 @@ describe("highlightTermInTextTag", () => {
 				groups: ["word"],
 			};
 
-			const result = highlightTermInString(text, termData);
+			const result = highlightTermInString(registry, text, termData);
 
 			expect(result).toStrictEqual([
 				{
@@ -60,6 +70,7 @@ describe("highlightTermInTextTag", () => {
 		});
 
 		it("should highlight all occurrences of a single term in text", () => {
+			const registry = createTermCountByGroupRegistry();
 			const text = "This is a sample text for testing called sample.";
 
 			const termData: TermData = {
@@ -67,7 +78,7 @@ describe("highlightTermInTextTag", () => {
 				term: "sample",
 				groups: ["group"],
 			};
-			const result = highlightTermInString(text, termData);
+			const result = highlightTermInString(registry, text, termData);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -89,13 +100,14 @@ describe("highlightTermInTextTag", () => {
 		});
 
 		it("should preserve space between words when highlighting", () => {
+			const registry = createTermCountByGroupRegistry();
 			const text = "Highlight  this   term.";
 			const termData: TermData = {
 				termRegex: /this/gi,
 				term: "this",
 				groups: ["group"],
 			};
-			const result = highlightTermInString(text, termData);
+			const result = highlightTermInString(registry, text, termData);
 			expect(result).toStrictEqual([
 				{ tag: "#text", value: "Highlight  " },
 				{
@@ -113,13 +125,14 @@ describe("highlightTermInTextTag", () => {
 		});
 
 		it("should set term in attributes term and keep matched value in value", () => {
+			const registry = createTermCountByGroupRegistry();
 			const text = "Testing matching\nTERM with complex regex.";
 			const termData: TermData = {
 				termRegex: /matching\sterm/gi,
 				term: "term",
 				groups: ["group"],
 			};
-			const result = highlightTermInString(text, termData);
+			const result = highlightTermInString(registry, text, termData);
 			expect(result).toStrictEqual([
 				{ tag: "#text", value: "Testing " },
 				{
@@ -139,6 +152,7 @@ describe("highlightTermInTextTag", () => {
 
 	describe("highlightTermInTextTag", () => {
 		it("should highlight terms in mixed fragments", () => {
+			const registry = createTermCountByGroupRegistry();
 			const fragments: (TextTag | HighlightTag)[] = [
 				{
 					tag: "#text",
@@ -164,7 +178,7 @@ describe("highlightTermInTextTag", () => {
 				term: "sample",
 				groups: ["group2"],
 			};
-			const result = highlightTermInTextTag(fragments, termData);
+			const result = highlightTermInTextTag(registry, fragments, termData);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -219,6 +233,7 @@ describe("highlightTermInTextTag", () => {
 		});
 
 		it("should highlight terms in string fragments only", () => {
+			const registry = createTermCountByGroupRegistry();
 			const fragments: TextTag[] = [
 				{
 					tag: "#text",
@@ -242,7 +257,7 @@ describe("highlightTermInTextTag", () => {
 				term: "sample",
 				groups: ["group2"],
 			};
-			const result = highlightTermInTextTag(fragments, termData);
+			const result = highlightTermInTextTag(registry, fragments, termData);
 			expect(result).toStrictEqual([
 				{
 					tag: "#text",
@@ -284,18 +299,20 @@ describe("highlightTermInTextTag", () => {
 		});
 
 		it("should return empty array when given empty fragments", () => {
+			const registry = createTermCountByGroupRegistry();
 			const fragments: (HighlightTag | TextTag)[] = [];
 			const termData: TermData = {
 				termRegex: /sample/gi,
 				term: "sample",
 				groups: ["group"],
 			};
-			const result = highlightTermInTextTag(fragments, termData);
+			const result = highlightTermInTextTag(registry, fragments, termData);
 			expect(result).toStrictEqual([]);
 		});
 	});
 
 	it("should highlight multiple terms in fragments", () => {
+		const registry = createTermCountByGroupRegistry();
 		const textTag: TextTag = {
 			tag: "#text",
 			attributes: {
@@ -308,7 +325,7 @@ describe("highlightTermInTextTag", () => {
 			{ termRegex: /testing/gi, term: "testing", groups: ["group2"] },
 			{ termRegex: /example/gi, term: "example", groups: ["group3"] },
 		];
-		const result = highlightTermsInTextTag(textTag, termDataList);
+		const result = highlightTermsInTextTag(registry, textTag, termDataList);
 		expect(result).toStrictEqual({
 			tag: "highlightedText",
 			attributes: { lang: "en" },
@@ -350,6 +367,7 @@ describe("highlightTermInTextTag", () => {
 	});
 
 	it("highlights nothing when terms are not found", () => {
+		const registry = createTermCountByGroupRegistry();
 		const fragments = {
 			tag: "#text",
 			attributes: {
@@ -361,7 +379,11 @@ describe("highlightTermInTextTag", () => {
 			{ termRegex: /example/gi, term: "example", groups: ["group1"] },
 			{ termRegex: /demo/gi, term: "demo", groups: ["group2"] },
 		];
-		const result = highlightTermsInTextTag(fragments as any, termDataList);
+		const result = highlightTermsInTextTag(
+			registry,
+			fragments as any,
+			termDataList,
+		);
 		expect(result).toStrictEqual({
 			tag: "highlightedText",
 			attributes: { lang: "en" },
@@ -375,6 +397,7 @@ describe("highlightTermInTextTag", () => {
 	});
 
 	it("should highlight nothing when given no term", () => {
+		const registry = createTermCountByGroupRegistry();
 		const fragments: DocumentJson = {
 			tag: "#text",
 			attributes: {
@@ -382,7 +405,7 @@ describe("highlightTermInTextTag", () => {
 			},
 			value: "This is a sample text for testing.",
 		};
-		const result = highlightTermsInTextTag(fragments as any, []);
+		const result = highlightTermsInTextTag(registry, fragments as any, []);
 		expect(result).toStrictEqual({
 			tag: "highlightedText",
 			attributes: { lang: "en" },
@@ -397,6 +420,7 @@ describe("highlightTermInTextTag", () => {
 	});
 
 	it("should preserve space between 2 highlighted terms", () => {
+		const registry = createTermCountByGroupRegistry();
 		const fragments: TextTag = {
 			tag: "#text",
 			value: "Term1  Term2",
@@ -405,7 +429,7 @@ describe("highlightTermInTextTag", () => {
 			{ termRegex: /Term1/gi, term: "term1", groups: ["group1"] },
 			{ termRegex: /Term2/gi, term: "term2", groups: ["group2"] },
 		];
-		const result = highlightTermsInTextTag(fragments, termDataList);
+		const result = highlightTermsInTextTag(registry, fragments, termDataList);
 		expect(result).toStrictEqual({
 			tag: "highlightedText",
 			attributes: undefined,

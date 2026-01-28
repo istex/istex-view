@@ -3,7 +3,11 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
+import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { useDocumentContext } from "../../DocumentContextProvider";
+import { kebabCasify } from "../../helper/kebabCasify";
+import type { TermStatistic } from "../../termEnrichment/parseUnitexEnrichment";
 import { Accordion } from "../Accordion";
 import type { PanelSection } from "../DocumentSidePanelContext";
 import { EnrichmentTermAnnotation } from "./EnrichmentTermAnnotation";
@@ -19,6 +23,8 @@ export function EnrichmentTermAnnotationBlock({
 	const { t } = useTranslation();
 
 	const color = chipColors[block];
+	const { termEnrichment } = useDocumentContext();
+
 	const { annotations, displayStatus, toggleBlock, toggleTerm } =
 		useListEnrichmentTermAnnotationByBlockType(block);
 
@@ -27,18 +33,40 @@ export function EnrichmentTermAnnotationBlock({
 		context: toggleContext,
 	});
 
-	if (!annotations.length) {
+	const filteredAnnotations = useMemo<
+		(TermStatistic & { count?: number })[]
+	>(() => {
+		if (!termEnrichment?.termCountByGroup) {
+			return annotations;
+		}
+
+		return annotations
+			.map((annotation) => {
+				const termId = kebabCasify(annotation.term);
+				const count = termEnrichment.termCountByGroup[block]?.[termId] ?? 0;
+				return {
+					...annotation,
+					count,
+				};
+			})
+			.filter((annotation) => {
+				return annotation.count > 0;
+			});
+	}, [block, annotations, termEnrichment?.termCountByGroup]);
+
+	if (!filteredAnnotations.length) {
 		return null;
 	}
 
 	return (
 		<Accordion
 			name={`termEnrichment_${block}` as PanelSection}
-			label={t(`termEnrichment.${block}`, { count: annotations.length })}
+			label={t(`termEnrichment.${block}`, {
+				count: filteredAnnotations.length,
+			})}
 		>
 			<Stack
 				sx={{
-					gap: 1,
 					paddingInlineStart: 2,
 					paddingInlineEnd: 2,
 				}}
@@ -79,14 +107,15 @@ export function EnrichmentTermAnnotationBlock({
 					}}
 					role="list"
 					aria-label={t(`termEnrichment.${block}`, {
-						count: annotations.length,
+						count: filteredAnnotations.length,
 					})}
 				>
-					{annotations.map((annotation) => (
+					{filteredAnnotations.map((annotation) => (
 						<EnrichmentTermAnnotation
 							key={annotation.term}
 							annotation={annotation}
 							color={color}
+							count={annotation.count}
 							onToggle={() => toggleTerm(annotation.term)}
 						/>
 					))}

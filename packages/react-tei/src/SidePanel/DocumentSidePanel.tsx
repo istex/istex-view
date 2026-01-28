@@ -122,6 +122,7 @@ export const DocumentSidePanel = ({
 							paddingInlineStart: "2.25rem",
 						},
 					}}
+					gap={3}
 				>
 					<AuthorSection />
 					<KeywordSection />

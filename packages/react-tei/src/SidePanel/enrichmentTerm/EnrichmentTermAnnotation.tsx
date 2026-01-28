@@ -1,5 +1,5 @@
-import ArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import ArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from "@mui/material/Box";
 import Checkbox from "@mui/material/Checkbox";
 import Chip from "@mui/material/Chip";
@@ -15,6 +15,7 @@ export function EnrichmentTermAnnotation({
 	annotation,
 	color,
 	onToggle,
+	count = 1,
 }: EnrichmentTermAnnotationProps) {
 	const { t } = useTranslation();
 
@@ -75,22 +76,32 @@ export function EnrichmentTermAnnotation({
 				</Tooltip>
 			</Box>
 			<Stack gap={0.5} direction="row">
-				<IconButton
-					size="small"
-					disabled={!annotation.displayed}
-					onClick={goToPrevious}
-					aria-label={t(`termEnrichment.previous`)}
-				>
-					<ArrowUpIcon />
-				</IconButton>
-				<IconButton
-					size="small"
-					disabled={!annotation.displayed}
-					onClick={goToNext}
-					aria-label={t(`termEnrichment.next`)}
-				>
-					<ArrowDownIcon />
-				</IconButton>
+				<Tooltip title={t(`termEnrichment.previous`)} placement="top">
+					<span>
+						<IconButton
+							size="small"
+							disabled={!annotation.displayed}
+							onClick={goToNext}
+							aria-label={t(`termEnrichment.next`)}
+						>
+							<ArrowDownIcon />
+						</IconButton>
+					</span>
+				</Tooltip>
+				{count > 1 && (
+					<Tooltip title={t(`termEnrichment.previous`)} placement="top">
+						<span>
+							<IconButton
+								size="small"
+								disabled={!annotation.displayed}
+								onClick={goToPrevious}
+								aria-label={t(`termEnrichment.previous`)}
+							>
+								<ArrowUpIcon />
+							</IconButton>
+						</span>
+					</Tooltip>
+				)}
 			</Stack>
 		</>
 	);
@@ -99,5 +110,6 @@ export function EnrichmentTermAnnotation({
 type EnrichmentTermAnnotationProps = {
 	annotation: TermStatistic;
 	color?: string;
+	count?: number;
 	onToggle: () => void;
 };

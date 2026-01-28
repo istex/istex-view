@@ -9,6 +9,7 @@ import type { DocumentJson } from "./parser/document";
 import type { EnrichmentTermAnnotationBlockType } from "./SidePanel/enrichmentTerm/enrichmentTermAnnotationBlocks";
 import type { MulticatCategory } from "./SidePanel/multicat/useParseMulticatCategories";
 import type { TermStatistic } from "./termEnrichment/parseUnitexEnrichment";
+import type { TermCountByGroup } from "./termEnrichment/termCountRegistry";
 
 export type JsonTermEnrichment = Partial<Record<string, TermStatistic[]>>;
 
@@ -16,6 +17,7 @@ export type DocumentContextType = {
 	jsonDocument: DocumentJson[];
 	termEnrichment?: {
 		document: JsonTermEnrichment;
+		termCountByGroup: TermCountByGroup;
 		toggleBlock: (block: EnrichmentTermAnnotationBlockType) => void;
 		toggleTerm: (
 			block: EnrichmentTermAnnotationBlockType,
@@ -43,12 +45,14 @@ export function DocumentContextProvider({
 	jsonUnitexEnrichment: initialJsonUnitexEnrichment,
 	jsonTeeftEnrichment: initialJsonTeeftEnrichment,
 	multicatEnrichment = [],
+	termCountByGroup,
 }: {
 	children: React.ReactNode;
 	jsonDocument: DocumentJson[];
 	jsonUnitexEnrichment?: JsonTermEnrichment;
 	jsonTeeftEnrichment?: TermStatistic[];
 	multicatEnrichment?: MulticatCategory[];
+	termCountByGroup?: TermCountByGroup;
 }) {
 	const initialJsonTermEnrichment = useMemo(() => {
 		if (!initialJsonUnitexEnrichment && !initialJsonTeeftEnrichment) {
@@ -131,6 +135,7 @@ export function DocumentContextProvider({
 						document: jsonTermEnrichment,
 						toggleBlock: toggleEnrichmentAnnotationBlock,
 						toggleTerm: toggleEnrichmentAnnotation,
+						termCountByGroup: termCountByGroup ?? {},
 					}
 				: undefined,
 			multicatEnrichment,
@@ -141,6 +146,7 @@ export function DocumentContextProvider({
 			multicatEnrichment,
 			toggleEnrichmentAnnotationBlock,
 			toggleEnrichmentAnnotation,
+			termCountByGroup,
 		],
 	);
 

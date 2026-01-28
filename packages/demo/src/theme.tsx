@@ -152,7 +152,7 @@ export default createTheme(theme, {
 					fontWeight: "bold",
 					fontSize: "1.25rem",
 					"&.Mui-expanded": {
-						margin: "12px 0",
+						margin: "8px 0",
 					},
 				},
 			},
