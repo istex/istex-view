@@ -1,4 +1,5 @@
 export const ENRICHMENT_ANNOTATION_BLOCKS = [
+	"teeft",
 	"date",
 	"orgName",
 	"orgNameFunder",
@@ -8,7 +9,6 @@ export const ENRICHMENT_ANNOTATION_BLOCKS = [
 	"persName",
 	"placeName",
 	"geogName",
-	"teeft",
 ] as const;
 
 export type EnrichmentTermAnnotationBlockType =

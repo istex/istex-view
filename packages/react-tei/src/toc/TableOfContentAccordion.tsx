@@ -21,7 +21,10 @@ export function TableOfContentAccordion({
 			aria-labelledby="table-of-contents"
 			component="section"
 			sx={{
-				paddingInline: 6,
+				paddingInline: {
+					xs: 0,
+					md: 6,
+				},
 				paddingBlock: 4,
 				"&::before": {
 					display: "none",

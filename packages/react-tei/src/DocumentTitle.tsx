@@ -17,7 +17,15 @@ export function DocumentTitle({ teiHeader }: DocumentTitleProps) {
 	}
 
 	return (
-		<Typography variant="h1">
+		<Typography
+			variant="h1"
+			sx={{
+				paddingInline: {
+					xs: 2,
+					md: 0,
+				},
+			}}
+		>
 			<Value data={title.value} />
 		</Typography>
 	);

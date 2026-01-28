@@ -31,7 +31,7 @@ test("scroll to bib reference from text", async ({ page }) => {
 	).toBeVisible();
 	await expect(
 		bibRefSection.getByText("Gummo, Korine Harmony 1997 2:423-424"),
-	).not.toBeInViewport();
+	).toBeInViewport();
 	await expect(
 		bibRefSection.getByText("Foundation Isaac Aasimov 1957 GnomePress 5"),
 	).toBeVisible();
