@@ -15,7 +15,7 @@ export function EnrichmentTermAnnotation({
 	annotation,
 	color,
 	onToggle,
-	count,
+	count = 0,
 }: EnrichmentTermAnnotationProps) {
 	const { t } = useTranslation();
 
@@ -76,23 +76,31 @@ export function EnrichmentTermAnnotation({
 				</Tooltip>
 			</Box>
 			<Stack gap={0.5} direction="row">
-				<IconButton
-					size="small"
-					disabled={!annotation.displayed}
-					onClick={goToNext}
-					aria-label={t(`termEnrichment.next`)}
-				>
-					<ArrowDownIcon />
-				</IconButton>
-				{count !== 1 && (
-					<IconButton
-						size="small"
-						disabled={!annotation.displayed}
-						onClick={goToPrevious}
-						aria-label={t(`termEnrichment.previous`)}
-					>
-						<ArrowUpIcon />
-					</IconButton>
+				<Tooltip title={t(`termEnrichment.previous`)} placement="top">
+					<span>
+						<IconButton
+							size="small"
+							disabled={!annotation.displayed}
+							onClick={goToNext}
+							aria-label={t(`termEnrichment.next`)}
+						>
+							<ArrowDownIcon />
+						</IconButton>
+					</span>
+				</Tooltip>
+				{count > 1 && (
+					<Tooltip title={t(`termEnrichment.previous`)} placement="top">
+						<span>
+							<IconButton
+								size="small"
+								disabled={!annotation.displayed}
+								onClick={goToPrevious}
+								aria-label={t(`termEnrichment.previous`)}
+							>
+								<ArrowUpIcon />
+							</IconButton>
+						</span>
+					</Tooltip>
 				)}
 			</Stack>
 		</>

@@ -73,6 +73,7 @@ describe("EnrichmentTermAnnotation", () => {
 				annotation={{ term: "example", displayed: false }}
 				color="blue"
 				onToggle={() => {}}
+				count={2}
 			/>,
 			{
 				wrapper: TestWrapper,
@@ -97,6 +98,7 @@ describe("EnrichmentTermAnnotation", () => {
 				annotation={{ term: "example", displayed: true }}
 				color="blue"
 				onToggle={() => {}}
+				count={2}
 			/>,
 			{
 				wrapper: ({ children }) => (
@@ -132,7 +134,7 @@ describe("EnrichmentTermAnnotation", () => {
 		);
 	});
 
-	it("should only rendre the arrow down if count is 1", async () => {
+	it("should only render the arrow down if count is 1", async () => {
 		const screen = await render(
 			<EnrichmentTermAnnotation
 				annotation={{ term: "example", displayed: true }}
