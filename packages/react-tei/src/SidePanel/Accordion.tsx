@@ -8,8 +8,8 @@ import { useId } from "react";
 
 import {
 	type PanelSection,
-	useDocumentContext,
-} from "../DocumentContextProvider";
+	useDocumentSidePanelContext,
+} from "./DocumentSidePanelContext";
 
 type AccordionProps = {
 	name: PanelSection;
@@ -18,7 +18,7 @@ type AccordionProps = {
 };
 
 export const Accordion = ({ name, label, children }: AccordionProps) => {
-	const { panel } = useDocumentContext();
+	const panel = useDocumentSidePanelContext();
 	const id = useId();
 
 	return (
@@ -37,6 +37,16 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 				sx={{
 					borderBottom: "none",
 					borderTop: "none",
+				}}
+				slotProps={{
+					expandIconWrapper: {
+						sx: {
+							width: "34px",
+							height: "34px",
+							alignItems: "center",
+							justifyContent: "center",
+						},
+					},
 				}}
 				id={id}
 			>

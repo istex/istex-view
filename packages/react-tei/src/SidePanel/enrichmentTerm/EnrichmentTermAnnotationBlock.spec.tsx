@@ -5,7 +5,8 @@ import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
 import type { TermStatistic } from "../../termEnrichment/parseUnitexEnrichment";
-import { EnrichmentTermAnnotationBlock } from "./EnrichmentTermAnnotationBlocks";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
+import { EnrichmentTermAnnotationBlock } from "./EnrichmentTermAnnotationBlock";
 import type { EnrichmentTermAnnotationBlockType } from "./enrichmentTermAnnotationBlocks";
 
 const enrichments = {
@@ -19,14 +20,16 @@ const enrichments = {
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<I18nProvider>
-			<DocumentContextProvider
-				jsonDocument={[]}
-				jsonUnitexEnrichment={enrichments}
-			>
-				<TestDocumentNavigationContextProvider>
-					{children}
-				</TestDocumentNavigationContextProvider>
-			</DocumentContextProvider>
+			<DocumentSidePanelContextProvider>
+				<DocumentContextProvider
+					jsonDocument={[]}
+					jsonUnitexEnrichment={enrichments}
+				>
+					<TestDocumentNavigationContextProvider>
+						{children}
+					</TestDocumentNavigationContextProvider>
+				</DocumentContextProvider>
+			</DocumentSidePanelContextProvider>
 		</I18nProvider>
 	);
 }

@@ -142,6 +142,8 @@ export default function Navbar() {
 						gap: "1px",
 						justifyContent: "flex-end",
 						display: { xs: "none", sm: "flex" },
+						margin: 0,
+						padding: 0,
 					}}
 				>
 					{navbarLinks.others.map(({ label, url }) => (
@@ -157,6 +159,7 @@ export default function Navbar() {
 									borderRadius: 0,
 									color: "text.primary",
 									fontSize: "0.625rem",
+									textTransform: "uppercase",
 								}}
 							>
 								{t(label)}

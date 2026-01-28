@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 import { DebugTag } from "../../debug/DebugTag";
 import type { DocumentJson, DocumentJsonValue } from "../../parser/document";
 import type { ComponentProps } from "../../tags/type";
@@ -52,7 +52,7 @@ export const getValueOrder = (value: DocumentJson): number => {
 	}
 };
 
-export const BiblStruct = ({ data }: ComponentProps) => {
+export const BiblStruct = memo(({ data }: ComponentProps) => {
 	const { value } = data;
 
 	const arrangedValue = useMemo((): DocumentJsonValue => {
@@ -88,4 +88,4 @@ export const BiblStruct = ({ data }: ComponentProps) => {
 			<Value data={arrangedValue} />
 		</BiblLink>
 	);
-};
+});

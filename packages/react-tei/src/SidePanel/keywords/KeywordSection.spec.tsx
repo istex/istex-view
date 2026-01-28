@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { KeywordSection } from "./KeywordSection";
 
 describe("KeywordSection", () => {
@@ -56,9 +57,11 @@ describe("KeywordSection", () => {
 		];
 		const { getByRole } = await render(<KeywordSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={jsonDocument}>
+						{children}
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 
@@ -147,9 +150,11 @@ describe("KeywordSection", () => {
 		];
 		const { getByRole } = await render(<KeywordSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={jsonDocument}>
+						{children}
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 
@@ -210,9 +215,11 @@ describe("KeywordSection", () => {
 		];
 		const { getByText } = await render(<KeywordSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={jsonDocument}>
+						{children}
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 
@@ -278,9 +285,11 @@ describe("KeywordSection", () => {
 		];
 		const { getByRole } = await render(<KeywordSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={jsonDocument}>
+						{children}
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 
@@ -333,9 +342,11 @@ describe("KeywordSection", () => {
 		];
 		const { container } = await render(<KeywordSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={jsonDocument}>
+						{children}
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 
@@ -380,9 +391,11 @@ describe("KeywordSection", () => {
 		];
 		const { container } = await render(<KeywordSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={jsonDocument}>
+						{children}
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 

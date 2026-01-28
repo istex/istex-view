@@ -3,6 +3,7 @@ import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
+import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { AuthorSection } from "./AuthorSection";
 import { authorTagCatalogs } from "./authorsTagCatalog";
 
@@ -529,11 +530,13 @@ describe("AuthorSection", () => {
 			<AuthorSection />,
 			{
 				wrapper: ({ children }) => (
-					<DocumentContextProvider jsonDocument={jsonDocument}>
-						<TagCatalogProvider tagCatalog={authorTagCatalogs}>
-							{children}
-						</TagCatalogProvider>
-					</DocumentContextProvider>
+					<DocumentSidePanelContextProvider>
+						<DocumentContextProvider jsonDocument={jsonDocument}>
+							<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+								{children}
+							</TagCatalogProvider>
+						</DocumentContextProvider>
+					</DocumentSidePanelContextProvider>
 				),
 			},
 		);
@@ -595,11 +598,13 @@ describe("AuthorSection", () => {
 	it("should render nothing if there is no author in document", async () => {
 		const { container } = await render(<AuthorSection />, {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={[]}>
-					<TagCatalogProvider tagCatalog={authorTagCatalogs}>
-						{children}
-					</TagCatalogProvider>
-				</DocumentContextProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={[]}>
+						<TagCatalogProvider tagCatalog={authorTagCatalogs}>
+							{children}
+						</TagCatalogProvider>
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
 			),
 		});
 

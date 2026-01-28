@@ -97,16 +97,16 @@ export default createTheme(theme, {
 			fontWeight: "bold",
 		},
 		body1: {
-			fontFamily: "open sans, sans-serif",
+			fontFamily: "Open Sans, sans-serif",
 			fontSize: "18px",
 			fontWeight: "inherit",
 		},
 		body2: {
-			fontFamily: "open sans, sans-serif",
+			fontFamily: "Open Sans, sans-serif",
 			fontSize: "16px",
 		},
 		button: {
-			fontFamily: "open sans, sans-serif",
+			fontFamily: "Open Sans, sans-serif",
 			textTransform: "none",
 			fontSize: "18px",
 		},

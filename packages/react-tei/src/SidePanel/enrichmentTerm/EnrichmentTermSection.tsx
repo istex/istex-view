@@ -1,4 +1,4 @@
-import { EnrichmentTermAnnotationBlock } from "./EnrichmentTermAnnotationBlocks";
+import { EnrichmentTermAnnotationBlock } from "./EnrichmentTermAnnotationBlock";
 import { ENRICHMENT_ANNOTATION_BLOCKS } from "./enrichmentTermAnnotationBlocks";
 
 export function EnrichmentTermSection() {

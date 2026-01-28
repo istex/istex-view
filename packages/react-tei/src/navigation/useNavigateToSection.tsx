@@ -19,6 +19,7 @@ const defaultContextValue: DocumentNavigationContextValue = {
 		console.error(
 			`navigateToFootnote called with footnoteId: ${footnoteId}, but no provider is set.`,
 		);
+		return Promise.resolve();
 	},
 	navigateToFootnoteRef: (id: string) => {
 		console.error(
@@ -29,6 +30,7 @@ const defaultContextValue: DocumentNavigationContextValue = {
 		console.error(
 			`navigateToBibliographicReference called with id: ${id}, but no provider is set.`,
 		);
+		return Promise.resolve();
 	},
 	navigateToBibliographicReferenceRef: (id: string) => {
 		console.error(

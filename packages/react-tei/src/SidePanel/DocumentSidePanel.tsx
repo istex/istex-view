@@ -6,10 +6,12 @@ import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
+import { useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { useDocumentContext } from "../DocumentContextProvider";
+import { useResizePanelOnScroll } from "../helper/useResizePanelOnScroll";
 import { AuthorSection } from "./authors/AuthorSection";
 import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographiceferencesSection";
+import { useDocumentSidePanelContext } from "./DocumentSidePanelContext";
 import { DocumentIdentifierSection } from "./documentIdentifier/DocumentIdentifierSection";
 import { EnrichmentTermSection } from "./enrichmentTerm/EnrichmentTermSection";
 import { FootnotesSection } from "./footNotes/FootnotesSection";
@@ -19,57 +21,57 @@ import { SourceSection } from "./source/SourceSection";
 
 type DocumentSidePanelprops = {
 	ref: React.RefObject<HTMLDivElement | null>;
+	stickyTopOffset?: number;
 };
 
 export const SIDEPANEL_WIDTH = "512px";
 const SIDEPANEL_PADDING = "40px";
 
-export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
+export const DocumentSidePanel = ({
+	ref,
+	stickyTopOffset,
+}: DocumentSidePanelprops) => {
+	const asideRef = useRef<HTMLDivElement | null>(null);
+
 	const { t } = useTranslation();
+	useResizePanelOnScroll(asideRef);
+
 	const {
-		panel: {
-			state: { isOpen },
-			togglePanel,
-		},
-	} = useDocumentContext();
+		state: { isOpen },
+		togglePanel,
+	} = useDocumentSidePanelContext();
 
 	return (
 		<Paper
 			elevation={0}
 			sx={{
+				height: "100%",
 				width: isOpen ? SIDEPANEL_WIDTH : SIDEPANEL_PADDING,
-				transition: "width 0.3s",
-				overflowX: "hidden",
-				overflowY: "auto",
+				transition: "width 0.3s, height 0.1s",
+				position: "sticky",
+				top: stickyTopOffset ?? 0,
 				display: {
 					xs: "none",
-					md: "block",
+					md: "flex",
 				},
-				scrollbarWidth: "none",
-				"&::-webkit-scrollbar": {
-					display: "none",
-				},
+				flexDirection: "column",
 				"& .MuiTypography-body1": {
 					fontSize: "1rem",
 				},
-				position: "relative",
+				paddingInline: 2,
+				overflowX: "hidden",
 			}}
-			ref={ref}
+			ref={asideRef}
 		>
-			<Stack
+			<Box
 				sx={{
-					position: "relative",
+					top: 0,
+					backgroundColor: "background.paper",
+					zIndex: 9,
+					paddingBlock: 2,
 				}}
 			>
-				<Box
-					sx={{
-						position: "sticky",
-						top: 0,
-						backgroundColor: "background.paper",
-						zIndex: 9,
-						paddingBlock: 2,
-					}}
-				>
+				{isOpen ? (
 					<Button
 						onClick={togglePanel}
 						aria-label={t("sidePanel.close")}
@@ -78,38 +80,46 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 						size="small"
 						fullWidth
 						sx={{
-							display: isOpen ? "flex" : "none",
-							marginInline: 2,
+							display: "flex",
 						}}
 					>
-						{isOpen && t("sidePanel.close")}
+						{t("sidePanel.close")}
 					</Button>
-
+				) : (
 					<Tooltip title={t("sidePanel.open")} placement="left">
 						<IconButton
 							onClick={togglePanel}
 							aria-label={t("sidePanel.open")}
 							sx={{
-								display: isOpen ? "none" : "flex",
+								marginInline: -2,
 							}}
 						>
 							<ChevronLeft />
 						</IconButton>
 					</Tooltip>
-				</Box>
-
+				)}
+			</Box>
+			<Box
+				sx={{
+					flexGrow: 1,
+					contain: "strict",
+					overflowX: "hidden",
+					overflowY: "auto",
+					scrollbarWidth: "none",
+					"&::-webkit-scrollbar": {
+						display: "none",
+					},
+				}}
+				ref={ref}
+			>
 				<Stack
 					sx={{
-						width: isOpen ? `${SIDEPANEL_WIDTH}px` : 0,
-						minWidth: isOpen ? `${SIDEPANEL_WIDTH}px` : 0,
-						opacity: isOpen ? 1 : 0,
+						width: `calc(${SIDEPANEL_WIDTH} - 32px)`,
+						overflowX: "hidden",
 						paddingBlockEnd: 4,
-						paddingInlineEnd: 2,
-						transition: "opacity 0.3s, width 0.3s, min-width 0.3s",
 						"& .MuiList-root:not(.unstyled)": {
 							listStyle: "disc",
 							paddingInlineStart: "2.25rem",
-							paddingInlineRight: "2rem",
 						},
 					}}
 				>
@@ -122,20 +132,20 @@ export const DocumentSidePanel = ({ ref }: DocumentSidePanelprops) => {
 					<BibliographicReferencesSection />
 					<DocumentIdentifierSection />
 				</Stack>
+			</Box>
 
-				<Box
-					sx={{
-						background:
-							"linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)",
-						position: "fixed",
-						bottom: 0,
-						left: 0,
-						right: 0,
-						height: "2rem",
-						pointerEvents: "none",
-					}}
-				/>
-			</Stack>
+			<Box
+				sx={{
+					background:
+						"linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 1) 100%)",
+					position: "absolute",
+					bottom: 0,
+					left: 0,
+					right: 0,
+					height: "2rem",
+					pointerEvents: "none",
+				}}
+			/>
 		</Paper>
 	);
 };

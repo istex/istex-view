@@ -47,13 +47,7 @@ export function ArkViewer() {
 		return <DocumentNotFound />;
 	}
 
-	return (
-		<Viewer
-			document={document}
-			{...rest}
-			height="calc(100dvh - 49.5px - 118.5px)"
-		/>
-	);
+	return <Viewer document={document} stickyTopOffset={36} {...rest} />;
 }
 
 function DocumentNotFound() {

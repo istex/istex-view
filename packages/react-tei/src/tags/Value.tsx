@@ -1,9 +1,10 @@
+import { memo } from "react";
 import { DebugTag } from "../debug/DebugTag";
 import { IS_DEBUG } from "../debug/debug.const";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { useTagCatalog } from "./TagCatalogProvider";
 
-export function Value({ data }: ValueProps) {
+export const Value = memo(({ data }: ValueProps) => {
 	const tagCatalog = useTagCatalog();
 
 	if (!data) {
@@ -72,7 +73,7 @@ export function Value({ data }: ValueProps) {
 			))}
 		</DebugTag>
 	);
-}
+});
 
 type ValueProps = {
 	data: DocumentJson | DocumentJsonValue;

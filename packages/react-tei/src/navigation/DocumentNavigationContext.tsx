@@ -1,8 +1,8 @@
 import { createContext, useCallback, useEffect, useMemo, useRef } from "react";
 import {
 	type PanelSection,
-	useDocumentContext,
-} from "../DocumentContextProvider";
+	useDocumentSidePanelContext,
+} from "../SidePanel/DocumentSidePanelContext";
 
 export const DIRECTION_NEXT = "next";
 export const DIRECTION_PREVIOUS = "previous";
@@ -14,9 +14,9 @@ export type DocumentNavigationContextValue = {
 		direction?: Direction,
 	): void;
 	navigateToHeading(headingId: string): void;
-	navigateToFootnote(footnoteId: string): void;
+	navigateToFootnote(footnoteId: string): Promise<void>;
 	navigateToFootnoteRef(id: string): void;
-	navigateToBibliographicReference(id: string): void;
+	navigateToBibliographicReference(id: string): Promise<void>;
 	navigateToBibliographicReferenceRef(id: string): void;
 };
 
@@ -25,8 +25,6 @@ export const DocumentNavigationContext =
 
 type DocumentNavigationContextProviderProps = {
 	children: React.ReactNode;
-
-	documentRef: React.RefObject<HTMLDivElement | null>;
 	tocRef: React.RefObject<HTMLDivElement | null>;
 	sidePanelRef: React.RefObject<HTMLDivElement | null>;
 };
@@ -83,20 +81,30 @@ function scrollIntoViewIfNeeded(
 		elementBoundingRect.bottom > parentBoundingRect.height ||
 		elementBoundingRect.top >= parentBoundingRect.top
 	) {
-		element.scrollIntoView({
+		parentElement.scrollTo({
+			top:
+				elementBoundingRect.top +
+				parentElement.scrollTop -
+				parentBoundingRect.top -
+				parentBoundingRect.height / 2 +
+				elementBoundingRect.height / 2,
 			behavior: "smooth",
-			block: "center",
 		});
 	}
 }
 
+export const ROOT_ELEMENT_ID = import.meta.env.VITE_ROOT_ELEMENT_ID || "#root";
+
 export function DocumentNavigationContextProvider({
 	tocRef,
-	documentRef,
 	sidePanelRef,
 	children,
 }: DocumentNavigationContextProviderProps) {
-	const { panel } = useDocumentContext();
+	const panel = useDocumentSidePanelContext();
+
+	const documentElement = useMemo(() => {
+		return document.getElementById(ROOT_ELEMENT_ID) ?? document.body;
+	}, []);
 
 	const currentSelectorRef = useRef<CurrentSelectorRef | null>(null);
 
@@ -143,6 +151,7 @@ export function DocumentNavigationContextProvider({
 
 			targetElements[index].scrollIntoView({
 				behavior: "smooth",
+				block: "center",
 			});
 
 			highlightGroup(targetElements, index);
@@ -152,16 +161,13 @@ export function DocumentNavigationContextProvider({
 
 	const navigateToBodyTargetSelector = useCallback(
 		(querySelector: string, direction: Direction = DIRECTION_NEXT) => {
-			const documentElement = documentRef.current;
-
-			if (!documentElement) {
-				console.error("Document element not found");
-				return;
-			}
-
-			navigateToTargetLoop(documentElement, querySelector, direction);
+			navigateToTargetLoop(
+				documentElement,
+				`#document-container ${querySelector}`,
+				direction,
+			);
 		},
-		[documentRef, navigateToTargetLoop],
+		[documentElement, navigateToTargetLoop],
 	);
 
 	const navigateToHeading = useCallback(
@@ -180,22 +186,20 @@ export function DocumentNavigationContextProvider({
 				return;
 			}
 
-			if (!panel.state.sections[section]) {
-				panel.toggleSection(section);
-				await new Promise((resolve) => setTimeout(resolve, 600));
-			} else if (!panel.state.isOpen) {
-				panel.togglePanel();
-				await new Promise((resolve) => setTimeout(resolve, 600));
-			}
+			panel.openSection(section);
+			await new Promise((resolve) => setTimeout(resolve, 600));
 
 			navigateToTargetLoop(sidePanelElement, querySelector);
 		},
-		[sidePanelRef, navigateToTargetLoop, panel],
+		[sidePanelRef, navigateToTargetLoop, panel.openSection],
 	);
 
 	const navigateToFootnote = useCallback(
 		(n: string) => {
-			navigateToPanelTargetSelector("footnotes", buildDataSelector(n, "fn"));
+			return navigateToPanelTargetSelector(
+				"footnotes",
+				buildDataSelector(n, "fn"),
+			);
 		},
 		[navigateToPanelTargetSelector],
 	);
@@ -218,16 +222,8 @@ export function DocumentNavigationContextProvider({
 	);
 
 	useEffect(() => {
-		if (!documentRef.current) {
-			return;
-		}
-
 		const observer = new IntersectionObserver(
 			(intersectingElements) => {
-				if (!documentRef.current) {
-					return;
-				}
-
 				const intersectingElement = intersectingElements
 					.filter((e) => e.isIntersecting)
 					.at(-1);
@@ -260,12 +256,12 @@ export function DocumentNavigationContextProvider({
 				});
 			},
 			{
-				root: documentRef.current,
+				root: documentElement,
 				threshold: 0.01,
 			},
 		);
 
-		documentRef.current
+		documentElement
 			.querySelectorAll<HTMLElement>(
 				"#document-content section[aria-labelledby] :is(h2, h3, h4, h5, h6)",
 			)
@@ -276,7 +272,7 @@ export function DocumentNavigationContextProvider({
 		return () => {
 			observer.disconnect();
 		};
-	}, [documentRef, tocRef]);
+	}, [documentElement, tocRef]);
 
 	const navigateToBibliographicReferenceRef = useCallback(
 		(id: string) => {

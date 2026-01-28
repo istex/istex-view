@@ -23,7 +23,7 @@ export function ViewerPage() {
 			multicatEnrichment={multicatEnrichment?.content}
 			nbEnrichment={nbEnrichment?.content}
 			teeftEnrichment={teeftEnrichment?.content}
-			height="calc(100dvh - 49.5px - 118.5px)"
+			stickyTopOffset={36}
 		/>
 	);
 }
