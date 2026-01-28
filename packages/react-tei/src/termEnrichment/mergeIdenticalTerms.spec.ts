@@ -9,7 +9,7 @@ describe("mergeIdenticalTerms", () => {
 		];
 		const mergedTerms = mergeIdenticalTerms(terms);
 		expect(mergedTerms).toEqual([
-			{ term: "cat", groups: ["group1", "group2"] },
+			{ targetText: "cat", groups: ["group1", "group2"] },
 		]);
 	});
 
@@ -20,8 +20,8 @@ describe("mergeIdenticalTerms", () => {
 		];
 		const mergedTerms = mergeIdenticalTerms(terms);
 		expect(mergedTerms).toEqual([
-			{ term: "cat", groups: ["group1"] },
-			{ term: "dog", groups: ["group2"] },
+			{ targetText: "cat", groups: ["group1"] },
+			{ targetText: "dog", groups: ["group2"] },
 		]);
 	});
 
@@ -35,10 +35,10 @@ describe("mergeIdenticalTerms", () => {
 		];
 		const mergedTerms = mergeIdenticalTerms(terms);
 		expect(mergedTerms).toEqual([
-			{ term: "apple", groups: ["group1", "group3"] },
+			{ targetText: "apple", groups: ["group1", "group3"] },
 
-			{ term: "banana", groups: ["group2", "group1"] },
-			{ term: "orange", groups: ["group1"] },
+			{ targetText: "banana", groups: ["group2", "group1"] },
+			{ targetText: "orange", groups: ["group1"] },
 		]);
 	});
 
@@ -46,7 +46,7 @@ describe("mergeIdenticalTerms", () => {
 		const terms = [{ term: "single", group: "group1" }];
 		const mergedTerms = mergeIdenticalTerms(terms);
 
-		expect(mergedTerms).toEqual([{ term: "single", groups: ["group1"] }]);
+		expect(mergedTerms).toEqual([{ targetText: "single", groups: ["group1"] }]);
 	});
 
 	it("should return an empty array when given an empty array", () => {

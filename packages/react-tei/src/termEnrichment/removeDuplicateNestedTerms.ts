@@ -5,7 +5,7 @@ export const hasIdenticalTermInSubTerms = (
 	subTerms: NestedTerm[],
 ): boolean => {
 	for (const subTerm of subTerms) {
-		if (subTerm.term === term.term) {
+		if (subTerm.targetText === term.targetText) {
 			return true;
 		}
 		if (subTerm.subTerms?.length) {

@@ -378,8 +378,13 @@ describe("enrichDocumentWithTerms", () => {
 	describe("getTermRegexes", () => {
 		it("should return regexes for terms with correct flags (case insensitive for teeft only)", () => {
 			const terms = [
-				{ term: "Unitex", groups: ["teeft"], subTerms: [] },
-				{ term: "test", groups: ["other"], subTerms: [] },
+				{
+					targetText: "Unitex",
+					sourceTerm: [],
+					groups: ["teeft"],
+					subTerms: [],
+				},
+				{ targetText: "test", sourceTerm: [], groups: ["other"], subTerms: [] },
 			];
 
 			const regexes = getTermRegexes(terms);
@@ -387,13 +392,13 @@ describe("enrichDocumentWithTerms", () => {
 			expect(regexes).toEqual([
 				{
 					termRegex: /(?<![\p{L}\p{N}])Unitex(?![\p{L}\p{N}])/giu,
-					term: "Unitex",
+					targetText: "Unitex",
 					groups: ["teeft"],
 					value: "Unitex",
 				},
 				{
 					termRegex: /(?<![\p{L}\p{N}])test(?![\p{L}\p{N}])/gu,
-					term: "test",
+					targetText: "test",
 					groups: ["other"],
 					value: "test",
 				},
@@ -402,7 +407,12 @@ describe("enrichDocumentWithTerms", () => {
 
 		it("should handle terms in with several groups including teeft", () => {
 			const terms = [
-				{ term: "Example", groups: ["teeft", "other"], subTerms: [] },
+				{
+					targetText: "Example",
+					sourceTerm: [],
+					groups: ["teeft", "other"],
+					subTerms: [],
+				},
 			];
 
 			const regexes = getTermRegexes(terms);
@@ -410,13 +420,13 @@ describe("enrichDocumentWithTerms", () => {
 			expect(regexes).toEqual([
 				{
 					termRegex: /(?<![\p{L}\p{N}])Example(?![\p{L}\p{N}])/giu,
-					term: "Example",
+					targetText: "Example",
 					groups: ["teeft"],
 					value: "Example",
 				},
 				{
 					termRegex: /(?<![\p{L}\p{N}])Example(?![\p{L}\p{N}])/gu,
-					term: "Example",
+					targetText: "Example",
 					groups: ["other"],
 					value: "Example",
 				},
@@ -426,12 +436,13 @@ describe("enrichDocumentWithTerms", () => {
 		it("should handle terms with subTerms", () => {
 			const terms = [
 				{
-					term: "New York City",
+					targetText: "New York City",
+					sourceTerm: [],
 					groups: ["place", "teeft"],
 					subTerms: [
-						{ term: "New", groups: ["place"] },
-						{ term: "York", groups: ["place", "teeft"] },
-						{ term: "City", groups: ["place"] },
+						{ targetText: "New", sourceTerm: [], groups: ["place"] },
+						{ targetText: "York", sourceTerm: [], groups: ["place", "teeft"] },
+						{ targetText: "City", sourceTerm: [], groups: ["place"] },
 					],
 				},
 			];
@@ -441,7 +452,7 @@ describe("enrichDocumentWithTerms", () => {
 			expect(regexes).toEqual([
 				{
 					termRegex: /(?<![\p{L}\p{N}])New\sYork\sCity(?![\p{L}\p{N}])/giu,
-					term: "New York City",
+					targetText: "New York City",
 					groups: ["teeft"],
 					value: [
 						{
@@ -463,7 +474,7 @@ describe("enrichDocumentWithTerms", () => {
 				},
 				{
 					termRegex: /(?<![\p{L}\p{N}])New\sYork\sCity(?![\p{L}\p{N}])/gu,
-					term: "New York City",
+					targetText: "New York City",
 					groups: ["place"],
 					value: [
 						{

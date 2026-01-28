@@ -16,8 +16,8 @@ export const collectBoundaries = (
 			let subPos = t.start;
 			for (const st of t.term.subTerms) {
 				boundaries.add(subPos);
-				boundaries.add(subPos + st.term.length);
-				subPos += st.term.length;
+				boundaries.add(subPos + st.targetText.length);
+				subPos += st.targetText.length;
 			}
 		}
 	}
@@ -37,10 +37,10 @@ export const buildSubTermsPositionMap = (
 			const result = {
 				subTerm: st,
 				start: subPos,
-				end: subPos + st.term.length,
+				end: subPos + st.targetText.length,
 				fromTermGroups: t.term.groups,
 			};
-			subPos += st.term.length;
+			subPos += st.targetText.length;
 			return result;
 		});
 	});
