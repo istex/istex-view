@@ -15,7 +15,7 @@ export function EnrichmentTermAnnotation({
 	annotation,
 	color,
 	onToggle,
-	count = 0,
+	count = 1,
 }: EnrichmentTermAnnotationProps) {
 	const { t } = useTranslation();
 
