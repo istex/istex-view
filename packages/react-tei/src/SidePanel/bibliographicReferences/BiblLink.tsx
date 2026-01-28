@@ -1,9 +1,19 @@
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
+import ArrowUpIcon from "@mui/icons-material/ArrowDropUp";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
-import { memo, type ReactNode, useMemo } from "react";
+import Tooltip from "@mui/material/Tooltip";
+import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { DebugTag } from "../../debug/DebugTag";
+import {
+	buildDataSelector,
+	DIRECTION_NEXT,
+	DIRECTION_PREVIOUS,
+	DOCUMENT_CONTAINER_SELECTOR,
+	getReactRootElement,
+} from "../../navigation/DocumentNavigationContext";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
 
@@ -14,12 +24,27 @@ export const BiblLink = memo(
 	}: ComponentProps & {
 		children: ReactNode;
 	}) => {
+		const { t } = useTranslation();
+		const [targetedElementCount, setTargetedElementCount] = useState(0);
+
 		const { navigateToBibliographicReferenceRef } = useDocumentNavigation();
 		const { tag, attributes } = data;
 
 		const referenceId = useMemo(() => {
 			return attributes?.["@xml:id"] || null;
 		}, [attributes]);
+
+		useEffect(() => {
+			if (!referenceId) {
+				return;
+			}
+
+			const targets = getReactRootElement().querySelectorAll(
+				`${DOCUMENT_CONTAINER_SELECTOR} ${buildDataSelector(referenceId, "bibref")}`,
+			);
+
+			setTargetedElementCount(targets.length);
+		}, [referenceId]);
 
 		if (!referenceId) {
 			return (
@@ -38,6 +63,7 @@ export const BiblLink = memo(
 					>
 						{children}
 					</Box>
+					<Box></Box>
 				</DebugTag>
 			);
 		}
@@ -45,28 +71,65 @@ export const BiblLink = memo(
 		const id = `bibl-ref-${referenceId}`;
 
 		return (
-			<Stack
+			<Box
 				sx={{
 					fontSize: "1rem",
+					display: "grid",
+					gridTemplateColumns: "subgrid",
+					gridColumn: "1 / span 2",
+					alignItems: "flex-start",
 				}}
-				direction="row"
-				gap={1}
 				role="note"
 				aria-labelledby={id}
 				data-bibref-id={referenceId}
 			>
-				<IconButton
-					sx={{ alignSelf: "start", padding: 0 }}
-					onClick={() => {
-						navigateToBibliographicReferenceRef(referenceId);
+				<Box
+					id={id}
+					sx={{
+						flexGrow: 1,
 					}}
-					color="primary"
-					aria-labelledby={id}
 				>
-					<ManageSearchIcon />
-				</IconButton>
-				<div id={id}>{children}</div>
-			</Stack>
+					{children}
+				</Box>
+				<Stack gap={0.5} direction="row">
+					<Tooltip title={t(`termEnrichment.next`)} placement="top">
+						<span>
+							<IconButton
+								size="small"
+								disabled={targetedElementCount === 0}
+								aria-label={t(`termEnrichment.next`)}
+								onClick={() =>
+									navigateToBibliographicReferenceRef(
+										referenceId,
+										DIRECTION_NEXT,
+									)
+								}
+							>
+								<ArrowDownIcon />
+							</IconButton>
+						</span>
+					</Tooltip>
+					{targetedElementCount > 1 && (
+						<Tooltip title={t(`termEnrichment.previous`)} placement="top">
+							<span>
+								<IconButton
+									size="small"
+									disabled={targetedElementCount === 0}
+									aria-label={t(`termEnrichment.previous`)}
+									onClick={() =>
+										navigateToBibliographicReferenceRef(
+											referenceId,
+											DIRECTION_PREVIOUS,
+										)
+									}
+								>
+									<ArrowUpIcon />
+								</IconButton>
+							</span>
+						</Tooltip>
+					)}
+				</Stack>
+			</Box>
 		);
 	},
 );
