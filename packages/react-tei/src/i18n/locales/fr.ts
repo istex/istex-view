@@ -1,4 +1,7 @@
 export const fr = {
+	commons: {
+		colon: " : ",
+	},
 	document: {
 		abstract: {
 			title: "Résumé",
@@ -89,6 +92,12 @@ export const fr = {
 	},
 	figure: {
 		unloaded: "Image non disponible",
+	},
+	source: {
+		eISBN: "eISBN : ",
+		pISBN: "pISBN : ",
+		eISSN: "eISSN : ",
+		pISSN: "pISSN : ",
 	},
 };
 

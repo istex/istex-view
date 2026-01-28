@@ -1,9 +1,11 @@
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../../DocumentContextProvider";
 import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
 
 export const useDocumentSources = (): DocumentJson[] => {
+	const { t } = useTranslation();
 	const { jsonDocument } = useDocumentContext();
 
 	return useMemo(() => {
@@ -65,9 +67,17 @@ export const useDocumentSources = (): DocumentJson[] => {
 		const subTitle = subTitles[0];
 
 		if (subTitle) {
-			return [mainTitle, subTitle, ...idnos];
+			return [
+				mainTitle,
+				{
+					tag: "#text",
+					value: t("commons.colon"),
+				},
+				subTitle,
+				...idnos,
+			];
 		}
 
 		return [mainTitle, ...idnos];
-	}, [jsonDocument]);
+	}, [t, jsonDocument]);
 };
