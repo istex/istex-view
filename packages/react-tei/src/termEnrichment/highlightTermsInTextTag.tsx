@@ -1,5 +1,9 @@
 import { kebabCasify } from "../helper/kebabCasify";
 import type { DocumentJson } from "../parser/document";
+import {
+	incrementTermCountInRegistry,
+	type TermCountByGroup,
+} from "./termCountRegistry";
 
 export type TextTag = {
 	tag: "#text";
@@ -35,6 +39,7 @@ export const isTextTag = (node: DocumentJson): node is TextTag => {
 };
 
 export const highlightTermInString = (
+	termCountByGroupRegistry: TermCountByGroup,
 	text: string,
 	termData: TermData,
 ): (TextTag | HighlightTag)[] => {
@@ -49,6 +54,12 @@ export const highlightTermInString = (
 			},
 		];
 	}
+
+	incrementTermCountInRegistry(
+		termCountByGroupRegistry,
+		groups.join("+"),
+		value,
+	);
 
 	const result: (HighlightTag | TextTag)[] = [];
 	let lastIndex = 0;
@@ -97,6 +108,7 @@ export const highlightTermInString = (
 };
 
 export const highlightTermInTextTag = (
+	termCountByGroupRegistry: TermCountByGroup,
 	textFragments: (HighlightTag | TextTag)[],
 	termData: TermData,
 ): (HighlightTag | TextTag)[] => {
@@ -113,7 +125,11 @@ export const highlightTermInTextTag = (
 				value: textFragment.value,
 			});
 		} else {
-			const highlighted = highlightTermInString(textFragment.value, termData);
+			const highlighted = highlightTermInString(
+				termCountByGroupRegistry,
+				textFragment.value,
+				termData,
+			);
 			result.push(...highlighted);
 		}
 	}
@@ -122,12 +138,13 @@ export const highlightTermInTextTag = (
 };
 
 export const highlightTermsInTextTag = (
+	termCountByGroupRegistry: TermCountByGroup,
 	textTag: TextTag,
 	termDataList: TermData[],
 ): HighlightedTextTag => {
 	const value = termDataList.reduce(
 		(textTag: (HighlightTag | TextTag)[], termData) =>
-			highlightTermInTextTag(textTag, termData),
+			highlightTermInTextTag(termCountByGroupRegistry, textTag, termData),
 		[textTag] as (HighlightTag | TextTag)[],
 	);
 

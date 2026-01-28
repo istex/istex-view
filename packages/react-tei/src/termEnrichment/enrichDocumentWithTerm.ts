@@ -10,6 +10,7 @@ import {
 	type TextTag,
 } from "./highlightTermsInTextTag";
 import type { TermStatistic } from "./parseUnitexEnrichment";
+import type { TermCountByGroup, TermCountByValue } from "./termCountRegistry";
 import type { NestedTerm } from "./types";
 
 export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
@@ -112,7 +113,21 @@ export const isStopTag = (tag: DocumentJson): boolean => {
 export const enrichDocumentWithTerms = (
 	document: DocumentJson,
 	termByGroup: Record<string, TermStatistic[]>,
-): DocumentJson => {
+): {
+	enrichedDocument: DocumentJson;
+	termCountByGroup: TermCountByGroup;
+} => {
+	const termCountByGroup = [...Object.entries(termByGroup)].reduce(
+		(acc, [group, terms]) => {
+			acc[group] = terms.reduce((acc, { term }) => {
+				acc[kebabCasify(term)] = 0;
+				return acc;
+			}, {} as TermCountByValue);
+			return acc;
+		},
+		{} as TermCountByGroup,
+	);
+
 	const terms = computeEnrichedTerms(termByGroup);
 
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
@@ -120,10 +135,20 @@ export const enrichDocumentWithTerms = (
 
 	const enrichNode = (node: DocumentJson) => {
 		if (isTextTag(node)) {
-			return highlightTermsInTextTag(node, termRegexes);
+			return highlightTermsInTextTag(termCountByGroup, node, termRegexes);
 		}
 		return node;
 	};
 
-	return mapTargetTags(document, "#text", enrichNode, isStopTag);
+	const enrichedDocument = mapTargetTags(
+		document,
+		"#text",
+		enrichNode,
+		isStopTag,
+	);
+
+	return {
+		enrichedDocument,
+		termCountByGroup,
+	};
 };

@@ -83,11 +83,16 @@ export const Viewer = ({
 			teeft: jsonTeeftEnrichment,
 		};
 	}, [jsonUnitexEnrichment, jsonTeeftEnrichment]);
-	const enrichedBody = useMemo(() => {
+	const { enrichedDocument: enrichedBody, termCountByGroup } = useMemo<
+		ReturnType<typeof enrichDocumentWithTerms>
+	>(() => {
 		if (body && allEnrichments) {
 			return enrichDocumentWithTerms(body, allEnrichments);
 		}
-		return body;
+		return {
+			enrichedDocument: body,
+			termCountByGroup: {},
+		};
 	}, [body, allEnrichments]);
 
 	const tableOfContent = useTableOfContent(enrichedBody);
@@ -104,6 +109,7 @@ export const Viewer = ({
 					jsonUnitexEnrichment={jsonUnitexEnrichment}
 					jsonTeeftEnrichment={jsonTeeftEnrichment}
 					multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
+					termCountByGroup={termCountByGroup}
 				>
 					<TagCatalogProvider tagCatalog={tagCatalog}>
 						<DocumentNavigationContextProvider

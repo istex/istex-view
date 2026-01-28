@@ -45,6 +45,7 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 							height: "34px",
 							alignItems: "center",
 							justifyContent: "center",
+							color: "primary.main",
 						},
 					},
 				}}

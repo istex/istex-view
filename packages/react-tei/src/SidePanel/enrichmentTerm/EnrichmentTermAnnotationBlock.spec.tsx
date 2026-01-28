@@ -14,6 +14,7 @@ const enrichments = {
 	placeName: [
 		{ term: "Paris", displayed: true },
 		{ term: "London", displayed: true },
+		{ term: "France", displayed: true },
 	],
 } satisfies Partial<Record<EnrichmentTermAnnotationBlockType, TermStatistic[]>>;
 
@@ -24,6 +25,16 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 				<DocumentContextProvider
 					jsonDocument={[]}
 					jsonUnitexEnrichment={enrichments}
+					termCountByGroup={{
+						date: {
+							"2021": 1,
+						},
+						placeName: {
+							paris: 1,
+							london: 1,
+							france: 0,
+						},
+					}}
 				>
 					<TestDocumentNavigationContextProvider>
 						{children}
@@ -133,6 +144,27 @@ describe("EnrichmentTermAnnotationBlock", () => {
 
 		await expectTermToBeChecked(screen, "London", false);
 		await expectBlockToBePartiallyChecked(screen);
+	});
+
+	it("should not render terms with a count of 0 in the document", async () => {
+		const screen = await render(
+			<EnrichmentTermAnnotationBlock block="placeName" />,
+			{
+				wrapper: TestWrapper,
+			},
+		);
+
+		const list = screen.getByRole("list", {
+			name: "Noms de lieux administratifs (2)",
+		});
+
+		await expect
+			.element(
+				list.getByRole("note").filter({
+					hasText: "France",
+				}),
+			)
+			.not.toBeInTheDocument();
 	});
 });
 

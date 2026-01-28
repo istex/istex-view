@@ -24,6 +24,16 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 				<DocumentContextProvider
 					jsonDocument={[]}
 					jsonUnitexEnrichment={enrichments}
+					termCountByGroup={{
+						date: {
+							"2021": 1,
+						},
+						placeName: {
+							paris: 1,
+							london: 1,
+							france: 0,
+						},
+					}}
 				>
 					<TestDocumentNavigationContextProvider>
 						{children}

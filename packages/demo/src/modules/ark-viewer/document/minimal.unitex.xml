@@ -72,6 +72,17 @@
                     </fs>
                 </orgName>
             </annotationBlock>
+             <annotationBlock corresp="text">
+                <orgName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://orgname-entity.data.istex.fr">
+                    <term>HellFest</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </orgName>
+            </annotationBlock>
         </ns1:listAnnotation>
         <ns1:listAnnotation type="persName" xml:lang="en">
             <annotationBlock corresp="text">
@@ -100,6 +111,28 @@
                 <persName change="#Unitex-3.3.0-alpha" resp="istex"
                     scheme="https://persname-entity.data.istex.fr">
                     <term>Marie Curie</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://persname-entity.data.istex.fr">
+                    <term>Tobias Forge</term>
+                    <fs type="statistics">
+                        <f name="frequency">
+                            <numeric value="1" />
+                        </f>
+                    </fs>
+                </persName>
+            </annotationBlock>
+            <annotationBlock corresp="text">
+                <persName change="#Unitex-3.3.0-alpha" resp="istex"
+                    scheme="https://persname-entity.data.istex.fr">
+                    <term>Stephen Hawking</term>
                     <fs type="statistics">
                         <f name="frequency">
                             <numeric value="1" />
