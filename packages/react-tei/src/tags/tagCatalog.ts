@@ -11,6 +11,7 @@ import { Graphic } from "./Graphic";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
+import { List } from "./list/List";
 import { NoOp } from "./NoOp";
 import { P } from "./P";
 import { Quote } from "./Quote";
@@ -35,6 +36,7 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	// Structure tags
 	body: NoOp,
 	"#text": NoOp,
+	list: List,
 
 	// Enrichment tags, we have specific implementations
 	highlightedText: NoOp,
