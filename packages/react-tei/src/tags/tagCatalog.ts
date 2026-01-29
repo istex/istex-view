@@ -20,7 +20,21 @@ import { Table } from "./Table";
 import { Title } from "./Title";
 import type { ComponentProps } from "./type";
 
-export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
+export type TagCatalog = Record<string, ComponentType<ComponentProps>>;
+
+export const mathTagCatalog: TagCatalog = {
+	graphic: Graphic,
+	formula: Formula,
+	...mathMLTagNames.reduce(
+		(acc, tagName) => {
+			acc[tagName] = MathMLTag;
+			return acc;
+		},
+		{} as Record<string, ComponentType<ComponentProps>>,
+	),
+};
+
+export const tagCatalog: TagCatalog = {
 	// Content
 	div: Div,
 	p: P,
@@ -30,7 +44,6 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	head: Head,
 	table: Table,
 	ref: Ref,
-	graphic: Graphic,
 	sc: NoOp,
 	floatingText: FloatingText,
 	// Structure tags
@@ -48,13 +61,6 @@ export const tagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	date: DateTag,
 	s: NoOp,
 	figure: Figure,
-	formula: Formula,
 
-	...mathMLTagNames.reduce(
-		(acc, tagName) => {
-			acc[tagName] = MathMLTag;
-			return acc;
-		},
-		{} as Record<string, ComponentType<ComponentProps>>,
-	),
+	...mathTagCatalog,
 };

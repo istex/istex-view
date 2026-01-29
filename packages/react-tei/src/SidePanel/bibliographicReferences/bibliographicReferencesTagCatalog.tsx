@@ -2,6 +2,7 @@ import { DateTag } from "../../tags/DateTag";
 import { Hi } from "../../tags/Hi";
 import { NoOp } from "../../tags/NoOp";
 import { Ref } from "../../tags/Ref";
+import { mathTagCatalog } from "../../tags/tagCatalog";
 import { Bibl } from "./Bibl";
 import { BiblStruct } from "./BiblStruct";
 import { PersName } from "./PersName";
@@ -29,4 +30,6 @@ export const bibliographicReferencesTagCatalog = {
 	series: NoOp,
 	pubPlace: NoOp,
 	note: NoOp,
+
+	...mathTagCatalog,
 };
