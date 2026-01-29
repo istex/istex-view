@@ -1,8 +1,25 @@
+import type { ReactNode } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
+import { I18nProvider } from "../../i18n/I18nProvider";
 import type { DocumentJson } from "../../parser/document.js";
 import { useDocumentSources } from "./useDocumentSources";
+
+interface TestWrapperProps {
+	children: ReactNode;
+	jsonDocument: DocumentJson[];
+}
+
+function TestWrapper({ children, jsonDocument }: TestWrapperProps) {
+	return (
+		<I18nProvider>
+			<DocumentContextProvider jsonDocument={jsonDocument}>
+				{children}
+			</DocumentContextProvider>
+		</I18nProvider>
+	);
+}
 
 describe("useDocumentSources", () => {
 	it("should return the main and sub title", async () => {
@@ -56,9 +73,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -70,6 +85,10 @@ describe("useDocumentSources", () => {
 					"@level": "m",
 				},
 				value: [{ tag: "#text", value: "Main Title" }],
+			},
+			{
+				tag: "#text",
+				value: " : ",
 			},
 			{
 				tag: "title",
@@ -127,9 +146,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -188,9 +205,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -245,9 +260,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -283,9 +296,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -325,9 +336,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -368,9 +377,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -386,9 +393,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -399,9 +404,7 @@ describe("useDocumentSources", () => {
 		const jsonDocument: DocumentJson[] = [];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -453,9 +456,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 		expect(result.current).toEqual([]);
@@ -520,9 +521,7 @@ describe("useDocumentSources", () => {
 		];
 		await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -591,9 +590,7 @@ describe("useDocumentSources", () => {
 		];
 		await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -658,9 +655,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={invalidJsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={invalidJsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -710,9 +705,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={invalidJsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={invalidJsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -793,9 +786,7 @@ describe("useDocumentSources", () => {
 		];
 		const { result } = await renderHook(() => useDocumentSources(), {
 			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
+				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
 			),
 		});
 
@@ -807,6 +798,10 @@ describe("useDocumentSources", () => {
 					"@level": "m",
 				},
 				value: [{ tag: "#text", value: "Main Title 1" }],
+			},
+			{
+				tag: "#text",
+				value: " : ",
 			},
 			{
 				tag: "title",

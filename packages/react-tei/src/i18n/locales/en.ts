@@ -1,6 +1,9 @@
 import type { Translation } from "./fr";
 
 export const en: Translation = {
+	commons: {
+		colon: ": ",
+	},
 	document: {
 		abstract: {
 			title: "Abstract",
@@ -90,5 +93,11 @@ export const en: Translation = {
 	},
 	figure: {
 		unloaded: "Image not available",
+	},
+	source: {
+		eISBN: "eISBN: ",
+		pISBN: "pISBN: ",
+		eISSN: "eISSN: ",
+		pISSN: "pISSN: ",
 	},
 };

@@ -61,40 +61,43 @@ const theme = createTheme({
 export default createTheme(theme, {
 	typography: {
 		h1: {
-			font: "montserrat",
+			fontFamily: "Montserrat",
 			fontSize: "2.5rem",
 			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h2: {
-			font: "montserrat",
+			fontFamily: "Montserrat",
 			fontSize: "2.25rem",
 			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h3: {
-			font: "montserrat",
+			fontFamily: "Montserrat",
 			fontSize: "2rem",
 			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h4: {
-			font: "montserrat",
+			fontFamily: "Montserrat",
 			fontSize: "1.75rem",
 			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h5: {
-			font: "montserrat",
+			fontFamily: "Montserrat",
 			fontSize: "1.5rem",
 			lineHeight: "1.25",
 			fontWeight: "bold",
 		},
 		h6: {
-			font: "montserrat",
+			fontFamily: "Montserrat",
 			fontSize: "1.25rem",
 			lineHeight: "1.25",
 			fontWeight: "bold",
+		},
+		subtitle1: {
+			fontFamily: "Open Sans, sans-serif",
 		},
 		body1: {
 			fontFamily: "Open Sans, sans-serif",

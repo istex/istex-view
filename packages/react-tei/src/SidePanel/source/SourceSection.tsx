@@ -25,6 +25,8 @@ export const SourceSection = () => {
 					sx={{
 						paddingInlineStart: 2,
 						paddingInlineEnd: 4,
+						"& .source-idno": { marginTop: 1 },
+						"& .source-idno ~ .source-idno": { marginTop: 0 },
 					}}
 				>
 					<Value data={documentSources} />
