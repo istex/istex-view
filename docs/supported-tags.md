@@ -1,175 +1,80 @@
 # Supported TEI Tags
 
-This document lists all TEI tags currently supported by the `@istex/react-tei` viewer, organized by category.
+This document lists all TEI tags supported by the istex-view viewer.
 
-## Text Content
+## Sections
 
-Tags for basic text content and paragraphs.
+- **Body**: Main document body
+- **Footnotes**: Footnotes sidebar section
+- **Bibref**: Bibliographic references sidebar section
+- **Authors**: Authors sidebar section
+- **Source**: Source sidebar section
+- **\***: Supported in all applicable sections
 
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<p>` | [P.tsx](../packages/react-tei/src/tags/P.tsx) | Paragraph - main text container |
-| `<s>` | NoOp | Sentence (renders content without wrapper) |
-| `#text` | NoOp | Text nodes (handled internally) |
+## All Supported Tags
 
-## Structure & Organization
+| Tag | Description | Sections | Component |
+| --- | ----------- | -------- | --------- |
+| `addName` | Additional name | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `affiliation` | Author affiliation | Authors | Nothing |
+| `author` | Author element | Bibref | NoOp |
+| `bibl` | Bibliographic reference | Body, Bibref | [Bibl.tsx](../packages/react-tei/src/SidePanel/bibliographicReferences/Bibl.tsx) |
+| `biblScope` | Bibliographic scope (volume, pages, etc.) | Body, Bibref | NoOp |
+| `biblStruct` | Structured bibliographic reference | Bibref | [BiblStruct.tsx](../packages/react-tei/src/SidePanel/bibliographicReferences/BiblStruct.tsx) |
+| `body` | Document body container | Body | NoOp |
+| `date` | Date element | Body, Footnotes, Bibref | [DateTag.tsx](../packages/react-tei/src/tags/DateTag.tsx) |
+| `div` | Division/section | Body | [Div.tsx](../packages/react-tei/src/tags/Div.tsx) |
+| `email` | Email address | Authors | Nothing |
+| `emph` | Emphasized text | Body, Footnotes, Bibref | [Emph.tsx](../packages/react-tei/src/tags/Emph.tsx) |
+| `figure` | Figure with graphics or tables | Body | [Figure.tsx](../packages/react-tei/src/tags/Figure.tsx) |
+| `floatingText` | Floating text element | Body | [FloatingText.tsx](../packages/react-tei/src/tags/floatingText/FloatingText.tsx) |
+| `forename` | First name | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `formula` | Mathematical formula with notation or rendering | Body, Footnotes, Bibref | [Formula.tsx](../packages/react-tei/src/tags/Formula.tsx) |
+| `genName` | Generational name (Jr., Sr., etc.) | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `graphic` | Graphic element (used in formulas) | Body, Footnotes, Bibref | [Graphic.tsx](../packages/react-tei/src/tags/Graphic.tsx) |
+| `head` | Heading element | Body | [Head.tsx](../packages/react-tei/src/tags/Head.tsx) |
+| `hi` | Highlighted text (various renditions) | Body, Footnotes, Bibref | [Hi.tsx](../packages/react-tei/src/tags/Hi.tsx) |
+| `highlight` | Enrichment highlight | Body | [Highlight.tsx](../packages/react-tei/src/tags/Highlight.tsx) |
+| `highlightedText` | Text highlighted by enrichment | Body | NoOp |
+| `idno` | Identifier number | Source | [SourceIdno.tsx](../packages/react-tei/src/SidePanel/source/SourceIdno.tsx) |
+| `l` | Line (in verse) | Footnotes | [L.tsx](../packages/react-tei/src/tags/L.tsx) |
+| `lg` | Line group (verse stanza) | Footnotes | [Lg.tsx](../packages/react-tei/src/tags/Lg.tsx) |
+| `list` | List element (ordered/unordered) | Body | [List.tsx](../packages/react-tei/src/tags/list/List.tsx) |
+| `math` | MathML root element | Body, Footnotes, Bibref | [MathMLTag.tsx](../packages/react-tei/src/tags/formula/mathml/MathMLTag.tsx) |
+| MathML tags | All MathML tags (203 total) | Body, Footnotes, Bibref | [MathMLTag.tsx](../packages/react-tei/src/tags/formula/mathml/MathMLTag.tsx) |
+| `name` | Generic name element | Authors, Bibref | [Name.tsx](../packages/react-tei/src/SidePanel/authors/Name.tsx) |
+| `nameLink` | Name linking particle (de, von, etc.) | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `note` | Note/footnote element | Footnotes, Bibref | [Note.tsx](../packages/react-tei/src/SidePanel/footNotes/Note.tsx) |
+| `orgName` | Organization name | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `p` | Paragraph | Body, Footnotes | [P.tsx](../packages/react-tei/src/tags/P.tsx) |
+| `persName` | Personal name | Authors, Bibref | [PersName.tsx](../packages/react-tei/src/SidePanel/authors/PersName.tsx) |
+| `pubPlace` | Publication place | Bibref | NoOp |
+| `publisher` | Publisher | Bibref | NoOp |
+| `quote` | Quoted text block | Body, Footnotes, Bibref | [Quote.tsx](../packages/react-tei/src/tags/Quote.tsx) |
+| `ref` | Reference (footnote, bibliographic, URL, table) | Body, Footnotes, Bibref | [Ref.tsx](../packages/react-tei/src/tags/Ref.tsx) |
+| `roleName` | Role name | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `s` | Sentence | Body | NoOp |
+| `sc` | Small capitals | Body | NoOp |
+| `series` | Series information | Bibref | NoOp |
+| `surname` | Last name | Authors, Bibref | [PersNamePart.tsx](../packages/react-tei/src/SidePanel/authors/PersNamePart.tsx) |
+| `table` | Table element | Body | [Table.tsx](../packages/react-tei/src/tags/Table.tsx) |
+| `title` | Title element | Body, Bibref | [Title.tsx](../packages/react-tei/src/tags/Title.tsx) |
 
-Tags for organizing document structure.
+See [mathMLTagNames.ts](../packages/react-tei/src/tags/formula/mathml/mathMLTagNames.ts) for the complete list of 203 supported MathML tags.
 
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<div>` | [Div.tsx](../packages/react-tei/src/tags/Div.tsx) | Division - major structural unit |
-| `<body>` | NoOp | Document body (renders content without wrapper) |
-| `<head>` | [Head.tsx](../packages/react-tei/src/tags/Head.tsx) | Section heading |
-| `<floatingText>` | [FloatingText.tsx](../packages/react-tei/src/tags/floatingText/FloatingText.tsx) | Separate text block (e.g., inset, sidebar) |
+## Reference Types
 
-## Typography & Emphasis
+The `ref` tag supports multiple reference types via the `@type` attribute:
 
-Tags for text styling and emphasis.
+- `bibr`: Bibliographic reference
+- `fn`: Footnote reference
+- `url`/`uri`: URL/URI reference
+- `fig`/`figure`: Figure reference
+- `table`: Table reference
+- `table-fn`: Table footnote reference
 
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<hi>` | [Hi.tsx](../packages/react-tei/src/tags/Hi.tsx) | Highlighted text (supports multiple rendition styles) |
-| `<emph>` | [Emph.tsx](../packages/react-tei/src/tags/Emph.tsx) | Emphasized text (italic by default) |
-| `<sc>` | NoOp | Small capitals (renders content) |
+## Notes
 
-## Quotations & References
-
-Tags for quotes and citations.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<quote>` | [Quote.tsx](../packages/react-tei/src/tags/Quote.tsx) | Block quotation |
-| `<ref>` | [Ref.tsx](../packages/react-tei/src/tags/Ref.tsx) | Reference (footnotes, bibliographic refs, URIs) |
-| `<bibl>` | NoOp | Bibliographic citation (renders content) |
-| `<biblScope>` | NoOp | Scope of bibliographic reference (renders content) |
-
-## Lists
-
-Tags for ordered and unordered lists.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<list>` | [List.tsx](../packages/react-tei/src/tags/list/List.tsx) | List container (auto-detects labelled/unlabelled) |
-
-**Note**: List rendering automatically detects whether the list is labelled (definition list) or unlabelled (bulleted/numbered) based on content structure.
-
-## Poetry & Verse
-
-Tags for poetry and verse structures.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<lg>` | [Lg.tsx](../packages/react-tei/src/tags/Lg.tsx) | Line group (stanza, verse paragraph) |
-| `<l>` | [L.tsx](../packages/react-tei/src/tags/L.tsx) | Line of verse |
-
-## Tables
-
-Tags for tabular data.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<table>` | [Table.tsx](../packages/react-tei/src/tags/Table.tsx) | Table with optional caption and notes |
-
-**Sub-components** (used internally by Table):
-
-- [TableRow.tsx](../packages/react-tei/src/tags/TableRow.tsx) - Table row
-- [TableCaption.tsx](../packages/react-tei/src/tags/TableCaption.tsx) - Table caption
-- [TableNote.tsx](../packages/react-tei/src/tags/TableNote.tsx) - Individual table note
-- [TableNotes.tsx](../packages/react-tei/src/tags/TableNotes.tsx) - Table notes container
-
-## Figures & Graphics
-
-Tags for images and figures.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<figure>` | [Figure.tsx](../packages/react-tei/src/tags/Figure.tsx) | Figure container (images, tables, diagrams) |
-| `<graphic>` | [Graphic.tsx](../packages/react-tei/src/tags/Graphic.tsx) | Graphic element placeholder |
-
-## Mathematical Formulas
-
-Tags for mathematical and chemical notation.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<formula>` | [Formula.tsx](../packages/react-tei/src/tags/Formula.tsx) | Mathematical or chemical formula |
-
-**Supported notations**:
-
-- MathML (full support for all MathML tags)
-- TeX notation (via temml renderer)
-
-**MathML tags**: The viewer supports all standard MathML 3.0 tags including:
-
-- Layout elements: `<mrow>`, `<mfrac>`, `<msup>`, `<msub>`, `<msubsup>`, `<mover>`, `<munder>`, `<munderover>`, `<mtable>`, `<mtr>`, `<mtd>`, etc.
-- Token elements: `<mi>`, `<mn>`, `<mo>`, `<mtext>`, `<mspace>`, `<ms>`
-- General layout: `<mpadded>`, `<mphantom>`, `<menclose>`, `<mfenced>`, `<msqrt>`, `<mroot>`
-- Actions: `<maction>`
-- Semantic elements: `<semantics>`, `<annotation>`, `<annotation-xml>`
-- Content MathML: `<apply>`, `<cn>`, `<ci>`, `<csymbol>`, functions and operators
-
-See [mathMLTagNames.ts](../packages/react-tei/src/tags/formula/mathml/mathMLTagNames.ts) for the complete list.
-
-## Metadata & Names
-
-Tags for metadata and named entities.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<title>` | [Title.tsx](../packages/react-tei/src/tags/Title.tsx) | Title of work |
-| `<date>` | [DateTag.tsx](../packages/react-tei/src/tags/DateTag.tsx) | Date |
-
-## Enrichments
-
-Special tags for term enrichment display.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| `<highlight>` | [Highlight.tsx](../packages/react-tei/src/tags/Highlight.tsx) | Highlighted enrichment term (generated internally) |
-| `<highlightedText>` | NoOp | Legacy enrichment wrapper (renders content) |
-
-**Note**: Enrichment highlights are injected dynamically during document processing. See [Term Enrichment](./term-enrichment.md) for details.
-
-## Special Rendering
-
-Tags with special rendering behavior.
-
-| Tag | Component | Description |
-| --- | --------- | ----------- |
-| NoOp | [NoOp.tsx](../packages/react-tei/src/tags/NoOp.tsx) | Passes through children without wrapper |
-| Nothing | [Nothing.tsx](../packages/react-tei/src/tags/Nothing.tsx) | Renders nothing (completely hidden) |
-
-## Unsupported Tags
-
-Tags not in the catalog are rendered using a fallback that:
-
-1. Displays tag name in debug mode
-2. Recursively renders child content
-3. Logs warning to console
-
-To add support for a new tag, see the [Extension Points](./viewer-architecture.md#extension-points) section.
-
-## Tag Attributes
-
-Most tags support TEI standard attributes:
-
-- `@xml:id` - Unique identifier for navigation
-- `@n` - Number or label
-- `@type` - Subtype classification
-- `@rend` - Rendition style (for `<hi>`)
-- `@target` - Reference target (for `<ref>`)
-- `@corresp` - Correspondence link
-
-Specific attribute handling varies by tag. Check individual component files for details.
-
-## Adding Custom Tags
-
-To add support for a new TEI tag:
-
-1. Create component in [tags/](../packages/react-tei/src/tags/)
-2. Add to [tagCatalog.ts](../packages/react-tei/src/tags/tagCatalog.ts)
-3. Write tests
-4. Update this documentation
-
-See [Viewer Architecture](./viewer-architecture.md#adding-a-new-tei-tag) for detailed instructions.
+- `NoOp` components render their children without additional styling or behavior
+- `Nothing` components render nothing (children are hidden)
+- Math tags (formula, graphic, and all MathML tags) are available in all contexts
