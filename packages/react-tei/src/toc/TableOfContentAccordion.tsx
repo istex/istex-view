@@ -1,8 +1,5 @@
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import Accordion from "@mui/material/Accordion";
-import AccordionDetails from "@mui/material/AccordionDetails";
-import AccordionSummary from "@mui/material/AccordionSummary";
 import { useTranslation } from "react-i18next";
+import { ControlledAccordion } from "../components/ControlledAccordion";
 import { TableOfContentTagCatalogProvider } from "./TableOfContentTagCatalogProvider";
 import { TocHeading } from "./TocHeading";
 import type { Heading } from "./useTableOfContent";
@@ -17,8 +14,8 @@ export function TableOfContentAccordion({
 	}
 
 	return (
-		<Accordion
-			aria-labelledby="table-of-contents"
+		<ControlledAccordion
+			id="table-of-contents"
 			component="section"
 			sx={{
 				paddingInline: {
@@ -30,30 +27,12 @@ export function TableOfContentAccordion({
 					display: "none",
 				},
 			}}
+			summary={t("document.tableOfContent")}
 		>
-			<AccordionSummary
-				expandIcon={<ExpandMoreIcon />}
-				slotProps={{
-					content: {
-						component: "div",
-						id: "table-of-contents",
-					},
-				}}
-			>
-				{t("document.tableOfContent")}
-			</AccordionSummary>
-			<AccordionDetails
-				sx={{
-					display: "flex",
-					flexDirection: "column",
-					gap: 2,
-				}}
-			>
-				<TableOfContentTagCatalogProvider>
-					<TocHeading headings={tableOfContent} isMobile />
-				</TableOfContentTagCatalogProvider>
-			</AccordionDetails>
-		</Accordion>
+			<TableOfContentTagCatalogProvider>
+				<TocHeading headings={tableOfContent} isMobile />
+			</TableOfContentTagCatalogProvider>
+		</ControlledAccordion>
 	);
 }
 
