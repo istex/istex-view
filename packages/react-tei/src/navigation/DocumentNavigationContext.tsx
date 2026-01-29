@@ -1,4 +1,5 @@
 import { createContext, useCallback, useEffect, useMemo, useRef } from "react";
+import { IS_DEBUG } from "../debug/debug.const";
 import {
 	type PanelSection,
 	useDocumentSidePanelContext,
@@ -124,7 +125,10 @@ export function DocumentNavigationContextProvider({
 				wrapperElement.querySelectorAll<HTMLElement>(querySelector);
 
 			if (!targetElements.length) {
-				console.warn(`Element with querySelector '${querySelector}' not found`);
+				IS_DEBUG &&
+					console.warn(
+						`Element with querySelector '${querySelector}' not found`,
+					);
 				return;
 			}
 

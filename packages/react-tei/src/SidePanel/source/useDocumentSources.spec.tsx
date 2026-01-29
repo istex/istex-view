@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
@@ -462,148 +462,6 @@ describe("useDocumentSources", () => {
 		expect(result.current).toEqual([]);
 	});
 
-	it("should warn when multiple main titles are found", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
-		const jsonDocument = [
-			{
-				tag: "TEI",
-				value: [
-					{
-						tag: "teiHeader",
-						value: [
-							{
-								tag: "fileDesc",
-								value: [
-									{
-										tag: "sourceDesc",
-										value: [
-											{
-												tag: "biblStruct",
-												value: [
-													{
-														tag: "monogr",
-														value: [
-															{
-																tag: "title",
-																attributes: {
-																	"@type": "main",
-																	"@level": "m",
-																},
-																value: [
-																	{ tag: "#text", value: "Main Title 1" },
-																],
-															},
-															{
-																tag: "title",
-																attributes: {
-																	"@type": "main",
-																	"@level": "m",
-																},
-																value: [
-																	{ tag: "#text", value: "Main Title 2" },
-																],
-															},
-														],
-													},
-												],
-											},
-										],
-									},
-								],
-							},
-						],
-					},
-				],
-			},
-		];
-		await renderHook(() => useDocumentSources(), {
-			wrapper: ({ children }) => (
-				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
-			),
-		});
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Multiple main titles found in document monogr",
-			expect.objectContaining({
-				mainTitles: expect.any(Array),
-			}),
-		);
-
-		consoleWarnSpy.mockRestore();
-	});
-
-	it("should warn when multiple sub titles are found", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
-		const jsonDocument = [
-			{
-				tag: "TEI",
-				value: [
-					{
-						tag: "teiHeader",
-						value: [
-							{
-								tag: "fileDesc",
-								value: [
-									{
-										tag: "sourceDesc",
-										value: [
-											{
-												tag: "biblStruct",
-												value: [
-													{
-														tag: "monogr",
-														value: [
-															{
-																tag: "title",
-																attributes: {
-																	"@type": "sub",
-																	"@level": "m",
-																},
-																value: [{ tag: "#text", value: "Sub Title 1" }],
-															},
-															{
-																tag: "title",
-																attributes: {
-																	"@type": "sub",
-																	"@level": "m",
-																},
-																value: [{ tag: "#text", value: "Sub Title 2" }],
-															},
-														],
-													},
-												],
-											},
-										],
-									},
-								],
-							},
-						],
-					},
-				],
-			},
-		];
-		await renderHook(() => useDocumentSources(), {
-			wrapper: ({ children }) => (
-				<TestWrapper jsonDocument={jsonDocument}>{children}</TestWrapper>
-			),
-		});
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Multiple sub titles found in document monogr",
-			expect.objectContaining({
-				subTitles: expect.any(Array),
-			}),
-		);
-
-		consoleWarnSpy.mockRestore();
-	});
-
 	it("should ignore titles that do not have value as an array", async () => {
 		const invalidJsonDocument: DocumentJson[] = [
 			{
@@ -713,9 +571,6 @@ describe("useDocumentSources", () => {
 	});
 
 	it("should return first main and sub titles when multiple valid ones are present", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
 		const jsonDocument = [
 			{
 				tag: "TEI",
@@ -812,21 +667,5 @@ describe("useDocumentSources", () => {
 				value: [{ tag: "#text", value: "Sub Title 1" }],
 			},
 		]);
-
-		expect(consoleWarnSpy).toHaveBeenCalledTimes(2);
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Multiple main titles found in document monogr",
-			expect.objectContaining({
-				mainTitles: expect.any(Array),
-			}),
-		);
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Multiple sub titles found in document monogr",
-			expect.objectContaining({
-				subTitles: expect.any(Array),
-			}),
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 });

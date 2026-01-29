@@ -1,3 +1,4 @@
+import { IS_DEBUG } from "../debug/debug.const";
 import { findChildrenByName } from "../helper/findChildrenByName";
 import { findTagByName } from "../helper/findTagByName";
 import { getTagText } from "../helper/getTagText";
@@ -57,10 +58,11 @@ export const getListAnnotationType = (
 				case "url":
 					return "refUrl";
 				default:
-					console.warn(
-						"Unknown ref subType, ignoring listAnnotation",
-						listAnnotation,
-					);
+					IS_DEBUG &&
+						console.warn(
+							"Unknown ref subType, ignoring listAnnotation",
+							listAnnotation,
+						);
 					return null;
 			}
 		}
@@ -90,7 +92,8 @@ export const parseUnitexEnrichment = (
 		(acc, listAnnotation) => {
 			const type = getListAnnotationType(listAnnotation);
 			if (!type) {
-				console.warn("listAnnotation without type attribute", listAnnotation);
+				IS_DEBUG &&
+					console.warn("listAnnotation without type attribute", listAnnotation);
 				return acc;
 			}
 

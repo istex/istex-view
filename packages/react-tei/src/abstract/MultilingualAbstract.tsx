@@ -5,6 +5,7 @@ import ButtonGroup from "@mui/material/ButtonGroup";
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DebugTag } from "../debug/DebugTag";
+import { IS_DEBUG } from "../debug/debug.const";
 import type { DocumentJson, DocumentJsonValue } from "../parser/document";
 import { Value } from "../tags/Value";
 import { AbstractAccordion } from "./AbstractAccordion";
@@ -26,9 +27,13 @@ export function MultilingualAbstract({ abstracts }: MultilingualAbstractProps) {
 				tab,
 			): tab is { lang: string; content: DocumentJsonValue | undefined } => {
 				if (!tab.lang) {
-					console.warn("Abstract without language attribute found, skipping.", {
-						content: tab.content,
-					});
+					IS_DEBUG &&
+						console.warn(
+							"Abstract without language attribute found, skipping.",
+							{
+								content: tab.content,
+							},
+						);
 					return false;
 				}
 				return true;

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
@@ -14,7 +14,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"forename",
-				null,
 			],
 			[
 				{
@@ -23,7 +22,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"honorific",
-				null,
 			],
 			[
 				{
@@ -32,7 +30,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"degree",
-				null,
 			],
 			[
 				{
@@ -41,7 +38,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				null,
-				"PersNamePart roleName missing or invalid @type:",
 			],
 			[
 				{
@@ -50,7 +46,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				null,
-				"PersNamePart roleName missing or invalid @type:",
 			],
 			[
 				{
@@ -58,7 +53,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"surname",
-				null,
 			],
 			[
 				{
@@ -66,7 +60,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"genName",
-				null,
 			],
 			[
 				{
@@ -74,7 +67,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"nameLink",
-				null,
 			],
 			[
 				{
@@ -82,7 +74,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"addName",
-				null,
 			],
 			[
 				{
@@ -90,7 +81,6 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				"orgName",
-				null,
 			],
 			[
 				{
@@ -98,25 +88,13 @@ describe("PersNamePart", () => {
 					value: [],
 				},
 				null,
-				"PersNamePart unknown tag:",
 			],
 		])("should return description type", (input: DocumentJson, expected:
 			| string
-			| null, warning: string | null) => {
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
+			| null) => {
 			const descriptionKey = getDescriptionKey(input);
 
 			expect(descriptionKey).toBe(expected);
-
-			if (warning) {
-				expect(consoleWarnSpy).toHaveBeenCalledWith(warning, input);
-			} else {
-				expect(consoleWarnSpy).not.toHaveBeenCalled();
-			}
-
-			consoleWarnSpy.mockRestore();
 		});
 	});
 
@@ -146,9 +124,6 @@ describe("PersNamePart", () => {
 	});
 
 	it("should render PersNamePart value without aria-description for unknown description type", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
 		const { getByText } = await render(
 			<PersNamePart
 				data={{
@@ -169,24 +144,9 @@ describe("PersNamePart", () => {
 		const spanElement = getByText("Unknown Role");
 		expect(spanElement).toBeInTheDocument();
 		expect(spanElement).not.toHaveAttribute("aria-description");
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"PersNamePart roleName missing or invalid @type:",
-			{
-				tag: "roleName",
-				attributes: { "@type": "unknown" },
-				value: [{ tag: "#text", value: "Unknown Role" }],
-			},
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 
-	it("should render nothing and  log a warning if data.value is not an array", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should render nothing if data.value is not an array", async () => {
 		const { container } = await render(
 			<PersNamePart
 				data={{
@@ -204,20 +164,9 @@ describe("PersNamePart", () => {
 		);
 
 		expect(container).toBeEmptyDOMElement();
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"PersName data.value is not an array:",
-			"Not an array",
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 
-	it("should render nothing and log a warning if data.value is an empty array", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should render nothing if data.value is an empty array", async () => {
 		const { container } = await render(
 			<PersNamePart
 				data={{
@@ -235,15 +184,5 @@ describe("PersNamePart", () => {
 		);
 
 		expect(container).toBeEmptyDOMElement();
-
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"PersNamePart data.value is empty:",
-			{
-				tag: "forename",
-				value: [],
-			},
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 });

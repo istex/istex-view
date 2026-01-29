@@ -1,6 +1,7 @@
 import { useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useDocumentContext } from "../../DocumentContextProvider";
+import { IS_DEBUG } from "../../debug/debug.const";
 import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
 
@@ -35,9 +36,10 @@ export const useDocumentSources = (): DocumentJson[] => {
 		);
 
 		if (mainTitles.length > 1) {
-			console.warn("Multiple main titles found in document monogr", {
-				mainTitles,
-			});
+			IS_DEBUG &&
+				console.warn("Multiple main titles found in document monogr", {
+					mainTitles,
+				});
 		}
 
 		const mainTitle = mainTitles[0];
@@ -56,9 +58,10 @@ export const useDocumentSources = (): DocumentJson[] => {
 		const idnos = monogr.value.filter(({ tag }) => tag === "idno");
 
 		if (subTitles.length > 1) {
-			console.warn("Multiple sub titles found in document monogr", {
-				subTitles,
-			});
+			IS_DEBUG &&
+				console.warn("Multiple sub titles found in document monogr", {
+					subTitles,
+				});
 		}
 		if (!mainTitle) {
 			return [];

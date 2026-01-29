@@ -1,4 +1,4 @@
-import { beforeEach, describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../i18n/I18nProvider";
 import type { DocumentJson } from "../parser/document";
@@ -192,11 +192,6 @@ async function renderMultilingualAbstract() {
 }
 
 describe("MultilingualAbstract", () => {
-	beforeEach(() => {
-		// Avoid console warnings during tests
-		vi.spyOn(console, "warn").mockImplementation(() => {});
-	});
-
 	it("should render multiple render language selector as tabs", async () => {
 		const { section, englishTab } = await renderMultilingualAbstract();
 

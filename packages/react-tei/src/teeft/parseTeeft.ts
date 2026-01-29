@@ -1,3 +1,4 @@
+import { IS_DEBUG } from "../debug/debug.const";
 import { findTagByName } from "../helper/findTagByName";
 import type { DocumentJson } from "../parser/document";
 import {
@@ -40,7 +41,8 @@ export const parseTeeft = (
 	}
 
 	if (teeftListAnnotation.attributes?.["@type"] !== "rd-teeft") {
-		console.warn("Unknown teeft listAnnotation type", teeftListAnnotation);
+		IS_DEBUG &&
+			console.warn("Unknown teeft listAnnotation type", teeftListAnnotation);
 		return [];
 	}
 

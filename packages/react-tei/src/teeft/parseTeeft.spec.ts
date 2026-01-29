@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { parseTeeft } from "./parseTeeft";
 
 describe("parseTeeft", () => {
@@ -37,11 +37,7 @@ describe("parseTeeft", () => {
 		expect(result).toEqual([]);
 	});
 
-	it("should return empty object and warn when listAnnotation type is not rd-teeft", () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should return empty object when listAnnotation type is not rd-teeft", () => {
 		const result = parseTeeft([
 			{
 				tag: "ns1:listAnnotation",
@@ -53,14 +49,6 @@ describe("parseTeeft", () => {
 		]);
 
 		expect(result).toEqual([]);
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Unknown teeft listAnnotation type",
-			expect.objectContaining({
-				tag: "ns1:listAnnotation",
-				attributes: { "@type": "unknown-type" },
-			}),
-		);
-		consoleWarnSpy.mockRestore();
 	});
 
 	it("should return empty object when keywords tag is not found", () => {

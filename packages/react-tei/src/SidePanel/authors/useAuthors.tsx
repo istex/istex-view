@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
+import { IS_DEBUG } from "../../debug/debug.const";
 import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
 
@@ -21,9 +22,10 @@ export const useAuthors = (): DocumentJson[] => {
 		return authors
 			.filter((author) => {
 				if (!author.value || !Array.isArray(author.value)) {
-					console.warn("Author tag has no value or value is not an array", {
-						author,
-					});
+					IS_DEBUG &&
+						console.warn("Author tag has no value or value is not an array", {
+							author,
+						});
 					return false;
 				}
 				return true;
