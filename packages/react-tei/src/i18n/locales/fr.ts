@@ -56,27 +56,48 @@ export const fr = {
 		previous: "Aller au précédent",
 		next: "Aller au suivant",
 
+		date_zero: "Date",
 		date_one: "Date ({{count}})",
 		date_other: "Dates ({{count}})",
+
+		orgName_zero: "Nom d'organisation",
 		orgName_one: "Nom d'organisation ({{count}})",
 		orgName_other: "Noms d'organisations ({{count}})",
+
+		orgNameFunder_zero: "Organisme financeur ou projet financé",
 		orgNameFunder_one: "Organisme financeur ou projet financé ({{count}})",
 		orgNameFunder_other:
 			"Organismes financeurs ou projets financés ({{count}})",
+
+		orgNameProvider_zero: "Organisme hébergeur de ressources",
 		orgNameProvider_one: "Organisme hébergeur de ressources ({{count}})",
 		orgNameProvider_other: "Organismes hébergeurs de ressources ({{count}})",
+
+		persName_zero: "Nom de personne",
 		persName_one: "Nom de personne ({{count}})",
 		persName_other: "Noms de personnes ({{count}})",
+
+		placeName_zero: "Nom de lieu administratif",
 		placeName_one: "Nom de lieu administratif ({{count}})",
 		placeName_other: "Noms de lieux administratifs ({{count}})",
+
+		geogName_zero: "Nom de lieu géographique",
 		geogName_one: "Nom de lieu géographique ({{count}})",
 		geogName_other: "Noms de lieux géographiques ({{count}})",
+
+		ref_zero: "Référence",
 		ref_one: "Référence ({{count}})",
 		ref_other: "Références ({{count}})",
+
+		refBibl_zero: "Citation",
 		refBibl_one: "Citation ({{count}})",
 		refBibl_other: "Citations ({{count}})",
+
+		refUrl_zero: "URL",
 		refUrl_one: "URL ({{count}})",
 		refUrl_other: "URLs ({{count}})",
+
+		teeft_zero: "Terme spécifique (Teeft)",
 		teeft_one: "Terme spécifique (Teeft) ({{count}})",
 		teeft_other: "Termes spécifiques (Teeft) ({{count}})",
 	},

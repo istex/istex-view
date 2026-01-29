@@ -58,26 +58,47 @@ export const en: Translation = {
 		previous: "Go to previous",
 		next: "Go to next",
 
+		date_zero: "Dates",
 		date_one: "Date ({{count}})",
 		date_other: "Dates ({{count}})",
+
+		orgName_zero: "Organizations names",
 		orgName_one: "Organization name ({{count}})",
 		orgName_other: "Organizations names ({{count}})",
+
+		orgNameFunder_zero: "Funding organizations or funded projects",
 		orgNameFunder_one: "Funding organization or funded project ({{count}})",
 		orgNameFunder_other: "Funding organizations or funded projects ({{count}})",
+
+		orgNameProvider_zero: "Resource hosting organizations",
 		orgNameProvider_one: "Resource hosting organization ({{count}})",
 		orgNameProvider_other: "Resource hosting organizations ({{count}})",
+
+		persName_zero: "People names",
 		persName_one: "Person name ({{count}})",
 		persName_other: "People names ({{count}})",
+
+		placeName_zero: "Administrative places names",
 		placeName_one: "Administrative place name ({{count}})",
 		placeName_other: "Administrative places names ({{count}})",
+
+		geogName_zero: "Geographical places names",
 		geogName_one: "Geographical place name ({{count}})",
 		geogName_other: "Geographical places names ({{count}})",
+
+		ref_zero: "References",
 		ref_one: "Reference ({{count}})",
 		ref_other: "References ({{count}})",
+
+		refBibl_zero: "Citations",
 		refBibl_one: "Citation ({{count}})",
 		refBibl_other: "Citations ({{count}})",
+
+		refUrl_zero: "URLs",
 		refUrl_one: "URL ({{count}})",
 		refUrl_other: "URLs ({{count}})",
+
+		teeft_zero: "Specific terms (Teeft)",
 		teeft_one: "Specific term (Teeft) ({{count}})",
 		teeft_other: "Specific terms (Teeft) ({{count}})",
 	},
