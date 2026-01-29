@@ -6,6 +6,7 @@ import { NoOp } from "../../tags/NoOp";
 import { P } from "../../tags/P";
 import { Quote } from "../../tags/Quote";
 import { Ref } from "../../tags/Ref";
+import { mathTagCatalog } from "../../tags/tagCatalog";
 import { Note } from "./Note";
 
 export const footnotesTagCatalog = {
@@ -18,4 +19,6 @@ export const footnotesTagCatalog = {
 	lg: Lg,
 	l: L,
 	ref: Ref,
+
+	...mathTagCatalog,
 };

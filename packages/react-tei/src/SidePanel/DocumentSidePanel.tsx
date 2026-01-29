@@ -10,7 +10,7 @@ import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useResizePanelOnScroll } from "../helper/useResizePanelOnScroll";
 import { AuthorSection } from "./authors/AuthorSection";
-import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographiceferencesSection";
+import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographicReferencesSection";
 import { useDocumentSidePanelContext } from "./DocumentSidePanelContext";
 import { DocumentIdentifierSection } from "./documentIdentifier/DocumentIdentifierSection";
 import { EnrichmentTermSection } from "./enrichmentTerm/EnrichmentTermSection";

@@ -6,7 +6,7 @@ import type { DocumentNavigationContextValue } from "../../navigation/DocumentNa
 import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocumentNavigationContextProvider";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { Bibl } from "./Bibl";
-import { bibliographicReferenceSectionSx } from "./BibliographiceferencesSection";
+import { bibliographicReferenceSectionSx } from "./BibliographicReferencesSection";
 import { bibliographicReferencesTagCatalog } from "./bibliographicReferencesTagCatalog";
 
 export function TestWrapper({
