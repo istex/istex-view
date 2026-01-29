@@ -1,4 +1,4 @@
-import Stack from "@mui/material/Stack";
+import Box, { type BoxProps } from "@mui/material/Box";
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
@@ -6,6 +6,14 @@ import { Value } from "../../tags/Value";
 import { Accordion } from "../Accordion";
 import { bibliographicReferencesTagCatalog } from "./bibliographicReferencesTagCatalog";
 import { useDocumentBibliographicReferences } from "./useDocumentBibliographicReferences";
+
+export const bibliographicReferenceSectionSx: BoxProps["sx"] = {
+	display: "grid",
+	gridTemplateColumns: "1fr max-content",
+	columnGap: 0.5,
+	rowGap: 1,
+	paddingInline: 2,
+};
 
 export const BibliographicReferencesSection = memo(() => {
 	const { t } = useTranslation();
@@ -21,15 +29,9 @@ export const BibliographicReferencesSection = memo(() => {
 				name="bibliographicReferences"
 				label={t("sidePanel.bibliographicReferences.title", { count })}
 			>
-				<Stack
-					sx={{
-						paddingInlineStart: 2,
-						paddingInlineEnd: 4,
-					}}
-					gap={1}
-				>
+				<Box sx={bibliographicReferenceSectionSx}>
 					<Value data={bibliographicReferences} />
-				</Stack>
+				</Box>
 			</Accordion>
 		</TagCatalogProvider>
 	);

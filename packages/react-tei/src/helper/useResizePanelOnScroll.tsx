@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef } from "react";
-import { ROOT_ELEMENT_ID } from "../navigation/DocumentNavigationContext";
+import { getReactRootElement } from "../navigation/DocumentNavigationContext";
 
 // We do not use react states here to avoid performance lags on scroll
 export function useResizePanelOnScroll(
@@ -35,7 +35,7 @@ export function useResizePanelOnScroll(
 	}, [resizeElement]);
 
 	useEffect(() => {
-		const root = document.querySelector(ROOT_ELEMENT_ID) ?? document.body;
+		const root = getReactRootElement();
 		root.addEventListener("scroll", handleScroll);
 		return () => root.removeEventListener("scroll", handleScroll);
 	}, [handleScroll]);

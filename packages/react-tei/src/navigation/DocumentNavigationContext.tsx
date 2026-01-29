@@ -17,7 +17,7 @@ export type DocumentNavigationContextValue = {
 	navigateToFootnote(footnoteId: string): Promise<void>;
 	navigateToFootnoteRef(id: string): void;
 	navigateToBibliographicReference(id: string): Promise<void>;
-	navigateToBibliographicReferenceRef(id: string): void;
+	navigateToBibliographicReferenceRef(id: string, direction?: Direction): void;
 };
 
 export const DocumentNavigationContext =
@@ -95,6 +95,12 @@ function scrollIntoViewIfNeeded(
 
 export const ROOT_ELEMENT_ID = import.meta.env.VITE_ROOT_ELEMENT_ID || "#root";
 
+export const DOCUMENT_CONTAINER_SELECTOR = "#document-container";
+
+export function getReactRootElement() {
+	return document.getElementById(ROOT_ELEMENT_ID) ?? document.body;
+}
+
 export function DocumentNavigationContextProvider({
 	tocRef,
 	sidePanelRef,
@@ -103,7 +109,7 @@ export function DocumentNavigationContextProvider({
 	const panel = useDocumentSidePanelContext();
 
 	const documentElement = useMemo(() => {
-		return document.getElementById(ROOT_ELEMENT_ID) ?? document.body;
+		return getReactRootElement();
 	}, []);
 
 	const currentSelectorRef = useRef<CurrentSelectorRef | null>(null);
@@ -163,7 +169,7 @@ export function DocumentNavigationContextProvider({
 		(querySelector: string, direction: Direction = DIRECTION_NEXT) => {
 			navigateToTargetLoop(
 				documentElement,
-				`#document-container ${querySelector}`,
+				`${DOCUMENT_CONTAINER_SELECTOR} ${querySelector}`,
 				direction,
 			);
 		},
@@ -275,8 +281,11 @@ export function DocumentNavigationContextProvider({
 	}, [documentElement, tocRef]);
 
 	const navigateToBibliographicReferenceRef = useCallback(
-		(id: string) => {
-			return navigateToBodyTargetSelector(buildDataSelector(id, "bibref"));
+		(id: string, direction: Direction = DIRECTION_NEXT) => {
+			return navigateToBodyTargetSelector(
+				buildDataSelector(id, "bibref"),
+				direction,
+			);
 		},
 		[navigateToBodyTargetSelector],
 	);

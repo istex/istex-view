@@ -102,10 +102,14 @@ test("scroll into document from bib reference", async ({ page }) => {
 
 	const gummoRef = page
 		.getByLabel("Références bibliographiques (3)")
-		.getByRole("button", { name: "Gummo, Korine Harmony 1997 2:423-424" });
-	await expect(gummoRef).toBeVisible();
-	await gummoRef.scrollIntoViewIfNeeded();
-	await gummoRef.click();
+		.getByRole("note", { name: "Gummo, Korine Harmony 1997 2:423-424" });
+
+	const gummoRefNextButton = gummoRef.getByRole("button", {
+		name: "Aller au suivant",
+	});
+	await expect(gummoRefNextButton).toBeVisible();
+	await gummoRefNextButton.scrollIntoViewIfNeeded();
+	await gummoRefNextButton.click();
 
 	await expect(textWithBibRef).toBeInViewport();
 });
