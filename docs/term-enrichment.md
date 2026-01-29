@@ -14,64 +14,40 @@ Term enrichment adds semantic annotations to text documents. These annotations i
 - **Keywords** and concepts
 - **Linguistic features**
 
-The viewer receives enrichments as separate XML files that reference positions in the TEI document. It then highlights these terms in the text and provides statistics and filtering in the side panel.
+The viewer receives enrichments as separate XML files that reference words in the TEI document. It then highlights these terms in the text and provides statistics and filtering in the side panel.
 
 ## Supported Enrichment Types
 
 ### 1. Unitex Enrichment
 
-**Purpose**: Linguistic analysis and named entity recognition
-
-**Format**: XML with `<ns1:standOff>` structure containing `<listAnnotation>` elements
-
-**Categories**:
-
-- `persName` - Person names
-- `placeName` - Place names
-- `orgName` - Organization names (with subtypes: funder, provider)
-- `title` - Titles
-- `date` - Dates
-- `ref` - References (with subtypes: bibl, url)
-
-**Implementation**: [parseUnitexEnrichment.ts](../packages/react-tei/src/termEnrichment/parseUnitexEnrichment.ts)
+- **Purpose**: Linguistic analysis and named entity recognition
+- **Format**: TEI with extracted terms
+- **Categories**:
+  - `persName` - Person names
+  - `placeName` - Place names
+  - `orgName` - Organization names (with subtypes: funder, provider)
+  - `title` - Titles
+  - `date` - Dates
+  - `ref` - References (with subtypes: bibl, url)
+- **Implementation**: [parseUnitexEnrichment.ts](../packages/react-tei/src/termEnrichment/parseUnitexEnrichment.ts)
 
 ### 2. Multicat Enrichment
 
-**Purpose**: Multi-category text classification with hierarchical categories
+- **Purpose**: Multi-category text classification with hierarchical categories
+- **Format**: TEI with category hierarchy and term frequencies
+- **Implementation**: [useParseMulticatCategories.tsx](../packages/react-tei/src/SidePanel/multicat/useParseMulticatCategories.tsx)
 
-**Format**: XML with category hierarchy and term frequencies
+### 3. NB Enrichment
 
-**Features**:
-
-- Hierarchical category structure (categories and subcategories)
-- Term frequency scores
-- Multiple categories per document
-
-**Implementation**: [useParseMulticatCategories.tsx](../packages/react-tei/src/SidePanel/multicat/useParseMulticatCategories.tsx)
-
-### 3. NB (Named Entity) Enrichment
-
-**Purpose**: Named entity recognition similar to Multicat
-
-**Format**: Uses the same parser as Multicat enrichment
-
-**Categories**: Similar entity types as Unitex but processed differently
-
-**Implementation**: Shares implementation with Multicat
+- **Purpose**: Hierarchical categories based on Naives Bayes using Inist Standards
+- **Format**: TEI with category hierarchy and term frequencies
+- **Implementation**: TEI parsing shares implementation with Multicat
 
 ### 4. TEEFT Enrichment
 
-**Purpose**: Terminology extraction from specialized texts
-
-**Format**: XML with extracted terms and their positions
-
-**Features**:
-
-- Domain-specific terminology
-- Technical vocabulary extraction
-- Case-sensitive term matching
-
-**Implementation**: [useTeeftEnrichmentParser.tsx](../packages/react-tei/src/teeft/useTeeftEnrichmentParser.tsx)
+- **Purpose**: Terminology extraction from specialized texts
+- **Format**: TEI with extracted terms
+- **Implementation**: [useTeeftEnrichmentParser.tsx](../packages/react-tei/src/teeft/useTeeftEnrichmentParser.tsx)
 
 ## Design Rationale
 
@@ -79,7 +55,6 @@ The viewer receives enrichments as separate XML files that reference positions i
 
 Term matching uses regex rather than exact string matching:
 
-- **Performance**: Compiled regexes are fast for repeated matching
 - **Word boundaries**: Ensures terms match whole words, not substrings
 - **Case handling**: Easy to toggle case sensitivity per enrichment type
 - **Flexibility**: Can handle special characters and punctuation

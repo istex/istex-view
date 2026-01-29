@@ -1,6 +1,6 @@
 # Istex TEI Viewer
 
-A reusable React component for displaying and enriching TEI (Text Encoding Initiative) XML documents. Built for the Istex Search platform, this viewer provides interactive visualization of scholarly documents with support for term enrichment, navigation, and full-text search.
+A reusable React component for displaying and enriching TEI (Text Encoding Initiative) XML documents.
 
 ## Quick Start
 
