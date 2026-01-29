@@ -99,5 +99,13 @@ export const en: Translation = {
 		pISBN: "pISBN: ",
 		eISSN: "eISSN: ",
 		pISSN: "pISSN: ",
+
+		publisher: "{{publisher}}.",
+		volume: "Vol. {{volume}}",
+		issue_without_year: "no. {{issue}}",
+		issue_with_year: "no. {{issue}} ({{year}})",
+		year: "({{year}})",
+		pages_one: "p. {{pages}}",
+		pages_other: "pp. {{pages}}",
 	},
 };

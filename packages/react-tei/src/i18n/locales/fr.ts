@@ -98,6 +98,13 @@ export const fr = {
 		pISBN: "pISBN : ",
 		eISSN: "eISSN : ",
 		pISSN: "pISSN : ",
+		publisher: "{{publisher}}.",
+		volume: "Vol. {{volume}}",
+		issue_without_year: "n° {{issue}}",
+		issue_with_year: "n° {{issue}} ({{year}})",
+		year: "({{year}})",
+		pages_one: "p. {{pages}}",
+		pages_other: "pp. {{pages}}",
 	},
 };
 

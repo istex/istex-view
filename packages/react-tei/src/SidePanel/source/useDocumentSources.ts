@@ -56,6 +56,7 @@ export const useDocumentSources = (): DocumentJson[] => {
 		);
 
 		const idnos = monogr.value.filter(({ tag }) => tag === "idno");
+		const imprint = monogr.value.filter(({ tag }) => tag === "imprint");
 
 		if (subTitles.length > 1) {
 			IS_DEBUG &&
@@ -77,10 +78,11 @@ export const useDocumentSources = (): DocumentJson[] => {
 					value: t("commons.colon"),
 				},
 				subTitle,
+				...imprint,
 				...idnos,
 			];
 		}
 
-		return [mainTitle, ...idnos];
+		return [mainTitle, ...imprint, ...idnos];
 	}, [t, jsonDocument]);
 };
