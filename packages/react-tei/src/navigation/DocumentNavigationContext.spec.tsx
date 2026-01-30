@@ -50,7 +50,6 @@ function createSidePaneWrapper(
 						isOpen: true,
 						sections: {
 							footnotes: false,
-							authors: false,
 							keywords: false,
 							source: false,
 						},
@@ -261,7 +260,6 @@ describe("DocumentNavigationContextProvider", () => {
 					isOpen: true,
 					sections: {
 						footnotes: true,
-						authors: false,
 						keywords: false,
 						source: false,
 					},
@@ -303,7 +301,6 @@ describe("DocumentNavigationContextProvider", () => {
 					isOpen: true,
 					sections: {
 						footnotes: false,
-						authors: false,
 						keywords: false,
 						source: false,
 					},
@@ -346,7 +343,6 @@ describe("DocumentNavigationContextProvider", () => {
 					isOpen: false,
 					sections: {
 						footnotes: true,
-						authors: false,
 						keywords: false,
 						source: false,
 					},
@@ -387,7 +383,6 @@ describe("DocumentNavigationContextProvider", () => {
 					isOpen: false,
 					sections: {
 						footnotes: false,
-						authors: false,
 						keywords: false,
 						source: false,
 					},
@@ -569,7 +564,6 @@ describe("DocumentNavigationContextProvider", () => {
 					isOpen: true,
 					sections: {
 						footnotes: false,
-						authors: false,
 						keywords: false,
 						source: false,
 						bibliographicReferences: true,
@@ -609,7 +603,6 @@ describe("DocumentNavigationContextProvider", () => {
 					isOpen: true,
 					sections: {
 						footnotes: false,
-						authors: false,
 						keywords: false,
 						source: false,
 						bibliographicReferences: false,

@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
-import { DocumentContextProvider } from "../../DocumentContextProvider";
-import type { DocumentJson } from "../../parser/document";
+import { DocumentContextProvider } from "../DocumentContextProvider";
+import type { DocumentJson } from "../parser/document";
 import { useAuthors } from "./useAuthors";
 
 describe("useAuthors", () => {
@@ -59,6 +59,16 @@ describe("useAuthors", () => {
 																},
 															],
 														},
+														{
+															tag: "author",
+															attributes: { "@role": "et-al" },
+															value: [
+																{
+																	tag: "#text",
+																	value: "et al.",
+																},
+															],
+														},
 													],
 												},
 											],
@@ -104,6 +114,16 @@ describe("useAuthors", () => {
 				value: [
 					{ tag: "persName", value: "Second Author" },
 					{ tag: "affiliation", value: "Second author affiliation" },
+				],
+			},
+			{
+				tag: "author",
+				attributes: { "@role": "et-al" },
+				value: [
+					{
+						tag: "#text",
+						value: "et al.",
+					},
 				],
 			},
 		]);
@@ -190,93 +210,5 @@ describe("useAuthors", () => {
 				value: [{ tag: "persName", value: "Valid Author" }],
 			},
 		]);
-	});
-
-	it("should only return 10 authors at most", async () => {
-		const jsonDocument = [
-			{
-				tag: "TEI",
-				value: [
-					{
-						tag: "teiHeader",
-						value: [
-							{
-								tag: "encodingDesc",
-								value: [
-									{
-										tag: "projectDesc",
-										value: [
-											{
-												tag: "p",
-												value: "Some encoding description",
-											},
-										],
-									},
-								],
-							},
-							{
-								tag: "fileDesc",
-								value: [
-									{
-										tag: "sourceDesc",
-										value: [
-											{
-												tag: "biblStruct",
-												value: [
-													{
-														tag: "analytic",
-														value: new Array(15).fill(0).map((_, i) => ({
-															tag: "author",
-															value: [
-																{ tag: "persName", value: `Author #${i + 1}` },
-																{ tag: "#text", value: "Some text" },
-																{
-																	tag: "affiliation",
-																	value: "First author affiliation",
-																},
-															],
-														})),
-													},
-												],
-											},
-										],
-									},
-								],
-							},
-							{
-								tag: "profileDesc",
-								value: [
-									{
-										tag: "abstract",
-										value: [{ tag: "p", value: "Abstract content" }],
-									},
-								],
-							},
-						],
-					},
-				],
-			},
-		];
-
-		const result = await renderHook(() => useAuthors(), {
-			wrapper: ({ children }) => (
-				<DocumentContextProvider jsonDocument={jsonDocument}>
-					{children}
-				</DocumentContextProvider>
-			),
-		});
-
-		expect(result.result.current).toMatchObject(
-			new Array(10).fill(0).map((_, i) => ({
-				tag: "author",
-				value: [
-					{ tag: "persName", value: `Author #${i + 1}` },
-					{
-						tag: "affiliation",
-						value: "First author affiliation",
-					},
-				],
-			})),
-		);
 	});
 });

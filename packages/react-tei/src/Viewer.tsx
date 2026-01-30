@@ -2,6 +2,7 @@ import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { useMemo, useRef } from "react";
+import { DocumentAuthors } from "./authors/DocumentAuthors";
 import { DocumentAbstract } from "./DocumentAbstract";
 import { DocumentBody } from "./DocumentBody";
 import { DocumentContextProvider } from "./DocumentContextProvider";
@@ -180,6 +181,8 @@ export const Viewer = ({
 											<DocumentTitle teiHeader={teiHeader} />
 
 											<DocumentAbstract teiHeader={teiHeader} />
+
+											<DocumentAuthors />
 
 											{isSmallScreen && (
 												<TableOfContentAccordion

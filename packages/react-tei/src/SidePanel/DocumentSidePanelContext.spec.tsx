@@ -8,7 +8,7 @@ import {
 } from "./DocumentSidePanelContext";
 
 describe("DocumentSidePanelContextProvider", () => {
-	it("should initialize panel state with isOpen true and authors section open", async () => {
+	it("should initialize panel state with isOpen true and footnotes section open", async () => {
 		const { result } = await renderHook(() => useDocumentSidePanelContext(), {
 			wrapper: ({ children }) => (
 				<DocumentSidePanelContextProvider>
@@ -60,14 +60,14 @@ describe("DocumentSidePanelContextProvider", () => {
 		});
 
 		act(() => {
-			result.current.toggleSection("authors");
+			result.current.toggleSection("footnotes");
 		});
 
 		expect(result.current.state).toStrictEqual({
 			isOpen: true,
 			sections: {
 				...initialPanelState.sections,
-				authors: false,
+				footnotes: false,
 			},
 		});
 
@@ -79,7 +79,7 @@ describe("DocumentSidePanelContextProvider", () => {
 			isOpen: false,
 			sections: {
 				...initialPanelState.sections,
-				authors: false,
+				footnotes: false,
 			},
 		});
 	});
@@ -97,14 +97,14 @@ describe("DocumentSidePanelContextProvider", () => {
 
 		expect(result.current.state).toStrictEqual(initialPanelState);
 		act(() => {
-			result.current.toggleSection("authors");
+			result.current.toggleSection("footnotes");
 		});
 
 		expect(result.current.state).toStrictEqual({
 			isOpen: true,
 			sections: {
 				...initialPanelState.sections,
-				authors: false,
+				footnotes: false,
 			},
 		});
 	});
@@ -124,27 +124,27 @@ describe("DocumentSidePanelContextProvider", () => {
 		});
 
 		act(() => {
-			result.current.toggleSection("authors");
+			result.current.toggleSection("footnotes");
 		});
 
 		expect(result.current.state).toStrictEqual({
 			isOpen: false,
 			sections: {
 				...initialPanelState.sections,
-				authors: false,
+				footnotes: false,
 			},
 		});
 
-		// Now, toggle the 'authors' section (which is currently open)
+		// Now, toggle the 'footnotes' section (which is currently open)
 		act(() => {
-			result.current.toggleSection("authors");
+			result.current.toggleSection("footnotes");
 		});
 
 		expect(result.current.state).toStrictEqual({
 			isOpen: true,
 			sections: {
 				...initialPanelState.sections,
-				authors: true,
+				footnotes: true,
 			},
 		});
 	});
@@ -168,14 +168,14 @@ describe("DocumentSidePanelContextProvider", () => {
 		});
 
 		act(() => {
-			result.current.toggleSection("authors");
+			result.current.toggleSection("footnotes");
 		});
 
 		expect(result.current.state).toStrictEqual({
 			isOpen: false,
 			sections: {
 				...initialPanelState.sections,
-				authors: false,
+				footnotes: false,
 			},
 		});
 	});

@@ -2,7 +2,7 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
-import { authorTagCatalogs } from "./authorsTagCatalog";
+import { authorTagCatalogs } from "../authorsTagCatalog";
 import { getDescriptionKey, PersNamePart } from "./PersNamePart";
 
 describe("PersNamePart", () => {
@@ -117,10 +117,7 @@ describe("PersNamePart", () => {
 
 		const spanElement = getByText("John");
 		expect(spanElement).toBeInTheDocument();
-		expect(spanElement).toHaveAttribute(
-			"aria-description",
-			"sidePanel.author.forename",
-		);
+		expect(spanElement).toHaveAttribute("aria-description", "authors.forename");
 	});
 
 	it("should render PersNamePart value without aria-description for unknown description type", async () => {

@@ -9,7 +9,7 @@ import {
 describe("Accordion", () => {
 	it("should render accordion open if sections matching name is true (open)", async () => {
 		const { getByText, getByRole } = await render(
-			<Accordion name="authors" label="Test Label">
+			<Accordion name="footnotes" label="Test Label">
 				<div>Test Content</div>
 			</Accordion>,
 			{
@@ -19,7 +19,6 @@ describe("Accordion", () => {
 							state: {
 								isOpen: true,
 								sections: {
-									authors: true,
 									keywords: true,
 									source: true,
 									footnotes: true,
@@ -45,7 +44,7 @@ describe("Accordion", () => {
 	});
 	it("should render accordion closed if sections matching name is false (closed)", async () => {
 		const { getByText, getByRole } = await render(
-			<Accordion name="authors" label="Test Label">
+			<Accordion name="footnotes" label="Test Label">
 				<div>Test Content</div>
 			</Accordion>,
 			{
@@ -55,10 +54,9 @@ describe("Accordion", () => {
 							state: {
 								isOpen: true,
 								sections: {
-									authors: false,
 									keywords: true,
 									source: true,
-									footnotes: true,
+									footnotes: false,
 								},
 							},
 							togglePanel: () => {},
@@ -82,7 +80,7 @@ describe("Accordion", () => {
 
 	it("should toggle accordion when clicking on label", async () => {
 		const { getByText, getByRole } = await render(
-			<Accordion name="authors" label="Test Label">
+			<Accordion name="footnotes" label="Test Label">
 				<div>Test Content</div>
 			</Accordion>,
 			{

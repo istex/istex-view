@@ -9,7 +9,6 @@ import Tooltip from "@mui/material/Tooltip";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useResizePanelOnScroll } from "../helper/useResizePanelOnScroll";
-import { AuthorSection } from "./authors/AuthorSection";
 import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographicReferencesSection";
 import { useDocumentSidePanelContext } from "./DocumentSidePanelContext";
 import { DocumentIdentifierSection } from "./documentIdentifier/DocumentIdentifierSection";
@@ -111,6 +110,7 @@ export const DocumentSidePanel = ({
 					},
 				}}
 				ref={ref}
+				aria-hidden={!isOpen}
 			>
 				<Stack
 					sx={{
@@ -124,7 +124,6 @@ export const DocumentSidePanel = ({
 					}}
 					gap={3}
 				>
-					<AuthorSection />
 					<KeywordSection />
 					<SourceSection />
 					<EnrichmentTermSection />

@@ -57,9 +57,18 @@
         <profileDesc>
             <textClass>
                 <keywords>
-                    <term>TEI</term>
-                    <term>XML</term>
-                    <term>Sample Document</term>
+                    <term>Legolas</term>
+                    <term>Aragorn</term>
+                    <term>Gimli</term>
+                    <term>Gandalf the Gray</term>
+                    <term>Frodo</term>
+                    <term>Sam</term>
+                    <term>Merry</term>
+                    <term>Pippin</term>
+                    <term>Boromir</term>
+                    <term>Faramir</term>
+                    <term>Elrond</term>
+                    <term>Arwen</term>
                 </keywords>
                 <keywords>
                     <list>
