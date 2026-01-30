@@ -1,8 +1,7 @@
 import { useMemo } from "react";
-import { useDocumentContext } from "../../DocumentContextProvider";
-import { IS_DEBUG } from "../../debug/debug.const";
-import type { DocumentJson } from "../../parser/document";
-import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
+import { useDocumentContext } from "../DocumentContextProvider";
+import type { DocumentJson } from "../parser/document";
+import { getDocumentJsonAtPath } from "../parser/getDocumentJsonAtPath";
 
 export const useAuthors = (): DocumentJson[] => {
 	const { jsonDocument } = useDocumentContext();
@@ -22,10 +21,9 @@ export const useAuthors = (): DocumentJson[] => {
 		return authors
 			.filter((author) => {
 				if (!author.value || !Array.isArray(author.value)) {
-					IS_DEBUG &&
-						console.warn("Author tag has no value or value is not an array", {
-							author,
-						});
+					console.warn("Author tag has no value or value is not an array", {
+						author,
+					});
 					return false;
 				}
 				return true;
@@ -34,11 +32,15 @@ export const useAuthors = (): DocumentJson[] => {
 				return {
 					...author,
 					value: (Array.isArray(author.value) ? author.value : []).filter(
-						({ tag }) => tag !== "#text",
+						({ tag }) => {
+							if (author.attributes?.["@role"] === "et-al") {
+								return true;
+							}
+							return tag !== "#text";
+						},
 					),
 				};
-			})
-			.slice(0, 10); // Limit to 10 authors
+			});
 	}, [jsonDocument]);
 
 	return authors;
