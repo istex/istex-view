@@ -1,8 +1,8 @@
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
-import { DebugTag } from "../../debug/DebugTag";
-import type { ComponentProps } from "../../tags/type";
-import { Value } from "../../tags/Value";
+import { DebugTag } from "../../../debug/DebugTag";
+import type { ComponentProps } from "../../../tags/type";
+import { Value } from "../../../tags/Value";
 
 export function SourceIdno({ data }: ComponentProps) {
 	const { t } = useTranslation();

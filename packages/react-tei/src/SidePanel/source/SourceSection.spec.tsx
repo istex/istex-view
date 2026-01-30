@@ -2,13 +2,14 @@ import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
+import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { tagCatalog } from "../../tags/tagCatalog";
 import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { SourceSection } from "./SourceSection";
 
-describe("SourceSection", () => {
-	const jsonDocument = [
+export function createTeiDocument(monogr: DocumentJson[]): DocumentJson[] {
+	return [
 		{
 			tag: "TEI",
 			value: [
@@ -26,34 +27,7 @@ describe("SourceSection", () => {
 											value: [
 												{
 													tag: "monogr",
-													value: [
-														{
-															tag: "title",
-															attributes: {
-																"@type": "main",
-																"@level": "m",
-															},
-															value: [
-																{
-																	tag: "#text",
-																	value: "Main Title of the Document",
-																},
-															],
-														},
-														{
-															tag: "title",
-															attributes: {
-																"@type": "sub",
-																"@level": "m",
-															},
-															value: [
-																{
-																	tag: "#text",
-																	value: "Subtitle of the Document",
-																},
-															],
-														},
-													],
+													value: monogr,
 												},
 											],
 										},
@@ -66,18 +40,62 @@ describe("SourceSection", () => {
 			],
 		},
 	];
+}
+
+export function TestWrapper({
+	children,
+	monogr,
+}: {
+	children: React.ReactNode;
+	monogr: DocumentJson[];
+}) {
+	return (
+		<I18nProvider>
+			<DocumentSidePanelContextProvider>
+				<DocumentContextProvider jsonDocument={createTeiDocument(monogr)}>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</DocumentContextProvider>
+			</DocumentSidePanelContextProvider>
+		</I18nProvider>
+	);
+}
+
+describe("SourceSection", () => {
+	const monogr = [
+		{
+			tag: "title",
+			attributes: {
+				"@type": "main",
+				"@level": "m",
+			},
+			value: [
+				{
+					tag: "#text",
+					value: "Main Title of the Document",
+				},
+			],
+		},
+		{
+			tag: "title",
+			attributes: {
+				"@type": "sub",
+				"@level": "m",
+			},
+			value: [
+				{
+					tag: "#text",
+					value: "Subtitle of the Document",
+				},
+			],
+		},
+	];
+
 	it("should render source section", async () => {
 		const { getByRole, getByText } = await render(<SourceSection />, {
 			wrapper: ({ children }) => (
-				<I18nProvider>
-					<DocumentSidePanelContextProvider>
-						<DocumentContextProvider jsonDocument={jsonDocument}>
-							<TagCatalogProvider tagCatalog={tagCatalog}>
-								{children}
-							</TagCatalogProvider>
-						</DocumentContextProvider>
-					</DocumentSidePanelContextProvider>
-				</I18nProvider>
+				<TestWrapper monogr={monogr}>{children}</TestWrapper>
 			),
 		});
 
@@ -96,6 +114,109 @@ describe("SourceSection", () => {
 		);
 		expect(getByText("Main Title of the Document")).not.toBeVisible();
 		expect(getByText("Subtitle of the Document")).not.toBeVisible();
+	});
+
+	it("should render source section with imprint tag", async () => {
+		const monogr = [
+			{
+				tag: "title",
+				attributes: {
+					"@type": "main",
+					"@level": "m",
+				},
+				value: [
+					{
+						tag: "#text",
+						value: "Main Title of the Document",
+					},
+				],
+			},
+			{
+				tag: "title",
+				attributes: {
+					"@type": "sub",
+					"@level": "m",
+				},
+				value: [
+					{
+						tag: "#text",
+						value: "Subtitle of the Document",
+					},
+				],
+			},
+			{
+				tag: "imprint",
+				value: [
+					{
+						tag: "publisher",
+						value: [
+							{
+								tag: "#text",
+								value: "Nature Publishing Group",
+							},
+						],
+					},
+					{
+						tag: "biblScope",
+						attributes: { "@unit": "vol" },
+						value: [
+							{
+								tag: "#text",
+								value: "10",
+							},
+						],
+					},
+					{
+						tag: "biblScope",
+						attributes: { "@unit": "issue" },
+						value: [
+							{
+								tag: "#text",
+								value: "2",
+							},
+						],
+					},
+					{
+						tag: "biblScope",
+						attributes: { "@unit": "page", "@from": "100" },
+						value: [
+							{
+								tag: "#text",
+								value: "100",
+							},
+						],
+					},
+					{
+						tag: "biblScope",
+						attributes: { "@unit": "page", "@to": "110" },
+						value: [
+							{
+								tag: "#text",
+								value: "110",
+							},
+						],
+					},
+					{
+						tag: "date",
+						attributes: { "@when": "2020" },
+						value: [],
+					},
+				],
+			},
+		];
+
+		const { getByText } = await render(<SourceSection />, {
+			wrapper: ({ children }) => (
+				<TestWrapper monogr={monogr}>{children}</TestWrapper>
+			),
+		});
+		await expect
+			.element(
+				getByText(
+					"Vol. 10, n° 2 (2020), pp. 100-110 – Nature Publishing Group.",
+				),
+			)
+			.toBeInTheDocument();
 	});
 
 	it("should not render source section if no title is present", async () => {

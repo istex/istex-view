@@ -98,8 +98,8 @@ export const ROOT_ELEMENT_ID = import.meta.env.VITE_ROOT_ELEMENT_ID || "#root";
 
 export const DOCUMENT_CONTAINER_SELECTOR = "#document-container";
 
-export function getReactRootElement() {
-	return document.getElementById(ROOT_ELEMENT_ID) ?? document.body;
+export function getReactRootElement(): HTMLElement {
+	return document.querySelector(ROOT_ELEMENT_ID) ?? document.body;
 }
 
 export function DocumentNavigationContextProvider({

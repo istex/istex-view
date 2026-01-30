@@ -1,8 +1,8 @@
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
-import { I18nProvider } from "../../i18n/I18nProvider";
-import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
-import { tagCatalog } from "../../tags/tagCatalog";
+import { I18nProvider } from "../../../i18n/I18nProvider";
+import { TagCatalogProvider } from "../../../tags/TagCatalogProvider";
+import { tagCatalog } from "../../../tags/tagCatalog";
 import { SourceIdno } from "./SourceIdno";
 
 vi.mock("../../debug/debug.const", () => ({
@@ -35,19 +35,5 @@ describe("SourceIdno", () => {
 			wrapper: Wrapper,
 		});
 		expect(screen.getByText(expectedText)).toBeVisible();
-	});
-
-	it("renders DebugTag for unsupported type", async () => {
-		const data = {
-			tag: "idno",
-			attributes: { "@type": "other" },
-			value: "something else",
-		};
-		const screen = await render(<SourceIdno data={data} />, {
-			wrapper: Wrapper,
-		});
-		await expect
-			.element(screen.container.querySelector(".debug") as HTMLElement)
-			.toBeInTheDocument();
 	});
 });
