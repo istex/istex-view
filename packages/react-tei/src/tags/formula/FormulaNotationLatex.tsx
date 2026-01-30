@@ -1,3 +1,5 @@
+import { grey } from "@mui/material/colors";
+import Typography from "@mui/material/Typography";
 import { Component, useMemo } from "react";
 import temml from "temml";
 import { DebugTag } from "../../debug/DebugTag";
@@ -5,21 +7,19 @@ import { findTagByName } from "../../helper/findTagByName";
 import type { ComponentProps } from "../type";
 
 class ErrorBoundary extends Component<
-	{ children: React.ReactNode; data: ComponentProps["data"] },
+	{ children: React.ReactNode; data: ComponentProps["data"]; text: string },
 	{ hasError: boolean }
 > {
 	constructor(props: {
 		children: React.ReactNode;
 		data: ComponentProps["data"];
+		text: string;
 	}) {
 		super(props);
 		this.state = { hasError: false };
 	}
 	static getDerivedStateFromError() {
 		return { hasError: true };
-	}
-	override componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
-		console.error("Error rendering LaTeX formula:", error, errorInfo);
 	}
 	override render() {
 		if (this.state.hasError) {
@@ -29,7 +29,22 @@ class ErrorBoundary extends Component<
 					tag="formula"
 					attributes={this.props.data.attributes}
 					payload={this.props.data.value}
-				/>
+					type="error"
+				>
+					<Typography
+						component="pre"
+						sx={{
+							display: "inline",
+							backgroundColor: grey[200],
+							padding: "2px 4px",
+							borderRadius: "4px",
+							fontFamily: "Monospace",
+							fontSize: "0.9em",
+						}}
+					>
+						{this.props.text}
+					</Typography>
+				</DebugTag>
 			);
 		}
 		return this.props.children;
@@ -51,8 +66,9 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 			/>
 		);
 	}
+
 	return (
-		<ErrorBoundary data={data}>
+		<ErrorBoundary data={data} text={text}>
 			<span
 				ref={(element) => {
 					if (!element) {

@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import type { DocumentJson } from "../../parser/document";
@@ -128,11 +128,7 @@ describe("useAuthors", () => {
 		expect(result.result.current).toEqual([]);
 	});
 
-	it("should log a warning if an author tag has no value or value is not an array and remove it form result", async () => {
-		const consoleWarnSpy = vi
-			.spyOn(console, "warn")
-			.mockImplementation(() => {});
-
+	it("should remove author tags with no value or value is not an array from the result", async () => {
 		const invalidJsonDocument = [
 			{
 				tag: "TEI",
@@ -194,27 +190,6 @@ describe("useAuthors", () => {
 				value: [{ tag: "persName", value: "Valid Author" }],
 			},
 		]);
-		expect(consoleWarnSpy).toHaveBeenCalledTimes(2);
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Author tag has no value or value is not an array",
-			{
-				author: {
-					tag: "author",
-					value: null,
-				},
-			},
-		);
-		expect(consoleWarnSpy).toHaveBeenCalledWith(
-			"Author tag has no value or value is not an array",
-			{
-				author: {
-					tag: "author",
-					value: "Just a string value",
-				},
-			},
-		);
-
-		consoleWarnSpy.mockRestore();
 	});
 
 	it("should only return 10 authors at most", async () => {

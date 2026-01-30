@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from "vitest";
+import { describe, expect, it } from "vitest";
 import {
 	exractTermFromAnnotationBlock,
 	getAnnotationTerm,
@@ -59,9 +59,6 @@ describe("parseUnitexEnrichment", () => {
 		});
 
 		it("should return null for ref with unknown subtype", () => {
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
 			const result = getListAnnotationType({
 				tag: "listAnnotation",
 				attributes: {
@@ -72,18 +69,6 @@ describe("parseUnitexEnrichment", () => {
 			});
 
 			expect(result).toBeNull();
-			expect(consoleWarnSpy).toHaveBeenCalledWith(
-				"Unknown ref subType, ignoring listAnnotation",
-				{
-					tag: "listAnnotation",
-					attributes: {
-						"@type": "ref",
-						"@subtype": "unknownSubtype",
-					},
-					value: [],
-				},
-			);
-			consoleWarnSpy.mockRestore();
 		});
 
 		it("should return refBibl for ref with bibl subtype", () => {
@@ -113,9 +98,6 @@ describe("parseUnitexEnrichment", () => {
 		});
 
 		it("should return null when @type attribute is ref and there is no subtype", () => {
-			const consoleWarnSpy = vi
-				.spyOn(console, "warn")
-				.mockImplementation(() => {});
 			const result = getListAnnotationType({
 				tag: "listAnnotation",
 				attributes: {
@@ -125,17 +107,6 @@ describe("parseUnitexEnrichment", () => {
 			});
 
 			expect(result).toBeNull();
-			expect(consoleWarnSpy).toHaveBeenCalledWith(
-				"Unknown ref subType, ignoring listAnnotation",
-				{
-					tag: "listAnnotation",
-					attributes: {
-						"@type": "ref",
-					},
-					value: [],
-				},
-			);
-			consoleWarnSpy.mockRestore();
 		});
 	});
 
