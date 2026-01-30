@@ -154,6 +154,7 @@ export default createTheme(theme, {
 					color: theme.palette.primary.main,
 					fontWeight: "bold",
 					fontSize: "1.25rem",
+					margin: "8px 0",
 					"&.Mui-expanded": {
 						margin: "8px 0",
 					},

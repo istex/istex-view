@@ -1,4 +1,5 @@
-import { ExpandMore } from "@mui/icons-material";
+import PlusIcon from "@mui/icons-material/Add";
+import MinusIcon from "@mui/icons-material/Remove";
 import MuiAccordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -21,9 +22,11 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 	const panel = useDocumentSidePanelContext();
 	const id = useId();
 
+	const isExpanded = panel.state.sections[name];
+
 	return (
 		<MuiAccordion
-			expanded={panel.state.sections[name]}
+			expanded={isExpanded}
 			onChange={() => panel.toggleSection(name)}
 			elevation={0}
 			sx={{
@@ -33,7 +36,7 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 			}}
 		>
 			<AccordionSummary
-				expandIcon={<ExpandMore />}
+				expandIcon={isExpanded ? <MinusIcon /> : <PlusIcon />}
 				sx={{
 					borderBottom: "none",
 					borderTop: "none",
@@ -54,7 +57,10 @@ export const Accordion = ({ name, label, children }: AccordionProps) => {
 				<Typography variant="button">{label}</Typography>
 			</AccordionSummary>
 
-			<AccordionDetails aria-labelledby={id} sx={{ padding: 0 }}>
+			<AccordionDetails
+				aria-labelledby={id}
+				sx={{ paddingBlock: 0, paddingInline: 2 }}
+			>
 				{children}
 			</AccordionDetails>
 		</MuiAccordion>

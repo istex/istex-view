@@ -28,7 +28,7 @@ export function TocHeading({
 				position: "initial",
 				...(isChild
 					? {
-							paddingInlineStart: 1,
+							paddingInlineStart: isMobile ? 2 : 1,
 						}
 					: {
 							gap: 0.5,
