@@ -4,6 +4,7 @@ import { useDocumentContext } from "../../DocumentContextProvider";
 import { IS_DEBUG } from "../../debug/debug.const";
 import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
+import { IDNO_ATTRIBUTE_TYPE, SUPPORTED_IDNOS } from "./tags/SourceIdno";
 
 export const useDocumentSources = (): DocumentJson[] => {
 	const { t } = useTranslation();
@@ -56,6 +57,19 @@ export const useDocumentSources = (): DocumentJson[] => {
 		);
 
 		const idnos = monogr.value.filter(({ tag }) => tag === "idno");
+		const supportedIdnos = idnos.filter(({ attributes }) => {
+			const idnoType = attributes?.[IDNO_ATTRIBUTE_TYPE];
+			return typeof idnoType === "string" && SUPPORTED_IDNOS.includes(idnoType);
+		});
+
+		const idnosWithSeparator = supportedIdnos.flatMap((idno, index) => [
+			{
+				tag: "#text",
+				value: index === 0 ? " – " : " ; ",
+			},
+			idno,
+		]);
+
 		const imprint = monogr.value.filter(({ tag }) => tag === "imprint");
 
 		if (subTitles.length > 1) {
@@ -79,10 +93,10 @@ export const useDocumentSources = (): DocumentJson[] => {
 				},
 				subTitle,
 				...imprint,
-				...idnos,
+				...idnosWithSeparator,
 			];
 		}
 
-		return [mainTitle, ...imprint, ...idnos];
+		return [mainTitle, ...imprint, ...idnosWithSeparator];
 	}, [t, jsonDocument]);
 };

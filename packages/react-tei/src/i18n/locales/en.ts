@@ -117,10 +117,22 @@ export const en: Translation = {
 		unloaded: "Image not available",
 	},
 	source: {
-		eISBN: "eISBN: ",
-		pISBN: "pISBN: ",
-		eISSN: "eISSN: ",
-		pISSN: "pISSN: ",
+		eISBN: {
+			label: "ISBN",
+			type: " (electronic)",
+		},
+		pISBN: {
+			label: "ISBN",
+			type: " (print)",
+		},
+		eISSN: {
+			label: "ISSN",
+			type: " (electronic)",
+		},
+		pISSN: {
+			label: "ISSN",
+			type: " (print)",
+		},
 
 		publisher: "{{publisher}}.",
 		volume: "Vol. {{volume}}",

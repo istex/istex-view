@@ -9,7 +9,7 @@ describe("useListType", () => {
 		expect(result.current).toBe("ul");
 	});
 
-	it('shoudl return "ol" when type is "order"', async () => {
+	it('should return "ol" when type is "order"', async () => {
 		const { result } = await renderHook(() => useListType("order"));
 		expect(result.current).toBe("ol");
 	});

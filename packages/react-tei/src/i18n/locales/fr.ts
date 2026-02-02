@@ -115,10 +115,22 @@ export const fr = {
 		unloaded: "Image non disponible",
 	},
 	source: {
-		eISBN: "eISBN : ",
-		pISBN: "pISBN : ",
-		eISSN: "eISSN : ",
-		pISSN: "pISSN : ",
+		eISBN: {
+			label: "ISBN",
+			type: " (électronique)",
+		},
+		pISBN: {
+			label: "ISBN",
+			type: " (papier)",
+		},
+		eISSN: {
+			label: "ISSN",
+			type: " (électronique)",
+		},
+		pISSN: {
+			label: "ISSN",
+			type: " (papier)",
+		},
 		publisher: "{{publisher}}.",
 		volume: "Vol. {{volume}}",
 		issue_without_year: "n° {{issue}}",

@@ -148,15 +148,6 @@ describe("SourceSection", () => {
 				tag: "imprint",
 				value: [
 					{
-						tag: "publisher",
-						value: [
-							{
-								tag: "#text",
-								value: "Nature Publishing Group",
-							},
-						],
-					},
-					{
 						tag: "biblScope",
 						attributes: { "@unit": "vol" },
 						value: [
@@ -211,11 +202,7 @@ describe("SourceSection", () => {
 			),
 		});
 		await expect
-			.element(
-				getByText(
-					"Vol. 10, n° 2 (2020), pp. 100-110 – Nature Publishing Group.",
-				),
-			)
+			.element(getByText("Vol. 10, n° 2 (2020), pp. 100-110"))
 			.toBeInTheDocument();
 	});
 

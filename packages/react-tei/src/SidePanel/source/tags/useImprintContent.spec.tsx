@@ -4,29 +4,6 @@ import type { DocumentJson } from "../../../parser/document";
 import { useImprintContent } from "./useImprintContent";
 
 describe("useImprintContent", () => {
-	it("should return publisher if present", async () => {
-		const imprintData: DocumentJson = {
-			tag: "imprint",
-			value: [
-				{
-					tag: "publisher",
-					value: [
-						{
-							tag: "#text",
-							value: "Springer",
-						},
-					],
-				},
-			],
-		};
-
-		const { result } = await renderHook(() =>
-			useImprintContent({ data: imprintData }),
-		);
-
-		expect(result.current).toMatchObject({ publisher: "Springer" });
-	});
-
 	it("should return volume if present", async () => {
 		const imprintData: DocumentJson = {
 			tag: "imprint",
@@ -257,11 +234,11 @@ describe("useImprintContent", () => {
 			tag: "imprint",
 			value: [
 				{
-					tag: "publisher",
+					tag: "date",
 					value: [
 						{
 							tag: "#text",
-							value: "Springer",
+							value: "2015-12-25",
 						},
 					],
 				},
@@ -302,15 +279,6 @@ describe("useImprintContent", () => {
 		const imprintData: DocumentJson = {
 			tag: "imprint",
 			value: [
-				{
-					tag: "publisher",
-					value: [
-						{
-							tag: "#text",
-							value: "Nature Publishing Group",
-						},
-					],
-				},
 				{
 					tag: "biblScope",
 					attributes: { "@unit": "vol" },
@@ -364,7 +332,6 @@ describe("useImprintContent", () => {
 		);
 
 		expect(result.current).toMatchObject({
-			publisher: "Nature Publishing Group",
 			volume: "10",
 			issue: "2",
 			year: "2020",

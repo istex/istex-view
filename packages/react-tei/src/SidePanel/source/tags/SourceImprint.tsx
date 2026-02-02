@@ -34,13 +34,5 @@ export function SourceImprint(props: ComponentProps) {
 		.filter(Boolean)
 		.join(", ");
 
-	const contentWithPublisher = [
-		content,
-		imprintContent?.publisher &&
-			t("source.publisher", { publisher: imprintContent.publisher }),
-	]
-		.filter(Boolean)
-		.join(" – ");
-
-	return <Typography sx={{ paddingTop: 1 }}>{contentWithPublisher}</Typography>;
+	return <Typography component="span"> – {content}</Typography>;
 }
