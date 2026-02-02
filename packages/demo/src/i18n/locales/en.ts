@@ -3,6 +3,8 @@ import type { Translation } from "./fr";
 export const en: Translation = {
 	header: {
 		title: "Viewer",
+		subtitle: "Lorem ipsum dolor sit amet",
+		description: "Excepteur sint occaecat cupidatat non proident",
 	},
 	navbar: {
 		istex: "istex",

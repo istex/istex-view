@@ -1,8 +1,10 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import headerBackground from "../images/header-background.webp";
 import istexSearchLogo from "../images/istex-search.svg";
 
 export default function Header() {
+	const { t } = useTranslation();
 	return (
 		<Box
 			component="header"
@@ -41,6 +43,15 @@ export default function Header() {
 						View
 					</Typography>
 				</Stack>
+				<Typography
+					component={"strong"}
+					sx={{ color: "white", mb: 2, fontWeight: "bold" }}
+				>
+					{t("header.subtitle")}
+				</Typography>
+				<Typography sx={{ color: "white" }}>
+					{t("header.description")}
+				</Typography>
 			</Container>
 		</Box>
 	);
