@@ -249,6 +249,13 @@ export function Ref({ data }: ComponentProps) {
 			return <DocumentRef data={data} elementIdFn={tableIdFn} />;
 		case "table-fn":
 			return <DocumentRef data={data} elementIdFn={tableFnIdFn} />;
+		case "formula":
+			return (
+				<DocumentRef
+					data={data}
+					elementIdFn={(target) => target ?? undefined}
+				/>
+			);
 		default:
 			return <RefFallback data={data} />;
 	}

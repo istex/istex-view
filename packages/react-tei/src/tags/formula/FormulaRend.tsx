@@ -5,6 +5,7 @@ import type { ComponentProps } from "../type";
 import { Value } from "../Value";
 
 export function FormulaRend({ data }: ComponentProps) {
+	const id = data.attributes?.["@xml:id"];
 	const rend = data.attributes?.["@rend"];
 
 	// If formula contains multiple formula type (mathml, latex, or graphic), we only render one of them based on priority mathml > latex > graphic
@@ -51,9 +52,12 @@ export function FormulaRend({ data }: ComponentProps) {
 		case "display":
 			return (
 				<Typography
+					id={id}
 					component="div"
 					role="figure"
 					sx={{
+						overflowX: "auto",
+						overflowY: "hidden",
 						"& math": {
 							display: "math block !important",
 						},
@@ -65,9 +69,12 @@ export function FormulaRend({ data }: ComponentProps) {
 		case "inline":
 			return (
 				<Typography
+					id={id}
 					component="span"
 					role="figure"
 					sx={{
+						overflowX: "auto",
+						overflowY: "hidden",
 						"& math": {
 							display: "math !important",
 						},

@@ -6,6 +6,7 @@ import { Value } from "../Value";
 
 export function FormulaNotationMathML({ data }: ComponentProps) {
 	const nestedFormulas = findChildrenByName(data, "formula");
+	const id = data.attributes?.["@xml:id"];
 
 	if (nestedFormulas.length > 1) {
 		return (
@@ -22,14 +23,14 @@ export function FormulaNotationMathML({ data }: ComponentProps) {
 
 	if (nestedFormulas.length === 1) {
 		return (
-			<Typography component="span" role="figure">
+			<Typography component="span" role="figure" id={id}>
 				<Value data={nestedFormulas[0]?.value} />
 			</Typography>
 		);
 	}
 
 	return (
-		<Typography component="span" role="figure">
+		<Typography component="span" role="figure" id={id}>
 			<Value data={data.value} />
 		</Typography>
 	);
