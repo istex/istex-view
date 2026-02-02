@@ -1,6 +1,6 @@
 import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowUpIcon from "@mui/icons-material/ArrowDropUp";
-import Box from "@mui/material/Box";
+import Box, { type BoxProps } from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
@@ -16,6 +16,14 @@ import {
 } from "../../navigation/DocumentNavigationContext";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type { ComponentProps } from "../../tags/type";
+
+const noteSx: BoxProps["sx"] = {
+	fontSize: "1rem",
+	display: "grid",
+	gridTemplateColumns: "subgrid",
+	gridColumn: "1 / span 2",
+	alignItems: "flex-start",
+};
 
 export const BiblLink = memo(
 	({
@@ -55,15 +63,16 @@ export const BiblLink = memo(
 					payload={data}
 					inline
 				>
-					<Box
-						sx={{
-							fontSize: "1rem",
-						}}
-						role="note"
-					>
-						{children}
+					<Box sx={noteSx} role="note">
+						<Box
+							sx={{
+								contain: "style paint inline-size",
+							}}
+						>
+							{children}
+						</Box>
+						<Box></Box>
 					</Box>
-					<Box></Box>
 				</DebugTag>
 			);
 		}
@@ -72,13 +81,7 @@ export const BiblLink = memo(
 
 		return (
 			<Box
-				sx={{
-					fontSize: "1rem",
-					display: "grid",
-					gridTemplateColumns: "subgrid",
-					gridColumn: "1 / span 2",
-					alignItems: "flex-start",
-				}}
+				sx={noteSx}
 				role="note"
 				aria-labelledby={id}
 				data-bibref-id={referenceId}
@@ -86,7 +89,7 @@ export const BiblLink = memo(
 				<Box
 					id={id}
 					sx={{
-						flexGrow: 1,
+						contain: "style paint inline-size",
 					}}
 				>
 					{children}

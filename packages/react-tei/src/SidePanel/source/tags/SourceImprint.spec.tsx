@@ -26,15 +26,6 @@ describe("SourceImprint", () => {
 			tag: "imprint",
 			value: [
 				{
-					tag: "publisher",
-					value: [
-						{
-							tag: "#text",
-							value: "Nature Publishing Group",
-						},
-					],
-				},
-				{
 					tag: "biblScope",
 					attributes: { "@unit": "vol" },
 					value: [
@@ -87,11 +78,7 @@ describe("SourceImprint", () => {
 		});
 
 		await expect
-			.element(
-				screen.getByText(
-					"Vol. 10, n° 2 (2020), pp. 100-110 – Nature Publishing Group.",
-				),
-			)
+			.element(screen.getByText("Vol. 10, n° 2 (2020), pp. 100-110"))
 			.toBeInTheDocument();
 	});
 
@@ -99,15 +86,6 @@ describe("SourceImprint", () => {
 		const imprint: DocumentJson = {
 			tag: "imprint",
 			value: [
-				{
-					tag: "publisher",
-					value: [
-						{
-							tag: "#text",
-							value: "Nature Publishing Group",
-						},
-					],
-				},
 				{
 					tag: "biblScope",
 					attributes: { "@unit": "issue" },
@@ -141,9 +119,7 @@ describe("SourceImprint", () => {
 		});
 
 		await expect
-			.element(
-				screen.getByText("n° 2 (2020), p. 100 – Nature Publishing Group."),
-			)
+			.element(screen.getByText("n° 2 (2020), p. 100"))
 			.toBeInTheDocument();
 	});
 });

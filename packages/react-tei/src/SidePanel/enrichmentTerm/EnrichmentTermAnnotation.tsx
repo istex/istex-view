@@ -76,7 +76,7 @@ export function EnrichmentTermAnnotation({
 				</Tooltip>
 			</Box>
 			<Stack gap={0.5} direction="row">
-				<Tooltip title={t(`termEnrichment.previous`)} placement="top">
+				<Tooltip title={t(`termEnrichment.next`)} placement="top">
 					<span>
 						<IconButton
 							size="small"

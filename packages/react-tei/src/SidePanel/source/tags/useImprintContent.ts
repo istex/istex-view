@@ -8,11 +8,6 @@ export function useImprintContent({ data }: ComponentProps) {
 		return findChildrenByName(data, "biblScope");
 	}, [data]);
 
-	const publisher = useMemo(() => {
-		const publisherTag = findChildrenByName(data, "publisher").at(0);
-		return findTagByName(publisherTag, "#text")?.value as string;
-	}, [data]);
-
 	const volume = useMemo(() => {
 		const volume = biblScopes.find((bs) => bs.attributes?.["@unit"] === "vol");
 		return findTagByName(volume, "#text")?.value as string;
@@ -60,10 +55,10 @@ export function useImprintContent({ data }: ComponentProps) {
 	}, [biblScopes]);
 
 	return useMemo(() => {
-		if (!publisher && !volume && !issue && !year && pages.length === 0) {
+		if (!volume && !issue && !year && pages.length === 0) {
 			return null;
 		}
 
-		return { publisher, volume, issue, year, pages };
-	}, [publisher, volume, issue, year, pages]);
+		return { volume, issue, year, pages };
+	}, [volume, issue, year, pages]);
 }

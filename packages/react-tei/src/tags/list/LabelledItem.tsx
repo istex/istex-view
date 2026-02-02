@@ -31,9 +31,7 @@ export function LabelledItem({ data }: ComponentProps) {
 							attributes={data.attributes}
 							message="Labelled item without exactly one content paragraph, falling back to raw rendering"
 							payload={data}
-						>
-							<Value data={data.value} />
-						</DebugTag>
+						/>
 					)
 				}
 			/>

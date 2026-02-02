@@ -21,10 +21,10 @@ describe("SourceIdno", () => {
 		vi.resetAllMocks();
 	});
 	it.each([
-		["eISBN", "123-456-789", "eISBN : 123-456-789"],
-		["pISBN", "987-654-321", "pISBN : 987-654-321"],
-		["eISSN", "9876-5432", "eISSN : 9876-5432"],
-		["pISSN", "2345-6789", "pISSN : 2345-6789"],
+		["eISBN", "123-456-789", "ISBN 123-456-789 (électronique)"],
+		["pISBN", "987-654-321", "ISBN 987-654-321 (papier)"],
+		["eISSN", "9876-5432", "ISSN 9876-5432 (électronique)"],
+		["pISSN", "2345-6789", "ISSN 2345-6789 (papier)"],
 	])("renders %s type with label", async (type, value, expectedText) => {
 		const data = {
 			tag: "idno",

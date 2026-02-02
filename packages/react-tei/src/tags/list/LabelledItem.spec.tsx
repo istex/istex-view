@@ -178,4 +178,38 @@ describe("LabelledItem", () => {
 		await expect.element(nestedItem).toBeVisible();
 		await expect.element(nestedItem).toHaveTextContent("1.b.I.iii.aIpsum");
 	});
+
+	it("should only render content when label is missing", async () => {
+		const incompleteItemDocument: DocumentJson = {
+			tag: "item",
+			attributes: {},
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							tag: "highlightedText",
+							value: [
+								{
+									tag: "#text",
+									value: "Lorem",
+								},
+							],
+						},
+					],
+				},
+			],
+		};
+
+		const screen = await render(
+			<LabelledItem data={incompleteItemDocument} />,
+			{
+				wrapper: TestWrapper,
+			},
+		);
+
+		const item = screen.getByRole("listitem");
+		await expect.element(item).toBeVisible();
+		await expect.element(item).toHaveTextContent("Lorem");
+	});
 });

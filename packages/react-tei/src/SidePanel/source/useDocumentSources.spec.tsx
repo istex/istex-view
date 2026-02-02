@@ -447,7 +447,7 @@ describe("useDocumentSources", () => {
 		]);
 	});
 
-	it("shoudl return imprint when present", async () => {
+	it("should return imprint when present", async () => {
 		const jsonDocument = [
 			{
 				tag: "monogr",
@@ -580,6 +580,10 @@ describe("useDocumentSources", () => {
 				],
 			},
 			{
+				tag: "#text",
+				value: " – ",
+			},
+			{
 				tag: "idno",
 				attributes: { "@type": "eISBN" },
 				value: [{ tag: "#text", value: "123-456-789" }],
@@ -663,6 +667,10 @@ describe("useDocumentSources", () => {
 						value: [{ tag: "#text", value: "Journal Publisher" }],
 					},
 				],
+			},
+			{
+				tag: "#text",
+				value: " – ",
 			},
 			{
 				tag: "idno",
