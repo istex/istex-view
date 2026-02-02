@@ -38,13 +38,28 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 		);
 	}
 
+	// block latex
+	if (text.startsWith("\\begin{array")) {
+		return (
+			<Box
+				sx={{
+					width: "100%",
+					maxWidth: "100%",
+					overflowX: "auto",
+					overflowY: "hidden",
+				}}
+			>
+				<MathJax>{text}</MathJax>
+			</Box>
+		);
+	}
+
+	// inline latex
 	return (
 		<Box
+			component="span"
 			sx={{
-				width: "100%",
-				maxWidth: "100%",
-				overflowX: "auto",
-				overflowY: "hidden",
+				display: "inline-block",
 			}}
 		>
 			<MathJax>{text}</MathJax>
