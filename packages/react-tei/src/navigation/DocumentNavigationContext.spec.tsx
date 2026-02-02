@@ -1,10 +1,12 @@
 import { act, type RefObject } from "react";
 import { describe, expect, it, vi } from "vitest";
 import { renderHook } from "vitest-browser-react";
+import { DocumentContextProvider } from "../DocumentContextProvider";
 import {
 	DocumentSidePanelContext,
 	DocumentSidePanelContextProvider,
 	type DocumentSidePanelContextType,
+	TAB_METADATA,
 } from "../SidePanel/DocumentSidePanelContext";
 import { DocumentNavigationContextProvider } from "./DocumentNavigationContext";
 import { useDocumentNavigation } from "./useNavigateToSection";
@@ -15,22 +17,24 @@ function createDocumentWrapper() {
 
 	return {
 		wrapper: ({ children }: { children: React.ReactNode }) => (
-			<DocumentSidePanelContextProvider>
-				<DocumentNavigationContextProvider
-					tocRef={
-						{
-							current: tocElement,
-						} as unknown as RefObject<HTMLDivElement | null>
-					}
-					sidePanelRef={
-						{
-							current: sidePaneElement,
-						} as unknown as RefObject<HTMLDivElement | null>
-					}
-				>
-					{children}
-				</DocumentNavigationContextProvider>
-			</DocumentSidePanelContextProvider>
+			<DocumentContextProvider jsonDocument={[]}>
+				<DocumentSidePanelContextProvider>
+					<DocumentNavigationContextProvider
+						tocRef={
+							{
+								current: tocElement,
+							} as unknown as RefObject<HTMLDivElement | null>
+						}
+						sidePanelRef={
+							{
+								current: sidePaneElement,
+							} as unknown as RefObject<HTMLDivElement | null>
+						}
+					>
+						{children}
+					</DocumentNavigationContextProvider>
+				</DocumentSidePanelContextProvider>
+			</DocumentContextProvider>
 		),
 	};
 }
@@ -48,11 +52,16 @@ function createSidePaneWrapper(
 				value={{
 					state: {
 						isOpen: true,
+						currentTab: TAB_METADATA,
 						sections: {
 							footnotes: false,
 							keywords: false,
 							source: false,
 						},
+					},
+					enrichmentCount: 0,
+					selectTab: () => {
+						throw new Error("selectTab should not be called");
 					},
 					toggleSection: () => {
 						throw new Error("toggleSection should not be called");
@@ -258,6 +267,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
+					currentTab: TAB_METADATA,
 					sections: {
 						footnotes: true,
 						keywords: false,
@@ -299,6 +309,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
+					currentTab: TAB_METADATA,
 					sections: {
 						footnotes: false,
 						keywords: false,
@@ -341,6 +352,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: false,
+					currentTab: TAB_METADATA,
 					sections: {
 						footnotes: true,
 						keywords: false,
@@ -381,6 +393,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: false,
+					currentTab: TAB_METADATA,
 					sections: {
 						footnotes: false,
 						keywords: false,
@@ -562,6 +575,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
+					currentTab: TAB_METADATA,
 					sections: {
 						footnotes: false,
 						keywords: false,
@@ -601,6 +615,7 @@ describe("DocumentNavigationContextProvider", () => {
 			const { sidePaneElement, wrapper } = createSidePaneWrapper({
 				state: {
 					isOpen: true,
+					currentTab: TAB_METADATA,
 					sections: {
 						footnotes: false,
 						keywords: false,

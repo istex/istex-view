@@ -5,9 +5,17 @@ import {
 	useMemo,
 	useReducer,
 } from "react";
+import {
+	MULTICAT_SECTIONS,
+	TERM_ENRICHMENT_SECTIONS,
+	useSidePanelEnrichments,
+} from "./useSidePanelEnrichments";
+
+export type PanelTab = "metadata" | "enrichment";
 
 export type PanelState = {
 	isOpen: boolean;
+	currentTab: PanelTab;
 	sections: {
 		keywords: boolean;
 		source: boolean;
@@ -30,13 +38,13 @@ export type PanelState = {
 		multicat_wos?: boolean;
 		multicat_science_metrix?: boolean;
 		multicat_scopus?: boolean;
-
-		teeft?: boolean;
 	};
 };
 
 export type DocumentSidePanelContextType = {
 	state: PanelState;
+	enrichmentCount: number;
+	selectTab: (tab: PanelTab) => void;
 	togglePanel: () => void;
 	toggleSection: (section: keyof PanelState["sections"]) => void;
 	openSection: (section: keyof PanelState["sections"]) => void;
@@ -45,12 +53,25 @@ export type DocumentSidePanelContextType = {
 export type PanelSection = keyof PanelState["sections"];
 
 export type PanelAction =
+	| { type: "SELECT_TAB"; tab: PanelTab }
 	| { type: "TOGGLE_PANEL" }
 	| { type: "TOGGLE_SECTION"; section: keyof PanelState["sections"] }
 	| { type: "OPEN_SECTION"; section: keyof PanelState["sections"] };
 
+export const TAB_METADATA: PanelTab = "metadata";
+export const TAB_ENRICHMENT: PanelTab = "enrichment";
+
+const TAB_METADATA_SECTIONS: PanelSection[] = [
+	"keywords",
+	"source",
+	"footnotes",
+	"bibliographicReferences",
+	"documentIdentifier",
+];
+
 export const initialPanelState: PanelState = {
 	isOpen: true,
+	currentTab: TAB_ENRICHMENT,
 	sections: {
 		keywords: true,
 		source: true,
@@ -58,23 +79,21 @@ export const initialPanelState: PanelState = {
 		bibliographicReferences: true,
 		documentIdentifier: true,
 
-		termEnrichment_date: true,
-		termEnrichment_orgName: true,
-		termEnrichment_orgNameFunder: true,
-		termEnrichment_orgNameProvider: true,
-		termEnrichment_persName: true,
-		termEnrichment_placeName: true,
-		termEnrichment_geogName: true,
-		termEnrichment_refBibl: true,
-		termEnrichment_refUrl: true,
-		termEnrichment_teeft: true,
+		...TERM_ENRICHMENT_SECTIONS.reduce(
+			(acc, section) => {
+				acc[`termEnrichment_${section}`] = false;
+				return acc;
+			},
+			{} as Partial<PanelState["sections"]>,
+		),
 
-		multicat_inist: true,
-		multicat_wos: true,
-		multicat_science_metrix: true,
-		multicat_scopus: true,
-
-		teeft: true,
+		...MULTICAT_SECTIONS.reduce(
+			(acc, section) => {
+				acc[`multicat_${section}`] = false;
+				return acc;
+			},
+			{} as Partial<PanelState["sections"]>,
+		),
 	},
 };
 
@@ -87,15 +106,22 @@ export function DocumentSidePanelContextProvider({
 }: {
 	children: React.ReactNode;
 }) {
+	const { enrichmentCount, openEnrichment } = useSidePanelEnrichments();
+
 	const [panelState, dispatchPanelAction] = useReducer(
 		(state: PanelState, action: PanelAction) => {
 			switch (action.type) {
+				case "SELECT_TAB":
+					return { ...state, currentTab: action.tab };
 				case "TOGGLE_PANEL":
 					return { ...state, isOpen: !state.isOpen };
 				case "TOGGLE_SECTION":
 					return {
 						...state,
 						isOpen: !state.sections[action.section] ? true : state.isOpen,
+						currentTab: TAB_METADATA_SECTIONS.includes(action.section)
+							? TAB_METADATA
+							: TAB_ENRICHMENT,
 						sections: {
 							...state.sections,
 							[action.section]: !state.sections[action.section],
@@ -105,6 +131,9 @@ export function DocumentSidePanelContextProvider({
 					return {
 						...state,
 						isOpen: true,
+						currentTab: TAB_METADATA_SECTIONS.includes(action.section)
+							? TAB_METADATA
+							: TAB_ENRICHMENT,
 						sections: {
 							...state.sections,
 							[action.section]: true,
@@ -114,8 +143,19 @@ export function DocumentSidePanelContextProvider({
 					return state;
 			}
 		},
-		initialPanelState,
+		{
+			...initialPanelState,
+			sections: {
+				...initialPanelState.sections,
+				...(openEnrichment ? { [openEnrichment]: true } : {}),
+			},
+			currentTab: enrichmentCount > 0 ? TAB_ENRICHMENT : TAB_METADATA,
+		},
 	);
+
+	const selectTab = useCallback((tab: PanelTab) => {
+		dispatchPanelAction({ type: "SELECT_TAB", tab });
+	}, []);
 
 	const togglePanel = useCallback(() => {
 		dispatchPanelAction({ type: "TOGGLE_PANEL" });
@@ -132,11 +172,20 @@ export function DocumentSidePanelContextProvider({
 	const value = useMemo(
 		() => ({
 			state: panelState,
+			enrichmentCount,
+			selectTab,
 			togglePanel,
 			toggleSection,
 			openSection,
 		}),
-		[panelState, togglePanel, toggleSection, openSection],
+		[
+			panelState,
+			enrichmentCount,
+			selectTab,
+			togglePanel,
+			toggleSection,
+			openSection,
+		],
 	);
 
 	return (

@@ -21,26 +21,26 @@ const enrichments = {
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<I18nProvider>
-			<DocumentSidePanelContextProvider>
-				<DocumentContextProvider
-					jsonDocument={[]}
-					jsonUnitexEnrichment={enrichments}
-					termCountByGroup={{
-						date: {
-							"2021": 1,
-						},
-						placeName: {
-							paris: 1,
-							london: 1,
-							france: 0,
-						},
-					}}
-				>
+			<DocumentContextProvider
+				jsonDocument={[]}
+				jsonUnitexEnrichment={enrichments}
+				termCountByGroup={{
+					date: {
+						"2021": 1,
+					},
+					placeName: {
+						paris: 1,
+						london: 1,
+						france: 0,
+					},
+				}}
+			>
+				<DocumentSidePanelContextProvider>
 					<TestDocumentNavigationContextProvider>
 						{children}
 					</TestDocumentNavigationContextProvider>
-				</DocumentContextProvider>
-			</DocumentSidePanelContextProvider>
+				</DocumentSidePanelContextProvider>
+			</DocumentContextProvider>
 		</I18nProvider>
 	);
 }
@@ -72,6 +72,11 @@ describe("EnrichmentTermAnnotationBlock", () => {
 				wrapper: TestWrapper,
 			},
 		);
+
+		const accordionButton = screen.getByRole("button", {
+			name: expectedLabel,
+		});
+		await accordionButton.click();
 
 		const list = screen.getByRole("list", {
 			name: expectedLabel,
@@ -106,6 +111,12 @@ describe("EnrichmentTermAnnotationBlock", () => {
 			},
 		);
 
+		// First, expand the accordion
+		const accordionButton = screen.getByRole("button", {
+			name: "Noms de lieux administratifs (2)",
+		});
+		await accordionButton.click();
+
 		{
 			const checkbox = await expectBlockToBeChecked(screen, true);
 			await expectTermToBeChecked(screen, "Paris", true);
@@ -135,6 +146,12 @@ describe("EnrichmentTermAnnotationBlock", () => {
 				wrapper: TestWrapper,
 			},
 		);
+
+		// First, expand the accordion
+		const accordionButton = screen.getByRole("button", {
+			name: "Noms de lieux administratifs (2)",
+		});
+		await accordionButton.click();
 
 		await expectBlockToBeChecked(screen, true);
 		await expectTermToBeChecked(screen, "Paris", true);

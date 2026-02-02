@@ -7,12 +7,20 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 	await uploadUnitexEnrichmentFile(page, "unitex-enrichment.tei");
 	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
 
-	await expect(
-		page.getByRole("button", { name: "Nom de lieu administratif (1)" }),
-	).toBeVisible();
-	await expect(
-		page.getByRole("button", { name: "Nom de lieu administratif (1)" }),
-	).toHaveAttribute("aria-expanded", "true");
+	const administrativePlaceButton = page.getByRole("button", {
+		name: "Nom de lieu administratif (1)",
+	});
+	await expect(administrativePlaceButton).toBeVisible();
+	await expect(administrativePlaceButton).toHaveAttribute(
+		"aria-expanded",
+		"false",
+	);
+
+	await administrativePlaceButton.click();
+	await expect(administrativePlaceButton).toHaveAttribute(
+		"aria-expanded",
+		"true",
+	);
 
 	await expect(page.getByLabel("Nancy", { exact: true })).toBeVisible();
 
@@ -38,12 +46,14 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 		await expect(sncfHighlight).toHaveAttribute("data-group", "orgName");
 	}
 
-	await expect(
-		page.getByRole("button", { name: "Noms de personnes (2)" }),
-	).toBeVisible();
-	await expect(
-		page.getByRole("button", { name: "Noms de personnes (2)" }),
-	).toHaveAttribute("aria-expanded", "true");
+	const personalNameButton = page.getByRole("button", {
+		name: "Noms de personnes (2)",
+	});
+	await expect(personalNameButton).toBeVisible();
+	await expect(personalNameButton).toHaveAttribute("aria-expanded", "false");
+
+	await personalNameButton.click();
+	await expect(personalNameButton).toHaveAttribute("aria-expanded", "true");
 	await expect(page.getByLabel("Leo", { exact: true })).toBeVisible();
 	await expect(page.getByLabel("Eros", { exact: true })).toBeVisible();
 	await expect(page.locator('[data-term="leo"]')).toHaveCount(3);

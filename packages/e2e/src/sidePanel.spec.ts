@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { launchViewer, uploadFile } from "./support/upload";
+import {
+	launchViewer,
+	uploadFile,
+	uploadUnitexEnrichmentFile,
+} from "./support/upload";
 
 test("document sidePanel keywords section", async ({ page }) => {
 	await page.goto("/");
@@ -33,4 +37,55 @@ test("document sidePanel keywords section", async ({ page }) => {
 	await expect(page.getByText("Literature")).not.toBeVisible();
 	await expect(page.getByText("Mathematics")).not.toBeVisible();
 	await expect(page.getByText("Physics")).not.toBeVisible();
+});
+
+test("tabs without enrichment", async ({ page }) => {
+	await page.goto("/");
+	await uploadFile(page, "unitex-document.tei");
+	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+
+	await expect(
+		page.getByRole("tab", { name: "Enrichissements Istex (0)" }),
+	).not.toBeEnabled();
+
+	const metadataButton = page.getByRole("tab", {
+		name: "Métadonnées éditeur",
+	});
+
+	await expect(metadataButton).toHaveAttribute("aria-selected", "true");
+	await expect(metadataButton).toBeEnabled();
+	await metadataButton.click();
+
+	await expect(
+		page.getByRole("button", { name: "Mots-clés (6)" }),
+	).toBeVisible();
+});
+
+test("tabs with enrichment", async ({ page }) => {
+	await page.goto("/");
+	await uploadFile(page, "unitex-document.tei");
+	await uploadUnitexEnrichmentFile(page, "unitex-enrichment.tei");
+	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+
+	const enrichmentButton = page.getByRole("tab", {
+		name: "Enrichissements Istex (3)",
+	});
+	await expect(enrichmentButton).toBeEnabled();
+	await expect(enrichmentButton).toHaveAttribute("aria-selected", "true");
+
+	await expect(
+		page.getByRole("button", {
+			name: "Nom d'organisation (1)",
+		}),
+	).toBeVisible();
+
+	const metadataButton = page.getByRole("tab", {
+		name: "Métadonnées éditeur",
+	});
+	await expect(metadataButton).toBeEnabled();
+	await metadataButton.click();
+
+	await expect(
+		page.getByRole("button", { name: "Mots-clés (6)" }),
+	).toBeVisible();
 });

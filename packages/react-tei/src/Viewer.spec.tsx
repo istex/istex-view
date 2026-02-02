@@ -163,11 +163,11 @@ describe("Viewer", () => {
 
 		await abstractRegion.click();
 
-		const tabs = screen.getByRole("tablist");
+		const tabs = abstractRegion.getByRole("tablist");
 		expect(tabs).toBeVisible();
 
-		const englishTab = screen.getByRole("tab", { name: "anglais" });
-		const frenchTab = screen.getByRole("tab", { name: "français" });
+		const englishTab = abstractRegion.getByRole("tab", { name: "anglais" });
+		const frenchTab = abstractRegion.getByRole("tab", { name: "français" });
 
 		expect(englishTab).toBeVisible();
 		expect(frenchTab).toBeVisible();
