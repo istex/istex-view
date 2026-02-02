@@ -1,3 +1,4 @@
+import { MathJaxContext } from "better-react-mathjax";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
@@ -13,7 +14,11 @@ vi.mock("../../debug/debug.const", () => {
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
-		<TagCatalogProvider tagCatalog={tagCatalog}>{children}</TagCatalogProvider>
+		<MathJaxContext>
+			<TagCatalogProvider tagCatalog={tagCatalog}>
+				{children}
+			</TagCatalogProvider>
+		</MathJaxContext>
 	);
 }
 
@@ -91,35 +96,5 @@ describe("FormulaNotationLatex", () => {
 		await expect
 			.element(screen.getByRole("math"))
 			.toHaveTextContent("a2+b2=c2");
-	});
-
-	it("should catch rendering errors and display debug tag", async () => {
-		// Suppress console.error for this test since we expect an error
-		const consoleSpy = vi.spyOn(console, "error").mockImplementation(() => {});
-
-		const document: DocumentJson = {
-			tag: "formula",
-			attributes: {
-				"@notation": "tex",
-			},
-			value: [
-				{
-					tag: "#text",
-					// Invalid LaTeX that should cause temml to throw
-					value: "\\invalid{command",
-				},
-			],
-		};
-
-		const screen = await render(<FormulaNotationLatex data={document} />, {
-			wrapper: TestWrapper,
-		});
-
-		// The error boundary should catch the error and render the debug tag
-		await expect
-			.element(screen.container.querySelector(".debug") as HTMLElement)
-			.toBeInTheDocument();
-
-		consoleSpy.mockRestore();
 	});
 });

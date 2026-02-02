@@ -15,8 +15,8 @@
 	},
 	"private": true,
 	"dependencies": {
-		"@istex/viewer-demo": "workspace:^",
-		"@istex/react-tei": "workspace:^"
+		"@istex/react-tei": "workspace:^",
+		"@istex/viewer-demo": "workspace:^"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "catalog:",
@@ -26,7 +26,7 @@
 		"@vitest/coverage-v8": "catalog:",
 		"husky": "catalog:",
 		"playwright": "catalog:",
-		"turbo": "catalog:",
+		"turbo": "^2.8.0",
 		"typescript": "catalog:",
 		"vitest": "catalog:"
 	},

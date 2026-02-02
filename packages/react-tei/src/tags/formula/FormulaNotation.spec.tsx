@@ -1,3 +1,4 @@
+import { MathJaxContext } from "better-react-mathjax";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
@@ -13,7 +14,11 @@ vi.mock("../../debug/debug.const", () => {
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
-		<TagCatalogProvider tagCatalog={tagCatalog}>{children}</TagCatalogProvider>
+		<MathJaxContext>
+			<TagCatalogProvider tagCatalog={tagCatalog}>
+				{children}
+			</TagCatalogProvider>
+		</MathJaxContext>
 	);
 }
 

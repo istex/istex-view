@@ -33,6 +33,7 @@ catalog:
   vite-tsconfig-paths: ^5.1.4
   vitest: ^4.0.15
   vitest-browser-react: ^2.0.2
+  "better-react-mathjax": ^2.3.0
 
 catalogMode: prefer
 

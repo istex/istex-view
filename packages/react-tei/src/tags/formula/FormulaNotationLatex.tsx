@@ -1,61 +1,32 @@
-import { grey } from "@mui/material/colors";
-import Typography from "@mui/material/Typography";
-import { Component, useMemo } from "react";
-import temml from "temml";
+import { Box } from "@mui/material";
+import { MathJax } from "better-react-mathjax";
+import { useMemo } from "react";
 import { DebugTag } from "../../debug/DebugTag";
 import { findTagByName } from "../../helper/findTagByName";
 import type { ComponentProps } from "../type";
 
-class ErrorBoundary extends Component<
-	{ children: React.ReactNode; data: ComponentProps["data"]; text: string },
-	{ hasError: boolean }
-> {
-	constructor(props: {
-		children: React.ReactNode;
-		data: ComponentProps["data"];
-		text: string;
-	}) {
-		super(props);
-		this.state = { hasError: false };
-	}
-	static getDerivedStateFromError() {
-		return { hasError: true };
-	}
-	override render() {
-		if (this.state.hasError) {
-			return (
-				<DebugTag
-					message="Error rendering LaTeX formula"
-					tag="formula"
-					attributes={this.props.data.attributes}
-					payload={this.props.data.value}
-					type="error"
-				>
-					<Typography
-						component="pre"
-						sx={{
-							display: "inline",
-							backgroundColor: grey[200],
-							padding: "2px 4px",
-							borderRadius: "4px",
-							fontFamily: "Monospace",
-							fontSize: "0.9em",
-						}}
-					>
-						{this.props.text}
-					</Typography>
-				</DebugTag>
-			);
-		}
-		return this.props.children;
-	}
-}
-
 export function FormulaNotationLatex({ data }: ComponentProps) {
-	const text = useMemo(
-		() => findTagByName(data, "#text")?.value as string | undefined,
-		[data],
-	);
+	const text = useMemo(() => {
+		const text = findTagByName(data, "#text")?.value as string | undefined;
+		if (!text) {
+			return null;
+		}
+		// Mathjax is not able to parse the `\hspace*` command properly (hspace with unbreakable space), so we replace it with `\hspace`
+		const sanitizedText = text.replaceAll("hspace*", "hspace");
+
+		if (
+			sanitizedText.startsWith("\\begin") ||
+			(sanitizedText.startsWith("$$") && sanitizedText.endsWith("$$"))
+		) {
+			return sanitizedText;
+		}
+
+		if (sanitizedText.startsWith("$") && sanitizedText.endsWith("$")) {
+			return `$${sanitizedText}$`;
+		}
+
+		return `$$${sanitizedText}$$`;
+	}, [data]);
 	if (!text) {
 		return (
 			<DebugTag
@@ -68,18 +39,15 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 	}
 
 	return (
-		<ErrorBoundary data={data} text={text}>
-			<span
-				ref={(element) => {
-					if (!element) {
-						return;
-					}
-					temml.render(text, element, {
-						displayMode: true,
-						throwOnError: true,
-					});
-				}}
-			/>
-		</ErrorBoundary>
+		<Box
+			sx={{
+				width: "100%",
+				maxWidth: "100%",
+				overflowX: "auto",
+				overflowY: "hidden",
+			}}
+		>
+			<MathJax>{text}</MathJax>
+		</Box>
 	);
 }

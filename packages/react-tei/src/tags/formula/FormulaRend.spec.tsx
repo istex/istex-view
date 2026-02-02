@@ -1,3 +1,4 @@
+import { MathJaxContext } from "better-react-mathjax";
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
@@ -7,7 +8,11 @@ import { FormulaRend } from "./FormulaRend";
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
-		<TagCatalogProvider tagCatalog={tagCatalog}>{children}</TagCatalogProvider>
+		<MathJaxContext>
+			<TagCatalogProvider tagCatalog={tagCatalog}>
+				{children}
+			</TagCatalogProvider>
+		</MathJaxContext>
 	);
 }
 
@@ -135,7 +140,8 @@ describe("FormulaRend", () => {
 			</TestWrapper>,
 		);
 
-		expect(screen.getByRole("math")).toHaveTextContent("ab");
+		await expect.element(screen.getByRole("math")).toBeDefined();
+		await expect.element(screen.getByRole("math")).toHaveTextContent("ab");
 	});
 
 	it("should render mathml formula if both latex and mathml are present", async () => {
