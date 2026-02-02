@@ -1,6 +1,7 @@
 import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
+import { MathJaxContext } from "better-react-mathjax";
 import { useMemo, useRef } from "react";
 import { DocumentAuthors } from "./authors/DocumentAuthors";
 import { DocumentAbstract } from "./DocumentAbstract";
@@ -103,120 +104,125 @@ export const Viewer = ({
 	}
 
 	return (
-		<I18nProvider>
-			<DocumentSidePanelContextProvider>
-				<DocumentContextProvider
-					jsonDocument={jsonDocument}
-					jsonUnitexEnrichment={jsonUnitexEnrichment}
-					jsonTeeftEnrichment={jsonTeeftEnrichment}
-					multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
-					termCountByGroup={termCountByGroup}
-				>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						<DocumentNavigationContextProvider
-							tocRef={tocRef}
-							sidePanelRef={sidePanelRef}
-						>
-							<Stack
-								component="article"
-								flexGrow={1}
-								width="100%"
-								direction="row"
-								sx={{
-									"& *": {
-										transition: "background-color 0.3s ease-in-out",
-									},
-									"& .tei-highlighted-group": {
-										backgroundColor: "#E3EF63",
-										color: "#4A4A4A",
-									},
-									"& .tei-highlighted, & .tei-highlighted .tei-highlighted-group":
-										{
-											backgroundColor: "#C4D733",
-											color: "#1D1D1D",
-										},
-								}}
-								id="viewer"
+		<MathJaxContext asyncLoad hideUntilTypeset="first">
+			<I18nProvider>
+				<DocumentSidePanelContextProvider>
+					<DocumentContextProvider
+						jsonDocument={jsonDocument}
+						jsonUnitexEnrichment={jsonUnitexEnrichment}
+						jsonTeeftEnrichment={jsonTeeftEnrichment}
+						multicatEnrichment={[
+							...jsonNbEnrichment,
+							...jsonMulticatEnrichment,
+						]}
+						termCountByGroup={termCountByGroup}
+					>
+						<TagCatalogProvider tagCatalog={tagCatalog}>
+							<DocumentNavigationContextProvider
+								tocRef={tocRef}
+								sidePanelRef={sidePanelRef}
 							>
-								<Stack direction="row" flexGrow={1} justifyContent="center">
-									{!isSmallScreen && (
-										<TableOfContent
-											tableOfContent={tableOfContent}
-											ref={tocRef}
-											stickyTopOffset={stickyTopOffset}
-										/>
-									)}
+								<Stack
+									component="article"
+									flexGrow={1}
+									width="100%"
+									direction="row"
+									sx={{
+										"& *": {
+											transition: "background-color 0.3s ease-in-out",
+										},
+										"& .tei-highlighted-group": {
+											backgroundColor: "#E3EF63",
+											color: "#4A4A4A",
+										},
+										"& .tei-highlighted, & .tei-highlighted .tei-highlighted-group":
+											{
+												backgroundColor: "#C4D733",
+												color: "#1D1D1D",
+											},
+									}}
+									id="viewer"
+								>
+									<Stack direction="row" flexGrow={1} justifyContent="center">
+										{!isSmallScreen && (
+											<TableOfContent
+												tableOfContent={tableOfContent}
+												ref={tocRef}
+												stickyTopOffset={stickyTopOffset}
+											/>
+										)}
 
-									<Stack
-										sx={{
-											flexGrow: 1,
-											paddingInline: 0,
-											contain: {
-												xs: "size",
-												md: "none",
-											},
-											width: {
-												xs: "100%",
-												md: "initial",
-											},
-										}}
-										component="section"
-										role="document"
-										id="document-container"
-									>
 										<Stack
-											marginInline={{
-												xs: "auto",
-												xl: "1rem auto",
+											sx={{
+												flexGrow: 1,
+												paddingInline: 0,
+												contain: {
+													xs: "size",
+													md: "none",
+												},
+												width: {
+													xs: "100%",
+													md: "initial",
+												},
 											}}
-											paddingBlock={4}
-											maxWidth={{
-												xs: "100%",
-												md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
-												lg: "732px",
-											}}
-											gap={4}
-											position="relative"
+											component="section"
+											role="document"
+											id="document-container"
 										>
-											<DocumentTitle teiHeader={teiHeader} />
-
-											<DocumentAbstract teiHeader={teiHeader} />
-
-											<DocumentAuthors />
-
-											{isSmallScreen && (
-												<TableOfContentAccordion
-													tableOfContent={tableOfContent}
-												/>
-											)}
-
 											<Stack
-												component="section"
-												sx={{
-													gap: 4,
-													padding: {
-														xs: 2,
-														md: 8,
-													},
-													backgroundColor: "white",
+												marginInline={{
+													xs: "auto",
+													xl: "1rem auto",
 												}}
-												id="document-content"
+												paddingBlock={4}
+												maxWidth={{
+													xs: "100%",
+													md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
+													lg: "732px",
+												}}
+												gap={4}
+												position="relative"
 											>
-												<DocumentBody body={enrichedBody} />
+												<DocumentTitle teiHeader={teiHeader} />
+
+												<DocumentAbstract teiHeader={teiHeader} />
+
+												<DocumentAuthors />
+
+												{isSmallScreen && (
+													<TableOfContentAccordion
+														tableOfContent={tableOfContent}
+													/>
+												)}
+
+												<Stack
+													component="section"
+													sx={{
+														gap: 4,
+														padding: {
+															xs: 2,
+															md: 8,
+														},
+														backgroundColor: "white",
+													}}
+													id="document-content"
+												>
+													<DocumentBody body={enrichedBody} />
+												</Stack>
 											</Stack>
 										</Stack>
-									</Stack>
 
-									<DocumentSidePanel
-										ref={sidePanelRef}
-										stickyTopOffset={stickyTopOffset}
-									/>
+										<DocumentSidePanel
+											ref={sidePanelRef}
+											stickyTopOffset={stickyTopOffset}
+										/>
+									</Stack>
 								</Stack>
-							</Stack>
-						</DocumentNavigationContextProvider>
-					</TagCatalogProvider>
-				</DocumentContextProvider>
-			</DocumentSidePanelContextProvider>
-		</I18nProvider>
+							</DocumentNavigationContextProvider>
+						</TagCatalogProvider>
+					</DocumentContextProvider>
+				</DocumentSidePanelContextProvider>
+			</I18nProvider>
+		</MathJaxContext>
 	);
 };
