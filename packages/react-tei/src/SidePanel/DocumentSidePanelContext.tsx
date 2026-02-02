@@ -9,7 +9,6 @@ import {
 export type PanelState = {
 	isOpen: boolean;
 	sections: {
-		authors: boolean;
 		keywords: boolean;
 		source: boolean;
 		footnotes: boolean;
@@ -53,7 +52,6 @@ export type PanelAction =
 export const initialPanelState: PanelState = {
 	isOpen: true,
 	sections: {
-		authors: true,
 		keywords: true,
 		source: true,
 		footnotes: true,
