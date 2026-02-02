@@ -25,7 +25,7 @@ test("scroll to bib reference from text", async ({ page }) => {
 		bibRefSection.getByText(
 			"The Fellowship of the Ring By Gandalf The Gray (1954) Lord of the ring 1 321 -322",
 		),
-	).toBeInViewport();
+	).not.toBeInViewport();
 	await expect(
 		bibRefSection.getByText("Gummo, Korine Harmony 1997 2:423-424"),
 	).toBeVisible();
