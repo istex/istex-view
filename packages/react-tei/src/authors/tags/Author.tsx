@@ -7,7 +7,7 @@ import { IS_DEBUG } from "../../debug/debug.const";
 import type { DocumentJson } from "../../parser/document";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
-import { useValueSeparator } from "./useValueSeparator";
+import { useJoinValues } from "./useJoinValues";
 
 const AFFILIATION_TAG = "affiliation";
 
@@ -29,7 +29,7 @@ export function Author({ data }: ComponentProps) {
 		return valueArray.filter((item) => item.tag !== AFFILIATION_TAG);
 	}, [data.attributes, valueArray]);
 
-	const nameWithSpacing = useValueSeparator(name, " ");
+	const nameWithSpacing = useJoinValues(name, " ");
 
 	const affiliations = useMemo(() => {
 		return valueArray.filter((item) => item.tag === AFFILIATION_TAG);

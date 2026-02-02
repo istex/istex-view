@@ -4,11 +4,11 @@ import { useId } from "react";
 import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
-import { useValueSeparator } from "./useValueSeparator";
+import { useJoinValues } from "./useJoinValues";
 
 export function Affiliation({ data }: ComponentProps) {
 	const id = useId();
-	const value = useValueSeparator(data.value, ", ");
+	const value = useJoinValues(data.value, ", ");
 
 	if (!value.length) {
 		return (

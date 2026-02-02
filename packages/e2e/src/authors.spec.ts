@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { launchViewer, uploadFile } from "./support/upload";
 
-test("document authors section", async ({ page }) => {
+test("authors section", async ({ page }) => {
 	await page.goto("/");
 
 	await uploadFile(page, "document.tei");

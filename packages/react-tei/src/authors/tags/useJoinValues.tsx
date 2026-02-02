@@ -1,7 +1,7 @@
 import { useMemo } from "react";
 import type { DocumentJsonValue } from "../../parser/document";
 
-export function useValueSeparator(value: DocumentJsonValue, separator: string) {
+export function useJoinValues(value: DocumentJsonValue, separator: string) {
 	return useMemo(() => {
 		if (!Array.isArray(value)) {
 			return [];

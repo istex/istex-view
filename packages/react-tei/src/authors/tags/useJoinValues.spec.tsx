@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { renderHook } from "vitest-browser-react";
-import { useValueSeparator } from "./useValueSeparator";
+import { useJoinValues } from "./useJoinValues";
 
-describe("useValueSeparator", () => {
+describe("useJoinValues", () => {
 	it("should add text tags with separator between values", async () => {
 		const { result } = await renderHook(() =>
-			useValueSeparator(
+			useJoinValues(
 				[
 					{ tag: "orgName", value: [{ tag: "#text", value: "University A" }] },
 					{ tag: "orgName", value: [{ tag: "#text", value: "Institute B" }] },

@@ -2,10 +2,10 @@ import { Typography } from "@mui/material";
 import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
-import { useValueSeparator } from "./useValueSeparator";
+import { useJoinValues } from "./useJoinValues";
 
 export function Address({ data }: ComponentProps) {
-	const value = useValueSeparator(data.value, ", ");
+	const value = useJoinValues(data.value, ", ");
 
 	if (!value.length) {
 		return (
