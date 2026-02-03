@@ -3,6 +3,7 @@ import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import { MathJaxContext } from "better-react-mathjax";
 import { useMemo, useRef } from "react";
+import { Appendices } from "./appendices/Appendices";
 import { DocumentAuthors } from "./authors/DocumentAuthors";
 import { DocumentAbstract } from "./DocumentAbstract";
 import { DocumentBody } from "./DocumentBody";
@@ -209,6 +210,7 @@ export const Viewer = ({
 												>
 													<DocumentBody body={enrichedBody} />
 												</Stack>
+												<Appendices />
 											</Stack>
 										</Stack>
 

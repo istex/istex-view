@@ -27,6 +27,9 @@ export const en: Translation = {
 		orgName: "Organization",
 		address: "Organization Address",
 	},
+	appendices: {
+		title: "Appendices",
+	},
 	sidePanel: {
 		footNotes: "Foot Notes",
 		open: "Open the side panel",
