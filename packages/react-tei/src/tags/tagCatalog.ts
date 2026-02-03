@@ -79,6 +79,8 @@ export const tagCatalog: TagCatalog = {
 	span: NoOp,
 	surname: NoOp,
 
+	cit: NoOp,
+
 	email: Email,
 
 	// tags we ignore
