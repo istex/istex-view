@@ -63,6 +63,7 @@ export const tagCatalog: TagCatalog = {
 	date: DateTag,
 	s: NoOp,
 	figure: Figure,
+	postscript: NoOp,
 
 	email: Email,
 

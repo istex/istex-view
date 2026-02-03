@@ -4,7 +4,7 @@ import { Value } from "../Value";
 
 export function FigDesc({ data }: ComponentProps) {
 	return (
-		<Typography variant="caption">
+		<Typography component="p" variant="caption">
 			<Value data={data.value} />
 		</Typography>
 	);
