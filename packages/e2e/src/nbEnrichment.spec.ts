@@ -40,27 +40,12 @@ test("support nb enrichment with multicat enrichment", async ({ page }) => {
 	await expect(
 		page.getByRole("button", { name: "Catégorie WOS" }),
 	).toBeVisible();
-	await expect(
-		page.getByRole("treeitem").filter({
-			hasText: "2-physics, multidisciplinary",
-		}),
-	).toBeVisible();
 
 	await expect(
 		page.getByRole("button", { name: "Catégorie Science-Metrix" }),
 	).toBeVisible();
-	await expect(
-		page.getByRole("treeitem").filter({
-			hasText: "1-natural sciences",
-		}),
-	).toBeVisible();
 
 	await expect(
 		page.getByRole("button", { name: "Catégorie Scopus" }),
-	).toBeVisible();
-	await expect(
-		page.getByRole("treeitem").filter({
-			hasText: "1-Physical Sciences",
-		}),
 	).toBeVisible();
 });

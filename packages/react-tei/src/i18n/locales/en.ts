@@ -34,6 +34,15 @@ export const en: Translation = {
 		footNotes: "Foot Notes",
 		open: "Open the side panel",
 		close: "Close the side panel",
+		tabs: {
+			metadata: "Editor Metadata",
+			enrichment_zero: "Istex Enrichments (0)",
+			enrichment_one: "Istex Enrichment ({{count}})",
+			enrichment_other: "Istex Enrichments ({{count}})",
+			enrichmentTooltip_zero: "No Istex enrichments",
+			enrichmentTooltip_one: "1 category of Istex enrichment",
+			enrichmentTooltip_other: "{{count}} categories of Istex enrichments",
+		},
 		keyword: {
 			title_one: "Keyword ({{count}})",
 			title_other: "Keywords ({{count}})",

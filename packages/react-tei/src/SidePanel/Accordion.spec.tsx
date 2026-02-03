@@ -1,9 +1,11 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
+import { DocumentContextProvider } from "../DocumentContextProvider";
 import { Accordion } from "./Accordion";
 import {
 	DocumentSidePanelContext,
 	DocumentSidePanelContextProvider,
+	TAB_METADATA,
 } from "./DocumentSidePanelContext";
 
 describe("Accordion", () => {
@@ -14,23 +16,28 @@ describe("Accordion", () => {
 			</Accordion>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentSidePanelContext.Provider
-						value={{
-							state: {
-								isOpen: true,
-								sections: {
-									keywords: true,
-									source: true,
-									footnotes: true,
+					<DocumentContextProvider jsonDocument={[]}>
+						<DocumentSidePanelContext.Provider
+							value={{
+								state: {
+									isOpen: true,
+									currentTab: TAB_METADATA,
+									sections: {
+										keywords: true,
+										source: true,
+										footnotes: true,
+									},
 								},
-							},
-							togglePanel: () => {},
-							toggleSection: () => {},
-							openSection: () => {},
-						}}
-					>
-						{children}
-					</DocumentSidePanelContext.Provider>
+								enrichmentCount: 1,
+								togglePanel: () => {},
+								toggleSection: () => {},
+								openSection: () => {},
+								selectTab: () => {},
+							}}
+						>
+							{children}
+						</DocumentSidePanelContext.Provider>
+					</DocumentContextProvider>
 				),
 			},
 		);
@@ -49,23 +56,28 @@ describe("Accordion", () => {
 			</Accordion>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentSidePanelContext.Provider
-						value={{
-							state: {
-								isOpen: true,
-								sections: {
-									keywords: true,
-									source: true,
-									footnotes: false,
+					<DocumentContextProvider jsonDocument={[]}>
+						<DocumentSidePanelContext.Provider
+							value={{
+								state: {
+									isOpen: true,
+									currentTab: TAB_METADATA,
+									sections: {
+										keywords: true,
+										source: true,
+										footnotes: false,
+									},
 								},
-							},
-							togglePanel: () => {},
-							toggleSection: () => {},
-							openSection: () => {},
-						}}
-					>
-						{children}
-					</DocumentSidePanelContext.Provider>
+								enrichmentCount: 1,
+								togglePanel: () => {},
+								toggleSection: () => {},
+								openSection: () => {},
+								selectTab: () => {},
+							}}
+						>
+							{children}
+						</DocumentSidePanelContext.Provider>
+					</DocumentContextProvider>
 				),
 			},
 		);
@@ -85,9 +97,11 @@ describe("Accordion", () => {
 			</Accordion>,
 			{
 				wrapper: ({ children }) => (
-					<DocumentSidePanelContextProvider>
-						{children}
-					</DocumentSidePanelContextProvider>
+					<DocumentContextProvider jsonDocument={[]}>
+						<DocumentSidePanelContextProvider>
+							{children}
+						</DocumentSidePanelContextProvider>
+					</DocumentContextProvider>
 				),
 			},
 		);

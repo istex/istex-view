@@ -51,13 +51,13 @@ export function TestWrapper({
 }) {
 	return (
 		<I18nProvider>
-			<DocumentSidePanelContextProvider>
-				<DocumentContextProvider jsonDocument={createTeiDocument(monogr)}>
+			<DocumentContextProvider jsonDocument={createTeiDocument(monogr)}>
+				<DocumentSidePanelContextProvider>
 					<TagCatalogProvider tagCatalog={tagCatalog}>
 						{children}
 					</TagCatalogProvider>
-				</DocumentContextProvider>
-			</DocumentSidePanelContextProvider>
+				</DocumentSidePanelContextProvider>
+			</DocumentContextProvider>
 		</I18nProvider>
 	);
 }
@@ -216,13 +216,13 @@ describe("SourceSection", () => {
 		const { container } = await render(<SourceSection />, {
 			wrapper: ({ children }) => (
 				<I18nProvider>
-					<DocumentSidePanelContextProvider>
-						<DocumentContextProvider jsonDocument={jsonDocumentWithoutTitle}>
+					<DocumentContextProvider jsonDocument={jsonDocumentWithoutTitle}>
+						<DocumentSidePanelContextProvider>
 							<TagCatalogProvider tagCatalog={tagCatalog}>
 								{children}
 							</TagCatalogProvider>
-						</DocumentContextProvider>
-					</DocumentSidePanelContextProvider>
+						</DocumentSidePanelContextProvider>
+					</DocumentContextProvider>
 				</I18nProvider>
 			),
 		});

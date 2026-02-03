@@ -107,17 +107,14 @@ export const Viewer = ({
 	return (
 		<MathJaxContext asyncLoad hideUntilTypeset="first">
 			<I18nProvider>
-				<DocumentSidePanelContextProvider>
-					<DocumentContextProvider
-						jsonDocument={jsonDocument}
-						jsonUnitexEnrichment={jsonUnitexEnrichment}
-						jsonTeeftEnrichment={jsonTeeftEnrichment}
-						multicatEnrichment={[
-							...jsonNbEnrichment,
-							...jsonMulticatEnrichment,
-						]}
-						termCountByGroup={termCountByGroup}
-					>
+				<DocumentContextProvider
+					jsonDocument={jsonDocument}
+					jsonUnitexEnrichment={jsonUnitexEnrichment}
+					jsonTeeftEnrichment={jsonTeeftEnrichment}
+					multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
+					termCountByGroup={termCountByGroup}
+				>
+					<DocumentSidePanelContextProvider>
 						<TagCatalogProvider tagCatalog={tagCatalog}>
 							<DocumentNavigationContextProvider
 								tocRef={tocRef}
@@ -222,8 +219,8 @@ export const Viewer = ({
 								</Stack>
 							</DocumentNavigationContextProvider>
 						</TagCatalogProvider>
-					</DocumentContextProvider>
-				</DocumentSidePanelContextProvider>
+					</DocumentSidePanelContextProvider>
+				</DocumentContextProvider>
 			</I18nProvider>
 		</MathJaxContext>
 	);

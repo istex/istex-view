@@ -1,5 +1,6 @@
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { TagCatalogProvider } from "../../tags/TagCatalogProvider";
 import { tagCatalog } from "../../tags/tagCatalog";
 import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
@@ -10,9 +11,13 @@ vi.mock("../../debug/debug.const", () => ({
 }));
 
 const Wrapper = ({ children }: { children: React.ReactNode }) => (
-	<DocumentSidePanelContextProvider>
-		<TagCatalogProvider tagCatalog={tagCatalog}>{children}</TagCatalogProvider>
-	</DocumentSidePanelContextProvider>
+	<DocumentContextProvider jsonDocument={[]}>
+		<DocumentSidePanelContextProvider>
+			<TagCatalogProvider tagCatalog={tagCatalog}>
+				{children}
+			</TagCatalogProvider>
+		</DocumentSidePanelContextProvider>
+	</DocumentContextProvider>
 );
 
 // Mock Value and DebugTag for isolation

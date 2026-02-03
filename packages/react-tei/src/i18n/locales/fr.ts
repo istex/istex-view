@@ -31,6 +31,15 @@ export const fr = {
 		footNotes: "Notes de bas de page",
 		open: "Ouvrir le panneau latéral",
 		close: "Fermer le panneau latéral",
+		tabs: {
+			metadata: "Métadonnées éditeur",
+			enrichment_zero: "Enrichissements Istex (0)",
+			enrichment_one: "Enrichissement Istex ({{count}})",
+			enrichment_other: "Enrichissements Istex ({{count}})",
+			enrichmentTooltip_zero: "Pas d'enrichissements Istex",
+			enrichmentTooltip_one: "1 catégorie d'enrichissement Istex",
+			enrichmentTooltip_other: "{{count}} catégories d'enrichissements Istex",
+		},
 		source: {
 			title: "Source",
 		},

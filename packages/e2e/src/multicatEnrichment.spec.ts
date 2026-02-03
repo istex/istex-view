@@ -17,15 +17,18 @@ test("multicat enrichment in panel", async ({ page }) => {
 		}),
 	).toBeVisible();
 
-	await expect(
-		page.getByRole("button", { name: "Catégorie Science-Metrix" }),
-	).toBeVisible();
+	const scienceMetricsButton = page.getByRole("button", {
+		name: "Catégorie Science-Metrix",
+	});
+	await expect(scienceMetricsButton).toBeVisible();
 
 	await expect(
 		page.getByRole("treeitem").filter({
 			hasText: "1-natural sciences",
 		}),
-	).toBeVisible();
+	).not.toBeVisible();
+
+	await scienceMetricsButton.click();
 
 	await expect(
 		page.getByRole("button", { name: "Catégorie Scopus" }),
@@ -34,5 +37,5 @@ test("multicat enrichment in panel", async ({ page }) => {
 		page.getByRole("treeitem").filter({
 			hasText: "1-Physical Sciences",
 		}),
-	).toBeVisible();
+	).not.toBeVisible();
 });

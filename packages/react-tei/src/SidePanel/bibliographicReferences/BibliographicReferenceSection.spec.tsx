@@ -35,13 +35,13 @@ export function TestWrapper({
 }) {
 	return (
 		<I18nProvider>
-			<DocumentSidePanelContextProvider>
-				<DocumentContextProvider jsonDocument={jsonDocument}>
+			<DocumentContextProvider jsonDocument={jsonDocument}>
+				<DocumentSidePanelContextProvider>
 					<TestDocumentNavigationContextProvider>
 						{children}
 					</TestDocumentNavigationContextProvider>
-				</DocumentContextProvider>
-			</DocumentSidePanelContextProvider>
+				</DocumentSidePanelContextProvider>
+			</DocumentContextProvider>
 		</I18nProvider>
 	);
 }

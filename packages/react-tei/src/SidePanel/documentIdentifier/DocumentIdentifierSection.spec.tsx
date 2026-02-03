@@ -71,13 +71,13 @@ describe("DocumentIdentifierSection", () => {
 			{
 				wrapper: ({ children }) => (
 					<I18nProvider>
-						<DocumentSidePanelContextProvider>
-							<DocumentContextProvider jsonDocument={jsonDocument}>
+						<DocumentContextProvider jsonDocument={jsonDocument}>
+							<DocumentSidePanelContextProvider>
 								<TagCatalogProvider tagCatalog={tagCatalog}>
 									{children}
 								</TagCatalogProvider>
-							</DocumentContextProvider>
-						</DocumentSidePanelContextProvider>
+							</DocumentSidePanelContextProvider>
+						</DocumentContextProvider>
 					</I18nProvider>
 				),
 			},

@@ -5,12 +5,18 @@ import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
+import Tab from "@mui/material/Tab";
+import Tabs from "@mui/material/Tabs";
 import Tooltip from "@mui/material/Tooltip";
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useResizePanelOnScroll } from "../helper/useResizePanelOnScroll";
 import { BibliographicReferencesSection } from "./bibliographicReferences/BibliographicReferencesSection";
-import { useDocumentSidePanelContext } from "./DocumentSidePanelContext";
+import {
+	TAB_ENRICHMENT,
+	TAB_METADATA,
+	useDocumentSidePanelContext,
+} from "./DocumentSidePanelContext";
 import { DocumentIdentifierSection } from "./documentIdentifier/DocumentIdentifierSection";
 import { EnrichmentTermSection } from "./enrichmentTerm/EnrichmentTermSection";
 import { FootnotesSection } from "./footNotes/FootnotesSection";
@@ -36,9 +42,32 @@ export const DocumentSidePanel = ({
 	useResizePanelOnScroll(asideRef);
 
 	const {
-		state: { isOpen },
+		state: { isOpen, currentTab },
+		enrichmentCount,
+		selectTab,
 		togglePanel,
 	} = useDocumentSidePanelContext();
+
+	const metadataSection = useMemo(() => {
+		return (
+			<>
+				<KeywordSection />
+				<SourceSection />
+				<FootnotesSection />
+				<BibliographicReferencesSection />
+				<DocumentIdentifierSection />
+			</>
+		);
+	}, []);
+
+	const enrichmentSection = useMemo(() => {
+		return (
+			<>
+				<EnrichmentTermSection />
+				<MulticatCategories />
+			</>
+		);
+	}, []);
 
 	return (
 		<Paper
@@ -112,25 +141,53 @@ export const DocumentSidePanel = ({
 				ref={ref}
 				aria-hidden={!isOpen}
 			>
-				<Stack
-					sx={{
-						width: `calc(${SIDEPANEL_WIDTH} - 32px)`,
-						overflowX: "hidden",
-						paddingBlockEnd: 4,
-						"& .MuiList-root:not(.unstyled)": {
-							listStyle: "disc",
-							paddingInlineStart: "2.25rem",
-						},
-					}}
-					gap={3}
-				>
-					<KeywordSection />
-					<SourceSection />
-					<EnrichmentTermSection />
-					<MulticatCategories />
-					<FootnotesSection />
-					<BibliographicReferencesSection />
-					<DocumentIdentifierSection />
+				<Stack gap={2}>
+					<Tabs
+						value={currentTab}
+						onChange={(_, newValue) => selectTab(newValue)}
+						sx={{
+							"& .MuiTab-root": {
+								minHeight: 0,
+								paddingInline: 1,
+								flexGrow: 1,
+							},
+						}}
+					>
+						<Tab
+							label={t(`sidePanel.tabs.${TAB_METADATA}`)}
+							aria-label={t(`sidePanel.tabs.${TAB_METADATA}`)}
+							value={TAB_METADATA}
+						/>
+						<Tab
+							label={
+								<Tooltip
+									title={t(`sidePanel.tabs.enrichmentTooltip`, {
+										count: enrichmentCount,
+									})}
+									placement="top"
+								>
+									<span>
+										{t(`sidePanel.tabs.${TAB_ENRICHMENT}`, {
+											count: enrichmentCount,
+										})}
+									</span>
+								</Tooltip>
+							}
+							aria-label={t(`sidePanel.tabs.${TAB_ENRICHMENT}`, {
+								count: enrichmentCount,
+							})}
+							value={TAB_ENRICHMENT}
+							disabled={enrichmentCount === 0}
+						/>
+					</Tabs>
+
+					<TabPanel current={currentTab === TAB_METADATA}>
+						{metadataSection}
+					</TabPanel>
+
+					<TabPanel current={currentTab === TAB_ENRICHMENT}>
+						{enrichmentSection}
+					</TabPanel>
 				</Stack>
 			</Box>
 
@@ -149,3 +206,29 @@ export const DocumentSidePanel = ({
 		</Paper>
 	);
 };
+
+function TabPanel({
+	children,
+	current,
+}: {
+	children: React.ReactNode;
+	current: boolean;
+}) {
+	return (
+		<Stack
+			sx={{
+				width: `calc(${SIDEPANEL_WIDTH} - 32px)`,
+				overflowX: "hidden",
+				paddingBlockEnd: 4,
+				"& .MuiList-root:not(.unstyled)": {
+					listStyle: "disc",
+					paddingInlineStart: "2.25rem",
+				},
+				display: current ? "flex" : "none",
+			}}
+			gap={3}
+		>
+			{children}
+		</Stack>
+	);
+}

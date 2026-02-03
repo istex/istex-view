@@ -45,16 +45,16 @@ describe("MulticatCategories", () => {
 
 		const screen = await render(
 			<I18nProvider>
-				<DocumentSidePanelContextProvider>
-					<DocumentContextProvider
-						jsonDocument={[]}
-						multicatEnrichment={categories}
-					>
+				<DocumentContextProvider
+					jsonDocument={[]}
+					multicatEnrichment={categories}
+				>
+					<DocumentSidePanelContextProvider>
 						<TagCatalogProvider tagCatalog={tagCatalog}>
 							<MulticatCategories />
 						</TagCatalogProvider>
-					</DocumentContextProvider>
-				</DocumentSidePanelContextProvider>
+					</DocumentSidePanelContextProvider>
+				</DocumentContextProvider>
 			</I18nProvider>,
 		);
 
