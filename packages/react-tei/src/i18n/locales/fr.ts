@@ -24,6 +24,9 @@ export const fr = {
 		orgName: "Organisation",
 		address: "Adresse de l'organisation",
 	},
+	appendices: {
+		title: "Annexes",
+	},
 	sidePanel: {
 		footNotes: "Notes de bas de page",
 		open: "Ouvrir le panneau latéral",
