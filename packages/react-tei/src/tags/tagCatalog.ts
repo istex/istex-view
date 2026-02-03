@@ -17,6 +17,7 @@ import { List } from "./list/List";
 import { NoOp } from "./NoOp";
 import { Nothing } from "./Nothing";
 import { P } from "./P";
+import { Q } from "./Q";
 import { Quote } from "./Quote";
 import { Ref } from "./Ref";
 import { Table } from "./Table";
@@ -80,6 +81,7 @@ export const tagCatalog: TagCatalog = {
 	surname: NoOp,
 
 	cit: NoOp,
+	q: Q,
 
 	email: Email,
 
