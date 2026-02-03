@@ -78,6 +78,8 @@ export const tagCatalog: TagCatalog = {
 	name: NoOp,
 	span: NoOp,
 	surname: NoOp,
+	lg: Quote,
+	l: P,
 
 	email: Email,
 
