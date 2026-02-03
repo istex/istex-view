@@ -6,6 +6,7 @@ import { findTagByName } from "../../helper/findTagByName";
 import type { ComponentProps } from "../type";
 
 export function FormulaNotationLatex({ data }: ComponentProps) {
+	const id = data.attributes?.["@xml:id"];
 	const text = useMemo(() => {
 		const text = findTagByName(data, "#text")?.value as string | undefined;
 		if (!text) {
@@ -42,6 +43,7 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 	if (text.startsWith("\\begin{array")) {
 		return (
 			<Box
+				id={id}
 				sx={{
 					width: "100%",
 					maxWidth: "100%",
@@ -57,6 +59,7 @@ export function FormulaNotationLatex({ data }: ComponentProps) {
 	// inline latex
 	return (
 		<Box
+			id={id}
 			component="span"
 			sx={{
 				display: "inline-block",

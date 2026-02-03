@@ -9,6 +9,7 @@ import { Value } from "../Value";
 import { floatingTextTagCatalog } from "./floatingTexttagCatalog";
 
 export function FloatingText({ data }: ComponentProps) {
+	const id = data.attributes?.["@xml:id"];
 	const type = data.attributes?.["@type"];
 
 	const sx = useMemo((): SxProps<Theme> => {
@@ -32,7 +33,7 @@ export function FloatingText({ data }: ComponentProps) {
 				...floatingTextTagCatalog,
 			}}
 		>
-			<Card elevation={0} sx={sx}>
+			<Card elevation={0} sx={sx} id={id}>
 				<CardContent>
 					<Value data={data.value} />
 				</CardContent>

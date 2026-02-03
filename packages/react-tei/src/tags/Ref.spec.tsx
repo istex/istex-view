@@ -547,4 +547,34 @@ describe("Ref", () => {
 		await link.click();
 		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith("#table-note-3");
 	});
+
+	it('should renter formula reference when type="formula"', async () => {
+		const navigateToBodyTargetSelector = vi.fn();
+		const jsonValue: DocumentJson = {
+			tag: "ref",
+			attributes: { "@type": "formula", "@target": "#2" },
+			value: [{ tag: "#text", value: "See Formula 2" }],
+		};
+
+		const { getByText, getByRole } = await render(<Ref data={jsonValue} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<TestDocumentNavigationContextProvider
+						value={{
+							navigateToBodyTargetSelector,
+						}}
+					>
+						{children}
+					</TestDocumentNavigationContextProvider>
+				</TagCatalogProvider>
+			),
+		});
+		expect(getByText("See Formula 2")).toBeInTheDocument();
+		const link = getByRole("button", { name: "See Formula 2" });
+		expect(link).toBeInTheDocument();
+		expect(link).toHaveAttribute("data-target", "#2");
+
+		await link.click();
+		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith("#2");
+	});
 });
