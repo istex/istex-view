@@ -12,6 +12,7 @@ import { Graphic } from "./Graphic";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
+import { LB } from "./LB";
 import { List } from "./list/List";
 import { NoOp } from "./NoOp";
 import { Nothing } from "./Nothing";
@@ -63,7 +64,20 @@ export const tagCatalog: TagCatalog = {
 	date: DateTag,
 	s: NoOp,
 	figure: Figure,
-	postscript: NoOp,
+	postscript: Div,
+	argument: NoOp,
+	opener: Div,
+	closer: Div,
+	dateline: P,
+	epigraph: NoOp,
+	lb: LB,
+	salute: NoOp,
+	signed: NoOp,
+	gloss: NoOp,
+	term: NoOp,
+	name: NoOp,
+	span: NoOp,
+	surname: NoOp,
 
 	email: Email,
 
