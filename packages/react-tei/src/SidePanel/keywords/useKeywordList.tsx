@@ -1,5 +1,6 @@
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
+import { getRawText } from "../../helper/getRawText";
 import { countTags } from "../../parser/countTags";
 import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
@@ -10,6 +11,11 @@ export const isValidKeyword = ({
 	value,
 }: DocumentJson): boolean => {
 	if (tag !== "keywords") {
+		return false;
+	}
+
+	const rawText = getRawText({ tag, attributes, value }).trim();
+	if (rawText === "") {
 		return false;
 	}
 

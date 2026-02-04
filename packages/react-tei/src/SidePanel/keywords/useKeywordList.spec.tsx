@@ -176,6 +176,76 @@ describe("useKeywordList", () => {
 		});
 	});
 
+	it("should ignore keywords sections with only empty term", async () => {
+		const jsonDocument = [
+			{
+				tag: "TEI",
+				value: [
+					{
+						tag: "teiHeader",
+						value: [
+							{
+								tag: "profileDesc",
+								value: [
+									{
+										tag: "textClass",
+										value: [
+											{
+												tag: "keywords",
+												value: [
+													{
+														tag: "term",
+														value: [{ tag: "#text", value: "   " }],
+													},
+													{
+														tag: "term",
+														value: [],
+													},
+												],
+											},
+											{
+												tag: "keywords",
+												value: [
+													{
+														tag: "term",
+														value: [{ tag: "#text", value: "Keyword Valid" }],
+													},
+												],
+											},
+										],
+									},
+								],
+							},
+						],
+					},
+				],
+			},
+		];
+
+		const result = await renderHook(() => useKeywordList(), {
+			wrapper: ({ children }) => (
+				<DocumentContextProvider jsonDocument={jsonDocument}>
+					{children}
+				</DocumentContextProvider>
+			),
+		});
+
+		expect(result.result.current).toEqual({
+			keywordList: [
+				{
+					tag: "keywords",
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Keyword Valid" }],
+						},
+					],
+				},
+			],
+			count: 1,
+		});
+	});
+
 	it("should ignore keywords sections with invalid attributes", async () => {
 		const jsonDocument = [
 			{
@@ -259,7 +329,17 @@ describe("useKeywordList", () => {
 				{
 					tag: "keywords",
 					attributes: {},
-					value: [{ tag: "term", value: [] }],
+					value: [
+						{
+							tag: "term",
+							value: [
+								{
+									tag: "#text",
+									value: "A valid term",
+								},
+							],
+						},
+					],
 				},
 				true,
 			],
@@ -273,7 +353,17 @@ describe("useKeywordList", () => {
 							value: [
 								{
 									tag: "item",
-									value: [{ tag: "term", value: [] }],
+									value: [
+										{
+											tag: "term",
+											value: [
+												{
+													tag: "#text",
+													value: "A valid term",
+												},
+											],
+										},
+									],
 								},
 							],
 						},
@@ -332,6 +422,23 @@ describe("useKeywordList", () => {
 					tag: "keywords",
 					attributes: {},
 					value: [],
+				},
+				false,
+			],
+			[
+				{
+					tag: "keywordsWithOnlyEmptyTerms",
+					attributes: {},
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "   " }],
+						},
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: " \n  " }],
+						},
+					],
 				},
 				false,
 			],
