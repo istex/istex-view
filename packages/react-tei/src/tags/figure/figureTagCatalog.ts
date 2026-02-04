@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { Div } from "../Div";
 import { Hi } from "../Hi";
 import { Highlight } from "../Highlight";
 import { NoOp } from "../NoOp";
@@ -7,6 +8,7 @@ import { Ref } from "../Ref";
 import type { ComponentProps } from "../type";
 import { FigDesc } from "./FigDesc";
 import { Head } from "./Head";
+import { S } from "./S";
 
 export const figureTagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	head: Head,
@@ -16,9 +18,11 @@ export const figureTagCatalog: Record<string, ComponentType<ComponentProps>> = {
 	desc: FigDesc,
 	note: NoOp,
 	p: P,
+	div: Div,
 	ref: Ref,
 	hi: Hi,
 	"#text": NoOp,
 	highlightedText: NoOp,
+	s: S,
 	highlight: Highlight as unknown as ComponentType<ComponentProps>,
 };

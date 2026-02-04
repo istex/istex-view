@@ -31,17 +31,6 @@ export function Figure({ data }: ComponentProps) {
 		);
 	}
 
-	if (!Array.isArray(value)) {
-		return (
-			<DebugTag
-				tag={data.tag}
-				attributes={data.attributes}
-				message="Figure tag with non-array value"
-				payload={value}
-			/>
-		);
-	}
-
 	if (type === "table") {
 		return <FigureTable data={data} />;
 	}
