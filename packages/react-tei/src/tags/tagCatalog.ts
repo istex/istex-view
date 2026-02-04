@@ -3,6 +3,7 @@ import { DateTag } from "./DateTag";
 import { Div } from "./Div";
 import { Email } from "./Email";
 import { Emph } from "./Emph";
+import { Epigraph } from "./Epigraph";
 import { Figure } from "./Figure";
 import { Formula } from "./Formula";
 import { FloatingText } from "./floatingText/FloatingText";
@@ -19,9 +20,11 @@ import { List } from "./list/List";
 import { NoOp } from "./NoOp";
 import { Nothing } from "./Nothing";
 import { P } from "./P";
+import { Q } from "./Q";
 import { Quote } from "./Quote";
 import { Ref } from "./Ref";
 import { Table } from "./Table";
+import { Term } from "./Term";
 import { Title } from "./Title";
 import type { ComponentProps } from "./type";
 
@@ -71,17 +74,20 @@ export const tagCatalog: TagCatalog = {
 	opener: Div,
 	closer: Div,
 	dateline: P,
-	epigraph: NoOp,
 	lb: LB,
 	salute: NoOp,
 	signed: NoOp,
 	gloss: NoOp,
-	term: NoOp,
+	term: Term,
 	name: NoOp,
 	span: NoOp,
 	surname: NoOp,
 	lg: Lg,
 	l: L,
+
+	cit: NoOp,
+	q: Q,
+	epigraph: Epigraph,
 
 	email: Email,
 
