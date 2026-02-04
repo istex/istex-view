@@ -12,7 +12,9 @@ import { Graphic } from "./Graphic";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
+import { L } from "./L";
 import { LB } from "./LB";
+import { Lg } from "./Lg";
 import { List } from "./list/List";
 import { NoOp } from "./NoOp";
 import { Nothing } from "./Nothing";
@@ -78,8 +80,8 @@ export const tagCatalog: TagCatalog = {
 	name: NoOp,
 	span: NoOp,
 	surname: NoOp,
-	lg: Quote,
-	l: P,
+	lg: Lg,
+	l: L,
 
 	email: Email,
 
