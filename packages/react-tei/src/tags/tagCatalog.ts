@@ -3,6 +3,7 @@ import { DateTag } from "./DateTag";
 import { Div } from "./Div";
 import { Email } from "./Email";
 import { Emph } from "./Emph";
+import { Epigraph } from "./Epigraph";
 import { Figure } from "./Figure";
 import { Formula } from "./Formula";
 import { FloatingText } from "./floatingText/FloatingText";
@@ -70,7 +71,6 @@ export const tagCatalog: TagCatalog = {
 	opener: Div,
 	closer: Div,
 	dateline: P,
-	epigraph: NoOp,
 	lb: LB,
 	salute: NoOp,
 	signed: NoOp,
@@ -82,6 +82,7 @@ export const tagCatalog: TagCatalog = {
 
 	cit: NoOp,
 	q: Q,
+	epigraph: Epigraph,
 
 	email: Email,
 
