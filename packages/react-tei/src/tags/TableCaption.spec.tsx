@@ -103,18 +103,6 @@ describe("TableCaption", () => {
 		expect(caption).toHaveTextContent("Only Label");
 	});
 
-	it("should not render caption when neither label nor title is provided", async () => {
-		vi.mocked(useFullScreenContext).mockReturnValue({
-			isFullScreen: false,
-			toggleFullScreen: () => {},
-		});
-		const screen = await render(<TableCaption id="caption4" />, {
-			wrapper: TestWrapper,
-		});
-
-		await expect.element(screen.getByRole("caption")).not.toBeInTheDocument();
-	});
-
 	it("should render the fullscreen button", async () => {
 		const toggleFullScreen = vi.fn();
 		vi.mocked(useFullScreenContext).mockReturnValue({

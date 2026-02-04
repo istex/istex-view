@@ -270,7 +270,16 @@ describe("P", () => {
 					attributes: {
 						"@xml:id": "test",
 					},
-					value: [],
+					value: [
+						{
+							tag: "row",
+							attributes: {},
+							value: [
+								{ tag: "cell", attributes: {}, value: "Data 1" },
+								{ tag: "cell", attributes: {}, value: "Data 2" },
+							],
+						},
+					],
 				},
 			],
 		};
@@ -297,7 +306,16 @@ describe("P", () => {
 					attributes: {
 						"@xml:id": "test",
 					},
-					value: [],
+					value: [
+						{
+							tag: "row",
+							attributes: {},
+							value: [
+								{ tag: "cell", attributes: {}, value: "Cell 1" },
+								{ tag: "cell", attributes: {}, value: "Cell 2" },
+							],
+						},
+					],
 				},
 			],
 		};
@@ -308,7 +326,6 @@ describe("P", () => {
 		await expect
 			.element(screen.getByRole("paragraph"))
 			.toHaveTextContent("Text before table.");
-
 		await expect.element(screen.getByRole("table")).toBeInTheDocument();
 		await expect
 			.element(screen.getByRole("table"))
