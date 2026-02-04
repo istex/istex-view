@@ -1,5 +1,5 @@
 import { Link } from "@mui/material";
-import { useMemo } from "react";
+import { useCallback, useMemo } from "react";
 import { DebugTag } from "../debug/DebugTag";
 import { useDocumentNavigation } from "../navigation/useNavigateToSection";
 import { getTableId } from "./Table";
@@ -51,6 +51,18 @@ export function FootNoteRef({
 
 	const noteId = useMemo(() => getNoteRefId(attributes), [attributes]);
 
+	const handleClick = useCallback<React.MouseEventHandler<HTMLAnchorElement>>(
+		(e) => {
+			e.preventDefault();
+			if (!noteId) {
+				return;
+			}
+
+			navigateToFootnote(noteId);
+		},
+		[navigateToFootnote, noteId],
+	);
+
 	if (!noteId) {
 		return (
 			<DebugTag
@@ -66,16 +78,18 @@ export function FootNoteRef({
 			</DebugTag>
 		);
 	}
+
 	return (
 		<Link
 			data-fn-id={noteId}
-			component="button"
-			onClick={() => navigateToFootnote(noteId)}
+			role="button"
+			onClick={handleClick}
 			sx={{
 				verticalAlign: "baseline",
 				fontSize: "smaller",
 				position: "relative",
 				top: "-0.5em",
+				cursor: "pointer",
 			}}
 		>
 			<Value data={value} />
@@ -89,6 +103,18 @@ export function BibliographicReferenceRef({
 	const { navigateToBibliographicReference } = useDocumentNavigation();
 
 	const id = useMemo(() => getTargetId(attributes), [attributes]);
+
+	const handleClick = useCallback<React.MouseEventHandler<HTMLAnchorElement>>(
+		(e) => {
+			e.preventDefault();
+			if (!id) {
+				return;
+			}
+
+			navigateToBibliographicReference(id);
+		},
+		[navigateToBibliographicReference, id],
+	);
 
 	if (!id) {
 		return (
@@ -108,8 +134,11 @@ export function BibliographicReferenceRef({
 	return (
 		<Link
 			data-bibref-id={id}
-			component="button"
-			onClick={() => navigateToBibliographicReference(id)}
+			role="button"
+			onClick={handleClick}
+			sx={{
+				cursor: "pointer",
+			}}
 		>
 			<Value data={value} />
 		</Link>
@@ -130,6 +159,18 @@ export function DocumentRef({
 		data.attributes?.["@target"]?.replace(/^#/, "") ?? null,
 	);
 
+	const handleClick = useCallback<React.MouseEventHandler<HTMLAnchorElement>>(
+		(e) => {
+			e.preventDefault();
+			if (!target) {
+				return;
+			}
+
+			navigateToBodyTargetSelector(`#${target}`);
+		},
+		[navigateToBodyTargetSelector, target],
+	);
+
 	if (!target) {
 		return (
 			<DebugTag
@@ -145,9 +186,12 @@ export function DocumentRef({
 
 	return (
 		<Link
-			component="button"
-			onClick={() => navigateToBodyTargetSelector(`#${target}`)}
+			role="button"
+			onClick={handleClick}
 			data-target={`#${target}`}
+			sx={{
+				cursor: "pointer",
+			}}
 		>
 			{<Value data={data.value} />}
 		</Link>
@@ -197,7 +241,14 @@ export function UriRef({ data }: ComponentProps) {
 	}
 
 	return (
-		<Link href={uri} target="_blank" rel="noopener noreferrer">
+		<Link
+			href={uri}
+			target="_blank"
+			rel="noopener noreferrer"
+			sx={{
+				cursor: "pointer",
+			}}
+		>
 			<Value data={data.value} />
 		</Link>
 	);

@@ -200,4 +200,51 @@ describe("UnlabelledList", () => {
 			.element(innerList.getByRole("listitem", { name: "Dolor" }))
 			.toBeVisible();
 	});
+
+	it("should render a list with head", async () => {
+		const documentWithHead: DocumentJson = {
+			tag: "list",
+			attributes: {},
+			value: [
+				{
+					tag: "head",
+					value: [
+						{
+							tag: "#text",
+							value: "This is the head",
+						},
+					],
+				},
+				{
+					tag: "item",
+					value: [
+						{
+							tag: "p",
+							value: [
+								{
+									tag: "#text",
+									value: "Term 1: Definition 1",
+								},
+							],
+						},
+					],
+				},
+			],
+		};
+
+		const screen = await render(
+			<I18nProvider>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					<UnlabelledList data={documentWithHead} />
+				</TagCatalogProvider>
+			</I18nProvider>,
+		);
+
+		await expect
+			.element(screen.getByRole("heading", { name: "This is the head" }))
+			.toBeVisible();
+		await expect
+			.element(screen.getByRole("listitem", { name: "Term 1: Definition 1" }))
+			.toBeVisible();
+	});
 });
