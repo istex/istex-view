@@ -74,6 +74,7 @@ export const tagCatalog: TagCatalog = {
 	epigraph: Epigraph,
 
 	email: Email,
+	label: NoOp,
 
 	// tags we ignore
 	milestone: Nothing,
