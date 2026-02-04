@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { UrlIdno } from "../SidePanel/bibliographicReferences/UrlIdno";
 import { NoOp } from "../tags/NoOp";
 import { Nothing } from "../tags/Nothing";
 import type { ComponentProps } from "../tags/type";
@@ -40,5 +41,5 @@ export const authorTagCatalogs: Record<
 
 	roleName: Nothing,
 	email: Nothing,
-	idno: Nothing,
+	idno: UrlIdno,
 };

@@ -6,6 +6,7 @@ import { mathTagCatalog } from "../../tags/tagCatalog";
 import { Bibl } from "./Bibl";
 import { BiblStruct } from "./BiblStruct";
 import { PersName } from "./PersName";
+import { UrlIdno } from "./UrlIdno";
 
 export const bibliographicReferencesTagCatalog = {
 	bibl: Bibl,
@@ -17,7 +18,7 @@ export const bibliographicReferencesTagCatalog = {
 	meeting: NoOp,
 	resp: NoOp,
 	respStmt: NoOp,
-	idno: NoOp,
+	idno: UrlIdno,
 	forename: NoOp,
 	surname: NoOp,
 	roleName: NoOp,
