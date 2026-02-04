@@ -5,11 +5,8 @@ import { Email } from "./Email";
 import { Emph } from "./Emph";
 import { Epigraph } from "./Epigraph";
 import { Figure } from "./Figure";
-import { Formula } from "./Formula";
 import { FloatingText } from "./floatingText/FloatingText";
-import { MathMLTag } from "./formula/mathml/MathMLTag";
-import { mathMLTagNames } from "./formula/mathml/mathMLTagNames";
-import { Graphic } from "./Graphic";
+import { mathTagCatalog } from "./formula/mathTagCatalog";
 import { Head } from "./Head";
 import { Hi } from "./Hi";
 import { Highlight } from "./Highlight";
@@ -26,21 +23,8 @@ import { Ref } from "./Ref";
 import { Table } from "./Table";
 import { Term } from "./Term";
 import { Title } from "./Title";
+import type { TagCatalog } from "./tagCatalog.type";
 import type { ComponentProps } from "./type";
-
-export type TagCatalog = Record<string, ComponentType<ComponentProps>>;
-
-export const mathTagCatalog: TagCatalog = {
-	graphic: Graphic,
-	formula: Formula,
-	...mathMLTagNames.reduce(
-		(acc, tagName) => {
-			acc[tagName] = MathMLTag;
-			return acc;
-		},
-		{} as Record<string, ComponentType<ComponentProps>>,
-	),
-};
 
 export const tagCatalog: TagCatalog = {
 	// Content

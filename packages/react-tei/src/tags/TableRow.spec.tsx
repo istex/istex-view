@@ -1,9 +1,15 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document";
 import { TableRow } from "./TableRow";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
+
+vi.mock("../fullscreen/useFullScreenContext", () => ({
+	useFullScreenContext: vi.fn().mockImplementation(() => ({
+		isFullScreen: false,
+	})),
+}));
 
 describe("TableRow", () => {
 	it("should render a table row with cells", async () => {

@@ -3,6 +3,7 @@ import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../DocumentContextProvider";
 import { I18nProvider } from "../i18n/I18nProvider";
 import type { DocumentJson } from "../parser/document";
+import { DocumentSidePanelContextProvider } from "../SidePanel/DocumentSidePanelContext";
 import { TagCatalogProvider } from "../tags/TagCatalogProvider";
 import { tagCatalog } from "../tags/tagCatalog";
 import { Appendices } from "./Appendices";
@@ -64,14 +65,16 @@ function TestWrapper({
 		<I18nProvider>
 			<TagCatalogProvider tagCatalog={tagCatalog}>
 				<DocumentContextProvider jsonDocument={createTEIDocument(appendices)}>
-					{children}
+					<DocumentSidePanelContextProvider>
+						{children}
+					</DocumentSidePanelContextProvider>
 				</DocumentContextProvider>
 			</TagCatalogProvider>
 		</I18nProvider>
 	);
 }
 
-describe("DocumentAuthors", () => {
+describe("Appendices", () => {
 	it("should renders appendices when present", async () => {
 		const appendices = [
 			{

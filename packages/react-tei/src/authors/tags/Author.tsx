@@ -58,8 +58,7 @@ export function Author({ data }: ComponentProps) {
 			{affiliations.length > 0 && (
 				<List
 					sx={{
-						paddingBlock: 0,
-						paddingInlineStart: 2,
+						padding: 0,
 						"& > li + li": {
 							paddingTop: 0.5,
 						},

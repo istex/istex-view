@@ -1,12 +1,24 @@
 import { describe, expect, it } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
+import { DocumentContextProvider } from "../DocumentContextProvider";
 import type { DocumentJson } from "../parser/document";
+import { DocumentSidePanelContextProvider } from "../SidePanel/DocumentSidePanelContext";
 import { groupConsecutiveNonTableValues, P } from "./P";
 import { TagCatalogProvider } from "./TagCatalogProvider";
 import { tagCatalog } from "./tagCatalog";
 
-// ...existing code...
+function TestWrapper({ children }: { children: React.ReactNode }) {
+	return (
+		<DocumentContextProvider jsonDocument={[]}>
+			<DocumentSidePanelContextProvider>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			</DocumentSidePanelContextProvider>
+		</DocumentContextProvider>
+	);
+}
 
 it("should have a tooltip for InlineFigure inside paragraph if it contains displayable content", async () => {
 	const jsonValue: DocumentJson = {
@@ -32,11 +44,7 @@ it("should have a tooltip for InlineFigure inside paragraph if it contains displ
 	};
 
 	const screen = await render(<P data={jsonValue} />, {
-		wrapper: ({ children }) => (
-			<TagCatalogProvider tagCatalog={tagCatalog}>
-				{children}
-			</TagCatalogProvider>
-		),
+		wrapper: TestWrapper,
 	});
 
 	const inlineFigure = screen.getByText("figure.unloaded");
@@ -200,11 +208,7 @@ describe("P", () => {
 		};
 
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect
@@ -237,11 +241,7 @@ describe("P", () => {
 		};
 
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect
@@ -275,11 +275,7 @@ describe("P", () => {
 			],
 		};
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect.element(screen.getByRole("table")).toBeInTheDocument();
@@ -306,11 +302,7 @@ describe("P", () => {
 			],
 		};
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect
@@ -338,11 +330,7 @@ describe("P", () => {
 			],
 		};
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect
@@ -369,11 +357,7 @@ describe("P", () => {
 		};
 
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent(
@@ -403,11 +387,7 @@ describe("P", () => {
 		};
 
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		expect(screen.getByRole("paragraph")).toHaveTextContent(
@@ -440,11 +420,7 @@ describe("P", () => {
 		userEvent.setup();
 
 		const screen = await render(<P data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		const inlineFigure = screen.getByText("figure.unloaded");

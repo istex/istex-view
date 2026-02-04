@@ -44,6 +44,7 @@ export type PanelState = {
 export type DocumentSidePanelContextType = {
 	state: PanelState;
 	enrichmentCount: number;
+	topOffset?: number;
 	selectTab: (tab: PanelTab) => void;
 	togglePanel: () => void;
 	toggleSection: (section: keyof PanelState["sections"]) => void;
@@ -102,8 +103,10 @@ export const DocumentSidePanelContext = createContext<
 >(undefined);
 
 export function DocumentSidePanelContextProvider({
+	topOffset,
 	children,
 }: {
+	topOffset?: number;
 	children: React.ReactNode;
 }) {
 	const { enrichmentCount, openEnrichment } = useSidePanelEnrichments();
@@ -173,6 +176,7 @@ export function DocumentSidePanelContextProvider({
 		() => ({
 			state: panelState,
 			enrichmentCount,
+			topOffset,
 			selectTab,
 			togglePanel,
 			toggleSection,
@@ -181,6 +185,7 @@ export function DocumentSidePanelContextProvider({
 		[
 			panelState,
 			enrichmentCount,
+			topOffset,
 			selectTab,
 			togglePanel,
 			toggleSection,

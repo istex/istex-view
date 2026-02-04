@@ -22,8 +22,7 @@ describe("TableCaption", () => {
 	it("should render caption with label and title", async () => {
 		vi.mocked(useFullScreenContext).mockReturnValue({
 			isFullScreen: false,
-			enterFullScreen: () => {},
-			exitFullScreen: () => {},
+			toggleFullScreen: () => {},
 		});
 		const screen = await render(
 			<TableCaption
@@ -44,8 +43,7 @@ describe("TableCaption", () => {
 	it("should render caption with only title", async () => {
 		vi.mocked(useFullScreenContext).mockReturnValue({
 			isFullScreen: false,
-			enterFullScreen: () => {},
-			exitFullScreen: () => {},
+			toggleFullScreen: () => {},
 		});
 		const screen = await render(
 			<TableCaption
@@ -65,8 +63,7 @@ describe("TableCaption", () => {
 	it("should render caption with title as array", async () => {
 		vi.mocked(useFullScreenContext).mockReturnValue({
 			isFullScreen: false,
-			enterFullScreen: () => {},
-			exitFullScreen: () => {},
+			toggleFullScreen: () => {},
 		});
 		const screen = await render(
 			<TableCaption
@@ -89,8 +86,7 @@ describe("TableCaption", () => {
 	it("should render caption with only label", async () => {
 		vi.mocked(useFullScreenContext).mockReturnValue({
 			isFullScreen: false,
-			enterFullScreen: () => {},
-			exitFullScreen: () => {},
+			toggleFullScreen: () => {},
 		});
 		const screen = await render(
 			<TableCaption
@@ -110,8 +106,7 @@ describe("TableCaption", () => {
 	it("should not render caption when neither label nor title is provided", async () => {
 		vi.mocked(useFullScreenContext).mockReturnValue({
 			isFullScreen: false,
-			enterFullScreen: () => {},
-			exitFullScreen: () => {},
+			toggleFullScreen: () => {},
 		});
 		const screen = await render(<TableCaption id="caption4" />, {
 			wrapper: TestWrapper,
@@ -121,12 +116,10 @@ describe("TableCaption", () => {
 	});
 
 	it("should render the fullscreen button", async () => {
-		const enterFullScreen = vi.fn();
-		const exitFullScreen = vi.fn();
+		const toggleFullScreen = vi.fn();
 		vi.mocked(useFullScreenContext).mockReturnValue({
 			isFullScreen: false,
-			enterFullScreen,
-			exitFullScreen,
+			toggleFullScreen,
 		});
 		const screen = await render(
 			<TableCaption
@@ -149,7 +142,6 @@ describe("TableCaption", () => {
 		await expect.element(button).toBeVisible();
 
 		await button.click();
-		expect(enterFullScreen).toHaveBeenCalled();
-		expect(exitFullScreen).not.toHaveBeenCalled();
+		expect(toggleFullScreen).toHaveBeenCalled();
 	});
 });

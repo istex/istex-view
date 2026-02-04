@@ -26,9 +26,10 @@ export function useResizePanelOnScroll(
 
 	useEffect(() => {
 		windowHeightRef.current = window.innerHeight;
+		resizeElement();
 		window.addEventListener("resize", handleWindowResize);
 		return () => window.removeEventListener("resize", handleWindowResize);
-	}, [handleWindowResize]);
+	}, [handleWindowResize, resizeElement]);
 
 	const handleScroll = useCallback(() => {
 		resizeElement();

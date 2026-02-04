@@ -114,7 +114,7 @@ export const Viewer = ({
 					multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
 					termCountByGroup={termCountByGroup}
 				>
-					<DocumentSidePanelContextProvider>
+					<DocumentSidePanelContextProvider topOffset={stickyTopOffset ?? 0}>
 						<TagCatalogProvider tagCatalog={tagCatalog}>
 							<DocumentNavigationContextProvider
 								tocRef={tocRef}
