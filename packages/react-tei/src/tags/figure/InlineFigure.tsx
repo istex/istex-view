@@ -4,12 +4,10 @@ import { useTranslation } from "react-i18next";
 import { TagCatalogProvider } from "../TagCatalogProvider";
 import type { ComponentProps } from "../type";
 import { Value } from "../Value";
-import { FigureTable } from "./FigureTable";
 import { figureTagCatalog } from "./figureTagCatalog";
 
 export function InlineFigure({ data }: ComponentProps) {
 	const { t } = useTranslation();
-	const type = data.attributes?.["@type"];
 	const value = useMemo(() => {
 		if (!Array.isArray(data.value)) {
 			return data.value;
@@ -18,10 +16,6 @@ export function InlineFigure({ data }: ComponentProps) {
 			({ tag }) => !["graphic", "link", "highlightedText"].includes(tag),
 		);
 	}, [data.value]);
-
-	if (type === "table") {
-		return <FigureTable data={data} />;
-	}
 
 	if (value?.length === 0) {
 		return (

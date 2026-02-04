@@ -31,6 +31,17 @@ export function Table({ data: { tag, value, attributes } }: ComponentProps) {
 		);
 	}
 
+	if (value?.length === 0) {
+		return (
+			<DebugTag
+				tag={tag}
+				attributes={attributes}
+				message="Empty table"
+				payload={value}
+			/>
+		);
+	}
+
 	const heads = value.filter((item) => item.tag === "head");
 
 	const tableLabel = heads.find((item) => {

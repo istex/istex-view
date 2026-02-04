@@ -6,15 +6,19 @@ import type { DocumentJson } from "../parser/document";
 import { Value } from "./Value";
 
 export function TableCaption({ id, label, titles }: TableCaptionProps) {
-	if (!label?.value && !titles?.length) {
-		return null;
-	}
-
 	const title = titles && titles.length > 0 ? titles[0] : undefined;
 	const rest = titles && titles.length > 1 ? titles.slice(1) : [];
 
 	return (
-		<Typography component="caption" id={id}>
+		<Typography
+			component="caption"
+			id={id}
+			sx={{
+				"&&": {
+					padding: 0,
+				},
+			}}
+		>
 			<Stack direction="row" gap={2} alignItems="center">
 				<FullScreenButton />
 				<Stack gap={1} flexGrow={1}>

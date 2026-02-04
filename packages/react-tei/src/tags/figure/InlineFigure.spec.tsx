@@ -5,7 +5,7 @@ import { I18nProvider } from "../../i18n/I18nProvider";
 import type { DocumentJson } from "../../parser/document";
 import { DocumentSidePanelContextProvider } from "../../SidePanel/DocumentSidePanelContext";
 import { TagCatalogProvider } from "../TagCatalogProvider";
-import { tagCatalog } from "../tagCatalog";
+import { figureTagCatalog } from "./figureTagCatalog";
 import { InlineFigure } from "./InlineFigure";
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
@@ -13,7 +13,7 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 		<I18nProvider>
 			<DocumentContextProvider jsonDocument={[]}>
 				<DocumentSidePanelContextProvider>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
+					<TagCatalogProvider tagCatalog={figureTagCatalog}>
 						{children}
 					</TagCatalogProvider>
 				</DocumentSidePanelContextProvider>
@@ -48,6 +48,8 @@ describe("InlineFigure", () => {
 		const screen = await render(<InlineFigure data={jsonDocument} />, {
 			wrapper: TestWrapper,
 		});
+
+		await screen.getByText("Image non disponible").hover();
 
 		await expect.element(screen.getByRole("table")).toBeVisible();
 	});

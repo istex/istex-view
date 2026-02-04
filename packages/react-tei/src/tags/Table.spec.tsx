@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../DocumentContextProvider";
 import { I18nProvider } from "../i18n/I18nProvider";
@@ -21,8 +21,14 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 		</I18nProvider>
 	);
 }
+vi.mock("../debug/debug.const", () => ({
+	IS_DEBUG: true,
+}));
 
 describe("Table", () => {
+	afterAll(() => {
+		vi.resetAllMocks();
+	});
 	it("should render a table with caption, header, rows, and notes", async () => {
 		const jsonDocument: DocumentJson = {
 			tag: "table",
@@ -131,8 +137,6 @@ describe("Table", () => {
 
 		await expect.element(screen.getByRole("table")).toBeVisible();
 
-		await expect.element(screen.getByRole("caption")).not.toBeInTheDocument();
-
 		await expect
 			.element(screen.getByRole("columnheader", { name: "Header A" }))
 			.toBeVisible();
@@ -197,5 +201,25 @@ describe("Table", () => {
 		await exitFullScreenButton.click();
 
 		await expect.element(dialog).not.toBeInTheDocument();
+	});
+
+	it("should render debug when table is empty", async () => {
+		const jsonDocument: DocumentJson = {
+			tag: "table",
+			attributes: { "@xml:id": "t4" },
+			value: [],
+		};
+
+		const screen = await render(<Table data={jsonDocument} />, {
+			wrapper: ({ children }) => (
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			),
+		});
+
+		await expect
+			.element(screen.container.querySelector(".debug") as HTMLElement)
+			.toBeInTheDocument();
 	});
 });
