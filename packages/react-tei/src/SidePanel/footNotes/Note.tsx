@@ -30,6 +30,18 @@ export const Note = ({ data }: ComponentProps) => {
 	);
 	const { navigateToFootnoteRef } = useDocumentNavigation();
 
+	const handleClick = useMemo<
+		React.MouseEventHandler<HTMLAnchorElement>
+	>(() => {
+		return (e) => {
+			e.preventDefault();
+			if (!noteId) {
+				return;
+			}
+			navigateToFootnoteRef(noteId);
+		};
+	}, [navigateToFootnoteRef, noteId]);
+
 	return (
 		<Stack
 			direction="row"
@@ -40,13 +52,12 @@ export const Note = ({ data }: ComponentProps) => {
 		>
 			{noteId && (
 				<Link
-					component="button"
-					onClick={() => {
-						navigateToFootnoteRef(noteId);
-					}}
+					role="button"
+					onClick={handleClick}
 					sx={{
 						justifySelf: "start",
 						alignSelf: "start",
+						cursor: "pointer",
 					}}
 				>
 					{label ?? noteId}

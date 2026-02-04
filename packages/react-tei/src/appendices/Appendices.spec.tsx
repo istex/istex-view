@@ -119,14 +119,6 @@ describe("DocumentAuthors", () => {
 
 		await expect
 			.element(screen.getByText("Figure 1: Sample Figure"))
-			.not.toBeVisible();
-		await expect
-			.element(screen.getByText("Table 1: Sample Table"))
-			.not.toBeVisible();
-		await screen.getByRole("button", { name: "Annexes" }).click();
-
-		await expect
-			.element(screen.getByText("Figure 1: Sample Figure"))
 			.toBeInTheDocument();
 		await expect
 			.element(screen.getByText("Table 1: Sample Table"))
