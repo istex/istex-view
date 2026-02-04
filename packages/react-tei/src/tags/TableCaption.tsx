@@ -6,10 +6,6 @@ import type { DocumentJson } from "../parser/document";
 import { Value } from "./Value";
 
 export function TableCaption({ id, label, titles }: TableCaptionProps) {
-	if (!label?.value && !titles?.length) {
-		return null;
-	}
-
 	const title = titles && titles.length > 0 ? titles[0] : undefined;
 	const rest = titles && titles.length > 1 ? titles.slice(1) : [];
 
