@@ -22,6 +22,7 @@ import { Q } from "./Q";
 import { Quote } from "./Quote";
 import { Ref } from "./Ref";
 import { Table } from "./Table";
+import { Term } from "./Term";
 import { Title } from "./Title";
 import type { ComponentProps } from "./type";
 
@@ -75,7 +76,7 @@ export const tagCatalog: TagCatalog = {
 	salute: NoOp,
 	signed: NoOp,
 	gloss: NoOp,
-	term: NoOp,
+	term: Term,
 	name: NoOp,
 	span: NoOp,
 	surname: NoOp,
