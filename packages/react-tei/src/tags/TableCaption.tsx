@@ -10,7 +10,15 @@ export function TableCaption({ id, label, titles }: TableCaptionProps) {
 	const rest = titles && titles.length > 1 ? titles.slice(1) : [];
 
 	return (
-		<Typography component="caption" id={id}>
+		<Typography
+			component="caption"
+			id={id}
+			sx={{
+				"&&": {
+					padding: 0,
+				},
+			}}
+		>
 			<Stack direction="row" gap={2} alignItems="center">
 				<FullScreenButton />
 				<Stack gap={1} flexGrow={1}>
