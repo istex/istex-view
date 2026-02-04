@@ -1,9 +1,23 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
 import type { DocumentJson } from "../../parser/document";
+import { DocumentSidePanelContextProvider } from "../../SidePanel/DocumentSidePanelContext";
 import { TagCatalogProvider } from "../TagCatalogProvider";
 import { tagCatalog } from "../tagCatalog";
 import { FigureTable } from "./FigureTable";
+
+function TestWrapper({ children }: { children: React.ReactNode }) {
+	return (
+		<DocumentContextProvider jsonDocument={[]}>
+			<DocumentSidePanelContextProvider>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			</DocumentSidePanelContextProvider>
+		</DocumentContextProvider>
+	);
+}
 
 describe("FigureTable", () => {
 	it("should render a table with caption, header, rows, and notes", async () => {
@@ -48,11 +62,7 @@ describe("FigureTable", () => {
 		};
 
 		const screen = await render(<FigureTable data={jsonDocument} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect.element(screen.getByRole("table")).toBeVisible();
@@ -90,11 +100,7 @@ describe("FigureTable", () => {
 		};
 
 		const screen = await render(<FigureTable data={jsonDocument} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect

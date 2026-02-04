@@ -1,3 +1,4 @@
+import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
 import OpenInFullIcon from "@mui/icons-material/OpenInFull";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
@@ -6,23 +7,18 @@ import { useFullScreenContext } from "./useFullScreenContext";
 
 export function FullScreenButton() {
 	const { t } = useTranslation();
-	const { isFullScreen, enterFullScreen } = useFullScreenContext();
+	const { isFullScreen, toggleFullScreen } = useFullScreenContext();
 
-	const label = t("fullScreen.enter");
-
-	if (isFullScreen) {
-		return null;
-	}
-
+	const label = isFullScreen ? t("fullScreen.exit") : t("fullScreen.enter");
 	return (
 		<Tooltip title={label}>
 			<IconButton
 				color="primary"
-				onClick={enterFullScreen}
+				onClick={toggleFullScreen}
 				aria-label={label}
 				size="small"
 			>
-				<OpenInFullIcon />
+				{isFullScreen ? <CloseFullscreenIcon /> : <OpenInFullIcon />}
 			</IconButton>
 		</Tooltip>
 	);

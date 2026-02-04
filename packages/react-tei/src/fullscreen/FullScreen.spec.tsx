@@ -1,16 +1,22 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
+import { DocumentContextProvider } from "../DocumentContextProvider";
 import { I18nProvider } from "../i18n/I18nProvider";
+import { DocumentSidePanelContextProvider } from "../SidePanel/DocumentSidePanelContext";
 import { FullScreen } from "./FullScreen";
 import { FullScreenButton } from "./FullScreenButton";
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<I18nProvider>
-			<FullScreen>
-				<FullScreenButton />
-				{children}
-			</FullScreen>
+			<DocumentContextProvider jsonDocument={[]}>
+				<DocumentSidePanelContextProvider>
+					<FullScreen>
+						<FullScreenButton />
+						{children}
+					</FullScreen>
+				</DocumentSidePanelContextProvider>
+			</DocumentContextProvider>
 		</I18nProvider>
 	);
 }

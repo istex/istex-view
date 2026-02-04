@@ -1,10 +1,26 @@
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
+import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import type { DocumentJson } from "../../parser/document";
+import { DocumentSidePanelContextProvider } from "../../SidePanel/DocumentSidePanelContext";
 import { TagCatalogProvider } from "../TagCatalogProvider";
 import { tagCatalog } from "../tagCatalog";
 import { InlineFigure } from "./InlineFigure";
+
+function TestWrapper({ children }: { children: React.ReactNode }) {
+	return (
+		<I18nProvider>
+			<DocumentContextProvider jsonDocument={[]}>
+				<DocumentSidePanelContextProvider>
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				</DocumentSidePanelContextProvider>
+			</DocumentContextProvider>
+		</I18nProvider>
+	);
+}
 
 describe("InlineFigure", () => {
 	it("should render a table when type is table", async () => {
@@ -30,13 +46,7 @@ describe("InlineFigure", () => {
 		};
 
 		const screen = await render(<InlineFigure data={jsonDocument} />, {
-			wrapper: ({ children }) => (
-				<I18nProvider>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						{children}
-					</TagCatalogProvider>
-				</I18nProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect.element(screen.getByRole("table")).toBeVisible();
@@ -57,13 +67,7 @@ describe("InlineFigure", () => {
 		};
 
 		const screen = await render(<InlineFigure data={jsonDocument} />, {
-			wrapper: ({ children }) => (
-				<I18nProvider>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						{children}
-					</TagCatalogProvider>
-				</I18nProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect
@@ -83,13 +87,7 @@ describe("InlineFigure", () => {
 		};
 
 		const screen = await render(<InlineFigure data={jsonDocument} />, {
-			wrapper: ({ children }) => (
-				<I18nProvider>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						{children}
-					</TagCatalogProvider>
-				</I18nProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect
@@ -112,13 +110,7 @@ describe("InlineFigure", () => {
 		};
 
 		const screen = await render(<InlineFigure data={jsonDocument} />, {
-			wrapper: ({ children }) => (
-				<I18nProvider>
-					<TagCatalogProvider tagCatalog={tagCatalog}>
-						{children}
-					</TagCatalogProvider>
-				</I18nProvider>
-			),
+			wrapper: TestWrapper,
 		});
 
 		await expect

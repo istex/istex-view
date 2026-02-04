@@ -1,42 +1,48 @@
-import CloseFullscreenIcon from "@mui/icons-material/CloseFullscreen";
-import Dialog from "@mui/material/Dialog";
-import DialogContent from "@mui/material/DialogContent";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import type * as React from "react";
-import { useTranslation } from "react-i18next";
+import Box, { type BoxProps } from "@mui/material/Box";
+import { useMemo } from "react";
+import {
+	SIDEPANEL_PADDING,
+	SIDEPANEL_WIDTH,
+} from "../SidePanel/DocumentSidePanel";
+import { useDocumentSidePanelContext } from "../SidePanel/DocumentSidePanelContext";
 import { FullScreenContextProvider } from "./FullScreenContext";
 import { useFullScreenContext } from "./useFullScreenContext";
 
 export function Switch({ children }: FullScreenProps) {
-	const { t } = useTranslation();
-	const { isFullScreen, exitFullScreen } = useFullScreenContext();
+	const { isFullScreen } = useFullScreenContext();
+	const {
+		state: { isOpen },
+		topOffset,
+	} = useDocumentSidePanelContext();
 
-	const closeButtonLabel = t("fullScreen.exit");
+	const fulScreenSx = useMemo<BoxProps["sx"]>(() => {
+		if (!isFullScreen) {
+			return {};
+		}
 
-	if (!isFullScreen) {
-		return children;
-	}
+		return {
+			position: "fixed",
+			top: topOffset ?? 0,
+			left: 0,
+			bottom: 0,
+			right: isOpen ? SIDEPANEL_WIDTH : SIDEPANEL_PADDING,
+			backgroundColor: "#fff",
+			transition: "right 0.3s",
+			zIndex: 9,
+			paddingBlock: 2,
+			paddingInline: {
+				xs: 2,
+				md: 4,
+			},
+			overflowY: "auto",
+			borderRight: `32px solid #f6f9fa`,
+		};
+	}, [topOffset, isOpen, isFullScreen]);
+
 	return (
-		<Dialog fullScreen open onClose={exitFullScreen}>
-			<Tooltip title={closeButtonLabel}>
-				<IconButton
-					onClick={exitFullScreen}
-					aria-label={closeButtonLabel}
-					size="small"
-					color="primary"
-					sx={{
-						position: "fixed",
-						top: 16,
-						right: 16,
-						backgroundColor: "background.paper",
-					}}
-				>
-					<CloseFullscreenIcon />
-				</IconButton>
-			</Tooltip>
-			<DialogContent>{children}</DialogContent>
-		</Dialog>
+		<Box sx={fulScreenSx} role={isFullScreen ? "dialog" : undefined}>
+			{children}
+		</Box>
 	);
 }
 

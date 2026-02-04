@@ -1,4 +1,3 @@
-import { Typography } from "@mui/material";
 import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
@@ -18,15 +17,5 @@ export function Address({ data }: ComponentProps) {
 		);
 	}
 
-	return (
-		<Typography
-			component="address"
-			sx={{
-				fontStyle: "normal",
-				display: "inline",
-			}}
-		>
-			<Value data={value} />
-		</Typography>
-	);
+	return <Value data={value} />;
 }

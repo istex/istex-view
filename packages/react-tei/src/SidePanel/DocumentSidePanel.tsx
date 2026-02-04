@@ -30,7 +30,7 @@ type DocumentSidePanelprops = {
 };
 
 export const SIDEPANEL_WIDTH = "512px";
-const SIDEPANEL_PADDING = "40px";
+export const SIDEPANEL_PADDING = "40px";
 
 export const DocumentSidePanel = ({
 	ref,
@@ -86,7 +86,6 @@ export const DocumentSidePanel = ({
 				"& .MuiTypography-body1": {
 					fontSize: "1rem",
 				},
-				paddingInline: 2,
 				overflowX: "hidden",
 			}}
 			ref={asideRef}
@@ -97,6 +96,7 @@ export const DocumentSidePanel = ({
 					backgroundColor: "background.paper",
 					zIndex: 9,
 					paddingBlock: 2,
+					paddingInline: 4,
 				}}
 			>
 				{isOpen ? (
@@ -119,7 +119,7 @@ export const DocumentSidePanel = ({
 							onClick={togglePanel}
 							aria-label={t("sidePanel.open")}
 							sx={{
-								marginInline: -2,
+								marginInline: -4,
 							}}
 						>
 							<ChevronLeft />
@@ -129,66 +129,68 @@ export const DocumentSidePanel = ({
 			</Box>
 			<Box
 				sx={{
+					paddingInline: 4,
+					paddingBlockEnd: 2,
+				}}
+			>
+				<Tabs
+					value={currentTab}
+					onChange={(_, newValue) => selectTab(newValue)}
+					sx={{
+						"& .MuiTab-root": {
+							minHeight: 0,
+							flexGrow: 1,
+						},
+					}}
+				>
+					<Tab
+						label={t(`sidePanel.tabs.${TAB_METADATA}`)}
+						aria-label={t(`sidePanel.tabs.${TAB_METADATA}`)}
+						value={TAB_METADATA}
+					/>
+					<Tab
+						label={
+							<Tooltip
+								title={t(`sidePanel.tabs.enrichmentTooltip`, {
+									count: enrichmentCount,
+								})}
+								placement="top"
+							>
+								<span>
+									{t(`sidePanel.tabs.${TAB_ENRICHMENT}`, {
+										count: enrichmentCount,
+									})}
+								</span>
+							</Tooltip>
+						}
+						aria-label={t(`sidePanel.tabs.${TAB_ENRICHMENT}`, {
+							count: enrichmentCount,
+						})}
+						value={TAB_ENRICHMENT}
+						disabled={enrichmentCount === 0}
+					/>
+				</Tabs>
+			</Box>
+
+			<Box
+				sx={{
 					flexGrow: 1,
 					contain: "strict",
 					overflowX: "hidden",
-					overflowY: "auto",
-					scrollbarWidth: "none",
-					"&::-webkit-scrollbar": {
-						display: "none",
-					},
+					overflowY: isOpen ? "auto" : "hidden",
+					scrollbarWidth: "thin",
+					paddingInline: 3,
 				}}
 				ref={ref}
 				aria-hidden={!isOpen}
 			>
-				<Stack gap={2}>
-					<Tabs
-						value={currentTab}
-						onChange={(_, newValue) => selectTab(newValue)}
-						sx={{
-							"& .MuiTab-root": {
-								minHeight: 0,
-								paddingInline: 1,
-								flexGrow: 1,
-							},
-						}}
-					>
-						<Tab
-							label={t(`sidePanel.tabs.${TAB_METADATA}`)}
-							aria-label={t(`sidePanel.tabs.${TAB_METADATA}`)}
-							value={TAB_METADATA}
-						/>
-						<Tab
-							label={
-								<Tooltip
-									title={t(`sidePanel.tabs.enrichmentTooltip`, {
-										count: enrichmentCount,
-									})}
-									placement="top"
-								>
-									<span>
-										{t(`sidePanel.tabs.${TAB_ENRICHMENT}`, {
-											count: enrichmentCount,
-										})}
-									</span>
-								</Tooltip>
-							}
-							aria-label={t(`sidePanel.tabs.${TAB_ENRICHMENT}`, {
-								count: enrichmentCount,
-							})}
-							value={TAB_ENRICHMENT}
-							disabled={enrichmentCount === 0}
-						/>
-					</Tabs>
+				<TabPanel current={currentTab === TAB_METADATA}>
+					{metadataSection}
+				</TabPanel>
 
-					<TabPanel current={currentTab === TAB_METADATA}>
-						{metadataSection}
-					</TabPanel>
-
-					<TabPanel current={currentTab === TAB_ENRICHMENT}>
-						{enrichmentSection}
-					</TabPanel>
-				</Stack>
+				<TabPanel current={currentTab === TAB_ENRICHMENT}>
+					{enrichmentSection}
+				</TabPanel>
 			</Box>
 
 			<Box
@@ -198,7 +200,7 @@ export const DocumentSidePanel = ({
 					position: "absolute",
 					bottom: 0,
 					left: 0,
-					right: 0,
+					right: 16,
 					height: "2rem",
 					pointerEvents: "none",
 				}}

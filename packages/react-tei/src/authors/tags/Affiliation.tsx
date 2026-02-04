@@ -32,6 +32,13 @@ export function Affiliation({ data }: ComponentProps) {
 				sx={{
 					margin: 0,
 				}}
+				slotProps={{
+					primary: {
+						sx: {
+							fontSize: "0.875rem",
+						},
+					},
+				}}
 				id={id}
 			>
 				<Value data={value} />
