@@ -15,14 +15,14 @@
 	"dependencies": {
 		"@mui/icons-material": "catalog:",
 		"@mui/material": "catalog:",
+		"@tanstack/react-query": "catalog:",
 		"fast-xml-parser": "catalog:",
 		"i18next": "catalog:",
 		"i18next-browser-languagedetector": "catalog:",
 		"i18next-resources-to-backend": "catalog:",
 		"react": "catalog:",
 		"react-dom": "catalog:",
-		"react-i18next": "catalog:",
-		"better-react-mathjax": "catalog:"
+		"react-i18next": "catalog:"
 	},
 	"devDependencies": {
 		"@types/node": "catalog:",

@@ -1,18 +1,23 @@
-import { MathJaxContext } from "better-react-mathjax";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { describe, expect, it } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../TagCatalogProvider";
 import { tagCatalog } from "../tagCatalog";
 import { FormulaRend } from "./FormulaRend";
+import { MathJaxProvider } from "./MathJaxContext";
+
+const queryClient = new QueryClient();
 
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
-		<MathJaxContext>
-			<TagCatalogProvider tagCatalog={tagCatalog}>
-				{children}
-			</TagCatalogProvider>
-		</MathJaxContext>
+		<QueryClientProvider client={queryClient}>
+			<MathJaxProvider>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			</MathJaxProvider>
+		</QueryClientProvider>
 	);
 }
 
@@ -113,36 +118,42 @@ describe("FormulaRend", () => {
 		expect(screen.getByRole("math")).toHaveTextContent("x+y");
 	});
 
-	it("should render the display formula with latex content", async () => {
-		const document: DocumentJson = {
-			tag: "formula",
-			attributes: {
-				"@rend": "display",
-			},
-			value: [
-				{
-					tag: "formula",
-					attributes: {
-						"@notation": "tex",
-					},
-					value: [
-						{
-							tag: "#text",
-							value: "\\frac{a}{b}",
-						},
-					],
+	it(
+		"should render the display formula with latex content",
+		{
+			timeout: 5000,
+		},
+		async () => {
+			const document: DocumentJson = {
+				tag: "formula",
+				attributes: {
+					"@rend": "display",
 				},
-			],
-		};
-		const screen = await render(
-			<TestWrapper>
-				<FormulaRend data={document} />
-			</TestWrapper>,
-		);
+				value: [
+					{
+						tag: "formula",
+						attributes: {
+							"@notation": "tex",
+						},
+						value: [
+							{
+								tag: "#text",
+								value: "\\frac{a}{b}",
+							},
+						],
+					},
+				],
+			};
+			const screen = await render(
+				<TestWrapper>
+					<FormulaRend data={document} />
+				</TestWrapper>,
+			);
 
-		await expect.element(screen.getByRole("math")).toBeDefined();
-		await expect.element(screen.getByRole("math")).toHaveTextContent("ab");
-	});
+			await expect.element(screen.getByRole("math")).toBeDefined();
+			await expect.element(screen.getByRole("math")).toHaveTextContent("a b");
+		},
+	);
 
 	it("should render mathml formula if both latex and mathml are present", async () => {
 		const document: DocumentJson = {

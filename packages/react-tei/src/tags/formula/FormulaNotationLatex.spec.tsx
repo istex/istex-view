@@ -1,10 +1,11 @@
-import { MathJaxContext } from "better-react-mathjax";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { afterAll, describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../../parser/document";
 import { TagCatalogProvider } from "../TagCatalogProvider";
 import { tagCatalog } from "../tagCatalog";
 import { FormulaNotationLatex } from "./FormulaNotationLatex";
+import { MathJaxProvider } from "./MathJaxContext";
 
 vi.mock("../../debug/debug.const", () => {
 	return {
@@ -12,13 +13,17 @@ vi.mock("../../debug/debug.const", () => {
 	};
 });
 
+const queryClient = new QueryClient();
+
 function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
-		<MathJaxContext>
-			<TagCatalogProvider tagCatalog={tagCatalog}>
-				{children}
-			</TagCatalogProvider>
-		</MathJaxContext>
+		<QueryClientProvider client={queryClient}>
+			<MathJaxProvider>
+				<TagCatalogProvider tagCatalog={tagCatalog}>
+					{children}
+				</TagCatalogProvider>
+			</MathJaxProvider>
+		</QueryClientProvider>
 	);
 }
 
@@ -46,7 +51,7 @@ describe("FormulaNotationLatex", () => {
 
 		// MathMLElement are not supported by toBeInTheDocument
 		await expect.element(screen.getByRole("math")).toBeDefined();
-		await expect.element(screen.getByRole("math")).toHaveTextContent("Mrc");
+		await expect.element(screen.getByRole("math")).toHaveTextContent("M r c");
 	});
 
 	it("should render debug tag when no text content is provided", async () => {
@@ -95,6 +100,6 @@ describe("FormulaNotationLatex", () => {
 		await expect.element(screen.getByRole("math")).toBeDefined();
 		await expect
 			.element(screen.getByRole("math"))
-			.toHaveTextContent("a2+b2=c2");
+			.toHaveTextContent("a 2 + b 2 = c 2");
 	});
 });

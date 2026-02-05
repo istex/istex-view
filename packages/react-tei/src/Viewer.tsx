@@ -1,7 +1,7 @@
 import Stack from "@mui/material/Stack";
 import { useTheme } from "@mui/material/styles";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { MathJaxContext } from "better-react-mathjax";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useMemo, useRef } from "react";
 import { Appendices } from "./appendices/Appendices";
 import { DocumentAuthors } from "./authors/DocumentAuthors";
@@ -20,6 +20,7 @@ import {
 } from "./SidePanel/DocumentSidePanel";
 import { DocumentSidePanelContextProvider } from "./SidePanel/DocumentSidePanelContext";
 import { useParseMulticatCategories } from "./SidePanel/multicat/useParseMulticatCategories";
+import { MathJaxProvider } from "./tags/formula/MathJaxContext";
 import { TagCatalogProvider } from "./tags/TagCatalogProvider";
 import { tagCatalog } from "./tags/tagCatalog";
 import { useTeeftEnrichmentParser } from "./teeft/useTeeftEnrichmentParser";
@@ -28,6 +29,8 @@ import { useUnitexEnrichmentParser } from "./termEnrichment/useUnitexEnrichmentP
 import { TableOfContent } from "./toc/TableOfContent";
 import { TableOfContentAccordion } from "./toc/TableOfContentAccordion";
 import { useTableOfContent } from "./toc/useTableOfContent";
+
+const queryClient = new QueryClient();
 
 export const Viewer = ({
 	document,
@@ -105,123 +108,132 @@ export const Viewer = ({
 	}
 
 	return (
-		<MathJaxContext asyncLoad hideUntilTypeset="first">
-			<I18nProvider>
-				<DocumentContextProvider
-					jsonDocument={jsonDocument}
-					jsonUnitexEnrichment={jsonUnitexEnrichment}
-					jsonTeeftEnrichment={jsonTeeftEnrichment}
-					multicatEnrichment={[...jsonNbEnrichment, ...jsonMulticatEnrichment]}
-					termCountByGroup={termCountByGroup}
-				>
-					<DocumentSidePanelContextProvider topOffset={stickyTopOffset ?? 0}>
-						<TagCatalogProvider tagCatalog={tagCatalog}>
-							<DocumentNavigationContextProvider
-								tocRef={tocRef}
-								sidePanelRef={sidePanelRef}
-							>
-								<Stack
-									component="article"
-									flexGrow={1}
-									width="100%"
-									direction="row"
-									sx={{
-										"& *": {
-											transition: "background-color 0.3s ease-in-out",
-										},
-										"& .tei-highlighted-group": {
-											backgroundColor: "#E3EF63",
-											color: "#4A4A4A",
-										},
-										"& .tei-highlighted, & .tei-highlighted .tei-highlighted-group":
-											{
-												backgroundColor: "#C4D733",
-												color: "#1D1D1D",
-											},
-									}}
-									id="viewer"
+		<QueryClientProvider client={queryClient}>
+			<MathJaxProvider>
+				<I18nProvider>
+					<DocumentContextProvider
+						jsonDocument={jsonDocument}
+						jsonUnitexEnrichment={jsonUnitexEnrichment}
+						jsonTeeftEnrichment={jsonTeeftEnrichment}
+						multicatEnrichment={[
+							...jsonNbEnrichment,
+							...jsonMulticatEnrichment,
+						]}
+						termCountByGroup={termCountByGroup}
+					>
+						<DocumentSidePanelContextProvider topOffset={stickyTopOffset ?? 0}>
+							<TagCatalogProvider tagCatalog={tagCatalog}>
+								<DocumentNavigationContextProvider
+									tocRef={tocRef}
+									sidePanelRef={sidePanelRef}
 								>
-									<Stack direction="row" flexGrow={1} justifyContent="center">
-										{!isSmallScreen && (
-											<TableOfContent
-												tableOfContent={tableOfContent}
-												ref={tocRef}
+									<Stack
+										component="article"
+										flexGrow={1}
+										width="100%"
+										direction="row"
+										sx={{
+											"& *": {
+												transition: "background-color 0.3s ease-in-out",
+											},
+											"& .tei-highlighted-group": {
+												backgroundColor: "#E3EF63",
+												color: "#4A4A4A",
+											},
+											"& .tei-highlighted, & .tei-highlighted .tei-highlighted-group":
+												{
+													backgroundColor: "#C4D733",
+													color: "#1D1D1D",
+												},
+											"& .MathJax": {
+												margin: "0 !important",
+												padding: "0 !important",
+											},
+										}}
+										id="viewer"
+									>
+										<Stack direction="row" flexGrow={1} justifyContent="center">
+											{!isSmallScreen && (
+												<TableOfContent
+													tableOfContent={tableOfContent}
+													ref={tocRef}
+													stickyTopOffset={stickyTopOffset}
+												/>
+											)}
+
+											<Stack
+												sx={{
+													flexGrow: 1,
+													paddingInline: 0,
+													contain: {
+														xs: "size",
+														md: "none",
+													},
+													width: {
+														xs: "100%",
+														md: "initial",
+													},
+												}}
+												component="section"
+												role="document"
+												id="document-container"
+											>
+												<Stack
+													marginInline={{
+														xs: "auto",
+														xl: "1rem auto",
+													}}
+													paddingBlock={4}
+													maxWidth={{
+														xs: "100%",
+														md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
+														lg: "732px",
+													}}
+													gap={4}
+													position="relative"
+												>
+													<DocumentTitle teiHeader={teiHeader} />
+
+													<DocumentAbstract teiHeader={teiHeader} />
+
+													<DocumentAuthors />
+
+													{isSmallScreen && (
+														<TableOfContentAccordion
+															tableOfContent={tableOfContent}
+														/>
+													)}
+
+													<Stack
+														component="section"
+														sx={{
+															gap: 4,
+															padding: {
+																xs: 2,
+																md: 8,
+															},
+															backgroundColor: "white",
+														}}
+														id="document-content"
+													>
+														<DocumentBody body={enrichedBody} />
+													</Stack>
+													<Appendices />
+												</Stack>
+											</Stack>
+
+											<DocumentSidePanel
+												ref={sidePanelRef}
 												stickyTopOffset={stickyTopOffset}
 											/>
-										)}
-
-										<Stack
-											sx={{
-												flexGrow: 1,
-												paddingInline: 0,
-												contain: {
-													xs: "size",
-													md: "none",
-												},
-												width: {
-													xs: "100%",
-													md: "initial",
-												},
-											}}
-											component="section"
-											role="document"
-											id="document-container"
-										>
-											<Stack
-												marginInline={{
-													xs: "auto",
-													xl: "1rem auto",
-												}}
-												paddingBlock={4}
-												maxWidth={{
-													xs: "100%",
-													md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
-													lg: "732px",
-												}}
-												gap={4}
-												position="relative"
-											>
-												<DocumentTitle teiHeader={teiHeader} />
-
-												<DocumentAbstract teiHeader={teiHeader} />
-
-												<DocumentAuthors />
-
-												{isSmallScreen && (
-													<TableOfContentAccordion
-														tableOfContent={tableOfContent}
-													/>
-												)}
-
-												<Stack
-													component="section"
-													sx={{
-														gap: 4,
-														padding: {
-															xs: 2,
-															md: 8,
-														},
-														backgroundColor: "white",
-													}}
-													id="document-content"
-												>
-													<DocumentBody body={enrichedBody} />
-												</Stack>
-												<Appendices />
-											</Stack>
 										</Stack>
-
-										<DocumentSidePanel
-											ref={sidePanelRef}
-											stickyTopOffset={stickyTopOffset}
-										/>
 									</Stack>
-								</Stack>
-							</DocumentNavigationContextProvider>
-						</TagCatalogProvider>
-					</DocumentSidePanelContextProvider>
-				</DocumentContextProvider>
-			</I18nProvider>
-		</MathJaxContext>
+								</DocumentNavigationContextProvider>
+							</TagCatalogProvider>
+						</DocumentSidePanelContextProvider>
+					</DocumentContextProvider>
+				</I18nProvider>
+			</MathJaxProvider>
+		</QueryClientProvider>
 	);
 };
