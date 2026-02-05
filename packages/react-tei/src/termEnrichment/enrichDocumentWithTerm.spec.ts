@@ -558,6 +558,75 @@ describe("enrichDocumentWithTerms", () => {
 		});
 	});
 
+	it("should highlight terms if it is wholly at the end of a single tag regardless if it has a space afterward or not", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{ tag: "#text", value: "The Bold" },
+						{
+							tag: "hi",
+							value: [
+								{
+									tag: "#text",
+									value: "Font",
+								},
+							],
+						},
+					],
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Bold", displayed: true }],
+		};
+
+		const { enrichedDocument } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							attributes: undefined,
+							tag: "highlightedText",
+							value: [
+								{
+									tag: "#text",
+									value: "The ",
+								},
+								{
+									tag: "highlight",
+									value: [{ tag: "#text", value: "Bold" }],
+									attributes: {
+										groups: ["group1"],
+										term: "bold",
+									},
+								},
+								{
+									tag: "hi",
+									value: [
+										{
+											tag: "#text",
+											value: "Font",
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		});
+	});
+
 	describe("getTermRegexes", () => {
 		it("should return regexes for terms with correct flags (case insensitive for teeft only)", () => {
 			const terms = [
