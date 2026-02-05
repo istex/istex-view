@@ -26,13 +26,14 @@ describe("enrichDocumentWithTerms", () => {
 			tag: "root",
 			value: [
 				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
 						{ tag: "#text", value: "This is a " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "test" },
-							value: "test",
+							value: [{ tag: "#text", value: "test" }],
 						},
 						{ tag: "#text", value: "." },
 					],
@@ -41,13 +42,14 @@ describe("enrichDocumentWithTerms", () => {
 					tag: "p",
 					value: [
 						{
+							attributes: undefined,
 							tag: "highlightedText",
 							value: [
 								{ tag: "#text", value: "Another " },
 								{
 									tag: "highlight",
 									attributes: { groups: ["group1"], term: "test" },
-									value: "test",
+									value: [{ tag: "#text", value: "test" }],
 								},
 								{ tag: "#text", value: " here." },
 							],
@@ -85,25 +87,26 @@ describe("enrichDocumentWithTerms", () => {
 			tag: "root",
 			value: [
 				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
 						{ tag: "#text", value: "This " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "is" },
-							value: "is",
+							value: [{ tag: "#text", value: "is" }],
 						},
 						{ tag: "#text", value: " a " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "test" },
-							value: "test",
+							value: [{ tag: "#text", value: "test" }],
 						},
 						{ tag: "#text", value: " of " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group2"], term: "unitex" },
-							value: "Unitex",
+							value: [{ tag: "#text", value: "Unitex" }],
 						},
 						{ tag: "#text", value: " highlighting." },
 					],
@@ -307,7 +310,7 @@ describe("enrichDocumentWithTerms", () => {
 								term: "gustave-eiffel",
 							},
 							tag: "highlight",
-							value: "Gustave Eiffel",
+							value: [{ tag: "#text", value: "Gustave Eiffel" }],
 						},
 						{
 							tag: "#text",
@@ -319,7 +322,7 @@ describe("enrichDocumentWithTerms", () => {
 								term: "marie-curie",
 							},
 							tag: "highlight",
-							value: "Marie Curie",
+							value: [{ tag: "#text", value: "Marie Curie" }],
 						},
 					],
 				},
@@ -355,20 +358,74 @@ describe("enrichDocumentWithTerms", () => {
 			tag: "root",
 			value: [
 				{
-					tag: "formula",
-					attributes: { "@notation": "tex" },
-					value: [{ tag: "#text", value: "\\hbox{$M_r^c$}" }],
-				},
-				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
+						{
+							tag: "formula",
+							attributes: { "@notation": "tex" },
+							value: [{ tag: "#text", value: "\\hbox{$M_r^c$}" }],
+						},
 						{ tag: "#text", value: "This is an example of the latex " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "hbox" },
-							value: "hbox",
+							value: [{ tag: "#text", value: "hbox" }],
 						},
 						{ tag: "#text", value: " keyword." },
+					],
+				},
+			],
+		});
+	});
+
+	it("should highlight terms split across several tags", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{ tag: "#text", value: "His name is Gustave " },
+						{ tag: "hi", value: [{ tag: "#text", value: "Eiffel" }] },
+						{ tag: "#text", value: " the famous architect" },
+					],
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Gustave Eiffel", displayed: true }],
+		};
+
+		const { enrichedDocument } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							tag: "highlightedText",
+							value: [
+								{ tag: "#text", value: "His name is " },
+								{
+									tag: "highlight",
+									value: [
+										{ tag: "#text", value: "Gustave " },
+										{ tag: "hi", value: [{ tag: "#text", value: "Eiffel" }] },
+									],
+									attributes: {
+										groups: ["group1"],
+										term: "gustave-eiffel",
+									},
+								},
+								{ tag: "#text", value: " the famous architect" },
+							],
+						},
 					],
 				},
 			],

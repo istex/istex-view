@@ -225,8 +225,6 @@ describe("FormulaRend", () => {
 			</TestWrapper>,
 		);
 
-		screen.debug();
-
 		expect(screen.container.querySelector("div[role='figure']")).toBeDefined();
 		expect(
 			screen.container.querySelector("div[role='figure']"),
