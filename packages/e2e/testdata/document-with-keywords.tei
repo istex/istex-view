@@ -10,12 +10,12 @@
     <teiHeader>
         <profileDesc>
             <textClass>
-                <keywords>
+                <keywords scheme="keywords">
                     <term>TEI</term>
                     <term>XML</term>
                     <term>Sample Document</term>
                 </keywords>
-                <keywords>
+                <keywords scheme="keywords">
                     <list>
                         <head>Subject Areas</head>
                         <item>
