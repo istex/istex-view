@@ -70,4 +70,40 @@ describe("Affiliation", () => {
 			)
 			.toBeInTheDocument();
 	});
+
+	it("should render raw value if there is a non empty string in the value array", async () => {
+		const screen = await render(
+			<Affiliation
+				data={{
+					tag: "affiliation",
+					value: [
+						{
+							tag: "#text",
+							value: "Raw affiliation text, ",
+						},
+						{
+							tag: "orgName",
+							value: [
+								{
+									tag: "#text",
+									value: "University X",
+								},
+							],
+						},
+					],
+				}}
+			/>,
+			{
+				wrapper: TestWrapper,
+			},
+		);
+
+		await expect
+			.element(
+				screen.getByRole("listitem", {
+					name: "Raw affiliation text, University X",
+				}),
+			)
+			.toBeInTheDocument();
+	});
 });

@@ -1,6 +1,6 @@
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
-import { useId } from "react";
+import { useId, useMemo } from "react";
 import { DebugTag } from "../../debug/DebugTag";
 import type { ComponentProps } from "../../tags/type";
 import { Value } from "../../tags/Value";
@@ -8,9 +8,23 @@ import { useJoinValues } from "./useJoinValues";
 
 export function Affiliation({ data }: ComponentProps) {
 	const id = useId();
-	const value = useJoinValues(data.value, ", ");
 
-	if (!value.length) {
+	const isRawValue = useMemo(() => {
+		if (!Array.isArray(data.value)) {
+			return true;
+		}
+
+		return data.value.some(({ value }) => {
+			if (typeof value === "string") {
+				return !!value.trim();
+			}
+			return false;
+		});
+	}, [data.value]);
+
+	const valueWithComas = useJoinValues(data.value, ", ");
+
+	if (!data.value?.length) {
 		return (
 			<DebugTag
 				tag={data.tag}
@@ -41,7 +55,7 @@ export function Affiliation({ data }: ComponentProps) {
 				}}
 				id={id}
 			>
-				<Value data={value} />
+				<Value data={isRawValue ? data.value : valueWithComas} />
 			</ListItemText>
 		</ListItem>
 	);

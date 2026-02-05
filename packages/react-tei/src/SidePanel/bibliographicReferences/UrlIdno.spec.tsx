@@ -64,4 +64,18 @@ describe("UrlIdno", () => {
 		expect(screen.getByText("doi:10.1234/example")).toBeVisible();
 		expect(screen.container.querySelector("a")).toBeNull();
 	});
+
+	it('should not render anything when @type is "ORCID"', async () => {
+		const jsonValue: DocumentJson = {
+			tag: "idno",
+			attributes: { "@type": "ORCID" },
+			value: [{ tag: "#text", value: "https://orcid.org/0000-0001-2345-6789" }],
+		};
+
+		const screen = await render(<UrlIdno data={jsonValue} />, {
+			wrapper: TestWrapper,
+		});
+
+		await expect.element(screen.container).toBeEmptyDOMElement();
+	});
 });
