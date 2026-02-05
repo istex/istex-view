@@ -106,4 +106,24 @@ describe("Figure", () => {
 		expect(screen.getByText("This is the figure head")).toBeVisible();
 		expect(screen.getByText("This is the figure description")).toBeVisible();
 	});
+
+	it("should not render figDesc when it contains only empty text", async () => {
+		const jsonDocument: DocumentJson = {
+			tag: "figure",
+			attributes: { "@type": "image", "@xml:id": "f3" },
+			value: [
+				{
+					tag: "figDesc",
+					attributes: {},
+					value: [{ tag: "#text", value: "   " }],
+				},
+			],
+		};
+
+		const screen = await render(<Figure data={jsonDocument} />, {
+			wrapper: TestWrapper,
+		});
+
+		expect(screen.getByRole("note")).not.toBeInTheDocument();
+	});
 });
