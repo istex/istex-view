@@ -15,7 +15,7 @@ export function Switch({ children }: FullScreenProps) {
 		topOffset,
 	} = useDocumentSidePanelContext();
 
-	const fulScreenSx = useMemo<BoxProps["sx"]>(() => {
+	const fullScreenSx = useMemo<BoxProps["sx"]>(() => {
 		if (!isFullScreen) {
 			return {};
 		}
@@ -25,7 +25,10 @@ export function Switch({ children }: FullScreenProps) {
 			top: topOffset ?? 0,
 			left: 0,
 			bottom: 0,
-			right: isOpen ? SIDEPANEL_WIDTH : SIDEPANEL_PADDING,
+			right: {
+				xs: 0,
+				md: isOpen ? SIDEPANEL_WIDTH : SIDEPANEL_PADDING,
+			},
 			backgroundColor: "#fff",
 			transition: "right 0.3s",
 			zIndex: 9,
@@ -35,12 +38,15 @@ export function Switch({ children }: FullScreenProps) {
 				md: 4,
 			},
 			overflowY: "auto",
-			borderRight: `32px solid #f6f9fa`,
+			borderRight: {
+				xs: 0,
+				md: `32px solid #f6f9fa`,
+			},
 		};
 	}, [topOffset, isOpen, isFullScreen]);
 
 	return (
-		<Box sx={fulScreenSx} role={isFullScreen ? "dialog" : undefined}>
+		<Box sx={fullScreenSx} role={isFullScreen ? "dialog" : undefined}>
 			{children}
 		</Box>
 	);
