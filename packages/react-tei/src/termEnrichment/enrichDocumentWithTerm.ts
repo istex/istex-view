@@ -3,14 +3,9 @@ import { termToRegex } from "../helper/termToRegex";
 import type { DocumentJson } from "../parser/document";
 import { computeEnrichedTerms } from "./computeEnrichedTerms";
 import { highlightTermsInChildren } from "./highlightTermsInChildren";
-import type {
-	HighlightTag,
-	TermData,
-	TextTag,
-} from "./highlightTermsInTextTag";
 import type { TermStatistic } from "./parseUnitexEnrichment";
 import type { TermCountByGroup, TermCountByValue } from "./termCountRegistry";
-import type { NestedTerm } from "./types";
+import type { HighlightTag, NestedTerm, TermData, TextTag } from "./types";
 
 export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 	if (term.groups.length === 0 && !term.subTerms?.length) {
