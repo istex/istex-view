@@ -216,6 +216,61 @@ const mergeAdjacentStructures = (nodes: DocumentJson[]): DocumentJson[] => {
 };
 
 /**
+ * Extract text content from a highlight value (for calculating subTerm lengths)
+ */
+const getTextFromHighlightValue = (
+	value: (TextTag | HighlightTag)[] | string,
+): string => {
+	if (typeof value === "string") {
+		return value;
+	}
+	return value
+		.map((node) => {
+			if (node.tag === "#text") {
+				return node.value;
+			}
+			if (node.tag === "highlight" && Array.isArray(node.value)) {
+				return getTextFromHighlightValue(node.value);
+			}
+			return "";
+		})
+		.join("");
+};
+
+/**
+ * Reconstruct cross-tag matches while preserving nested term structure.
+ * Maps each subTerm in the pre-computed value to actual nodes from the document.
+ */
+export const reconstructCrossTagNestedTerms = (
+	children: DocumentJson[],
+	positions: TextPosition[],
+	matchStart: number,
+	nestedValue: HighlightTag[],
+): (TextTag | HighlightTag)[] => {
+	let currentPos = matchStart;
+
+	return nestedValue.map((subTerm) => {
+		const subTermText = getTextFromHighlightValue(subTerm.value);
+		const subTermLength = subTermText.length;
+		const subTermEnd = currentPos + subTermLength;
+
+		const reconstructedNodes = reconstructNodesForRange(
+			children,
+			positions,
+			currentPos,
+			subTermEnd,
+		);
+
+		currentPos = subTermEnd;
+
+		return {
+			...subTerm,
+			value: reconstructedNodes as (TextTag | HighlightTag)[],
+		};
+	});
+};
+
+/**
  * Check if a match spans multiple text positions (cross-tag match)
  */
 const isCrossTagMatch = (
@@ -300,7 +355,16 @@ const buildResultFromMatches = (
 
 		let highlightValue: (TextTag | HighlightTag)[];
 
-		if (crossTag) {
+		if (crossTag && value && Array.isArray(value)) {
+			// Cross-tag match with pre-computed nested structure (overlapping terms)
+			// We need to map each subTerm to the actual nodes from the document
+			highlightValue = reconstructCrossTagNestedTerms(
+				children,
+				positions,
+				match.index,
+				value as HighlightTag[],
+			);
+		} else if (crossTag) {
 			// Cross-tag match: reconstruct the spanning nodes
 			highlightValue = reconstructNodesForRange(
 				children,

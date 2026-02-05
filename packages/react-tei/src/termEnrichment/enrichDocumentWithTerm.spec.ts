@@ -432,6 +432,132 @@ describe("enrichDocumentWithTerms", () => {
 		});
 	});
 
+	it("should replace cross tag term overlapping another term that overlap a third one", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{ tag: "#text", value: "Prince " },
+						{
+							tag: "hi",
+							value: [
+								{
+									tag: "#text",
+									value: "Charles",
+								},
+							],
+						},
+						{ tag: "#text", value: " The " },
+						{
+							tag: "hi",
+							value: [
+								{
+									tag: "#text",
+									value: "Bold",
+								},
+							],
+						},
+						{ tag: "#text", value: " Font" },
+					],
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Prince Charles", displayed: true }],
+			group2: [{ term: "Charles The Bold", displayed: true }],
+			group3: [{ term: "The Bold Font", displayed: true }],
+		};
+
+		const { enrichedDocument } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							attributes: undefined,
+							tag: "highlightedText",
+							value: [
+								{
+									attributes: {
+										groups: ["group1+group2+group3"],
+										term: "prince-charles-the-bold-font",
+									},
+									tag: "highlight",
+									value: [
+										{
+											tag: "highlight",
+											value: [{ tag: "#text", value: "Prince " }],
+											attributes: {
+												groups: ["group1"],
+												term: "prince-charles",
+											},
+										},
+										{
+											tag: "highlight",
+											value: [
+												{
+													tag: "hi",
+													value: [{ tag: "#text", value: "Charles" }],
+												},
+											],
+											attributes: {
+												groups: ["group1", "group2"],
+												term: null,
+											},
+										},
+										{
+											tag: "highlight",
+											value: [
+												{
+													tag: "#text",
+													value: " ",
+												},
+											],
+											attributes: {
+												groups: ["group2"],
+												term: "charles-the-bold",
+											},
+										},
+										{
+											tag: "highlight",
+											value: [
+												{ tag: "#text", value: "The " },
+												{
+													tag: "hi",
+													value: [{ tag: "#text", value: "Bold" }],
+												},
+											],
+											attributes: {
+												groups: ["group2", "group3"],
+												term: null,
+											},
+										},
+										{
+											tag: "highlight",
+											value: [{ tag: "#text", value: " Font" }],
+											attributes: {
+												groups: ["group3"],
+												term: "the-bold-font",
+											},
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		});
+	});
+
 	describe("getTermRegexes", () => {
 		it("should return regexes for terms with correct flags (case insensitive for teeft only)", () => {
 			const terms = [
