@@ -1,5 +1,5 @@
 import { kebabCasify } from "../helper/kebabCasify";
-import type { HighlightTag, TermData } from "./highlightTermsInTextTag";
+import type { HighlightTag, TermData } from "./types";
 
 export type TermCountByValue = Record<string, number>;
 export type TermCountByGroup = Record<string, TermCountByValue>;
