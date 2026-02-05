@@ -19,20 +19,20 @@
                         <author>
                             <persName>
                                 <roleName type="honorific">Mr</roleName>
-                                <forename>Victor</forename>
+                                <forename type="first">Victor</forename>
                                 <surname>Hugo</surname>
                             </persName>
                         </author>
                         <author>
                             <persName>
-                                <forename>Jean</forename>
+                                <forename type="first">Jean</forename>
                                 <surname>Paul</surname>
                                 <genName>II</genName>
                             </persName>
                         </author>
                         <author>
                             <persName>
-                                <forename>Jean</forename>
+                                <forename type="first">Jean</forename>
                                 <nameLink>De</nameLink>
                                 <surname>La Fontaine</surname>
                             </persName>
@@ -40,7 +40,7 @@
                         <author>
                             <persName>
                                 <roleName type="honorific">Dr</roleName>
-                                <forename>Marie</forename>
+                                <forename type="first">Marie</forename>
                                 <surname>Curie</surname>
                                 <roleName type="degree">PhD</roleName>
                             </persName>

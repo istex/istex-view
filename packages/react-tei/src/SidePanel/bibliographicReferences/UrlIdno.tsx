@@ -10,6 +10,10 @@ export const UrlIdno = ({ data }: ComponentProps) => {
 		return textTag ? (textTag.value as string) : "";
 	}, [data]);
 
+	if (data.attributes?.["@type"] === "ORCID") {
+		return null;
+	}
+
 	if (text.startsWith("https://") || text.startsWith("http://")) {
 		return (
 			<Link href={text} target="_blank" rel="noopener noreferrer">

@@ -6,6 +6,7 @@ import type { ComponentProps } from "../tags/type";
 import { Address } from "./tags/Address";
 import { Affiliation } from "./tags/Affiliation";
 import { Author } from "./tags/Author";
+import { PersName } from "./tags/PersName";
 import { PersNamePart } from "./tags/PersNamePart";
 
 export const authorTagCatalogs: Record<
@@ -29,9 +30,9 @@ export const authorTagCatalogs: Record<
 	country: NoOp,
 
 	"#text": NoOp,
-	persName: NoOp,
 	name: NoOp,
 
+	persName: PersName,
 	forename: PersNamePart,
 	surname: PersNamePart,
 	addName: PersNamePart,
