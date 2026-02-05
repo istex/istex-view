@@ -29,7 +29,7 @@ export type HighlightedTextTag = {
 
 export type TermData = {
 	termRegex: RegExp;
-	term: string;
+	targetText: string;
 	groups: string[];
 	value?: (TextTag | HighlightTag)[] | string;
 };
@@ -43,7 +43,7 @@ export const highlightTermInString = (
 	text: string,
 	termData: TermData,
 ): (TextTag | HighlightTag)[] => {
-	const { termRegex, term, groups, value } = termData;
+	const { termRegex, targetText, groups, value } = termData;
 	const matches = Array.from(text.matchAll(termRegex));
 
 	if (!matches.length) {
@@ -87,7 +87,7 @@ export const highlightTermInString = (
 			],
 			attributes: {
 				groups,
-				term: kebabCasify(term),
+				term: kebabCasify(targetText),
 			},
 		} as HighlightTag);
 
