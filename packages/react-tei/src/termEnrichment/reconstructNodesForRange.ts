@@ -40,12 +40,8 @@ export const cloneNodeAtPath = (
 export const mergeAdjacentStructures = (
 	nodes: DocumentJson[],
 ): DocumentJson[] => {
-	const result: DocumentJson[] = [];
-
-	for (const node of nodes) {
-		const last = result[result.length - 1];
-
-		// Merge adjacent text nodes
+	return nodes.reduce<DocumentJson[]>((acc, node) => {
+		const last = acc[acc.length - 1];
 		if (
 			last &&
 			last.tag === "#text" &&
@@ -53,14 +49,12 @@ export const mergeAdjacentStructures = (
 			typeof last.value === "string" &&
 			typeof node.value === "string"
 		) {
-			last.value = last.value + node.value;
-			continue;
+			last.value += node.value;
+		} else {
+			acc.push(node);
 		}
-
-		result.push(node);
-	}
-
-	return result;
+		return acc;
+	}, []);
 };
 
 /**

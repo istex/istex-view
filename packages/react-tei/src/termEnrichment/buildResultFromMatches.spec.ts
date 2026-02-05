@@ -573,9 +573,14 @@ describe("buildResultFromMatches", () => {
 		const extraction = extractTextWithPositions(children);
 		const registry = createRegistry();
 
-		const result = buildResultFromMatches(registry, children, extraction, []);
+		const { nodes } = buildResultFromMatches(
+			registry,
+			children,
+			extraction,
+			[],
+		);
 
-		expect(result).toEqual([{ tag: "#text", value: "Hello world" }]);
+		expect(nodes).toEqual([{ tag: "#text", value: "Hello world" }]);
 	});
 
 	it("should wrap single match in highlight tag", () => {
@@ -590,22 +595,22 @@ describe("buildResultFromMatches", () => {
 		};
 		const matches: Match[] = [{ index: 0, length: 5, text: "Hello", termData }];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(2);
-		expect(result[0]).toMatchObject({
+		expect(nodes).toHaveLength(2);
+		expect(nodes[0]).toMatchObject({
 			tag: "highlight",
 			attributes: { groups: ["group1"], term: "hello" },
 		});
-		expect((result[0] as HighlightTag).value).toEqual([
+		expect((nodes[0] as HighlightTag).value).toEqual([
 			{ tag: "#text", value: "Hello" },
 		]);
-		expect(result[1]).toEqual({ tag: "#text", value: " world" });
+		expect(nodes[1]).toEqual({ tag: "#text", value: " world" });
 	});
 
 	it("should handle match in the middle of text", () => {
@@ -620,20 +625,20 @@ describe("buildResultFromMatches", () => {
 		};
 		const matches: Match[] = [{ index: 4, length: 5, text: "Hello", termData }];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(3);
-		expect(result[0]).toEqual({ tag: "#text", value: "Say " });
-		expect(result[1]).toMatchObject({
+		expect(nodes).toHaveLength(3);
+		expect(nodes[0]).toEqual({ tag: "#text", value: "Say " });
+		expect(nodes[1]).toMatchObject({
 			tag: "highlight",
 			attributes: { groups: ["group1"], term: "hello" },
 		});
-		expect(result[2]).toEqual({ tag: "#text", value: " there" });
+		expect(nodes[2]).toEqual({ tag: "#text", value: " there" });
 	});
 
 	it("should handle multiple matches", () => {
@@ -652,19 +657,19 @@ describe("buildResultFromMatches", () => {
 			{ index: 12, length: 5, text: "Hello", termData },
 		];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(5);
-		expect(result[0]).toMatchObject({ tag: "highlight" });
-		expect(result[1]).toEqual({ tag: "#text", value: " " });
-		expect(result[2]).toMatchObject({ tag: "highlight" });
-		expect(result[3]).toEqual({ tag: "#text", value: " " });
-		expect(result[4]).toMatchObject({ tag: "highlight" });
+		expect(nodes).toHaveLength(5);
+		expect(nodes[0]).toMatchObject({ tag: "highlight" });
+		expect(nodes[1]).toEqual({ tag: "#text", value: " " });
+		expect(nodes[2]).toMatchObject({ tag: "highlight" });
+		expect(nodes[3]).toEqual({ tag: "#text", value: " " });
+		expect(nodes[4]).toMatchObject({ tag: "highlight" });
 	});
 
 	it("should handle cross-tag match preserving nested tags", () => {
@@ -684,20 +689,20 @@ describe("buildResultFromMatches", () => {
 			{ index: 0, length: 14, text: "Prince Charles", termData },
 		];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(1);
-		expect(result[0]).toMatchObject({
+		expect(nodes).toHaveLength(1);
+		expect(nodes[0]).toMatchObject({
 			tag: "highlight",
 			attributes: { groups: ["group1"], term: "prince-charles" },
 		});
 		// The value should preserve the <hi> tag
-		expect((result[0] as HighlightTag).value).toEqual([
+		expect((nodes[0] as HighlightTag).value).toEqual([
 			{ tag: "#text", value: "Prince " },
 			{ tag: "hi", value: [{ tag: "#text", value: "Charles" }] },
 		]);
@@ -739,15 +744,15 @@ describe("buildResultFromMatches", () => {
 			{ index: 0, length: 13, text: "New York City", termData },
 		];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(1);
-		expect((result[0] as HighlightTag).value).toEqual(preComputedValue);
+		expect(nodes).toHaveLength(1);
+		expect((nodes[0] as HighlightTag).value).toEqual(preComputedValue);
 	});
 
 	it("should reconstruct cross-tag match with nested term structure", () => {
@@ -790,15 +795,15 @@ describe("buildResultFromMatches", () => {
 			{ index: 0, length: 23, text: "Prince Charles The Bold", termData },
 		];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(1);
-		const highlight = result[0] as HighlightTag;
+		expect(nodes).toHaveLength(1);
+		const highlight = nodes[0] as HighlightTag;
 		expect(highlight.tag).toBe("highlight");
 
 		// The reconstructed value should preserve <hi> tag
@@ -809,7 +814,7 @@ describe("buildResultFromMatches", () => {
 		]);
 	});
 
-	it("should increment term count in registry", () => {
+	it("should return updated registry with incremented term count", () => {
 		const children = [{ tag: "#text", value: "Hello Hello" }];
 		const extraction = extractTextWithPositions(children);
 		// Pre-initialize the registry with the expected group and term
@@ -828,9 +833,15 @@ describe("buildResultFromMatches", () => {
 			{ index: 6, length: 5, text: "Hello", termData },
 		];
 
-		buildResultFromMatches(registry, children, extraction, matches);
+		const { registry: updatedRegistry } = buildResultFromMatches(
+			registry,
+			children,
+			extraction,
+			matches,
+		);
 
-		expect(registry.group1?.hello).toBe(2);
+		expect(updatedRegistry.group1?.hello).toBe(2);
+		expect(registry.group1?.hello).toBe(0); // Original unchanged
 	});
 
 	it("should handle stop tags before match", () => {
@@ -850,7 +861,7 @@ describe("buildResultFromMatches", () => {
 		};
 		const matches: Match[] = [{ index: 6, length: 4, text: "more", termData }];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
@@ -858,8 +869,8 @@ describe("buildResultFromMatches", () => {
 		);
 
 		// Should include: "Text ", formula, " ", highlight(more), " text"
-		expect(result.some((n) => n.tag === "formula")).toBe(true);
-		expect(result.some((n) => n.tag === "highlight")).toBe(true);
+		expect(nodes.some((n) => n.tag === "formula")).toBe(true);
+		expect(nodes.some((n) => n.tag === "highlight")).toBe(true);
 	});
 
 	it("should handle stop tags after all matches", () => {
@@ -878,7 +889,7 @@ describe("buildResultFromMatches", () => {
 		};
 		const matches: Match[] = [{ index: 0, length: 5, text: "Hello", termData }];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
@@ -886,7 +897,7 @@ describe("buildResultFromMatches", () => {
 		);
 
 		// Should include the formula at the end
-		expect(result[result.length - 1]).toEqual({ tag: "formula", value: "x=1" });
+		expect(nodes[nodes.length - 1]).toEqual({ tag: "formula", value: "x=1" });
 	});
 
 	it("should handle match at the very end of text", () => {
@@ -901,16 +912,16 @@ describe("buildResultFromMatches", () => {
 		};
 		const matches: Match[] = [{ index: 4, length: 5, text: "Hello", termData }];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect(result).toHaveLength(2);
-		expect(result[0]).toEqual({ tag: "#text", value: "Say " });
-		expect(result[1]).toMatchObject({ tag: "highlight" });
+		expect(nodes).toHaveLength(2);
+		expect(nodes[0]).toEqual({ tag: "#text", value: "Say " });
+		expect(nodes[1]).toMatchObject({ tag: "highlight" });
 	});
 
 	it("should kebab-casify term in highlight attributes", () => {
@@ -927,13 +938,13 @@ describe("buildResultFromMatches", () => {
 			{ index: 0, length: 13, text: "New York City", termData },
 		];
 
-		const result = buildResultFromMatches(
+		const { nodes } = buildResultFromMatches(
 			registry,
 			children,
 			extraction,
 			matches,
 		);
 
-		expect((result[0] as HighlightTag).attributes.term).toBe("new-york-city");
+		expect((nodes[0] as HighlightTag).attributes.term).toBe("new-york-city");
 	});
 });

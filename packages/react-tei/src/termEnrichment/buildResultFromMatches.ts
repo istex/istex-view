@@ -205,6 +205,12 @@ export const getRemainingNodes = (
 type ReduceState = {
 	nodes: DocumentJson[];
 	lastEnd: number;
+	registry: TermCountByGroup;
+};
+
+type BuildResult = {
+	nodes: DocumentJson[];
+	registry: TermCountByGroup;
 };
 
 /**
@@ -215,15 +221,15 @@ export const buildResultFromMatches = (
 	children: DocumentJson[],
 	extraction: ExtractionResult,
 	matches: Match[],
-): DocumentJson[] => {
+): BuildResult => {
 	const { text, positions, stopTags } = extraction;
 	const insertedStopTags = new Set<number>();
 
-	const { nodes, lastEnd } = matches.reduce<ReduceState>(
+	const { nodes, lastEnd, registry } = matches.reduce<ReduceState>(
 		(acc, match) => {
 			// Increment term count
-			incrementTermCountInRegistry(
-				termCountByGroupRegistry,
+			const updatedRegistry = incrementTermCountInRegistry(
+				acc.registry,
 				match.termData.groups.join("+"),
 				match.termData.value,
 			);
@@ -242,9 +248,10 @@ export const buildResultFromMatches = (
 			return {
 				nodes: [...acc.nodes, ...beforeNodes, highlightNode],
 				lastEnd: match.index + match.length,
+				registry: updatedRegistry,
 			};
 		},
-		{ nodes: [], lastEnd: 0 },
+		{ nodes: [], lastEnd: 0, registry: termCountByGroupRegistry },
 	);
 
 	const remainingNodes = getRemainingNodes(
@@ -256,5 +263,5 @@ export const buildResultFromMatches = (
 		insertedStopTags,
 	);
 
-	return [...nodes, ...remainingNodes];
+	return { nodes: [...nodes, ...remainingNodes], registry };
 };

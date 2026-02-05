@@ -35,17 +35,13 @@ export const findAllMatches = (
  * Filter matches to remove overlapping ones (keep longer/earlier matches)
  */
 export const removeOverlappingMatches = (matches: Match[]): Match[] => {
-	const result: Match[] = [];
-	let lastEnd = 0;
-
-	for (const match of matches) {
-		if (match.index >= lastEnd) {
+	return matches.reduce<Match[]>((result, match) => {
+		const lastMatch = result[result.length - 1];
+		if (!lastMatch || match.index >= lastMatch.index + lastMatch.length) {
 			result.push(match);
-			lastEnd = match.index + match.length;
 		}
-	}
-
-	return result;
+		return result;
+	}, []);
 };
 
 /**
@@ -82,6 +78,11 @@ export const createPartialStructureAtPath = (
 	};
 };
 
+export type HighlightResult = {
+	nodes: DocumentJson[];
+	registry: TermCountByGroup;
+};
+
 /**
  * Main function to highlight terms across children nodes.
  * Handles both single-tag and cross-tag term matches.
@@ -91,20 +92,20 @@ export const highlightTermsInChildren = (
 	children: DocumentJson[],
 	termDataList: TermData[],
 	isStopTag: (tag: DocumentJson) => boolean = () => false,
-): DocumentJson[] => {
+): HighlightResult => {
 	// Extract text with position tracking
 	const extraction = extractTextWithPositions(children, isStopTag);
 	const { text } = extraction;
 
 	if (!text) {
-		return children;
+		return { nodes: children, registry: termCountByGroupRegistry };
 	}
 
 	// Find all matches
 	const allMatches = findAllMatches(text, termDataList);
 
 	if (allMatches.length === 0) {
-		return children;
+		return { nodes: children, registry: termCountByGroupRegistry };
 	}
 
 	// Remove overlapping matches

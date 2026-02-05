@@ -181,6 +181,11 @@ const groupInlineChildren = (children: DocumentJson[]): DocumentJson[][] => {
 	return groups;
 };
 
+type EnrichResult = {
+	node: DocumentJson;
+	registry: TermCountByGroup;
+};
+
 /**
  * Recursively enrich a document node with term highlighting.
  * Works at the parent level to enable cross-tag term detection.
@@ -189,63 +194,80 @@ const enrichNodeRecursive = (
 	node: DocumentJson,
 	termCountByGroup: TermCountByGroup,
 	termRegexes: TermData[],
-): DocumentJson => {
+): EnrichResult => {
 	// Skip stop tags entirely
 	if (isStopTag(node)) {
-		return node;
+		return { node, registry: termCountByGroup };
 	}
 
 	// If this is a text node, it will be handled by its parent
 	if (node.tag === "#text") {
-		return node;
+		return { node, registry: termCountByGroup };
 	}
 
 	// If node has no children array, return as-is
 	if (!Array.isArray(node.value)) {
-		return node;
+		return { node, registry: termCountByGroup };
 	}
 
 	// First, recursively process all block-level children
-	const preprocessedChildren = node.value.map((child) => {
-		if (child.tag === "#text") {
-			return child;
-		}
-		if (isStopTag(child)) {
-			return child;
-		}
-		if (isBlockElement(child)) {
-			return enrichNodeRecursive(child, termCountByGroup, termRegexes);
-		}
-		// For inline elements, recursively process their children but don't do highlighting yet
-		// The highlighting will be done at this level to allow cross-tag matching
-		return child;
-	});
+	const { children: preprocessedChildren, registry: registryAfterPreprocess } =
+		node.value.reduce<{ children: DocumentJson[]; registry: TermCountByGroup }>(
+			(acc, child) => {
+				if (child.tag === "#text") {
+					return { children: [...acc.children, child], registry: acc.registry };
+				}
+				if (isStopTag(child)) {
+					return { children: [...acc.children, child], registry: acc.registry };
+				}
+				if (isBlockElement(child)) {
+					const { node: enrichedChild, registry } = enrichNodeRecursive(
+						child,
+						acc.registry,
+						termRegexes,
+					);
+					return { children: [...acc.children, enrichedChild], registry };
+				}
+				// For inline elements, recursively process their children but don't do highlighting yet
+				// The highlighting will be done at this level to allow cross-tag matching
+				return { children: [...acc.children, child], registry: acc.registry };
+			},
+			{ children: [], registry: termCountByGroup },
+		);
 
 	// Group consecutive inline elements together
 	const groups = groupInlineChildren(preprocessedChildren);
 
 	// Process each group
-
-	const resultChildren: DocumentJson[] = groups.flatMap(
-		(group): DocumentJson[] => {
+	const { resultChildren, registry: finalRegistry } = groups.reduce<{
+		resultChildren: DocumentJson[];
+		registry: TermCountByGroup;
+	}>(
+		(acc, group) => {
 			// If this group is a single block element, it has already been processed, just return it
 			if (
 				group.length === 1 &&
 				(isBlockElement(group[0]!) || isStopTag(group[0]!))
 			) {
-				return [group[0]!];
+				return {
+					resultChildren: [...acc.resultChildren, group[0]!],
+					registry: acc.registry,
+				};
 			}
 
 			/// Inline group - apply cross-tag highlighting
 			const hasTextContent = group.some(containsTextContent);
 
 			if (!hasTextContent) {
-				return group;
+				return {
+					resultChildren: [...acc.resultChildren, ...group],
+					registry: acc.registry,
+				};
 			}
 
 			// Apply cross-tag highlighting to this inline group
-			const highlightedGroup = highlightTermsInChildren(
-				termCountByGroup,
+			const { nodes: highlightedGroup, registry } = highlightTermsInChildren(
+				acc.registry,
 				group,
 				termRegexes,
 				isStopTag,
@@ -257,21 +279,32 @@ const enrichNodeRecursive = (
 			);
 
 			if (hasHighlights) {
-				return [
-					{
-						tag: "highlightedText",
-						attributes: undefined,
-						value: highlightedGroup,
-					} as DocumentJson,
-				];
+				return {
+					resultChildren: [
+						...acc.resultChildren,
+						{
+							tag: "highlightedText",
+							attributes: undefined,
+							value: highlightedGroup,
+						} as DocumentJson,
+					],
+					registry,
+				};
 			}
-			return highlightedGroup;
+			return {
+				resultChildren: [...acc.resultChildren, ...highlightedGroup],
+				registry,
+			};
 		},
+		{ resultChildren: [], registry: registryAfterPreprocess },
 	);
 
 	return {
-		...node,
-		value: resultChildren,
+		node: {
+			...node,
+			value: resultChildren,
+		},
+		registry: finalRegistry,
 	};
 };
 
@@ -298,14 +331,11 @@ export const enrichDocumentWithTerms = (
 	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
 	const termRegexes = getTermRegexes(sortedTerms);
 
-	const enrichedDocument = enrichNodeRecursive(
-		document,
-		termCountByGroup,
-		termRegexes,
-	);
+	const { node: enrichedDocument, registry: finalRegistry } =
+		enrichNodeRecursive(document, termCountByGroup, termRegexes);
 
 	return {
 		enrichedDocument,
-		termCountByGroup,
+		termCountByGroup: finalRegistry,
 	};
 };

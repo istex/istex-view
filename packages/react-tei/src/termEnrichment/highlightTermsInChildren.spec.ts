@@ -289,9 +289,13 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /Hello/g, term: "Hello", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toBe(children);
+		expect(nodes).toBe(children);
 	});
 
 	it("should return original children when no matches found", () => {
@@ -301,9 +305,13 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /foo/g, term: "foo", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toBe(children);
+		expect(nodes).toBe(children);
 	});
 
 	it("should highlight single term in text node", () => {
@@ -313,17 +321,21 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /Hello/g, term: "Hello", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(2);
-		expect(result[0]).toMatchObject({
+		expect(nodes).toHaveLength(2);
+		expect(nodes[0]).toMatchObject({
 			tag: "highlight",
 			attributes: { groups: ["group1"], term: "hello" },
 		});
-		expect((result[0] as HighlightTag).value).toEqual([
+		expect((nodes[0] as HighlightTag).value).toEqual([
 			{ tag: "#text", value: "Hello" },
 		]);
-		expect(result[1]).toEqual({ tag: "#text", value: " world" });
+		expect(nodes[1]).toEqual({ tag: "#text", value: " world" });
 	});
 
 	it("should highlight multiple terms", () => {
@@ -334,12 +346,16 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /world/g, term: "world", groups: ["group2"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(3);
-		expect(result[0]).toMatchObject({ tag: "highlight" });
-		expect(result[1]).toEqual({ tag: "#text", value: " beautiful " });
-		expect(result[2]).toMatchObject({ tag: "highlight" });
+		expect(nodes).toHaveLength(3);
+		expect(nodes[0]).toMatchObject({ tag: "highlight" });
+		expect(nodes[1]).toEqual({ tag: "#text", value: " beautiful " });
+		expect(nodes[2]).toMatchObject({ tag: "highlight" });
 	});
 
 	it("should highlight term spanning multiple text nodes", () => {
@@ -356,10 +372,14 @@ describe("highlightTermsInChildren", () => {
 			},
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(1);
-		expect(result[0]).toMatchObject({
+		expect(nodes).toHaveLength(1);
+		expect(nodes[0]).toMatchObject({
 			tag: "highlight",
 			attributes: { groups: ["group1"], term: "prince-charles" },
 		});
@@ -379,10 +399,14 @@ describe("highlightTermsInChildren", () => {
 			},
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(1);
-		expect((result[0] as HighlightTag).value).toEqual([
+		expect(nodes).toHaveLength(1);
+		expect((nodes[0] as HighlightTag).value).toEqual([
 			{ tag: "#text", value: "Prince " },
 			{ tag: "hi", value: [{ tag: "#text", value: "Charles" }] },
 		]);
@@ -400,15 +424,15 @@ describe("highlightTermsInChildren", () => {
 		];
 		const isStopTag = (node: { tag: string }) => node.tag === "formula";
 
-		const result = highlightTermsInChildren(
+		const { nodes } = highlightTermsInChildren(
 			registry,
 			children,
 			termDataList,
 			isStopTag,
 		);
 
-		expect(result.some((n) => n.tag === "formula")).toBe(true);
-		expect(result.some((n) => n.tag === "highlight")).toBe(true);
+		expect(nodes.some((n) => n.tag === "formula")).toBe(true);
+		expect(nodes.some((n) => n.tag === "highlight")).toBe(true);
 	});
 
 	it("should handle overlapping terms keeping longer match", () => {
@@ -423,10 +447,14 @@ describe("highlightTermsInChildren", () => {
 			},
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(1);
-		expect((result[0] as HighlightTag).attributes.term).toBe("new-york-city");
+		expect(nodes).toHaveLength(1);
+		expect((nodes[0] as HighlightTag).attributes.term).toBe("new-york-city");
 	});
 
 	it("should use pre-computed value for nested terms", () => {
@@ -463,10 +491,14 @@ describe("highlightTermsInChildren", () => {
 			},
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(1);
-		expect((result[0] as HighlightTag).value).toEqual(preComputedValue);
+		expect(nodes).toHaveLength(1);
+		expect((nodes[0] as HighlightTag).value).toEqual(preComputedValue);
 	});
 
 	it("should handle deeply nested tags", () => {
@@ -486,10 +518,14 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /Hello/g, term: "Hello", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(2);
-		expect(result[0]).toMatchObject({ tag: "highlight" });
+		expect(nodes).toHaveLength(2);
+		expect(nodes[0]).toMatchObject({ tag: "highlight" });
 	});
 
 	it("should handle match at end of text", () => {
@@ -499,11 +535,15 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /Hello/g, term: "Hello", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(2);
-		expect(result[0]).toEqual({ tag: "#text", value: "Say " });
-		expect(result[1]).toMatchObject({ tag: "highlight" });
+		expect(nodes).toHaveLength(2);
+		expect(nodes[0]).toEqual({ tag: "#text", value: "Say " });
+		expect(nodes[1]).toMatchObject({ tag: "highlight" });
 	});
 
 	it("should handle match at beginning of text", () => {
@@ -513,11 +553,15 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /Hello/g, term: "Hello", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(2);
-		expect(result[0]).toMatchObject({ tag: "highlight" });
-		expect(result[1]).toEqual({ tag: "#text", value: " there" });
+		expect(nodes).toHaveLength(2);
+		expect(nodes[0]).toMatchObject({ tag: "highlight" });
+		expect(nodes[1]).toEqual({ tag: "#text", value: " there" });
 	});
 
 	it("should handle entire text as match", () => {
@@ -527,9 +571,13 @@ describe("highlightTermsInChildren", () => {
 			{ termRegex: /Hello/g, term: "Hello", groups: ["group1"] },
 		];
 
-		const result = highlightTermsInChildren(registry, children, termDataList);
+		const { nodes } = highlightTermsInChildren(
+			registry,
+			children,
+			termDataList,
+		);
 
-		expect(result).toHaveLength(1);
-		expect(result[0]).toMatchObject({ tag: "highlight" });
+		expect(nodes).toHaveLength(1);
+		expect(nodes[0]).toMatchObject({ tag: "highlight" });
 	});
 });
