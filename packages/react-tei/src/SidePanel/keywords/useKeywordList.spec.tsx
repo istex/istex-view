@@ -21,6 +21,7 @@ describe("useKeywordList", () => {
 										value: [
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "Droz" },
 												value: [
 													{
 														tag: "term",
@@ -34,6 +35,7 @@ describe("useKeywordList", () => {
 											},
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "term",
@@ -67,6 +69,7 @@ describe("useKeywordList", () => {
 			keywordList: [
 				{
 					tag: "keywords",
+					attributes: { "@scheme": "Droz" },
 					value: [
 						{
 							tag: "term",
@@ -80,6 +83,7 @@ describe("useKeywordList", () => {
 				},
 				{
 					tag: "keywords",
+					attributes: { "@scheme": "keywords" },
 					value: [
 						{
 							tag: "term",
@@ -131,10 +135,12 @@ describe("useKeywordList", () => {
 										value: [
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [],
 											},
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "term",
@@ -164,6 +170,7 @@ describe("useKeywordList", () => {
 			keywordList: [
 				{
 					tag: "keywords",
+					attributes: { "@scheme": "keywords" },
 					value: [
 						{
 							tag: "term",
@@ -192,6 +199,7 @@ describe("useKeywordList", () => {
 										value: [
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "term",
@@ -204,6 +212,7 @@ describe("useKeywordList", () => {
 												],
 											},
 											{
+												attributes: { "@scheme": "keywords" },
 												tag: "keywords",
 												value: [
 													{
@@ -234,6 +243,7 @@ describe("useKeywordList", () => {
 			keywordList: [
 				{
 					tag: "keywords",
+					attributes: { "@scheme": "keywords" },
 					value: [
 						{
 							tag: "term",
@@ -262,7 +272,7 @@ describe("useKeywordList", () => {
 										value: [
 											{
 												tag: "keywords",
-												attributes: { "@rend": "tocHeading1" },
+												attributes: { "@scheme": "unknown" },
 												value: [
 													{
 														tag: "term",
@@ -272,16 +282,19 @@ describe("useKeywordList", () => {
 											},
 											{
 												tag: "keywords",
-												attributes: { "@scheme": "heading" },
+												attributes: { "@scheme": "Droz" },
 												value: [
 													{
 														tag: "term",
-														value: [{ tag: "#text", value: "Keyword Invalid" }],
+														value: [
+															{ tag: "#text", value: "Droz Keyword Valid" },
+														],
 													},
 												],
 											},
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "term",
@@ -311,6 +324,17 @@ describe("useKeywordList", () => {
 			keywordList: [
 				{
 					tag: "keywords",
+					attributes: { "@scheme": "Droz" },
+					value: [
+						{
+							tag: "term",
+							value: [{ tag: "#text", value: "Droz Keyword Valid" }],
+						},
+					],
+				},
+				{
+					tag: "keywords",
+					attributes: { "@scheme": "keywords" },
 					value: [
 						{
 							tag: "term",
@@ -319,7 +343,7 @@ describe("useKeywordList", () => {
 					],
 				},
 			],
-			count: 1,
+			count: 2,
 		});
 	});
 
@@ -328,7 +352,9 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "keywords",
-					attributes: {},
+					attributes: {
+						"@scheme": "Droz",
+					},
 					value: [
 						{
 							tag: "term",
@@ -346,7 +372,29 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "keywords",
-					attributes: {},
+					attributes: {
+						"@scheme": "keywords",
+					},
+					value: [
+						{
+							tag: "term",
+							value: [
+								{
+									tag: "#text",
+									value: "A valid term",
+								},
+							],
+						},
+					],
+				},
+				true,
+			],
+			[
+				{
+					tag: "keywords",
+					attributes: {
+						"@scheme": "Droz",
+					},
 					value: [
 						{
 							tag: "list",
@@ -374,7 +422,9 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "keywordsWithoutTerm",
-					attributes: {},
+					attributes: {
+						"@scheme": "keywords",
+					},
 					value: [
 						{
 							tag: "list",
@@ -396,7 +446,9 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "notKeywords",
-					attributes: {},
+					attributes: {
+						"@scheme": "keywords",
+					},
 					value: [],
 				},
 				false,
@@ -404,7 +456,7 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "keywords",
-					attributes: { "@rend": "tocHeading1" },
+					attributes: { "@scheme": "unknown" },
 					value: [],
 				},
 				false,
@@ -420,7 +472,9 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "keywords",
-					attributes: {},
+					attributes: {
+						"@scheme": "keywords",
+					},
 					value: [],
 				},
 				false,
@@ -428,7 +482,9 @@ describe("useKeywordList", () => {
 			[
 				{
 					tag: "keywordsWithOnlyEmptyTerms",
-					attributes: {},
+					attributes: {
+						"@scheme": "keywords",
+					},
 					value: [
 						{
 							tag: "term",

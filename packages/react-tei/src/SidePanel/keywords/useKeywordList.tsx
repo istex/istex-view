@@ -24,24 +24,14 @@ export const isValidKeyword = ({
 	}
 
 	if (!attributes) {
+		return false;
+	}
+
+	if (["Droz", "keywords"].includes(attributes["@scheme"] as string)) {
 		return true;
 	}
 
-	if (
-		"@rend" in attributes &&
-		["tocHeading1"].includes(attributes["@rend"] as string)
-	) {
-		return false;
-	}
-
-	if (
-		"@scheme" in attributes &&
-		["heading"].includes(attributes["@scheme"] as string)
-	) {
-		return false;
-	}
-
-	return true;
+	return false;
 };
 
 export const useKeywordList = (): {

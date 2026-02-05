@@ -56,7 +56,7 @@
         </fileDesc>
         <profileDesc>
             <textClass>
-                <keywords>
+                <keywords scheme="keywords">
                     <term>Legolas</term>
                     <term>Aragorn</term>
                     <term>Gimli</term>
@@ -70,7 +70,7 @@
                     <term>Elrond</term>
                     <term>Arwen</term>
                 </keywords>
-                <keywords>
+                <keywords scheme="keywords">
                     <list>
                         <head>Subject Areas</head>
                         <item>

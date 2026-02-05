@@ -43,6 +43,7 @@ describe("KeywordSection", () => {
 										value: [
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "term",
@@ -108,6 +109,7 @@ describe("KeywordSection", () => {
 										value: [
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "head",
@@ -247,6 +249,7 @@ describe("KeywordSection", () => {
 										value: [
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "keywords" },
 												value: [
 													{
 														tag: "term",
@@ -260,6 +263,7 @@ describe("KeywordSection", () => {
 											},
 											{
 												tag: "keywords",
+												attributes: { "@scheme": "Droz" },
 												value: [
 													{
 														tag: "term",
