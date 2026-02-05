@@ -56,6 +56,158 @@ export const isCrossTagMatch = (
 };
 
 /**
+ * Get stop tags in a range of positions
+ */
+export const getStopTagsInRange = (
+	stopTags: StopTagPosition[],
+	startPos: number,
+	endPos: number,
+	insertedStopTags: Set<number>,
+): DocumentJson[] =>
+	Array.from({ length: endPos - startPos }, (_, i) => startPos + i + 1).flatMap(
+		(pos) => getStopTagsAtPosition(stopTags, pos, insertedStopTags),
+	);
+
+/**
+ * Compute the highlight value based on match type
+ */
+export const computeHighlightValue = (
+	match: Match,
+	children: DocumentJson[],
+	positions: TextPosition[],
+): (TextTag | HighlightTag)[] => {
+	const matchEnd = match.index + match.length;
+	const { value } = match.termData;
+	const crossTag = isCrossTagMatch(positions, match.index, matchEnd);
+
+	if (crossTag && value && Array.isArray(value)) {
+		// Cross-tag match with pre-computed nested structure (overlapping terms)
+		return reconstructCrossTagNestedTerms(
+			children,
+			positions,
+			match.index,
+			value as HighlightTag[],
+		);
+	}
+
+	if (crossTag) {
+		// Cross-tag match: reconstruct the spanning nodes
+		return reconstructNodesForRange(
+			children,
+			positions,
+			match.index,
+			matchEnd,
+		) as (TextTag | HighlightTag)[];
+	}
+
+	if (value && Array.isArray(value)) {
+		// Has pre-computed value (for nested terms)
+		return value;
+	}
+
+	// Simple single-tag match: wrap in a text node array
+	return [{ tag: "#text", value: match.text }];
+};
+
+/**
+ * Create a highlight node from a match
+ */
+export const createHighlightNode = (
+	match: Match,
+	children: DocumentJson[],
+	positions: TextPosition[],
+): HighlightTag => ({
+	tag: "highlight",
+	value: computeHighlightValue(match, children, positions),
+	attributes: {
+		groups: match.termData.groups,
+		term: kebabCasify(match.termData.term),
+	} as HighlightTag["attributes"],
+});
+
+/**
+ * Get nodes before a match (non-matched content + stop tags)
+ */
+export const getNodesBeforeMatch = (
+	match: Match,
+	lastEnd: number,
+	children: DocumentJson[],
+	positions: TextPosition[],
+	stopTags: StopTagPosition[],
+	insertedStopTags: Set<number>,
+): DocumentJson[] => {
+	const stopTagsAtLastEnd = getStopTagsAtPosition(
+		stopTags,
+		lastEnd,
+		insertedStopTags,
+	);
+
+	if (match.index <= lastEnd) {
+		return stopTagsAtLastEnd;
+	}
+
+	const beforeNodes = reconstructNodesForRange(
+		children,
+		positions,
+		lastEnd,
+		match.index,
+	);
+
+	const stopTagsInRange = getStopTagsInRange(
+		stopTags,
+		lastEnd,
+		match.index,
+		insertedStopTags,
+	);
+
+	return [...stopTagsAtLastEnd, ...beforeNodes, ...stopTagsInRange];
+};
+
+/**
+ * Get remaining nodes after all matches
+ */
+export const getRemainingNodes = (
+	lastEnd: number,
+	textLength: number,
+	children: DocumentJson[],
+	positions: TextPosition[],
+	stopTags: StopTagPosition[],
+	insertedStopTags: Set<number>,
+): DocumentJson[] => {
+	const stopTagsAtLastEnd = getStopTagsAtPosition(
+		stopTags,
+		lastEnd,
+		insertedStopTags,
+	);
+
+	const afterNodes =
+		lastEnd < textLength
+			? reconstructNodesForRange(children, positions, lastEnd, textLength)
+			: [];
+
+	const stopTagsInRange =
+		lastEnd < textLength
+			? getStopTagsInRange(stopTags, lastEnd, textLength, insertedStopTags)
+			: [];
+
+	const remainingStopTags = stopTags
+		.filter((_, index) => !insertedStopTags.has(index))
+		.map((stopTag) => stopTag.node);
+
+	return [
+		...stopTagsAtLastEnd,
+		...afterNodes,
+		...stopTagsInRange,
+		...remainingStopTags,
+	];
+};
+
+type ReduceState = {
+	nodes: DocumentJson[];
+	lastEnd: number;
+};
+
+/**
  * Build the result array from matches and non-matched segments
  */
 export const buildResultFromMatches = (
@@ -65,110 +217,44 @@ export const buildResultFromMatches = (
 	matches: Match[],
 ): DocumentJson[] => {
 	const { text, positions, stopTags } = extraction;
-	const result: DocumentJson[] = [];
-	let lastEnd = 0;
 	const insertedStopTags = new Set<number>();
 
-	for (const match of matches) {
-		// Add stop tags that appear before this match
-		result.push(...getStopTagsAtPosition(stopTags, lastEnd, insertedStopTags));
-
-		// Add non-matched content before this match
-		if (match.index > lastEnd) {
-			const beforeNodes = reconstructNodesForRange(
-				children,
-				positions,
-				lastEnd,
-				match.index,
+	const { nodes, lastEnd } = matches.reduce<ReduceState>(
+		(acc, match) => {
+			// Increment term count
+			incrementTermCountInRegistry(
+				termCountByGroupRegistry,
+				match.termData.groups.join("+"),
+				match.termData.value,
 			);
-			result.push(...beforeNodes);
 
-			// Check for stop tags within the before range
-			for (let pos = lastEnd + 1; pos <= match.index; pos++) {
-				result.push(...getStopTagsAtPosition(stopTags, pos, insertedStopTags));
-			}
-		}
-
-		// Add the highlighted match
-		const matchEnd = match.index + match.length;
-		const { termData } = match;
-		const { term, groups, value } = termData;
-
-		// Increment term count
-		incrementTermCountInRegistry(
-			termCountByGroupRegistry,
-			groups.join("+"),
-			value,
-		);
-
-		// For cross-tag matches, always reconstruct the content
-		const crossTag = isCrossTagMatch(positions, match.index, matchEnd);
-
-		let highlightValue: (TextTag | HighlightTag)[];
-
-		if (crossTag && value && Array.isArray(value)) {
-			// Cross-tag match with pre-computed nested structure (overlapping terms)
-			// We need to map each subTerm to the actual nodes from the document
-			highlightValue = reconstructCrossTagNestedTerms(
+			const beforeNodes = getNodesBeforeMatch(
+				match,
+				acc.lastEnd,
 				children,
 				positions,
-				match.index,
-				value as HighlightTag[],
+				stopTags,
+				insertedStopTags,
 			);
-		} else if (crossTag) {
-			// Cross-tag match: reconstruct the spanning nodes
-			highlightValue = reconstructNodesForRange(
-				children,
-				positions,
-				match.index,
-				matchEnd,
-			) as (TextTag | HighlightTag)[];
-		} else if (value && Array.isArray(value)) {
-			// Has pre-computed value (for nested terms)
-			highlightValue = value;
-		} else {
-			// Simple single-tag match: wrap in a text node array
-			highlightValue = [{ tag: "#text", value: match.text }];
-		}
 
-		const highlightNode: HighlightTag = {
-			tag: "highlight",
-			value: highlightValue,
-			attributes: {
-				groups,
-				term: kebabCasify(term),
-			} as HighlightTag["attributes"],
-		};
+			const highlightNode = createHighlightNode(match, children, positions);
 
-		result.push(highlightNode);
-		lastEnd = matchEnd;
-	}
+			return {
+				nodes: [...acc.nodes, ...beforeNodes, highlightNode],
+				lastEnd: match.index + match.length,
+			};
+		},
+		{ nodes: [], lastEnd: 0 },
+	);
 
-	// Add any remaining stop tags
-	result.push(...getStopTagsAtPosition(stopTags, lastEnd, insertedStopTags));
+	const remainingNodes = getRemainingNodes(
+		lastEnd,
+		text.length,
+		children,
+		positions,
+		stopTags,
+		insertedStopTags,
+	);
 
-	// Add remaining content after last match
-	if (lastEnd < text.length) {
-		const afterNodes = reconstructNodesForRange(
-			children,
-			positions,
-			lastEnd,
-			text.length,
-		);
-		result.push(...afterNodes);
-
-		// Check for any remaining stop tags
-		for (let pos = lastEnd + 1; pos <= text.length; pos++) {
-			result.push(...getStopTagsAtPosition(stopTags, pos, insertedStopTags));
-		}
-	}
-
-	// Add any stop tags that haven't been inserted yet (at the end)
-	for (let i = 0; i < stopTags.length; i++) {
-		if (!insertedStopTags.has(i)) {
-			result.push(stopTags[i]!.node);
-		}
-	}
-
-	return result;
+	return [...nodes, ...remainingNodes];
 };

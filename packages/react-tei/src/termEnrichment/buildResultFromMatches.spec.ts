@@ -1,7 +1,12 @@
 import { describe, expect, it } from "vitest";
 import {
 	buildResultFromMatches,
+	computeHighlightValue,
+	createHighlightNode,
+	getNodesBeforeMatch,
+	getRemainingNodes,
 	getStopTagsAtPosition,
+	getStopTagsInRange,
 	isCrossTagMatch,
 	type Match,
 } from "./buildResultFromMatches";
@@ -132,6 +137,434 @@ describe("buildResultFromMatches", () => {
 			const result = isCrossTagMatch(positions, 6, 15);
 
 			expect(result).toBe(false);
+		});
+	});
+
+	describe("getStopTagsInRange", () => {
+		it("should return empty array when no stop tags in range", () => {
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 10,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+
+			const result = getStopTagsInRange(stopTags, 0, 5, insertedStopTags);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should return stop tags within the range", () => {
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 3,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+				{
+					positionInConcat: 5,
+					node: { tag: "formula", value: "y=2" },
+					childIndex: 1,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+
+			const result = getStopTagsInRange(stopTags, 0, 5, insertedStopTags);
+
+			expect(result).toHaveLength(2);
+			expect(result[0]).toEqual({ tag: "formula", value: "x=1" });
+			expect(result[1]).toEqual({ tag: "formula", value: "y=2" });
+		});
+
+		it("should not include stop tags at startPos", () => {
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 0,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+				{
+					positionInConcat: 3,
+					node: { tag: "formula", value: "y=2" },
+					childIndex: 1,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+
+			const result = getStopTagsInRange(stopTags, 0, 5, insertedStopTags);
+
+			// Position 0 is not included (range is startPos+1 to endPos)
+			expect(result).toHaveLength(1);
+			expect(result[0]).toEqual({ tag: "formula", value: "y=2" });
+		});
+
+		it("should mark stop tags as inserted", () => {
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 3,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+
+			getStopTagsInRange(stopTags, 0, 5, insertedStopTags);
+
+			expect(insertedStopTags.has(0)).toBe(true);
+		});
+	});
+
+	describe("computeHighlightValue", () => {
+		it("should return text node array for simple single-tag match", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+			const match: Match = {
+				index: 0,
+				length: 5,
+				text: "Hello",
+				termData: {
+					termRegex: /Hello/g,
+					term: "Hello",
+					groups: ["group1"],
+				},
+			};
+
+			const result = computeHighlightValue(match, children, positions);
+
+			expect(result).toEqual([{ tag: "#text", value: "Hello" }]);
+		});
+
+		it("should return pre-computed value for nested terms", () => {
+			const children = [{ tag: "#text", value: "New York City" }];
+			const { positions } = extractTextWithPositions(children);
+			const preComputedValue: HighlightTag[] = [
+				{
+					tag: "highlight",
+					value: [{ tag: "#text", value: "New York" }],
+					attributes: {
+						groups: ["group1"],
+						term: "new-york",
+					} as HighlightTag["attributes"],
+				},
+			];
+			const match: Match = {
+				index: 0,
+				length: 13,
+				text: "New York City",
+				termData: {
+					termRegex: /New York City/g,
+					term: "New York City",
+					groups: ["group1"],
+					value: preComputedValue,
+				},
+			};
+
+			const result = computeHighlightValue(match, children, positions);
+
+			expect(result).toEqual(preComputedValue);
+		});
+
+		it("should reconstruct nodes for cross-tag match", () => {
+			const children = [
+				{ tag: "#text", value: "Prince " },
+				{ tag: "hi", value: [{ tag: "#text", value: "Charles" }] },
+			];
+			const { positions } = extractTextWithPositions(children);
+			const match: Match = {
+				index: 0,
+				length: 14,
+				text: "Prince Charles",
+				termData: {
+					termRegex: /Prince Charles/g,
+					term: "Prince Charles",
+					groups: ["group1"],
+				},
+			};
+
+			const result = computeHighlightValue(match, children, positions);
+
+			expect(result).toEqual([
+				{ tag: "#text", value: "Prince " },
+				{ tag: "hi", value: [{ tag: "#text", value: "Charles" }] },
+			]);
+		});
+	});
+
+	describe("createHighlightNode", () => {
+		it("should create highlight node with correct attributes", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+			const match: Match = {
+				index: 0,
+				length: 5,
+				text: "Hello",
+				termData: {
+					termRegex: /Hello/g,
+					term: "Hello",
+					groups: ["group1", "group2"],
+				},
+			};
+
+			const result = createHighlightNode(match, children, positions);
+
+			expect(result.tag).toBe("highlight");
+			expect(result.attributes.groups).toEqual(["group1", "group2"]);
+			expect(result.attributes.term).toBe("hello");
+		});
+
+		it("should kebab-casify term name", () => {
+			const children = [{ tag: "#text", value: "New York City" }];
+			const { positions } = extractTextWithPositions(children);
+			const match: Match = {
+				index: 0,
+				length: 13,
+				text: "New York City",
+				termData: {
+					termRegex: /New York City/g,
+					term: "New York City",
+					groups: ["group1"],
+				},
+			};
+
+			const result = createHighlightNode(match, children, positions);
+
+			expect(result.attributes.term).toBe("new-york-city");
+		});
+
+		it("should include computed highlight value", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+			const match: Match = {
+				index: 0,
+				length: 5,
+				text: "Hello",
+				termData: {
+					termRegex: /Hello/g,
+					term: "Hello",
+					groups: ["group1"],
+				},
+			};
+
+			const result = createHighlightNode(match, children, positions);
+
+			expect(result.value).toEqual([{ tag: "#text", value: "Hello" }]);
+		});
+	});
+
+	describe("getNodesBeforeMatch", () => {
+		it("should return only stop tags when match starts at lastEnd", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 0,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+			const match: Match = {
+				index: 0,
+				length: 5,
+				text: "Hello",
+				termData: {
+					termRegex: /Hello/g,
+					term: "Hello",
+					groups: ["group1"],
+				},
+			};
+
+			const result = getNodesBeforeMatch(
+				match,
+				0,
+				children,
+				positions,
+				stopTags,
+				insertedStopTags,
+			);
+
+			expect(result).toEqual([{ tag: "formula", value: "x=1" }]);
+		});
+
+		it("should return content between lastEnd and match", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+			const match: Match = {
+				index: 6,
+				length: 5,
+				text: "world",
+				termData: {
+					termRegex: /world/g,
+					term: "world",
+					groups: ["group1"],
+				},
+			};
+
+			const result = getNodesBeforeMatch(
+				match,
+				0,
+				children,
+				positions,
+				[],
+				new Set(),
+			);
+
+			expect(result).toEqual([{ tag: "#text", value: "Hello " }]);
+		});
+
+		it("should include stop tags at lastEnd and in range", () => {
+			const children = [{ tag: "#text", value: "Hello beautiful world" }];
+			const { positions } = extractTextWithPositions(children);
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 0,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+				{
+					positionInConcat: 6,
+					node: { tag: "formula", value: "y=2" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+			const match: Match = {
+				index: 16,
+				length: 5,
+				text: "world",
+				termData: {
+					termRegex: /world/g,
+					term: "world",
+					groups: ["group1"],
+				},
+			};
+
+			const result = getNodesBeforeMatch(
+				match,
+				0,
+				children,
+				positions,
+				stopTags,
+				insertedStopTags,
+			);
+
+			// Should include: stop tag at 0, content "Hello beautiful ", stop tag at 6
+			expect(result.some((n) => n.tag === "formula" && n.value === "x=1")).toBe(
+				true,
+			);
+			expect(result.some((n) => n.tag === "formula" && n.value === "y=2")).toBe(
+				true,
+			);
+			expect(result.some((n) => n.tag === "#text")).toBe(true);
+		});
+	});
+
+	describe("getRemainingNodes", () => {
+		it("should return empty when lastEnd equals textLength", () => {
+			const children = [{ tag: "#text", value: "Hello" }];
+			const { positions } = extractTextWithPositions(children);
+
+			const result = getRemainingNodes(
+				5,
+				5,
+				children,
+				positions,
+				[],
+				new Set(),
+			);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should return remaining text after lastEnd", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+
+			const result = getRemainingNodes(
+				5,
+				11,
+				children,
+				positions,
+				[],
+				new Set(),
+			);
+
+			expect(result).toEqual([{ tag: "#text", value: " world" }]);
+		});
+
+		it("should include uninserted stop tags", () => {
+			const children = [{ tag: "#text", value: "Hello" }];
+			const { positions } = extractTextWithPositions(children);
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 10,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+
+			const result = getRemainingNodes(
+				5,
+				5,
+				children,
+				positions,
+				stopTags,
+				insertedStopTags,
+			);
+
+			expect(result).toEqual([{ tag: "formula", value: "x=1" }]);
+		});
+
+		it("should not include already inserted stop tags", () => {
+			const children = [{ tag: "#text", value: "Hello" }];
+			const { positions } = extractTextWithPositions(children);
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 10,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>([0]);
+
+			const result = getRemainingNodes(
+				5,
+				5,
+				children,
+				positions,
+				stopTags,
+				insertedStopTags,
+			);
+
+			expect(result).toEqual([]);
+		});
+
+		it("should include stop tags at lastEnd position", () => {
+			const children = [{ tag: "#text", value: "Hello world" }];
+			const { positions } = extractTextWithPositions(children);
+			const stopTags: StopTagPosition[] = [
+				{
+					positionInConcat: 5,
+					node: { tag: "formula", value: "x=1" },
+					childIndex: 0,
+				},
+			];
+			const insertedStopTags = new Set<number>();
+
+			const result = getRemainingNodes(
+				5,
+				11,
+				children,
+				positions,
+				stopTags,
+				insertedStopTags,
+			);
+
+			expect(result[0]).toEqual({ tag: "formula", value: "x=1" });
+			expect(result.some((n) => n.tag === "#text")).toBe(true);
 		});
 	});
 
