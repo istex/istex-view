@@ -1,0 +1,9 @@
+# The development and CI still happen on GitHub for now, GitLab is only
+# responsible for building the docker image and publishing it to the registry.
+
+include:
+  - project: resinglog/ci-templates
+    file: docker-publish.yml
+    inputs:
+      image_name: istex/istex-view
+      registry_url: $CI_NEXUS_REGISTRY_URL:$CI_NEXUS_DOCKER_PORT
