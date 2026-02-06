@@ -4,7 +4,7 @@ import vitePluginDevtoolsJson from "vite-plugin-devtools-json";
 import viteTsConfigPaths from "vite-tsconfig-paths";
 
 const config = defineConfig({
-	base: "/istex-view/",
+	base: process.env.GITHUB_ACTIONS ? "/istex-view/" : undefined,
 	server: {
 		port: 3000,
 	},
