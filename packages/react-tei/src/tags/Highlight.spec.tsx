@@ -44,7 +44,12 @@ describe("Highlight", () => {
 				data={{
 					tag: "highlight",
 					attributes: { groups: "persName", term: "einstein" },
-					value: "Einstein",
+					value: [
+						{
+							tag: "#text",
+							value: "Einstein",
+						},
+					],
 				}}
 			/>,
 			{
@@ -66,7 +71,12 @@ describe("Highlight", () => {
 				data={{
 					tag: "highlight",
 					attributes: { groups: ["placeName"], term: "london" },
-					value: "London",
+					value: [
+						{
+							tag: "#text",
+							value: "London",
+						},
+					],
 				}}
 			/>,
 			{
@@ -84,7 +94,12 @@ describe("Highlight", () => {
 				data={{
 					tag: "highlight",
 					attributes: { groups: ["persName", "placeName"], term: "nancy" },
-					value: "Nancy",
+					value: [
+						{
+							tag: "#text",
+							value: "Nancy",
+						},
+					],
 				}}
 			/>,
 			{
@@ -118,7 +133,12 @@ describe("Highlight", () => {
 						{
 							tag: "highlight",
 							attributes: { groups: "persName", term: "einstein" },
-							value: "Einstein",
+							value: [
+								{
+									tag: "#text",
+									value: "Einstein",
+								},
+							],
 						},
 					],
 				}}
@@ -165,7 +185,12 @@ describe("Highlight", () => {
 								groups: "placeName",
 								term: "université-einstein",
 							},
-							value: "Université ",
+							value: [
+								{
+									tag: "#text",
+									value: "Université ",
+								},
+							],
 						},
 						{
 							tag: "highlight",
@@ -173,7 +198,12 @@ describe("Highlight", () => {
 								groups: "placeName persName",
 								term: "einstein",
 							},
-							value: "Einstein",
+							value: [
+								{
+									tag: "#text",
+									value: "Einstein",
+								},
+							],
 						},
 					],
 				}}
@@ -218,7 +248,12 @@ describe("Highlight", () => {
 								groups: "placeName",
 								term: "université-albert-einstein",
 							},
-							value: "Université ",
+							value: [
+								{
+									tag: "#text",
+									value: "Université ",
+								},
+							],
 						},
 						{
 							tag: "highlight",
@@ -226,7 +261,12 @@ describe("Highlight", () => {
 								groups: "placeName persName",
 								term: "albert-einstein",
 							},
-							value: "Albert Einstein",
+							value: [
+								{
+									tag: "#text",
+									value: "Albert Einstein",
+								},
+							],
 						},
 					],
 				}}
