@@ -27,8 +27,8 @@ export function MathJax({ id, latex, inline }: MathJaxProps) {
 	});
 
 	const isLoading = useMemo(() => {
-		return !isIntersected || isPending || isRendering;
-	}, [isIntersected, isPending, isRendering]);
+		return isPending || isRendering;
+	}, [isPending, isRendering]);
 
 	useEffect(() => {
 		if (!wrapperRef.current) {
