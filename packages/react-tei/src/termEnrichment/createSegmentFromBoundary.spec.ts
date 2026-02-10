@@ -20,15 +20,16 @@ describe("createSegmentFromBoundary", () => {
 			const coveringTerms: TermWithPosition[] = [
 				{
 					term: {
-						term: "artificial",
+						targetText: "artificial",
 						groups: ["artificialGroup"],
 						artificial: true,
+						sourceTerm: [],
 					},
 					start: 0,
 					end: 10,
 				},
 				{
-					term: { term: "real", groups: ["realGroup"] },
+					term: { targetText: "real", groups: ["realGroup"], sourceTerm: [] },
 					start: 0,
 					end: 10,
 				},
@@ -43,12 +44,20 @@ describe("createSegmentFromBoundary", () => {
 		it("should deduplicate and sort groups", () => {
 			const coveringTerms: TermWithPosition[] = [
 				{
-					term: { term: "term1", groups: ["group2", "group1"] },
+					term: {
+						targetText: "term1",
+						groups: ["group2", "group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 10,
 				},
 				{
-					term: { term: "term2", groups: ["group3", "group1"] },
+					term: {
+						targetText: "term2",
+						groups: ["group3", "group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 10,
 				},
@@ -63,12 +72,22 @@ describe("createSegmentFromBoundary", () => {
 		it("should return only parent groups when all covering terms are artificial", () => {
 			const coveringTerms: TermWithPosition[] = [
 				{
-					term: { term: "artificial1", groups: ["group1"], artificial: true },
+					term: {
+						targetText: "artificial1",
+						groups: ["group1"],
+						artificial: true,
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 10,
 				},
 				{
-					term: { term: "artificial2", groups: ["group2"], artificial: true },
+					term: {
+						targetText: "artificial2",
+						groups: ["group2"],
+						artificial: true,
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 10,
 				},
@@ -111,9 +130,10 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["parentGroup"],
 				artificial: true,
+				sourceTerm: [],
 			});
 		});
 
@@ -121,7 +141,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -140,9 +164,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1", "parentGroup"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 			});
 		});
 
@@ -150,7 +174,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -158,7 +186,11 @@ describe("createSegmentFromBoundary", () => {
 			const allTerms = overlappingGroup;
 			const subTermsByPosition: SubTermAtPosition[] = [
 				{
-					subTerm: { term: "hello", groups: ["subGroup"] },
+					subTerm: {
+						targetText: "hello",
+						groups: ["subGroup"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
@@ -177,9 +209,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1", "parentGroup"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 			});
 		});
 
@@ -187,7 +219,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -195,7 +231,12 @@ describe("createSegmentFromBoundary", () => {
 			const allTerms = overlappingGroup;
 			const subTermsByPosition: SubTermAtPosition[] = [
 				{
-					subTerm: { term: "hello", groups: [], artificial: true },
+					subTerm: {
+						targetText: "hello",
+						groups: [],
+						artificial: true,
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
@@ -214,9 +255,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 				artificial: true,
 			});
 		});
@@ -225,7 +266,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "United States";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "United States", groups: ["group1"] },
+					term: {
+						targetText: "United States",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 13,
 				},
@@ -234,12 +279,22 @@ describe("createSegmentFromBoundary", () => {
 			const subTermsByPosition: SubTermAtPosition[] = [
 				{
 					subTerm: {
-						term: "United States",
+						targetText: "United States",
 						groups: ["group2"],
 						subTerms: [
-							{ term: "United ", groups: [], artificial: true },
-							{ term: "States", groups: ["group3"] },
+							{
+								targetText: "United ",
+								groups: [],
+								artificial: true,
+								sourceTerm: ["United States"],
+							},
+							{
+								targetText: "States",
+								groups: ["group3"],
+								sourceTerm: ["States"],
+							},
 						],
+						sourceTerm: [],
 					},
 					start: 0,
 					end: 13,
@@ -259,12 +314,21 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "United States",
+				targetText: "United States",
 				groups: ["group1"],
-				sourceTerm: "United States",
+				sourceTerm: ["United States"],
 				subTerms: [
-					{ term: "United ", groups: ["group1"], artificial: true },
-					{ term: "States", groups: ["group1", "group3"] },
+					{
+						targetText: "United ",
+						groups: ["group1"],
+						artificial: true,
+						sourceTerm: ["United States"],
+					},
+					{
+						targetText: "States",
+						groups: ["group1", "group3"],
+						sourceTerm: ["States"],
+					},
 				],
 			});
 		});
@@ -273,12 +337,20 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
 				{
-					term: { term: "hello world!", groups: ["group2"] },
+					term: {
+						targetText: "hello world!",
+						groups: ["group2"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -297,9 +369,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1", "group2"],
-				sourceTerm: null,
+				sourceTerm: ["hello world", "hello world!"],
 			});
 		});
 
@@ -307,12 +379,21 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
 				{
-					term: { term: "different", groups: ["group2"], artificial: true },
+					term: {
+						targetText: "different",
+						groups: ["group2"],
+						artificial: true,
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -331,9 +412,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 			});
 		});
 
@@ -341,7 +422,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -349,13 +434,21 @@ describe("createSegmentFromBoundary", () => {
 			const allTerms = overlappingGroup;
 			const subTermsByPosition: SubTermAtPosition[] = [
 				{
-					subTerm: { term: "hello", groups: ["subGroup1"] },
+					subTerm: {
+						targetText: "hello",
+						groups: ["subGroup1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
 				},
 				{
-					subTerm: { term: "hello", groups: ["subGroup2"] },
+					subTerm: {
+						targetText: "hello",
+						groups: ["subGroup2"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
@@ -374,9 +467,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 			});
 		});
 
@@ -384,7 +477,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -392,7 +489,12 @@ describe("createSegmentFromBoundary", () => {
 			const allTerms = overlappingGroup;
 			const subTermsByPosition: SubTermAtPosition[] = [
 				{
-					subTerm: { term: "hello", groups: ["subGroup"], subTerms: [] },
+					subTerm: {
+						targetText: "hello",
+						groups: ["subGroup"],
+						subTerms: [],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 5,
 					fromTermGroups: ["group1"],
@@ -411,9 +513,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 			});
 			expect(result).not.toHaveProperty("subTerms");
 		});
@@ -422,7 +524,11 @@ describe("createSegmentFromBoundary", () => {
 			const containerTerm = "hello world";
 			const overlappingGroup: TermWithPosition[] = [
 				{
-					term: { term: "hello world", groups: ["group1"] },
+					term: {
+						targetText: "hello world",
+						groups: ["group1"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -430,7 +536,11 @@ describe("createSegmentFromBoundary", () => {
 			const allTerms: TermWithPosition[] = [
 				...overlappingGroup,
 				{
-					term: { term: "hello world!", groups: ["group2"] },
+					term: {
+						targetText: "hello world!",
+						groups: ["group2"],
+						sourceTerm: [],
+					},
 					start: 0,
 					end: 11,
 				},
@@ -448,9 +558,9 @@ describe("createSegmentFromBoundary", () => {
 			);
 
 			expect(result).toEqual({
-				term: "hello",
+				targetText: "hello",
 				groups: ["group1", "group2"],
-				sourceTerm: "hello world",
+				sourceTerm: ["hello world"],
 			});
 		});
 	});

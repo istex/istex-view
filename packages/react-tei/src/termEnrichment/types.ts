@@ -5,15 +5,15 @@ export type NormalizedTerm = {
 };
 
 export type NestedTerm = {
-	term: string;
+	targetText: string;
 	groups: string[];
 	subTerms?: NestedTerm[];
 	artificial?: boolean;
-	sourceTerm?: string | null;
+	sourceTerm: string[];
 };
 
 export type GroupedTerm = {
-	term: string;
+	targetText: string;
 	groups: string[];
 	artificial?: boolean;
 };

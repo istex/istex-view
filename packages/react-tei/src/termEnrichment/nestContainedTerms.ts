@@ -7,20 +7,22 @@ export const isContainedIn = (
 	longer: GroupedTerm,
 	shorter: GroupedTerm,
 ): boolean => {
-	if (shorter.term === longer.term) return false;
+	if (shorter.targetText === longer.targetText) return false;
 
 	const shorterWordRegex = new RegExp(
-		`(?<![\\p{L}\\p{N}])${escapeRegexChars(shorter.term)}(?![\\p{L}\\p{N}])`,
+		`(?<![\\p{L}\\p{N}])${escapeRegexChars(shorter.targetText)}(?![\\p{L}\\p{N}])`,
 		"u",
 	);
-	if (longer.term.match(shorterWordRegex)) return true;
+	if (longer.targetText.match(shorterWordRegex)) return true;
 	return false;
 };
 
 export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 	// Sort terms from smallest to largest - process smaller terms first
 	// so they're available when processing larger containing terms
-	const sortedTerms = [...terms].sort((a, b) => a.term.length - b.term.length);
+	const sortedTerms = [...terms].sort(
+		(a, b) => a.targetText.length - b.targetText.length,
+	);
 
 	const nestedTerms = sortedTerms.reduce((acc, term, index) => {
 		// Find all previously processed terms that are contained in this term
@@ -31,9 +33,10 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 		if (containedTerms.length === 0) {
 			// No contained terms - just add this term as-is
 			acc[index] = {
-				term: term.term,
+				targetText: term.targetText,
 				groups: term.groups,
 				...(term.artificial && { artificial: true }),
+				sourceTerm: term.artificial ? [] : [term.targetText],
 			};
 			return acc;
 		}
@@ -43,21 +46,22 @@ export const nestContainedTerms = (terms: GroupedTerm[]): NestedTerm[] => {
 
 		// For non-artificial parents, pass slugified term so fillers get proper sourceTerm
 		// For artificial parents, don't pass parentSourceTerm (fillers will compute from covering terms)
-		const parentSourceTerm = term.artificial ? undefined : term.term;
+		const parentSourceTerm = term.artificial ? undefined : term.targetText;
 
 		// Use the new segment-based splitting which handles N overlapping terms
 		const subTerms = splitTermIntoSegments(
-			term.term,
+			term.targetText,
 			containedTerms,
 			parentGroups,
 			parentSourceTerm,
 		);
 
 		acc[index] = {
-			term: term.term,
+			targetText: term.targetText,
 			groups: term.groups,
 			...(term.artificial && { artificial: true }),
 			...(subTerms.length > 0 && { subTerms }),
+			sourceTerm: parentSourceTerm ? [parentSourceTerm] : [],
 		};
 
 		return acc;

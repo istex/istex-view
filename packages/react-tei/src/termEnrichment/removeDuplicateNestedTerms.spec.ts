@@ -8,17 +8,20 @@ describe("removeDuplicateNestedTerms", () => {
 	describe("hasIdenticalTermInSubTerms", () => {
 		it("should return true when a term has an identical term in a list of subTerms", () => {
 			const term = {
-				term: "America",
+				targetText: "America",
+				sourceTerm: ["America"],
 				groups: ["group2"],
 			};
 
 			const subTerms = [
 				{
-					term: "States of America",
+					targetText: "States of America",
+					sourceTerm: ["States of America"],
 					groups: ["group3"],
 				},
 				{
-					term: "America",
+					targetText: "America",
+					sourceTerm: ["America"],
 					groups: ["group2"],
 				},
 			];
@@ -27,16 +30,19 @@ describe("removeDuplicateNestedTerms", () => {
 
 		it("should return false when a term does not have an identical term in a list of subTerms", () => {
 			const term = {
-				term: "America",
+				targetText: "America",
+				sourceTerm: ["America"],
 				groups: ["group2"],
 			};
 			const subTerms = [
 				{
-					term: "States of America",
+					targetText: "States of America",
+					sourceTerm: ["States of America"],
 					groups: ["group3"],
 				},
 				{
-					term: "United States",
+					targetText: "United States",
+					sourceTerm: ["United States"],
 					groups: ["group1"],
 				},
 			];
@@ -45,32 +51,39 @@ describe("removeDuplicateNestedTerms", () => {
 
 		it("should return true when a term has an identical term in deeply nested list of subTerms", () => {
 			const term = {
-				term: " sec",
+				targetText: " sec",
+				sourceTerm: ["sec"],
 				groups: ["group2"],
 			};
 			const subTerms = [
 				{
-					term: "Union ratatinée des saucissons sec",
+					targetText: "Union ratatinée des saucissons sec",
+					sourceTerm: ["Union ratatinée des saucissons sec"],
 					groups: ["group3"],
 					subTerms: [
 						{
-							term: "Union ratatinée",
+							targetText: "Union ratatinée",
+							sourceTerm: ["Union ratatinée"],
 							groups: ["group2"],
 						},
 						{
-							term: " des ",
+							targetText: " des ",
+							sourceTerm: ["des"],
 							groups: [],
 						},
 						{
-							term: "saucissons sec",
+							targetText: "saucissons sec",
+							sourceTerm: ["saucissons sec"],
 							groups: ["group1"],
 							subTerms: [
 								{
-									term: "saucissons",
+									targetText: "saucissons",
+									sourceTerm: ["saucissons"],
 									groups: ["group4"],
 								},
 								{
-									term: " sec",
+									targetText: " sec",
+									sourceTerm: ["sec"],
 									groups: [],
 								},
 							],
@@ -84,19 +97,27 @@ describe("removeDuplicateNestedTerms", () => {
 	it("should remove duplicate nested terms that are identical to one of the descendant of their brother", () => {
 		const terms = [
 			{
-				term: "United States of America",
+				targetText: "United States of America",
+				sourceTerm: ["United States of America"],
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "America",
+						targetText: "America",
+						sourceTerm: ["America", "United States of America"],
 						groups: ["group1", "group2"],
 					},
 					{
-						term: "States of America",
+						targetText: "States of America",
+						sourceTerm: ["States of America", "United States of America"],
 						groups: ["group1", "group3"],
 						subTerms: [
 							{
-								term: "America",
+								targetText: "America",
+								sourceTerm: [
+									"America",
+									"States of America",
+									"United States of America",
+								],
 								groups: ["group1", "group3", "group2"],
 							},
 						],
@@ -108,15 +129,15 @@ describe("removeDuplicateNestedTerms", () => {
 		const cleanedTerms = removeDuplicateNestedTerms(terms);
 		expect(cleanedTerms).toEqual([
 			{
-				term: "United States of America",
+				targetText: "United States of America",
 				groups: ["group1"],
 				subTerms: [
 					{
-						term: "States of America",
+						targetText: "States of America",
 						groups: ["group1", "group3"],
 						subTerms: [
 							{
-								term: "America",
+								targetText: "America",
 								groups: ["group1", "group3", "group2"],
 							},
 						],

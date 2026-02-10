@@ -17,7 +17,7 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 	if (term.groups.length === 0 && !term.subTerms?.length) {
 		return {
 			tag: "#text",
-			value: term.term,
+			value: term.targetText,
 		};
 	}
 
@@ -28,9 +28,9 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 	const termAttribute =
 		term.sourceTerm === null
 			? null
-			: term.sourceTerm !== undefined
-				? kebabCasify(term.sourceTerm)
-				: kebabCasify(term.term);
+			: term.sourceTerm.length
+				? term.sourceTerm.map(kebabCasify).join(" ")
+				: kebabCasify(term.targetText);
 
 	if (term.subTerms?.length && term.groups.length === 0) {
 		return {
@@ -51,7 +51,7 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 			: [
 					{
 						tag: "#text",
-						value: term.term,
+						value: term.targetText,
 					},
 				],
 		attributes: {
@@ -62,40 +62,40 @@ export const termToTag = (term: NestedTerm): TextTag | HighlightTag => {
 };
 
 export const getTermRegexes = (terms: NestedTerm[]) => {
-	return terms.flatMap(({ term, groups, subTerms }) => {
+	return terms.flatMap(({ targetText, groups, subTerms }) => {
 		if (groups.includes("teeft")) {
 			if (groups.length > 1) {
 				return [
 					{
-						termRegex: termToRegex(term, true),
-						term,
+						termRegex: termToRegex(targetText, true),
+						targetText,
 						groups: ["teeft"],
-						value: subTerms?.length ? subTerms.map(termToTag) : term,
+						value: subTerms?.length ? subTerms.map(termToTag) : targetText,
 					},
 					{
-						termRegex: termToRegex(term, false),
-						term,
+						termRegex: termToRegex(targetText, false),
+						targetText,
 						groups: groups.filter((g) => g !== "teeft"),
-						value: subTerms?.length ? subTerms.map(termToTag) : term,
+						value: subTerms?.length ? subTerms.map(termToTag) : targetText,
 					},
 				];
 			}
 
 			return [
 				{
-					termRegex: termToRegex(term, true),
-					term,
+					termRegex: termToRegex(targetText, true),
+					targetText,
 					groups: ["teeft"],
-					value: subTerms?.length ? subTerms.map(termToTag) : term,
+					value: subTerms?.length ? subTerms.map(termToTag) : targetText,
 				},
 			];
 		}
 		return [
 			{
-				termRegex: termToRegex(term),
-				term,
+				termRegex: termToRegex(targetText),
+				targetText,
 				groups,
-				value: subTerms?.length ? subTerms.map(termToTag) : term,
+				value: subTerms?.length ? subTerms.map(termToTag) : targetText,
 			},
 		];
 	});
@@ -130,7 +130,9 @@ export const enrichDocumentWithTerms = (
 
 	const terms = computeEnrichedTerms(termByGroup);
 
-	const sortedTerms = [...terms].sort((a, b) => b.term.length - a.term.length);
+	const sortedTerms = [...terms].sort(
+		(a, b) => b.targetText.length - a.targetText.length,
+	);
 	const termRegexes = getTermRegexes(sortedTerms);
 
 	const enrichNode = (node: DocumentJson) => {
