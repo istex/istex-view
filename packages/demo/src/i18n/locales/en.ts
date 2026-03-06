@@ -41,6 +41,5 @@ export const en: Translation = {
 	},
 	ark: {
 		documentNotFound: "The requested document was not found.",
-		goToIstexSearch: "Return to Istex Search",
 	},
 };

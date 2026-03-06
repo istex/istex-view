@@ -39,7 +39,6 @@ export const fr = {
 	},
 	ark: {
 		documentNotFound: "Le document demandé n'a pas été trouvé.",
-		goToIstexSearch: "Retourner sur Istex Search",
 	},
 };
 
