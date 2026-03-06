@@ -24,7 +24,7 @@ const router = createHashRouter([
 			},
 
 			{
-				path: "ark/:ark",
+				path: ":ark",
 				loader: arkViewerLoader,
 				HydrateFallback: Loader,
 				Component: ArkViewer,
