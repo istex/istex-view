@@ -42,4 +42,9 @@ export const en: Translation = {
 	ark: {
 		documentNotFound: "The requested document was not found.",
 	},
+	errors: {
+		DocumentNotFoundError: "No documents match this identifier.",
+		NoFulltextError: "Couldn't get the fulltext in TEI format.",
+		EnrichmentFetchingError: "Couldn't get the {{enrichmentName}} enrichment.",
+	},
 };

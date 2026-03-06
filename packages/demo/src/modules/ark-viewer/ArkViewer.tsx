@@ -7,7 +7,12 @@ import {
 	useLoaderData,
 	useRouteError,
 } from "react-router";
-import { getDocumentInfo, getEnrichment, getFulltext } from "./utils";
+import {
+	getDocumentInfo,
+	getEnrichment,
+	getFulltext,
+	TranslatedError,
+} from "./utils";
 
 export type ArkViewerLoaderData = {
 	document: string | null;
@@ -39,6 +44,11 @@ export const arkViewerLoader: LoaderFunction = async ({
 	const [fulltextResult, unitexResult, teeftResult, multicatResult, nbResult] =
 		await Promise.allSettled(promisePool);
 
+	// Errors while getting the fulltext are considered fatal so we rethrow them
+	if (fulltextResult?.status === "rejected") {
+		throw fulltextResult.reason;
+	}
+
 	return {
 		document:
 			fulltextResult?.status === "fulfilled" ? fulltextResult.value : null,
@@ -63,9 +73,15 @@ export function ArkViewer() {
 }
 
 export function ErrorBoundary() {
+	const { t } = useTranslation();
 	const error = useRouteError();
+
 	if (!(error instanceof Error)) {
 		return <div>Unknown error</div>;
+	}
+
+	if (error instanceof TranslatedError) {
+		return <div>{t(error.translationKey, error.translationData)}</div>;
 	}
 
 	return <div>{error.message}</div>;
