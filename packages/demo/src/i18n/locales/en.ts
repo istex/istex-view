@@ -45,6 +45,5 @@ export const en: Translation = {
 	errors: {
 		DocumentNotFoundError: "No documents match this identifier.",
 		NoFulltextError: "Couldn't get the fulltext in TEI format.",
-		EnrichmentFetchingError: "Couldn't get the {{enrichmentName}} enrichment.",
 	},
 };

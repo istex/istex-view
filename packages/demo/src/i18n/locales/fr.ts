@@ -44,8 +44,6 @@ export const fr = {
 		DocumentNotFoundError: "Aucun document ne correspond à cet identifiant.",
 		NoFulltextError:
 			"La récupération du texte intégral au format TEI a échoué.",
-		EnrichmentFetchingError:
-			"La récupération de l'enrichissement {{enrichmentName}} a échoué.",
 	},
 };
 

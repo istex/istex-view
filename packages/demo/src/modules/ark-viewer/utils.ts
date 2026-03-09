@@ -75,10 +75,9 @@ export async function getEnrichment(
 
 	const response = await fetch(info.uri);
 	if (!response.ok) {
-		console.error(
-			`Couldn't get the ${enrichmentName} enrichment, the API responded with status ${response.status}.`,
-		);
-		throw new EnrichmentFetchingError(enrichmentName);
+		const errorMessage = `Couldn't get the ${enrichmentName} enrichment, the API responded with status ${response.status}.`;
+		console.error(errorMessage);
+		throw new Error(errorMessage);
 	}
 
 	return await response.text();
@@ -107,11 +106,5 @@ export class DocumentNotFoundError extends TranslatedError {
 export class NoFulltextError extends TranslatedError {
 	constructor() {
 		super("errors.NoFulltextError");
-	}
-}
-
-export class EnrichmentFetchingError extends TranslatedError {
-	constructor(enrichmentName: string) {
-		super("errors.EnrichmentFetchingError", { enrichmentName });
 	}
 }
