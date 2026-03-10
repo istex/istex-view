@@ -7,8 +7,8 @@ import { Layout } from "./layout/Layout";
 import { Loader } from "./layout/Loader";
 import {
 	ArkViewer,
+	ArkViewerErrorBoundary,
 	arkViewerLoader,
-	ErrorBoundary,
 } from "./modules/ark-viewer/ArkViewer";
 import { FileViewer } from "./modules/file-viewer/FileViewer";
 import theme from "./theme";
@@ -28,7 +28,7 @@ const router = createHashRouter([
 				loader: arkViewerLoader,
 				HydrateFallback: Loader,
 				Component: ArkViewer,
-				ErrorBoundary,
+				ErrorBoundary: ArkViewerErrorBoundary,
 			},
 		],
 	},

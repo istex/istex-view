@@ -1,4 +1,5 @@
 import { Viewer } from "@istex/react-tei/Viewer.js";
+import { Alert, Container } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import {
 	type LoaderFunction,
@@ -63,17 +64,28 @@ export function ArkViewer() {
 	return <Viewer stickyTopOffset={36} {...data} />;
 }
 
-export function ErrorBoundary() {
+export function ArkViewerErrorBoundary() {
 	const { t } = useTranslation();
 	const error = useRouteError();
 
-	if (!(error instanceof Error)) {
-		return <div>Unknown error</div>;
-	}
+	const errorText = !(error instanceof Error)
+		? "Unknown error"
+		: error instanceof TranslatedError
+			? t(error.translationKey, error.translationData)
+			: error.message;
 
-	if (error instanceof TranslatedError) {
-		return <div>{t(error.translationKey, error.translationData)}</div>;
-	}
-
-	return <div>{error.message}</div>;
+	return (
+		<Container
+			sx={{
+				pt: 5,
+				display: "flex",
+				justifyContent: "center",
+				alignItems: "center",
+				flexDirection: "column",
+				gap: 2,
+			}}
+		>
+			<Alert severity="error">{errorText}</Alert>
+		</Container>
+	);
 }
