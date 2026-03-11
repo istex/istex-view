@@ -51,26 +51,13 @@ export async function getFulltext(documentInfo: DocumentInfo) {
 		throw new NoFulltextError();
 	}
 
-	const response = await fetch(info.uri, {
-		credentials: "include",
-		redirect: "manual",
-	});
-	if (!response.ok) {
-		if (response.type === "opaqueredirect") {
-			// We got redirected
-			const url = new URL("/authFede/", "https://api.istex.fr");
-			url.searchParams.set("target", window.location.href);
-			window.location.href = url.toString();
-		} else {
-			// Real error
-			console.error(
-				`Couldn't get the fulltext, the API responded with status ${response.status}.`,
-			);
-			throw new NoFulltextError();
-		}
+	// If getting the fulltext fails, we rethrow a different error so that
+	// it can be displayed nicely in the UI
+	try {
+		return await getProtectedResource(info.uri);
+	} catch {
+		throw new NoFulltextError();
 	}
-
-	return await response.text();
 }
 
 export async function getEnrichment(
@@ -84,18 +71,29 @@ export async function getEnrichment(
 		throw new Error(`Enrichment ${enrichmentName} not found`);
 	}
 
-	const response = await fetch(info.uri, {
+	return await getProtectedResource(info.uri);
+}
+
+async function getProtectedResource(url: string) {
+	const response = await fetch(url, {
+		// Include the Istex API session cookie
 		credentials: "include",
+
+		// The API redirects to the login page when no session cookies are set.
+		// We don't follow this redirect because we will set the current page (Istex View)
+		// to this login page instead
 		redirect: "manual",
 	});
 	if (!response.ok) {
 		if (response.type === "opaqueredirect") {
-			// We got redirected
+			// When we get redirected, we craft the login page URL ourselves and set the callback
+			// URL (target search param) to the current page (Istex View)
 			const url = new URL("/authFede/", "https://api.istex.fr");
 			url.searchParams.set("target", window.location.href);
 			window.location.href = url.toString();
 		} else {
-			const errorMessage = `Couldn't get the ${enrichmentName} enrichment, the API responded with status ${response.status}.`;
+			// If the response was not OK and was not a redirect, it's a real error
+			const errorMessage = `Couldn't access the protected resource at '${url}', the API responded with status ${response.status}.`;
 			console.error(errorMessage);
 			throw new Error(errorMessage);
 		}
