@@ -51,12 +51,23 @@ export async function getFulltext(documentInfo: DocumentInfo) {
 		throw new NoFulltextError();
 	}
 
-	const response = await fetch(info.uri);
+	const response = await fetch(info.uri, {
+		credentials: "include",
+		redirect: "manual",
+	});
 	if (!response.ok) {
-		console.error(
-			`Couldn't get the fulltext, the API responded with status ${response.status}.`,
-		);
-		throw new NoFulltextError();
+		if (response.type === "opaqueredirect") {
+			// We got redirected
+			const url = new URL("/authFede/", "https://api.istex.fr");
+			url.searchParams.set("target", window.location.href);
+			window.location.href = url.toString();
+		} else {
+			// Real error
+			console.error(
+				`Couldn't get the fulltext, the API responded with status ${response.status}.`,
+			);
+			throw new NoFulltextError();
+		}
 	}
 
 	return await response.text();
@@ -73,11 +84,21 @@ export async function getEnrichment(
 		throw new Error(`Enrichment ${enrichmentName} not found`);
 	}
 
-	const response = await fetch(info.uri);
+	const response = await fetch(info.uri, {
+		credentials: "include",
+		redirect: "manual",
+	});
 	if (!response.ok) {
-		const errorMessage = `Couldn't get the ${enrichmentName} enrichment, the API responded with status ${response.status}.`;
-		console.error(errorMessage);
-		throw new Error(errorMessage);
+		if (response.type === "opaqueredirect") {
+			// We got redirected
+			const url = new URL("/authFede/", "https://api.istex.fr");
+			url.searchParams.set("target", window.location.href);
+			window.location.href = url.toString();
+		} else {
+			const errorMessage = `Couldn't get the ${enrichmentName} enrichment, the API responded with status ${response.status}.`;
+			console.error(errorMessage);
+			throw new Error(errorMessage);
+		}
 	}
 
 	return await response.text();
