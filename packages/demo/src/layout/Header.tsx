@@ -1,7 +1,7 @@
-import { Box, Container, Stack, Typography } from "@mui/material";
+import { Box, Chip, Container, Stack, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import headerBackground from "../images/header-background.webp";
-import istexSearchLogo from "../images/istex-search.svg";
+import istexLogo from "../images/istex.svg";
 
 export default function Header() {
 	const { t } = useTranslation();
@@ -28,7 +28,7 @@ export default function Header() {
 						textDecoration: "none",
 					}}
 				>
-					<img src={istexSearchLogo} alt="Istex View" />
+					<img src={istexLogo} alt="Istex View" />
 					<Typography
 						component="div"
 						variant="h3"
@@ -40,7 +40,12 @@ export default function Header() {
 							top: "1px",
 						}}
 					>
-						View
+						View{" "}
+						<Chip
+							label="BETA"
+							color="secondary"
+							sx={{ color: "colors.lightBlack" }}
+						/>
 					</Typography>
 				</Stack>
 				<Typography
