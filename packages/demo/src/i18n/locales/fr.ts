@@ -39,7 +39,11 @@ export const fr = {
 	},
 	ark: {
 		documentNotFound: "Le document demandé n'a pas été trouvé.",
-		goToIstexSearch: "Retourner sur Istex Search",
+	},
+	errors: {
+		DocumentNotFoundError: "Aucun document ne correspond à cet identifiant.",
+		NoFulltextError:
+			"La récupération du texte intégral au format TEI a échoué.",
 	},
 };
 

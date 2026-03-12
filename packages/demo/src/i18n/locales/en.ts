@@ -41,6 +41,9 @@ export const en: Translation = {
 	},
 	ark: {
 		documentNotFound: "The requested document was not found.",
-		goToIstexSearch: "Return to Istex Search",
+	},
+	errors: {
+		DocumentNotFoundError: "No documents match this identifier.",
+		NoFulltextError: "Couldn't get the fulltext in TEI format.",
 	},
 };

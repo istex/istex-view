@@ -1,8 +1,14 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it, vi } from "vitest";
 import { userEvent } from "vitest/browser";
 import { render } from "vitest-browser-react";
 import { I18nProvider } from "../../i18n/I18nProvider";
 import { FileViewer } from "./FileViewer";
+
+vi.mock("react-router", () => ({
+	...vi.importActual("react-router"),
+	useNavigate: () => vi.fn(),
+	useNavigation: () => ({}),
+}));
 
 describe("FileViewer", () => {
 	it("should render the upload button", async () => {

@@ -4,6 +4,12 @@ import { render } from "vitest-browser-react";
 import { ViewerContextProvider } from "../viewer/ViewerContext";
 import { UploadPage } from "./UploadPage";
 
+vi.mock("react-router", () => ({
+	...vi.importActual("react-router"),
+	useNavigate: () => vi.fn(),
+	useNavigation: () => ({}),
+}));
+
 vi.mock("../viewer/useViewerContext");
 
 describe("UploadPage", () => {
