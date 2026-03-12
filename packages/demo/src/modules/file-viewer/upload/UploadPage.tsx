@@ -1,7 +1,8 @@
-import { Button } from "@mui/material";
+import { Box, Button, TextField } from "@mui/material";
 import Stack from "@mui/material/Stack";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate, useNavigation } from "react-router";
 import { useViewerContext } from "../viewer/useViewerContext";
 import { FileSelectorButton } from "./FileSelectorButton";
 
@@ -35,6 +36,9 @@ export function UploadPage() {
 		openNbEnrichment,
 		openTeeftEnrichment,
 	} = useViewerContext();
+	const navigation = useNavigation();
+	const navigate = useNavigate();
+	const isLoading = navigation.state === "loading";
 
 	const handleDocumentChange = useCallback(
 		async (file: File | null) => {
@@ -101,6 +105,13 @@ export function UploadPage() {
 		[openTeeftEnrichment],
 	);
 
+	const goToArkRoute = (formData: FormData) => {
+		const ark = formData.get("ark");
+		if (ark) {
+			navigate(`/${encodeURIComponent(ark.toString().trim())}`);
+		}
+	};
+
 	if (viewerLaunched) {
 		return null;
 	}
@@ -158,6 +169,19 @@ export function UploadPage() {
 			>
 				{t("upload.launchViewer")}
 			</Button>
+
+			{/* Temporary form to go to the /#<ark> route for testing */}
+			<Box
+				component="form"
+				autoComplete="off"
+				action={goToArkRoute}
+				sx={{ display: "flex", gap: 2 }}
+			>
+				<TextField label="ARK" name="ark" required sx={{ flexGrow: 1 }} />
+				<Button type="submit" variant="contained" disabled={isLoading}>
+					Rechercher
+				</Button>
+			</Box>
 		</Stack>
 	);
 }
