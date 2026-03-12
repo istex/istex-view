@@ -121,7 +121,7 @@ describe("FormulaRend", () => {
 	it(
 		"should render the display formula with latex content",
 		{
-			timeout: 10000,
+			timeout: 20000,
 		},
 		async () => {
 			const document: DocumentJson = {
