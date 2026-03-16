@@ -1,15 +1,16 @@
 export const fr = {
 	header: {
 		title: "Viewer",
-		subtitle: "Lorem ipsum dolor sit amet",
-		description: "Excepteur sint occaecat cupidatat non proident",
+		subtitle: "Un nouveau regard sur les documents TEI dans Istex",
+		description:
+			"Consultez et explorez facilement les documents XML-TEI et leurs enrichissements",
 	},
 	navbar: {
 		istex: "istex",
 		a_zJournalsList: "Revue de sommaire",
 		documentaryDataset: "Référentiels documentaires",
 		specializedCorpus: "Corpus spécialisés",
-		istexTdm: "ISTEX TDM",
+		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
 	},
 	upload: {
