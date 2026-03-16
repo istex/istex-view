@@ -19,8 +19,8 @@ test("document sidePanel keywords section", async ({ page }) => {
 		page.getByRole("button", { name: "Mots-clés (6)" }),
 	).toHaveAttribute("aria-expanded", "true");
 
-	await expect(page.getByText("TEI")).toBeVisible();
-	await expect(page.getByText("XML")).toBeVisible();
+	await expect(page.getByText("RDF")).toBeVisible();
+	await expect(page.getByText("Turtle")).toBeVisible();
 	await expect(page.getByText("Sample Document")).toBeVisible();
 	await expect(page.getByText("Literature")).toBeVisible();
 	await expect(page.getByText("Mathematics")).toBeVisible();
@@ -31,8 +31,8 @@ test("document sidePanel keywords section", async ({ page }) => {
 		page.getByRole("button", { name: "Mots-clés (6)" }),
 	).toHaveAttribute("aria-expanded", "false");
 
-	await expect(page.getByText("TEI")).not.toBeVisible();
-	await expect(page.getByText("XML")).not.toBeVisible();
+	await expect(page.getByText("RDF")).not.toBeVisible();
+	await expect(page.getByText("Turtle")).not.toBeVisible();
 	await expect(page.getByText("Sample Document")).not.toBeVisible();
 	await expect(page.getByText("Literature")).not.toBeVisible();
 	await expect(page.getByText("Mathematics")).not.toBeVisible();
@@ -75,7 +75,7 @@ test("tabs with enrichment", async ({ page }) => {
 
 	await expect(
 		page.getByRole("button", {
-			name: "Nom d'organisation (1)",
+			name: "Nom d'organisation (Unitex) (1)",
 		}),
 	).toBeVisible();
 

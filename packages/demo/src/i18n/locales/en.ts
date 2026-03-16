@@ -3,15 +3,16 @@ import type { Translation } from "./fr";
 export const en: Translation = {
 	header: {
 		title: "Viewer",
-		subtitle: "Lorem ipsum dolor sit amet",
-		description: "Excepteur sint occaecat cupidatat non proident",
+		subtitle: "A new way to view TEI documents in Istex",
+		description:
+			"Easily view and explore XML-TEI documents and their annotations",
 	},
 	navbar: {
 		istex: "istex",
 		a_zJournalsList: "Summary Review",
 		documentaryDataset: "Documentary References",
 		specializedCorpus: "Specialized Corpus",
-		istexTdm: "ISTEX TDM",
+		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
 	},
 	upload: {

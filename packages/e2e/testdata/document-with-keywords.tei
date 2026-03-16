@@ -11,8 +11,8 @@
         <profileDesc>
             <textClass>
                 <keywords scheme="keywords">
-                    <term>TEI</term>
-                    <term>XML</term>
+                    <term>RDF</term>
+                    <term>Turtle</term>
                     <term>Sample Document</term>
                 </keywords>
                 <keywords scheme="keywords">
