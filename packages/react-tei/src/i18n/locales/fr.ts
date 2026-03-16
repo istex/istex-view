@@ -77,13 +77,16 @@ export const fr = {
 		orgName_other: "Noms d'organisations (Unitex) ({{count}})",
 
 		orgNameFunder_zero: "Organisme financeur ou projet financé (Unitex)",
-		orgNameFunder_one: "Organisme financeur ou projet financé (Unitex) ({{count}})",
+		orgNameFunder_one:
+			"Organisme financeur ou projet financé (Unitex) ({{count}})",
 		orgNameFunder_other:
 			"Organismes financeurs ou projets financés (Unitex) ({{count}})",
 
 		orgNameProvider_zero: "Organisme hébergeur de ressources (Unitex)",
-		orgNameProvider_one: "Organisme hébergeur de ressources (Unitex) ({{count}})",
-		orgNameProvider_other: "Organismes hébergeurs de ressources (Unitex) ({{count}})",
+		orgNameProvider_one:
+			"Organisme hébergeur de ressources (Unitex) ({{count}})",
+		orgNameProvider_other:
+			"Organismes hébergeurs de ressources (Unitex) ({{count}})",
 
 		persName_zero: "Nom de personne (Unitex)",
 		persName_one: "Nom de personne (Unitex) ({{count}})",

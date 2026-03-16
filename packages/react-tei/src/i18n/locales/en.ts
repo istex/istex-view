@@ -80,12 +80,15 @@ export const en: Translation = {
 		orgName_other: "Organizations names (Unitex) ({{count}})",
 
 		orgNameFunder_zero: "Funding organizations or funded projects (Unitex)",
-		orgNameFunder_one: "Funding organization or funded project (Unitex) ({{count}})",
-		orgNameFunder_other: "Funding organizations or funded projects (Unitex) ({{count}})",
+		orgNameFunder_one:
+			"Funding organization or funded project (Unitex) ({{count}})",
+		orgNameFunder_other:
+			"Funding organizations or funded projects (Unitex) ({{count}})",
 
 		orgNameProvider_zero: "Resource hosting organizations",
 		orgNameProvider_one: "Resource hosting organization (Unitex) ({{count}})",
-		orgNameProvider_other: "Resource hosting organizations (Unitex) ({{count}})",
+		orgNameProvider_other:
+			"Resource hosting organizations (Unitex) ({{count}})",
 
 		persName_zero: "People names (Unitex)",
 		persName_one: "Person name (Unitex) ({{count}})",
