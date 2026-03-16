@@ -75,7 +75,7 @@ test("tabs with enrichment", async ({ page }) => {
 
 	await expect(
 		page.getByRole("button", {
-			name: "Nom d'organisation (1)",
+			name: "Nom d'organisation (Unitex) (1)",
 		}),
 	).toBeVisible();
 

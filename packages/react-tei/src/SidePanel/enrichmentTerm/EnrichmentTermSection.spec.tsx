@@ -50,11 +50,11 @@ describe("EnrichmentTermSection", () => {
 		expectedTerms: string[];
 	}>([
 		{
-			expectedLabel: "Date (1)",
+			expectedLabel: "Date (Unitex) (1)",
 			expectedTerms: ["2021"],
 		},
 		{
-			expectedLabel: "Noms de lieux administratifs (2)",
+			expectedLabel: "Noms de lieux administratifs (Unitex) (2)",
 			expectedTerms: ["Paris", "London"],
 		},
 	])("should render a list of terms for $type", async ({
@@ -91,7 +91,7 @@ describe("EnrichmentTermSection", () => {
 
 		await screen
 			.getByRole("button", {
-				name: "Date (1)",
+				name: "Date (Unitex) (1)",
 			})
 			.click();
 

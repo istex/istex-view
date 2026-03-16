@@ -8,7 +8,7 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
 
 	const administrativePlaceButton = page.getByRole("button", {
-		name: "Nom de lieu administratif (1)",
+		name: "Nom de lieu administratif (Unitex) (1)",
 	});
 	await expect(administrativePlaceButton).toBeVisible();
 	await expect(administrativePlaceButton).toHaveAttribute(
@@ -33,10 +33,10 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 	}
 
 	await expect(
-		page.getByRole("button", { name: "Nom d'organisation (1)" }),
+		page.getByRole("button", { name: "Nom d'organisation (Unitex) (1)" }),
 	).toBeVisible();
 	await expect(
-		page.getByRole("button", { name: "Nom d'organisation (1)" }),
+		page.getByRole("button", { name: "Nom d'organisation (Unitex) (1)" }),
 	).toHaveAttribute("aria-expanded", "true");
 	await expect(page.getByLabel("SNCF", { exact: true })).toBeVisible();
 	await expect(page.locator('[data-term="sncf"]')).toHaveCount(2);
@@ -47,7 +47,7 @@ test("unitex enrichment highlight in viewer", async ({ page }) => {
 	}
 
 	const personalNameButton = page.getByRole("button", {
-		name: "Noms de personnes (2)",
+		name: "Noms de personnes (Unitex) (2)",
 	});
 	await expect(personalNameButton).toBeVisible();
 	await expect(personalNameButton).toHaveAttribute("aria-expanded", "false");

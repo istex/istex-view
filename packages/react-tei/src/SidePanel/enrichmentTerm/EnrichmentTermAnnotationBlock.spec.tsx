@@ -53,12 +53,12 @@ describe("EnrichmentTermAnnotationBlock", () => {
 	}>([
 		{
 			type: "date",
-			expectedLabel: "Date (1)",
+			expectedLabel: "Date (Unitex) (1)",
 			expectedTerms: ["2021"],
 		},
 		{
 			type: "placeName",
-			expectedLabel: "Noms de lieux administratifs (2)",
+			expectedLabel: "Noms de lieux administratifs (Unitex) (2)",
 			expectedTerms: ["Paris", "London"],
 		},
 	])("should render a list of terms for $type", async ({
@@ -113,7 +113,7 @@ describe("EnrichmentTermAnnotationBlock", () => {
 
 		// First, expand the accordion
 		const accordionButton = screen.getByRole("button", {
-			name: "Noms de lieux administratifs (2)",
+			name: "Noms de lieux administratifs (Unitex) (2)",
 		});
 		await accordionButton.click();
 
@@ -149,7 +149,7 @@ describe("EnrichmentTermAnnotationBlock", () => {
 
 		// First, expand the accordion
 		const accordionButton = screen.getByRole("button", {
-			name: "Noms de lieux administratifs (2)",
+			name: "Noms de lieux administratifs (Unitex) (2)",
 		});
 		await accordionButton.click();
 
@@ -172,7 +172,7 @@ describe("EnrichmentTermAnnotationBlock", () => {
 		);
 
 		const list = screen.getByRole("list", {
-			name: "Noms de lieux administratifs (2)",
+			name: "Noms de lieux administratifs (Unitex) (2)",
 		});
 
 		await expect
