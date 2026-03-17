@@ -17,6 +17,7 @@ export const fr = {
 		paragraph:
 			"Istex\u00A0View est un outil en ligne permettant de consulter les publications scientifiques issues de la plateforme <istexLink>Istex</istexLink>. Il offre une interface pour visualiser le contenu des documents TEI ainsi que les <enrichmentProcessLink>enrichissements générés par Istex</enrichmentProcessLink>.",
 		ArkForm: {
+			head: "Testez Istex\u00A0View en saisissant l'identifiant ARK d'un document Istex.",
 			submitButton: "Rechercher",
 		},
 	},

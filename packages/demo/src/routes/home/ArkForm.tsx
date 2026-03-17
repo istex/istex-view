@@ -1,4 +1,10 @@
-import { Box, Button, CircularProgress, TextField } from "@mui/material";
+import {
+	Box,
+	Button,
+	CircularProgress,
+	TextField,
+	Typography,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useNavigation } from "react-router";
 
@@ -16,22 +22,21 @@ export default function ArkForm() {
 	};
 
 	return (
-		<Box
-			component="form"
-			autoComplete="off"
-			action={goToArkRoute}
-			sx={{ display: "flex", gap: 2 }}
-		>
-			<TextField label="ARK" name="ark" required sx={{ flexGrow: 1 }} />
-			<Button
-				type="submit"
-				variant="contained"
-				disabled={isLoading}
-				sx={{ position: "relative" }}
-			>
-				{t("home.ArkForm.submitButton")}
-				{isLoading && <CircularProgress sx={{ position: "absolute" }} />}
-			</Button>
+		<Box component="form" autoComplete="off" action={goToArkRoute}>
+			<Typography sx={{ mb: 2 }}>{t("home.ArkForm.head")}</Typography>
+
+			<Box sx={{ display: "flex", gap: 2 }}>
+				<TextField label="ARK" name="ark" required sx={{ flexGrow: 1 }} />
+				<Button
+					type="submit"
+					variant="contained"
+					disabled={isLoading}
+					sx={{ position: "relative" }}
+				>
+					{t("home.ArkForm.submitButton")}
+					{isLoading && <CircularProgress sx={{ position: "absolute" }} />}
+				</Button>
+			</Box>
 		</Box>
 	);
 }
