@@ -7,17 +7,21 @@ import { I18nProvider } from "./I18nProvider";
 function TestFunction() {
 	const { t } = useTranslation();
 
-	return t("header.title");
+	return t("header.subtitle");
 }
 
 describe("I18NProvider", () => {
-	it("should translate header.title", async () => {
+	it("should translate header.subtitle", async () => {
 		const screen = await render(
 			<I18nProvider>
 				<TestFunction />
 			</I18nProvider>,
 		);
 
-		await expect.element(screen.getByText("Viewer")).toBeDefined();
+		await expect
+			.element(
+				screen.getByText("Un nouveau regard sur les documents TEI dans Istex"),
+			)
+			.toBeDefined();
 	});
 });
