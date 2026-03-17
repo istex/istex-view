@@ -1,4 +1,4 @@
-import { Box, Button, TextField } from "@mui/material";
+import { Box, Button, CircularProgress, TextField } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useNavigation } from "react-router";
 
@@ -23,8 +23,14 @@ export default function ArkForm() {
 			sx={{ display: "flex", gap: 2 }}
 		>
 			<TextField label="ARK" name="ark" required sx={{ flexGrow: 1 }} />
-			<Button type="submit" variant="contained" disabled={isLoading}>
+			<Button
+				type="submit"
+				variant="contained"
+				disabled={isLoading}
+				sx={{ position: "relative" }}
+			>
 				{t("home.ArkForm.submitButton")}
+				{isLoading && <CircularProgress sx={{ position: "absolute" }} />}
 			</Button>
 		</Box>
 	);
