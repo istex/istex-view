@@ -2,6 +2,7 @@ import { ThemeProvider } from "@mui/material";
 import CssBaseline from "@mui/material/CssBaseline";
 import { createHashRouter, RouterProvider } from "react-router";
 
+import HomePage from "./home/Home";
 import { I18nProvider } from "./i18n/I18nProvider";
 import { Layout } from "./layout/Layout";
 import { Loader } from "./layout/Loader";
@@ -10,7 +11,6 @@ import {
 	ArkViewerErrorBoundary,
 	arkViewerLoader,
 } from "./modules/ark-viewer/ArkViewer";
-import { FileViewer } from "./modules/file-viewer/FileViewer";
 import theme from "./theme";
 
 const router = createHashRouter([
@@ -20,7 +20,7 @@ const router = createHashRouter([
 		children: [
 			{
 				index: true,
-				Component: FileViewer,
+				Component: HomePage,
 			},
 
 			{

@@ -13,6 +13,14 @@ export const fr = {
 		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
 	},
+	home: {
+		headline: "Bienvenue sur la bêta publique d'Istex\u00A0View.",
+		paragraph:
+			"Istex\u00A0View est un outil en ligne permettant de consulter les publications scientifiques issues de la plateforme <istexLink>Istex</istexLink>. Il offre une interface pour visualiser le contenu des documents TEI ainsi que les <enrichmentProcessLink>enrichissements générés par Istex</enrichmentProcessLink>.",
+		ArkForm: {
+			submitButton: "Rechercher",
+		},
+	},
 	upload: {
 		selectFile: "Sélectionner un fichier",
 		noFileSelected: "Aucun fichier sélectionné",
