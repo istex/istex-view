@@ -26,13 +26,14 @@ describe("enrichDocumentWithTerms", () => {
 			tag: "root",
 			value: [
 				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
 						{ tag: "#text", value: "This is a " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "test" },
-							value: "test",
+							value: [{ tag: "#text", value: "test" }],
 						},
 						{ tag: "#text", value: "." },
 					],
@@ -41,13 +42,14 @@ describe("enrichDocumentWithTerms", () => {
 					tag: "p",
 					value: [
 						{
+							attributes: undefined,
 							tag: "highlightedText",
 							value: [
 								{ tag: "#text", value: "Another " },
 								{
 									tag: "highlight",
 									attributes: { groups: ["group1"], term: "test" },
-									value: "test",
+									value: [{ tag: "#text", value: "test" }],
 								},
 								{ tag: "#text", value: " here." },
 							],
@@ -85,25 +87,26 @@ describe("enrichDocumentWithTerms", () => {
 			tag: "root",
 			value: [
 				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
 						{ tag: "#text", value: "This " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "is" },
-							value: "is",
+							value: [{ tag: "#text", value: "is" }],
 						},
 						{ tag: "#text", value: " a " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "test" },
-							value: "test",
+							value: [{ tag: "#text", value: "test" }],
 						},
 						{ tag: "#text", value: " of " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group2"], term: "unitex" },
-							value: "Unitex",
+							value: [{ tag: "#text", value: "Unitex" }],
 						},
 						{ tag: "#text", value: " highlighting." },
 					],
@@ -307,7 +310,7 @@ describe("enrichDocumentWithTerms", () => {
 								term: "gustave-eiffel",
 							},
 							tag: "highlight",
-							value: "Gustave Eiffel",
+							value: [{ tag: "#text", value: "Gustave Eiffel" }],
 						},
 						{
 							tag: "#text",
@@ -319,7 +322,7 @@ describe("enrichDocumentWithTerms", () => {
 								term: "marie-curie",
 							},
 							tag: "highlight",
-							value: "Marie Curie",
+							value: [{ tag: "#text", value: "Marie Curie" }],
 						},
 					],
 				},
@@ -355,20 +358,269 @@ describe("enrichDocumentWithTerms", () => {
 			tag: "root",
 			value: [
 				{
-					tag: "formula",
-					attributes: { "@notation": "tex" },
-					value: [{ tag: "#text", value: "\\hbox{$M_r^c$}" }],
-				},
-				{
+					attributes: undefined,
 					tag: "highlightedText",
 					value: [
+						{
+							tag: "formula",
+							attributes: { "@notation": "tex" },
+							value: [{ tag: "#text", value: "\\hbox{$M_r^c$}" }],
+						},
 						{ tag: "#text", value: "This is an example of the latex " },
 						{
 							tag: "highlight",
 							attributes: { groups: ["group1"], term: "hbox" },
-							value: "hbox",
+							value: [{ tag: "#text", value: "hbox" }],
 						},
 						{ tag: "#text", value: " keyword." },
+					],
+				},
+			],
+		});
+	});
+
+	it("should highlight terms split across several tags", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{ tag: "#text", value: "His name is Gustave " },
+						{ tag: "hi", value: [{ tag: "#text", value: "Eiffel" }] },
+						{ tag: "#text", value: " the famous architect" },
+					],
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Gustave Eiffel", displayed: true }],
+		};
+
+		const { enrichedDocument } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							tag: "highlightedText",
+							value: [
+								{ tag: "#text", value: "His name is " },
+								{
+									tag: "highlight",
+									value: [
+										{ tag: "#text", value: "Gustave " },
+										{ tag: "hi", value: [{ tag: "#text", value: "Eiffel" }] },
+									],
+									attributes: {
+										groups: ["group1"],
+										term: "gustave-eiffel",
+									},
+								},
+								{ tag: "#text", value: " the famous architect" },
+							],
+						},
+					],
+				},
+			],
+		});
+	});
+
+	it("should replace cross tag term overlapping another term that overlap a third one", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{ tag: "#text", value: "Prince " },
+						{
+							tag: "hi",
+							value: [
+								{
+									tag: "#text",
+									value: "Charles",
+								},
+							],
+						},
+						{ tag: "#text", value: " The " },
+						{
+							tag: "hi",
+							value: [
+								{
+									tag: "#text",
+									value: "Bold",
+								},
+							],
+						},
+						{ tag: "#text", value: " Font" },
+					],
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Prince Charles", displayed: true }],
+			group2: [{ term: "Charles The Bold", displayed: true }],
+			group3: [{ term: "The Bold Font", displayed: true }],
+		};
+
+		const { enrichedDocument } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							attributes: undefined,
+							tag: "highlightedText",
+							value: [
+								{
+									attributes: {
+										groups: ["group1+group2+group3"],
+										term: "prince-charles-the-bold-font",
+									},
+									tag: "highlight",
+									value: [
+										{
+											tag: "highlight",
+											value: [{ tag: "#text", value: "Prince " }],
+											attributes: {
+												groups: ["group1"],
+												term: "prince-charles",
+											},
+										},
+										{
+											tag: "highlight",
+											value: [
+												{
+													tag: "hi",
+													value: [{ tag: "#text", value: "Charles" }],
+												},
+											],
+											attributes: {
+												groups: ["group1", "group2"],
+												term: null,
+											},
+										},
+										{
+											tag: "highlight",
+											value: [
+												{
+													tag: "#text",
+													value: " ",
+												},
+											],
+											attributes: {
+												groups: ["group2"],
+												term: "charles-the-bold",
+											},
+										},
+										{
+											tag: "highlight",
+											value: [
+												{ tag: "#text", value: "The " },
+												{
+													tag: "hi",
+													value: [{ tag: "#text", value: "Bold" }],
+												},
+											],
+											attributes: {
+												groups: ["group2", "group3"],
+												term: null,
+											},
+										},
+										{
+											tag: "highlight",
+											value: [{ tag: "#text", value: " Font" }],
+											attributes: {
+												groups: ["group3"],
+												term: "the-bold-font",
+											},
+										},
+									],
+								},
+							],
+						},
+					],
+				},
+			],
+		});
+	});
+
+	it("should highlight terms if it is wholly at the end of a single tag regardless if it has a space afterward or not", () => {
+		const document = {
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{ tag: "#text", value: "The Bold" },
+						{
+							tag: "hi",
+							value: [
+								{
+									tag: "#text",
+									value: "Font",
+								},
+							],
+						},
+					],
+				},
+			],
+		};
+		const unitexEnrichment = {
+			group1: [{ term: "Bold", displayed: true }],
+		};
+
+		const { enrichedDocument } = enrichDocumentWithTerms(
+			document,
+			unitexEnrichment,
+		);
+
+		expect(enrichedDocument).toEqual({
+			tag: "root",
+			value: [
+				{
+					tag: "p",
+					value: [
+						{
+							attributes: undefined,
+							tag: "highlightedText",
+							value: [
+								{
+									tag: "#text",
+									value: "The ",
+								},
+								{
+									tag: "highlight",
+									value: [{ tag: "#text", value: "Bold" }],
+									attributes: {
+										groups: ["group1"],
+										term: "bold",
+									},
+								},
+								{
+									tag: "hi",
+									value: [
+										{
+											tag: "#text",
+											value: "Font",
+										},
+									],
+								},
+							],
+						},
 					],
 				},
 			],
