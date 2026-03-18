@@ -68,10 +68,9 @@ export function P({ data }: ComponentProps) {
 		}
 
 		return (
-			<TagCatalogProvider tagCatalog={inlineCatalog}>
+			<TagCatalogProvider key={index} tagCatalog={inlineCatalog}>
 				<Typography
 					variant="body1"
-					key={index}
 					sx={{
 						"& .debug": {
 							display: "inline-flex",
