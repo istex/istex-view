@@ -192,8 +192,6 @@ describe("UnlabelledList", () => {
 		const ipsumItem = outerList.getByRole("listitem", { name: "Ipsum" });
 		await expect.element(ipsumItem).toBeVisible();
 
-		screen.debug(ipsumItem);
-
 		const innerList = ipsumItem.getByRole("list");
 		await expect.element(innerList).toBeInTheDocument();
 		await expect

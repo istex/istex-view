@@ -70,7 +70,6 @@ describe("Q tag", () => {
 				wrapper: TestWrapper,
 			},
 		);
-		screen.debug();
 
 		await expect.element(screen.getByText(`"This is a quote."`)).toBeVisible();
 	});
