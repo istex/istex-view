@@ -1,11 +1,14 @@
 import { expect, test } from "@playwright/test";
-import { uploadFile, uploadUnitexEnrichmentFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("unitex enrichment highlight in viewer", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "unitex-document.tei");
-	await uploadUnitexEnrichmentFile(page, "unitex-enrichment.tei");
-	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "unitex-document.tei",
+		unitexEnrichmentFileName: "unitex-enrichment.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	const administrativePlaceButton = page.getByRole("button", {
 		name: "Nom de lieu administratif (Unitex) (1)",

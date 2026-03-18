@@ -1,11 +1,13 @@
 import { expect, test } from "@playwright/test";
-import { launchViewer, uploadFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("render a table", async ({ page }) => {
-	await page.goto("/");
-
-	await uploadFile(page, "table.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "table.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(page.getByRole("table")).toBeVisible();
 
@@ -23,10 +25,12 @@ test("render a table", async ({ page }) => {
 });
 
 test("render a table with caption and notes", async ({ page }) => {
-	await page.goto("/");
-
-	await uploadFile(page, "table-with-notes.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "table-with-notes.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("table", {

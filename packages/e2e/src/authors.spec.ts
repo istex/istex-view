@@ -4,7 +4,6 @@ import { mockIstexApi } from "./support/mockIstexApi";
 test("authors section", async ({ page }) => {
 	const ark = "ark:/67375/MY-FAKE-ARK";
 	await mockIstexApi(page, { ark, documentFileName: "document.tei" });
-
 	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	const authorButton = page.getByRole("button", { name: "Auteurs" });

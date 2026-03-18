@@ -1,15 +1,14 @@
 import { expect, test } from "@playwright/test";
-import {
-	uploadFile,
-	uploadMulticatEnrichmentFile,
-	uploadNbEnrichmentFile,
-} from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("nb enrichment in panel", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "nb-document.tei");
-	await uploadNbEnrichmentFile(page, "nb-enrichment.tei");
-	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "nb-document.tei",
+		nbEnrichmentFileName: "nb-enrichment.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("button", { name: "Catégorie Inist" }),
@@ -22,11 +21,14 @@ test("nb enrichment in panel", async ({ page }) => {
 });
 
 test("support nb enrichment with multicat enrichment", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "nb-document.tei");
-	await uploadMulticatEnrichmentFile(page, "multicat-enrichment.tei");
-	await uploadNbEnrichmentFile(page, "nb-enrichment.tei");
-	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "nb-document.tei",
+		nbEnrichmentFileName: "nb-enrichment.tei",
+		multicatEnrichmentFileName: "multicat-enrichment.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("button", { name: "Catégorie Inist" }),
