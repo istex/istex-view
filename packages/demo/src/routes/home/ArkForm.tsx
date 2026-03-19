@@ -22,7 +22,12 @@ export default function ArkForm() {
 	};
 
 	return (
-		<Box component="form" autoComplete="off" action={goToArkRoute}>
+		<Box
+			component="form"
+			autoComplete="off"
+			action={goToArkRoute}
+			sx={{ pb: 4 }}
+		>
 			<Typography sx={{ mb: 2 }}>{t("home.ArkForm.head")}</Typography>
 
 			<Box sx={{ display: "flex", gap: 2 }}>

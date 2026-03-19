@@ -1,6 +1,7 @@
 import { Box, Container, Link, Stack, Typography } from "@mui/material";
 import { Trans, useTranslation } from "react-i18next";
 import ArkForm from "./ArkForm";
+import Examples from "./Examples";
 
 export default function HomePage() {
 	const { t } = useTranslation();
@@ -32,6 +33,8 @@ export default function HomePage() {
 						/>
 					</Typography>
 				</Box>
+
+				<Examples />
 
 				<ArkForm />
 			</Stack>
