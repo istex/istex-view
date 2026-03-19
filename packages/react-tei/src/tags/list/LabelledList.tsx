@@ -28,9 +28,9 @@ export function LabelledList({ data }: ComponentProps) {
 
 	return (
 		<Stack spacing={1}>
-			{heads.map((head) => {
+			{heads.map((head, index) => {
 				return (
-					<Typography role="heading">
+					<Typography key={index} role="heading">
 						<Value data={head.value} />
 					</Typography>
 				);

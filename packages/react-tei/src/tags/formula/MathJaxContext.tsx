@@ -43,21 +43,30 @@ window.MathJax = {
 	},
 };
 
+let cachedMathJaxPromise: Promise<void> | undefined;
+
 // We cannot load MathJax from npm as it is node only, so we load it from CDN and provide it via context
 function loadMathJax() {
+	if (cachedMathJaxPromise != null) {
+		return cachedMathJaxPromise;
+	}
+
 	const script = document.createElement("script");
 	script.src = "https://cdn.jsdelivr.net/npm/mathjax@4.1.0/tex-chtml.js";
 	script.async = true;
 
-	return new Promise<void>((resolve, reject) => {
+	cachedMathJaxPromise = new Promise((resolve, reject) => {
 		script.onload = () => {
 			resolve();
 		};
 		script.onerror = () => {
+			cachedMathJaxPromise = undefined;
 			reject(new Error("Failed to load MathJax"));
 		};
 		document.head.appendChild(script);
 	});
+
+	return cachedMathJaxPromise;
 }
 
 export function MathJaxProvider({ children }: MathJaxProviderProps) {

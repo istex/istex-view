@@ -1,3 +1,4 @@
+import { Table as MuiTable, TableBody as MuiTableBody } from "@mui/material";
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import type { DocumentJson } from "../parser/document";
@@ -33,7 +34,9 @@ describe("TableRow", () => {
 		const screen = await render(<TableRow data={jsonRow} />, {
 			wrapper: ({ children }) => (
 				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
+					<MuiTable>
+						<MuiTableBody>{children}</MuiTableBody>
+					</MuiTable>
 				</TagCatalogProvider>
 			),
 		});

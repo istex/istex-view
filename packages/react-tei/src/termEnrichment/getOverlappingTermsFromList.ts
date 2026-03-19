@@ -19,7 +19,7 @@ export const getWordOverlap = (termA: string, termB: string): string | null => {
 		// Build prefix (first wordIndex+1 words of termA)
 		const prefixWords = wordsA.slice(0, wordIndex + 1);
 		// Clean the last word of prefix by removing non-alphanumeric characters from the end
-		const lastWord = prefixWords[prefixWords.length - 1]!;
+		const lastWord = prefixWords[prefixWords.length - 1];
 		const prefix = [...prefixWords.slice(0, -1), lastWord].join(" ");
 		const prefixRegex = new RegExp(
 			`[^\\p{L}\\p{N}]+${escapeRegexChars(prefix)}$`,

@@ -1,3 +1,4 @@
+import { Table as MuiTable } from "@mui/material";
 import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { useFullScreenContext } from "../fullscreen/useFullScreenContext";
@@ -12,7 +13,7 @@ function TestWrapper({ children }: { children: React.ReactNode }) {
 	return (
 		<I18nProvider>
 			<TagCatalogProvider tagCatalog={tagCatalog}>
-				{children}
+				<MuiTable>{children}</MuiTable>
 			</TagCatalogProvider>
 		</I18nProvider>
 	);

@@ -7,7 +7,7 @@
 	],
 	"scripts": {
 		"lint:apply": "biome check --write",
-		"lint:check": "biome check",
+		"lint:check": "biome check --error-on-warnings",
 		"test": "vitest run --browser.headless",
 		"test:watch": "vitest watch --browser.headless",
 		"test:browser": "vitest watch",
