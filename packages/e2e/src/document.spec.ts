@@ -1,11 +1,10 @@
 import { expect, test } from "@playwright/test";
-import { launchViewer, uploadFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("open a document", async ({ page }) => {
-	await page.goto("/");
-
-	await uploadFile(page, "document.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, { ark, documentFileName: "document.tei" });
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("heading", {

@@ -1,10 +1,13 @@
 import test, { expect } from "@playwright/test";
-import { launchViewer, uploadFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("scroll to bib reference from text", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "bibliographicReferences.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "bibliographicReferences.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),
@@ -90,9 +93,12 @@ test("scroll to bib reference from text", async ({ page }) => {
 });
 
 test("scroll into document from bib reference", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "bibliographicReferences.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "bibliographicReferences.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	const textWithBibRef = page.getByText(
 		"Life is great without it you'd be dead.",

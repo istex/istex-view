@@ -1,11 +1,14 @@
 import { expect, test } from "@playwright/test";
-import { uploadFile, uploadMulticatEnrichmentFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("multicat enrichment in panel", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "multicat-document.tei");
-	await uploadMulticatEnrichmentFile(page, "multicat-enrichment.tei");
-	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "footnotes.tei",
+		multicatEnrichmentFileName: "multicat-enrichment.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("button", { name: "Catégorie WOS" }),

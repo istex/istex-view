@@ -1,15 +1,13 @@
 import { expect, test } from "@playwright/test";
-import {
-	launchViewer,
-	uploadFile,
-	uploadUnitexEnrichmentFile,
-} from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("document sidePanel keywords section", async ({ page }) => {
-	await page.goto("/");
-
-	await uploadFile(page, "document-with-keywords.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "document-with-keywords.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),
@@ -40,9 +38,12 @@ test("document sidePanel keywords section", async ({ page }) => {
 });
 
 test("tabs without enrichment", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "unitex-document.tei");
-	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "unitex-document.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("tab", { name: "Enrichissements Istex (0)" }),
@@ -62,10 +63,13 @@ test("tabs without enrichment", async ({ page }) => {
 });
 
 test("tabs with enrichment", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "unitex-document.tei");
-	await uploadUnitexEnrichmentFile(page, "unitex-enrichment.tei");
-	await page.getByRole("button", { name: "Lancer la visionneuse" }).click();
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "unitex-document.tei",
+		unitexEnrichmentFileName: "unitex-enrichment.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	const enrichmentButton = page.getByRole("tab", {
 		name: "Enrichissements Istex (3)",

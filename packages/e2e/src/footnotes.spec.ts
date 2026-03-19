@@ -1,10 +1,10 @@
 import test, { expect } from "@playwright/test";
-import { launchViewer, uploadFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("document footnotes panel", async ({ page }) => {
-	await page.goto("/");
-	await uploadFile(page, "footnotes.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, { ark, documentFileName: "footnotes.tei" });
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(
 		page.getByRole("button", { name: "Fermer le panneau latéral" }),

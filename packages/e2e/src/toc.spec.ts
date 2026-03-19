@@ -1,11 +1,14 @@
 import { expect, test } from "@playwright/test";
-import { launchViewer, uploadFile } from "./support/upload";
+import { mockIstexApi } from "./support/mockIstexApi";
 
 test("renders a table of contents and allows navigation", async ({ page }) => {
 	await page.setViewportSize({ width: 1920, height: 1080 });
-	await page.goto("/");
-	await uploadFile(page, "toc.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "toc.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(page.getByRole("tree")).toBeVisible();
 
@@ -37,9 +40,12 @@ test("renders a table of contents and allows navigation", async ({ page }) => {
 
 test("render current element", async ({ page }) => {
 	await page.setViewportSize({ width: 1920, height: 1080 });
-	await page.goto("/");
-	await uploadFile(page, "toc.tei");
-	await launchViewer(page);
+	const ark = "ark:/67375/MY-FAKE-ARK";
+	await mockIstexApi(page, {
+		ark,
+		documentFileName: "toc.tei",
+	});
+	await page.goto(`/#${encodeURIComponent(ark)}`);
 
 	await expect(page.getByRole("tree")).toBeVisible();
 
