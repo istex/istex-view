@@ -27,8 +27,8 @@ const computeSourceTerm = (
 		...new Set(nonArtificialTerms.map((t) => t.term.term)),
 	];
 
-	if (uniqueTermValues.length === 1) {
-		return uniqueTermValues[0]!;
+	if (uniqueTermValues.length === 1 && uniqueTermValues[0] != null) {
+		return uniqueTermValues[0];
 	}
 
 	return null;
@@ -64,11 +64,11 @@ export const createSegmentFromBoundary = (
 
 	if (matchingSubTerms.length > 0) {
 		// This segment exactly matches one or more subTerms - merge their properties
-		const baseSubTerm = matchingSubTerms[0]!.subTerm;
+		const baseSubTerm = matchingSubTerms[0]?.subTerm;
 
 		// For artificial subTerms (filler text), only use parentGroups
 		// For non-artificial subTerms, merge groups from non-artificial covering terms
-		const isArtificialSegment = baseSubTerm.artificial;
+		const isArtificialSegment = baseSubTerm?.artificial;
 		const allGroups = isArtificialSegment
 			? computeNonArtificialGroups(allCoveringTerms, [])
 			: computeNonArtificialGroups(allCoveringTerms, parentGroups);
@@ -77,7 +77,7 @@ export const createSegmentFromBoundary = (
 		const sourceTerm = computeSourceTerm(coveringTermsFromGroup);
 
 		// Recursively propagate groups to nested subTerms if any
-		let nestedSubTerms = baseSubTerm.subTerms;
+		let nestedSubTerms = baseSubTerm?.subTerms;
 		if (nestedSubTerms) {
 			nestedSubTerms = nestedSubTerms.map((st) =>
 				propagateGroupsToSubTerm(st, allGroups),
@@ -88,7 +88,7 @@ export const createSegmentFromBoundary = (
 			term: segmentText,
 			groups: allGroups,
 			sourceTerm,
-			...(baseSubTerm.artificial && { artificial: true }),
+			...(baseSubTerm?.artificial && { artificial: true }),
 			...(nestedSubTerms &&
 				nestedSubTerms.length > 0 && { subTerms: nestedSubTerms }),
 		};

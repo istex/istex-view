@@ -24,7 +24,7 @@ export const removeDuplicateNestedTerms = (
 ): NestedTerm[] => {
 	// First, recursively process all subTerms
 	const termsWithProcessedSubTerms = terms.map((term) => {
-		if (!term.subTerms || !term.subTerms.length) {
+		if (!hasSubTerms(term)) {
 			return term;
 		}
 		return {
@@ -35,7 +35,7 @@ export const removeDuplicateNestedTerms = (
 
 	// Then filter out duplicates at this level
 	return termsWithProcessedSubTerms.map((term) => {
-		if (!term.subTerms || !term.subTerms.length) {
+		if (!hasSubTerms(term)) {
 			return term;
 		}
 
@@ -46,8 +46,8 @@ export const removeDuplicateNestedTerms = (
 			if (subTerm.artificial) return true;
 
 			const otherSiblings = [
-				...term.subTerms!.slice(0, index),
-				...term.subTerms!.slice(index + 1),
+				...term.subTerms.slice(0, index),
+				...term.subTerms.slice(index + 1),
 			];
 			return !hasIdenticalTermInSubTerms(subTerm, otherSiblings);
 		});
@@ -58,3 +58,9 @@ export const removeDuplicateNestedTerms = (
 		};
 	});
 };
+
+function hasSubTerms(
+	term: NestedTerm,
+): term is NestedTerm & { subTerms: NestedTerm[] } {
+	return !!term.subTerms && term.subTerms.length > 0;
+}

@@ -59,9 +59,16 @@ export const splitOverlappingTermsIntoSegments = (
 	// Build segments from consecutive boundary pairs
 	const segments: NestedTerm[] = [];
 	for (let k = 0; k < sortedBoundaries.length - 1; k++) {
+		const segStart = sortedBoundaries[k];
+		const segEnd = sortedBoundaries[k + 1];
+
+		if (segStart == null || segEnd == null) {
+			continue;
+		}
+
 		const segment = createSegmentFromBoundary(
-			sortedBoundaries[k]!,
-			sortedBoundaries[k + 1]!,
+			segStart,
+			segEnd,
 			containerTerm,
 			overlappingGroup,
 			allTerms,

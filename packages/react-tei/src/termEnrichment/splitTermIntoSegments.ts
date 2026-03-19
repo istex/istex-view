@@ -108,11 +108,11 @@ export const splitTermIntoSegments = (
 	let currentPos = 0;
 
 	for (const group of overlappingGroups) {
-		const groupStart = group[0]!.start;
+		const groupStart = group[0]?.start;
 		const groupEnd = Math.max(...group.map((t) => t.end));
 
 		// Add filler text before this group if any
-		if (groupStart > currentPos) {
+		if (groupStart != null && groupStart > currentPos) {
 			segments.push(
 				createFillerSegment(
 					containerTerm.slice(currentPos, groupStart),
@@ -122,9 +122,9 @@ export const splitTermIntoSegments = (
 			);
 		}
 
-		if (group.length === 1) {
+		if (group.length === 1 && group[0] != null) {
 			// Single term - no overlap
-			segments.push(processSingleTerm(group[0]!, containedTerms, parentGroups));
+			segments.push(processSingleTerm(group[0], containedTerms, parentGroups));
 		} else {
 			// Multiple overlapping terms - pass all terms for group computation
 			segments.push(
