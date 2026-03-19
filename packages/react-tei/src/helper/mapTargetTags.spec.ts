@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import type { DocumentJson } from "../parser/document";
 import { mapTargetTags } from "./mapTargetTags";
 
 describe("mapTargetTags", () => {
@@ -12,7 +13,7 @@ describe("mapTargetTags", () => {
 			],
 		};
 
-		const replaceTag = (tag: any) => ({
+		const replaceTag = (tag: DocumentJson) => ({
 			...tag,
 			tag: "strong",
 		});
@@ -37,7 +38,7 @@ describe("mapTargetTags", () => {
 			],
 		};
 
-		const replaceTag = (tag: any) => ({
+		const replaceTag = (tag: DocumentJson) => ({
 			...tag,
 			tag: "strong",
 		});
@@ -52,7 +53,7 @@ describe("mapTargetTags", () => {
 			tag: "span",
 			value: "Hello World",
 		};
-		const replaceTag = (tag: any) => ({
+		const replaceTag = (tag: DocumentJson) => ({
 			...tag,
 			tag: "strong",
 		});
@@ -75,7 +76,7 @@ describe("mapTargetTags", () => {
 			],
 		};
 
-		const replaceTag = (tag: any) => ({
+		const replaceTag = (tag: DocumentJson) => ({
 			...tag,
 			tag: "strong",
 		});
@@ -102,7 +103,7 @@ describe("mapTargetTags", () => {
 				{ tag: "div", value: "Should not change" },
 			],
 		};
-		const replaceTag = (tag: any) => ({
+		const replaceTag = (tag: DocumentJson) => ({
 			...tag,
 			tag: "strong",
 		});
@@ -128,12 +129,12 @@ describe("mapTargetTags", () => {
 			],
 		};
 
-		const replaceTag = (tag: any) => ({
+		const replaceTag = (tag: DocumentJson) => ({
 			...tag,
 			tag: "strong",
 		});
 
-		const isStopTag = (tag: any) => tag.tag === "stopTag";
+		const isStopTag = (tag: DocumentJson) => tag.tag === "stopTag";
 
 		const result = mapTargetTags(document, "span", replaceTag, isStopTag);
 

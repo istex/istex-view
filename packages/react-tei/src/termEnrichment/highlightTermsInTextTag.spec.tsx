@@ -1,5 +1,4 @@
 import { describe, expect, it } from "vitest";
-import type { DocumentJson } from "../parser/document";
 import {
 	type HighlightTag,
 	highlightTermInString,
@@ -368,7 +367,7 @@ describe("highlightTermInTextTag", () => {
 
 	it("highlights nothing when terms are not found", () => {
 		const registry = createTermCountByGroupRegistry();
-		const fragments = {
+		const fragments: TextTag = {
 			tag: "#text",
 			attributes: {
 				lang: "en",
@@ -379,11 +378,7 @@ describe("highlightTermInTextTag", () => {
 			{ termRegex: /example/gi, term: "example", groups: ["group1"] },
 			{ termRegex: /demo/gi, term: "demo", groups: ["group2"] },
 		];
-		const result = highlightTermsInTextTag(
-			registry,
-			fragments as any,
-			termDataList,
-		);
+		const result = highlightTermsInTextTag(registry, fragments, termDataList);
 		expect(result).toStrictEqual({
 			tag: "highlightedText",
 			attributes: { lang: "en" },
@@ -398,14 +393,14 @@ describe("highlightTermInTextTag", () => {
 
 	it("should highlight nothing when given no term", () => {
 		const registry = createTermCountByGroupRegistry();
-		const fragments: DocumentJson = {
+		const fragments: TextTag = {
 			tag: "#text",
 			attributes: {
 				lang: "en",
 			},
 			value: "This is a sample text for testing.",
 		};
-		const result = highlightTermsInTextTag(registry, fragments as any, []);
+		const result = highlightTermsInTextTag(registry, fragments, []);
 		expect(result).toStrictEqual({
 			tag: "highlightedText",
 			attributes: { lang: "en" },
