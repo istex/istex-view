@@ -1,0 +1,14 @@
+# Dependencies
+**/node_modules
+
+# Build
+**/.turbo
+**/dist
+**/tsconfig.tsbuildinfo
+**/tsconfig.*.tsbuildinfo
+
+# Vitest
+**/__screenshots__
+
+# End-to-end tests
+packages/e2e
