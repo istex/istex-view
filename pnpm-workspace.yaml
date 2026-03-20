@@ -16,7 +16,7 @@ catalog:
   '@vitejs/plugin-react-swc': ^4.2.2
   '@vitest/browser-playwright': ^4.0.15
   '@vitest/coverage-v8': ^4.0.15
-  fast-xml-parser: ^5.3.3
+  fast-xml-parser: ^5.5.6
   husky: ^9.1.7
   i18next: ^25.7.2
   i18next-browser-languagedetector: ^8.2.0
