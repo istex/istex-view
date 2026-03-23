@@ -5,7 +5,8 @@ catalog:
   '@biomejs/biome': ^2.3.8
   '@emotion/react': ^11.14.0
   '@emotion/styled': ^11.14.1
-  '@fontsource/roboto': ^5.2.9
+  '@fontsource/montserrat': ^5.2.8
+  '@fontsource/open-sans': ^5.2.7
   '@mui/icons-material': ^7.3.6
   '@mui/material': ^7.3.6
   '@playwright/test': ^1.57.0

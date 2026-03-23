@@ -15,9 +15,12 @@ catalogs:
     '@emotion/styled':
       specifier: ^11.14.1
       version: 11.14.1
-    '@fontsource/roboto':
-      specifier: ^5.2.9
-      version: 5.2.9
+    '@fontsource/montserrat':
+      specifier: ^5.2.8
+      version: 5.2.8
+    '@fontsource/open-sans':
+      specifier: ^5.2.7
+      version: 5.2.7
     '@mui/icons-material':
       specifier: ^7.3.6
       version: 7.3.6
@@ -144,9 +147,12 @@ importers:
       '@emotion/styled':
         specifier: 'catalog:'
         version: 11.14.1(@emotion/react@11.14.0(@types/react@19.2.7)(react@19.2.3))(@types/react@19.2.7)(react@19.2.3)
-      '@fontsource/roboto':
+      '@fontsource/montserrat':
         specifier: 'catalog:'
-        version: 5.2.9
+        version: 5.2.8
+      '@fontsource/open-sans':
+        specifier: 'catalog:'
+        version: 5.2.7
       '@istex/react-tei':
         specifier: workspace:^
         version: link:../react-tei
@@ -451,8 +457,11 @@ packages:
   '@emotion/weak-memoize@0.4.0':
     resolution: {integrity: sha512-snKqtPW01tN0ui7yu9rGv69aJXr/a/Ywvl11sUjNtEcRc+ng/mQriFL0wLXMef74iHa/EkftbDzU9F8iFbH+zg==}
 
-  '@fontsource/roboto@5.2.9':
-    resolution: {integrity: sha512-ZTkyHiPk74B/aj8BZWbsxD5Yu+Lq+nR64eV4wirlrac2qXR7jYk2h6JlLYuOuoruTkGQWNw2fMuKNavw7/rg0w==}
+  '@fontsource/montserrat@5.2.8':
+    resolution: {integrity: sha512-xTjLxSbSfCycDB0pwmNsfNvdfWPaDaRQ2LC6yt/ZI7SdvXG52zHnzNYC/09mzuAuWNJyShkteutfCoDgym56hQ==}
+
+  '@fontsource/open-sans@5.2.7':
+    resolution: {integrity: sha512-8yfgDYjE5O0vmTPdrcjV35y4yMnctsokmi9gN49Gcsr0sjzkMkR97AnKDe6OqZh2SFkYlR28fxOvi21bYEgMSw==}
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -1619,7 +1628,9 @@ snapshots:
 
   '@emotion/weak-memoize@0.4.0': {}
 
-  '@fontsource/roboto@5.2.9': {}
+  '@fontsource/montserrat@5.2.8': {}
+
+  '@fontsource/open-sans@5.2.7': {}
 
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:

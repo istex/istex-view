@@ -13,7 +13,8 @@
 	"dependencies": {
 		"@emotion/react": "catalog:",
 		"@emotion/styled": "catalog:",
-		"@fontsource/roboto": "catalog:",
+		"@fontsource/montserrat": "catalog:",
+		"@fontsource/open-sans": "catalog:",
 		"@istex/react-tei": "workspace:^",
 		"@mui/icons-material": "catalog:",
 		"@mui/material": "catalog:",
