@@ -7,6 +7,8 @@ RUN corepack enable
 COPY package.json ./
 COPY pnpm-workspace.yaml ./
 COPY pnpm-lock.yaml ./
+COPY packages/demo/package.json ./packages/demo/
+COPY packages/react-tei/package.json ./packages/react-tei/
 
 
 # Build stage where we install all the dependencies and create the production build
