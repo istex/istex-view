@@ -1,5 +1,5 @@
 {
-	"name": "@istex/vierwer-monorepo",
+	"name": "@istex/viewer-monorepo",
 	"license": "CeCILL",
 	"version": "1.0.0",
 	"workspaces": [
