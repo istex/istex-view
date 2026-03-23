@@ -1,5 +1,6 @@
 import { Box, Chip, Container, Stack, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router";
 import headerBackground from "../images/header-background.webp";
 import istexLogo from "../images/istex.svg";
 
@@ -20,8 +21,8 @@ export default function Header() {
 					id="home-link"
 					direction="row"
 					spacing={1}
-					component={"a"}
-					href="/"
+					component={Link}
+					to="/"
 					sx={{
 						mb: 1,
 						alignItems: "center",
