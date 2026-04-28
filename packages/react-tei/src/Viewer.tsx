@@ -14,6 +14,7 @@ import { DocumentNavigationContextProvider } from "./navigation/DocumentNavigati
 import { getDocumentJsonAtPath } from "./parser/getDocumentJsonAtPath";
 import { transformBody } from "./parser/transformDocument";
 import { useDocumentParser } from "./parser/useDocumentParser";
+import RetractedBadge from "./RetractedBadge/RetractedBadge";
 import {
 	DocumentSidePanel,
 	SIDEPANEL_WIDTH,
@@ -69,6 +70,35 @@ export const Viewer = ({
 		tag: "teiHeader",
 		value: [],
 	};
+
+	const doi = useMemo(() => {
+		const analytic = getDocumentJsonAtPath(jsonDocument ?? [], [
+			"TEI",
+			"teiHeader",
+			"fileDesc",
+			"sourceDesc",
+			"biblStruct",
+			"analytic",
+		]);
+
+		if (!Array.isArray(analytic?.value)) {
+			return null;
+		}
+
+		const doiNode = analytic.value.find(
+			(child) => child.tag === "idno" && child.attributes?.["@type"] === "DOI",
+		);
+		if (!Array.isArray(doiNode?.value)) {
+			return null;
+		}
+
+		const doi = doiNode.value[0]?.value;
+		if (typeof doi !== "string") {
+			return null;
+		}
+
+		return doi.trim();
+	}, [jsonDocument]);
 
 	const body = useMemo(() => {
 		const body = getDocumentJsonAtPath(jsonDocument ?? [], [
@@ -193,6 +223,8 @@ export const Viewer = ({
 													position="relative"
 												>
 													<DocumentTitle teiHeader={teiHeader} />
+
+													{doi && <RetractedBadge doi={doi} />}
 
 													<DocumentAbstract teiHeader={teiHeader} />
 

@@ -12,8 +12,10 @@ export const en: Translation = {
 		},
 		tableOfContent: "Table of Contents",
 		lang: "Language",
+		retractedBadge: {
+			label: "Retracted",
+		},
 	},
-
 	authors: {
 		title: "Authors",
 		label: "Author",
