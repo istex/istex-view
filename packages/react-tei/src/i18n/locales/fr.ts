@@ -10,6 +10,9 @@ export const fr = {
 		},
 		tableOfContent: "Table des matières",
 		lang: "Langue",
+		retractedBadge: {
+			label: "Rétracté",
+		},
 	},
 	authors: {
 		title: "Auteurs",

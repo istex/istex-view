@@ -69,6 +69,7 @@ const theme = createTheme({
 
 export default createTheme(theme, {
 	typography: {
+		fontFamily: "Open Sans, sans-serif",
 		h1: {
 			fontFamily: "Montserrat",
 			fontSize: "2.5rem",
