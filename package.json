@@ -1,7 +1,7 @@
 {
 	"name": "@istex/viewer-monorepo",
 	"license": "CeCILL",
-	"version": "1.1.0",
+	"version": "1.1.1",
 	"workspaces": [
 		"packages/*"
 	],
