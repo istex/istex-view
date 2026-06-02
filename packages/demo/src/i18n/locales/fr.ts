@@ -5,7 +5,7 @@ export const fr = {
 			"Consultez et explorez facilement les documents XML-TEI et leurs enrichissements",
 	},
 	navbar: {
-		istex: "istex",
+		istex: "accès istex.fr",
 		a_zJournalsList: "Revue de sommaire",
 		documentaryDataset: "Référentiels documentaires",
 		specializedCorpus: "Corpus spécialisés",

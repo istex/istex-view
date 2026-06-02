@@ -1,4 +1,4 @@
-import KeyboardBackspaceIcon from "@mui/icons-material/KeyboardBackspace";
+import KeyboardBackspaceRoundedIcon from "@mui/icons-material/KeyboardBackspaceRounded";
 import MenuIcon from "@mui/icons-material/Menu";
 import {
 	AppBar,
@@ -59,7 +59,7 @@ export default function Navbar() {
 	};
 
 	return (
-		<AppBar position="sticky" component="nav" sx={{ bgcolor: "white" }}>
+		<AppBar position="sticky" component="nav" sx={{ bgcolor: "colors.white" }}>
 			<Container sx={{ display: "flex", fontSize: "0.625rem" }}>
 				{/* Burger menu that only appears on small screens */}
 				<Box sx={{ display: { xs: "flex", sm: "none" } }}>
@@ -120,16 +120,18 @@ export default function Navbar() {
 						target="_blank"
 						rel="noreferrer"
 						sx={(theme) => ({
+							px: 3,
 							gap: 1,
 							color: "text.primary",
-							bgcolor: theme.alpha("#458ca5", 0.2),
+							bgcolor: theme.alpha(theme.palette.colors.blue, 0.2),
 							borderRadius: 0,
 							textDecoration: "none",
 							fontSize: "0.625rem",
 							textTransform: "uppercase",
+							letterSpacing: "normal",
 						})}
 					>
-						<KeyboardBackspaceIcon />
+						<KeyboardBackspaceRoundedIcon />
 						{t(navbarLinks.istex.label)}
 					</Button>
 				</Box>
@@ -144,6 +146,7 @@ export default function Navbar() {
 						display: { xs: "none", sm: "flex" },
 						margin: 0,
 						padding: 0,
+						listStyle: "none",
 					}}
 				>
 					{navbarLinks.others.map(({ label, url }) => (
@@ -160,6 +163,7 @@ export default function Navbar() {
 									color: "text.primary",
 									fontSize: "0.625rem",
 									textTransform: "uppercase",
+									letterSpacing: "normal",
 								}}
 							>
 								{t(label)}
