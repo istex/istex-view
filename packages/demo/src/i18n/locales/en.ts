@@ -7,7 +7,7 @@ export const en: Translation = {
 			"Easily view and explore XML-TEI documents and their annotations",
 	},
 	navbar: {
-		istex: "istex",
+		istex: "go to istex.fr",
 		a_zJournalsList: "Summary Review",
 		documentaryDataset: "Documentary References",
 		specializedCorpus: "Specialized Corpus",
