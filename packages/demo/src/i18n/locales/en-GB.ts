@@ -1,6 +1,6 @@
-import type { Translation } from "./fr";
+import type { Translation } from "./fr-FR";
 
-export const en: Translation = {
+export const enGB: Translation = {
 	header: {
 		subtitle: "A new way to view TEI documents in Istex",
 		description:
@@ -13,6 +13,9 @@ export const en: Translation = {
 		specializedCorpus: "Specialized Corpus",
 		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
+		LocalePicker: {
+			selectAriaLabel: "Language",
+		},
 	},
 	home: {
 		headline: "Welcome to the Istex\u00A0View public beta.",
