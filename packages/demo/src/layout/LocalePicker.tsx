@@ -1,4 +1,4 @@
-import libI18n from "@istex/react-tei/i18n/i18n.js";
+import reactTeiI18n from "@istex/react-tei/i18n/i18n.js";
 import { MenuItem, Select, type SelectChangeEvent } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { supportedLanguages } from "../i18n/i18n";
@@ -17,7 +17,7 @@ export default function LocalePicker() {
 
 	const onLocaleChange = (event: SelectChangeEvent) => {
 		i18n.changeLanguage(event.target.value);
-		libI18n.changeLanguage(event.target.value);
+		reactTeiI18n.changeLanguage(event.target.value);
 	};
 
 	return (
