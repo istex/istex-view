@@ -1,4 +1,4 @@
-export const fr = {
+export const frFR = {
 	header: {
 		subtitle: "Un nouveau regard sur les documents TEI dans Istex",
 		description:
@@ -11,6 +11,9 @@ export const fr = {
 		specializedCorpus: "Corpus spécialisés",
 		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
+		LocalePicker: {
+			selectAriaLabel: "Langue",
+		},
 	},
 	home: {
 		headline: "Bienvenue sur la bêta publique d'Istex\u00A0View.",
@@ -32,4 +35,4 @@ export const fr = {
 	},
 };
 
-export type Translation = typeof fr;
+export type Translation = typeof frFR;

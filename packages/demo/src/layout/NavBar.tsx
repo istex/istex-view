@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import LocalePicker from "./LocalePicker";
 
 const navbarLinks = {
 	istex: {
@@ -170,6 +171,11 @@ export default function Navbar() {
 							</Button>
 						</li>
 					))}
+				</Box>
+
+				{/* Locale picker */}
+				<Box sx={{ display: "flex", ml: { xs: 0, sm: 3 } }}>
+					<LocalePicker />
 				</Box>
 			</Container>
 		</AppBar>

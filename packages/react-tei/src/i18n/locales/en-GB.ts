@@ -1,6 +1,6 @@
-import type { Translation } from "./fr";
+import type { Translation } from "./fr-FR";
 
-export const en: Translation = {
+export const enGB: Translation = {
 	commons: {
 		colon: ": ",
 	},
