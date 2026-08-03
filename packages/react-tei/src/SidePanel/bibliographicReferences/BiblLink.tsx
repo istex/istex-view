@@ -1,5 +1,6 @@
 import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowUpIcon from "@mui/icons-material/ArrowDropUp";
+import { Chip, type ChipProps } from "@mui/material";
 import Box, { type BoxProps } from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
@@ -15,7 +16,10 @@ import {
 	getReactRootElement,
 } from "../../navigation/DocumentNavigationContext";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
-import type { ComponentProps } from "../../tags/type";
+import type {
+	EnrichedReference,
+	ReferenceValidationState,
+} from "./useDocumentBibliographicReferences";
 
 const noteSx: BoxProps["sx"] = {
 	fontSize: "1rem",
@@ -26,12 +30,7 @@ const noteSx: BoxProps["sx"] = {
 };
 
 export const BiblLink = memo(
-	({
-		data,
-		children,
-	}: ComponentProps & {
-		children: ReactNode;
-	}) => {
+	({ data, children }: { data: EnrichedReference; children: ReactNode }) => {
 		const { t } = useTranslation();
 		const [targetedElementCount, setTargetedElementCount] = useState(0);
 
@@ -93,6 +92,7 @@ export const BiblLink = memo(
 					}}
 				>
 					{children}
+					{getValidationStateChip(data.validationState)}
 				</Box>
 				<Stack gap={0.5} direction="row">
 					<Tooltip title={t(`termEnrichment.next`)} placement="top">
@@ -136,3 +136,41 @@ export const BiblLink = memo(
 		);
 	},
 );
+
+function getValidationStateChip(validationState?: ReferenceValidationState) {
+	const { t } = useTranslation();
+
+	// We don't display a chip when the reference is found
+	if (validationState == null || validationState === "found") {
+		return null;
+	}
+
+	let color: ChipProps["color"];
+	switch (validationState) {
+		case "not_found":
+			color = "info";
+			break;
+		case "to_be_verified":
+			color = "warning";
+			break;
+		case "retracted":
+			color = "error";
+			break;
+	}
+
+	return (
+		<Tooltip
+			title={t(
+				`sidePanel.bibliographicReferences.validationState.${validationState}.tooltip`,
+			)}
+		>
+			<Chip
+				color={color}
+				label={t(
+					`sidePanel.bibliographicReferences.validationState.${validationState}.label`,
+				)}
+				size="small"
+			/>
+		</Tooltip>
+	);
+}
