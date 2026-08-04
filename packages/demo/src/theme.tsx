@@ -61,6 +61,12 @@ const theme = createTheme({
 		info: {
 			main: colors.blue,
 		},
+		warning: {
+			// NOTE: This color is not in the design system because it doesn't provide
+			// a "warning" color. If a warning color is ever added to the design system,
+			// use it instead.
+			main: "#fa9923",
+		},
 		error: {
 			main: colors.red,
 		},

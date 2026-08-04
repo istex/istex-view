@@ -1,12 +1,13 @@
 import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowUpIcon from "@mui/icons-material/ArrowDropUp";
-import { Chip, type ChipProps } from "@mui/material";
+import type { ChipProps } from "@mui/material";
 import Box, { type BoxProps } from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Badge from "../../components/Badge";
 import { DebugTag } from "../../debug/DebugTag";
 import {
 	buildDataSelector,
@@ -19,7 +20,7 @@ import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
 import type {
 	EnrichedReference,
 	ReferenceValidationState,
-} from "./useDocumentBibliographicReferences";
+} from "./enrichReferences";
 
 const noteSx: BoxProps["sx"] = {
 	fontSize: "1rem",
@@ -91,7 +92,14 @@ export const BiblLink = memo(
 						contain: "style paint inline-size",
 					}}
 				>
-					{children}
+					<Box
+						component="span"
+						sx={{
+							mr: 1,
+						}}
+					>
+						{children}
+					</Box>
 					{getValidationStateChip(data.validationState)}
 				</Box>
 				<Stack gap={0.5} direction="row">
@@ -164,12 +172,15 @@ function getValidationStateChip(validationState?: ReferenceValidationState) {
 				`sidePanel.bibliographicReferences.validationState.${validationState}.tooltip`,
 			)}
 		>
-			<Chip
-				color={color}
+			<Badge
+				severity={color}
 				label={t(
 					`sidePanel.bibliographicReferences.validationState.${validationState}.label`,
 				)}
-				size="small"
+				sx={{
+					fontSize: "0.7rem",
+					height: "20px",
+				}}
 			/>
 		</Tooltip>
 	);
