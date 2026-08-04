@@ -1,18 +1,8 @@
 import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
-import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
-
-export type ReferenceValidationState =
-	| "found"
-	| "not_found"
-	| "to_be_verified"
-	| "retracted";
-
-export interface EnrichedReference extends DocumentJson {
-	validationState?: ReferenceValidationState;
-}
+import enrichReferences, { type EnrichedReference } from "./enrichReferences";
 
 export const useDocumentBibliographicReferences = (): EnrichedReference[] => {
 	const { jsonDocument } = useDocumentContext();
@@ -62,22 +52,3 @@ export const useDocumentBibliographicReferences = (): EnrichedReference[] => {
 
 	return data || baseReferences;
 };
-
-async function enrichReferences(
-	references: DocumentJson[],
-): Promise<EnrichedReference[]> {
-	const possibleStates: ReferenceValidationState[] = [
-		"found",
-		"not_found",
-		"to_be_verified",
-		"retracted",
-	];
-
-	await new Promise((resolve) => setTimeout(resolve, 0));
-
-	return references.map((ref) => ({
-		...ref,
-		validationState:
-			possibleStates[Math.floor(Math.random() * possibleStates.length)],
-	}));
-}
