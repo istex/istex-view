@@ -7,7 +7,7 @@ interface BadgeProps {
 	sx?: SxProps;
 }
 
-export default function Badge({ label, severity, sx }: BadgeProps) {
+export default function Badge({ label, severity, sx, ...rest }: BadgeProps) {
 	const theme = useTheme();
 
 	return (
@@ -27,6 +27,7 @@ export default function Badge({ label, severity, sx }: BadgeProps) {
 				},
 				...sx,
 			}}
+			{...rest}
 		/>
 	);
 }
