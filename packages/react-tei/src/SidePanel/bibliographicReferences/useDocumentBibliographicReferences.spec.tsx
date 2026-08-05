@@ -11,7 +11,7 @@ vi.mock("./enrichReferences", () => ({
 		return Promise.resolve(
 			references.map((reference) => ({
 				...reference,
-				validationState: "not_found",
+				validationStatus: "not_found",
 			})),
 		);
 	},

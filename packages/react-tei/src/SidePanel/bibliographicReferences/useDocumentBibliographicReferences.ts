@@ -8,7 +8,7 @@ export const useDocumentBibliographicReferences = (): EnrichedReference[] => {
 	const { jsonDocument } = useDocumentContext();
 
 	// First, get the base references immediately
-	const baseReferences: EnrichedReference[] = useMemo(() => {
+	const baseReferences = useMemo(() => {
 		const back = getDocumentJsonAtPath(jsonDocument, ["TEI", "text", "back"]);
 
 		if (!back || !Array.isArray(back.value)) {
@@ -38,7 +38,7 @@ export const useDocumentBibliographicReferences = (): EnrichedReference[] => {
 	}, [jsonDocument]);
 
 	// Then, enrich the references using the bibCheck web service
-	const { data } = useQuery({
+	const { data: enrichedReferences } = useQuery({
 		queryKey: ["enrichedReferences", baseReferences],
 		queryFn: async () => {
 			if (baseReferences.length === 0) {
@@ -50,5 +50,5 @@ export const useDocumentBibliographicReferences = (): EnrichedReference[] => {
 		retry: false,
 	});
 
-	return data || baseReferences;
+	return enrichedReferences || baseReferences;
 };

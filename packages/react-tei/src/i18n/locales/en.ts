@@ -59,7 +59,7 @@ export const en: Translation = {
 		bibliographicReferences: {
 			title_one: "Reference ({{count}})",
 			title_other: "References ({{count}})",
-			validationState: {
+			validationStatus: {
 				not_found: {
 					label: "Not found",
 					tooltip: "Reference not found in Crossref nor DataCite.",

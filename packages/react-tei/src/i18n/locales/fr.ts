@@ -57,7 +57,7 @@ export const fr = {
 		bibliographicReferences: {
 			title_one: "Référence bibliographique ({{count}})",
 			title_other: "Références bibliographiques ({{count}})",
-			validationState: {
+			validationStatus: {
 				not_found: {
 					label: "Non trouvée",
 					tooltip: "Référence non trouvée dans Crossref ni DataCite.",
