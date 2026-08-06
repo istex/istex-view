@@ -1,4 +1,5 @@
-import { describe, expect, it } from "vitest";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { describe, expect, it, vi } from "vitest";
 import { render } from "vitest-browser-react";
 import { DocumentContextProvider } from "../../DocumentContextProvider";
 import { I18nProvider } from "../../i18n/I18nProvider";
@@ -6,6 +7,18 @@ import { TestDocumentNavigationContextProvider } from "../../navigation/TestDocu
 import type { DocumentJson } from "../../parser/document";
 import { DocumentSidePanelContextProvider } from "../DocumentSidePanelContext";
 import { BibliographicReferencesSection } from "./BibliographicReferencesSection";
+import type { EnrichedReference } from "./enrichReferences";
+
+vi.mock("./enrichReferences", () => ({
+	default: (references: DocumentJson[]): Promise<EnrichedReference[]> => {
+		return Promise.resolve(
+			references.map((reference) => ({
+				...reference,
+				validationStatus: "not_found",
+			})),
+		);
+	},
+}));
 
 function wrapInDocument(documentJson: DocumentJson[]): DocumentJson[] {
 	return [
@@ -26,6 +39,7 @@ function wrapInDocument(documentJson: DocumentJson[]): DocumentJson[] {
 	];
 }
 
+// fetch is called, mocking is needed
 export function TestWrapper({
 	jsonDocument,
 	children,
@@ -34,15 +48,17 @@ export function TestWrapper({
 	children: React.ReactNode;
 }) {
 	return (
-		<I18nProvider>
-			<DocumentContextProvider jsonDocument={jsonDocument}>
-				<DocumentSidePanelContextProvider>
-					<TestDocumentNavigationContextProvider>
-						{children}
-					</TestDocumentNavigationContextProvider>
-				</DocumentSidePanelContextProvider>
-			</DocumentContextProvider>
-		</I18nProvider>
+		<QueryClientProvider client={new QueryClient()}>
+			<I18nProvider>
+				<DocumentContextProvider jsonDocument={jsonDocument}>
+					<DocumentSidePanelContextProvider>
+						<TestDocumentNavigationContextProvider>
+							{children}
+						</TestDocumentNavigationContextProvider>
+					</DocumentSidePanelContextProvider>
+				</DocumentContextProvider>
+			</I18nProvider>
+		</QueryClientProvider>
 	);
 }
 
