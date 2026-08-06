@@ -100,7 +100,7 @@ export const BiblLink = memo(
 					>
 						{children}
 					</Box>
-					{getValidationStateChip(data.validationStatus)}
+					{getValidationStatusChip(data.validationStatus)}
 				</Box>
 				<Stack gap={0.5} direction="row">
 					<Tooltip title={t(`termEnrichment.next`)} placement="top">
@@ -145,7 +145,7 @@ export const BiblLink = memo(
 	},
 );
 
-function getValidationStateChip(validationStatus?: ReferenceValidationStatus) {
+function getValidationStatusChip(validationStatus?: ReferenceValidationStatus) {
 	const { t } = useTranslation();
 
 	// We don't display a chip when the reference is found
