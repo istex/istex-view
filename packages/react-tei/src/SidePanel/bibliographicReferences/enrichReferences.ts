@@ -71,7 +71,7 @@ export default async function enrichReferences(
 		// We use the id of the current reference to find the corresponding reference
 		// in the web service response.
 		const id = reference.attributes?.["@xml:id"];
-		const validationStatus = id ? (responseMap.get(id) ?? "found") : "found";
+		const validationStatus = id ? responseMap.get(id) : undefined;
 
 		return {
 			...reference,
