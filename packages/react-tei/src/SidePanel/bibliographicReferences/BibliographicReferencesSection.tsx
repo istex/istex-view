@@ -17,9 +17,9 @@ export const bibliographicReferenceSectionSx: BoxProps["sx"] = {
 
 export const BibliographicReferencesSection = memo(() => {
 	const { t } = useTranslation();
-	const { bibliographicReferences, count } =
-		useDocumentBibliographicReferences();
-	if (count === 0) {
+	const bibliographicReferences = useDocumentBibliographicReferences();
+
+	if (bibliographicReferences.length === 0) {
 		return null;
 	}
 
@@ -27,7 +27,9 @@ export const BibliographicReferencesSection = memo(() => {
 		<TagCatalogProvider tagCatalog={bibliographicReferencesTagCatalog}>
 			<Accordion
 				name="bibliographicReferences"
-				label={t("sidePanel.bibliographicReferences.title", { count })}
+				label={t("sidePanel.bibliographicReferences.title", {
+					count: bibliographicReferences.length,
+				})}
 			>
 				<Box sx={bibliographicReferenceSectionSx}>
 					<Value data={bibliographicReferences} />

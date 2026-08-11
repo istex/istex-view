@@ -1,11 +1,13 @@
 import ArrowDownIcon from "@mui/icons-material/ArrowDropDown";
 import ArrowUpIcon from "@mui/icons-material/ArrowDropUp";
+import type { ChipProps } from "@mui/material";
 import Box, { type BoxProps } from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
 import Stack from "@mui/material/Stack";
 import Tooltip from "@mui/material/Tooltip";
 import { memo, type ReactNode, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Badge from "../../components/Badge";
 import { DebugTag } from "../../debug/DebugTag";
 import {
 	buildDataSelector,
@@ -15,7 +17,10 @@ import {
 	getReactRootElement,
 } from "../../navigation/DocumentNavigationContext";
 import { useDocumentNavigation } from "../../navigation/useNavigateToSection";
-import type { ComponentProps } from "../../tags/type";
+import type {
+	EnrichedReference,
+	ReferenceValidationStatus,
+} from "./enrichReferences";
 
 const noteSx: BoxProps["sx"] = {
 	fontSize: "1rem",
@@ -26,12 +31,7 @@ const noteSx: BoxProps["sx"] = {
 };
 
 export const BiblLink = memo(
-	({
-		data,
-		children,
-	}: ComponentProps & {
-		children: ReactNode;
-	}) => {
+	({ data, children }: { data: EnrichedReference; children: ReactNode }) => {
 		const { t } = useTranslation();
 		const [targetedElementCount, setTargetedElementCount] = useState(0);
 
@@ -92,7 +92,15 @@ export const BiblLink = memo(
 						contain: "style paint inline-size",
 					}}
 				>
-					{children}
+					<Box
+						component="span"
+						sx={{
+							mr: 1,
+						}}
+					>
+						{children}
+					</Box>
+					{getValidationStatusChip(data.validationStatus)}
 				</Box>
 				<Stack gap={0.5} direction="row">
 					<Tooltip title={t(`termEnrichment.next`)} placement="top">
@@ -136,3 +144,44 @@ export const BiblLink = memo(
 		);
 	},
 );
+
+function getValidationStatusChip(validationStatus?: ReferenceValidationStatus) {
+	const { t } = useTranslation();
+
+	// We don't display a chip when the reference is found
+	if (validationStatus == null || validationStatus === "found") {
+		return null;
+	}
+
+	let color: ChipProps["color"];
+	switch (validationStatus) {
+		case "not_found":
+			color = "info";
+			break;
+		case "to_be_verified":
+			color = "warning";
+			break;
+		case "retracted":
+			color = "error";
+			break;
+	}
+
+	return (
+		<Tooltip
+			title={t(
+				`sidePanel.bibliographicReferences.validationStatus.${validationStatus}.tooltip`,
+			)}
+		>
+			<Badge
+				severity={color}
+				label={t(
+					`sidePanel.bibliographicReferences.validationStatus.${validationStatus}.label`,
+				)}
+				sx={{
+					fontSize: "0.7rem",
+					height: "20px",
+				}}
+			/>
+		</Tooltip>
+	);
+}

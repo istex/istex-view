@@ -59,6 +59,20 @@ export const en: Translation = {
 		bibliographicReferences: {
 			title_one: "Reference ({{count}})",
 			title_other: "References ({{count}})",
+			validationStatus: {
+				not_found: {
+					label: "Not found",
+					tooltip: "Reference not found in Crossref nor DataCite.",
+				},
+				to_be_verified: {
+					label: "To be verified",
+					tooltip: "Potentially hallucinated reference.",
+				},
+				retracted: {
+					label: "Retracted",
+					tooltip: "Retracted reference.",
+				},
+			},
 		},
 		documentIdentifier: {
 			title: "Document Identifier",

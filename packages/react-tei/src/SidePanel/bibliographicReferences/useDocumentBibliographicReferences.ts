@@ -1,18 +1,18 @@
+import { useQuery } from "@tanstack/react-query";
 import { useMemo } from "react";
 import { useDocumentContext } from "../../DocumentContextProvider";
-import type { DocumentJson } from "../../parser/document";
 import { getDocumentJsonAtPath } from "../../parser/getDocumentJsonAtPath";
+import enrichReferences, { type EnrichedReference } from "./enrichReferences";
 
-export const useDocumentBibliographicReferences = () => {
+export const useDocumentBibliographicReferences = (): EnrichedReference[] => {
 	const { jsonDocument } = useDocumentContext();
-	return useMemo(() => {
+
+	// First, get the base references immediately
+	const baseReferences = useMemo(() => {
 		const back = getDocumentJsonAtPath(jsonDocument, ["TEI", "text", "back"]);
 
 		if (!back || !Array.isArray(back.value)) {
-			return {
-				bibliographicReferences: [],
-				count: 0,
-			};
+			return [];
 		}
 
 		const referencesDiv = back.value.find(
@@ -20,29 +20,35 @@ export const useDocumentBibliographicReferences = () => {
 		);
 
 		if (!referencesDiv || !Array.isArray(referencesDiv.value)) {
-			return {
-				bibliographicReferences: [],
-				count: 0,
-			};
+			return [];
 		}
 
 		const listBibl = referencesDiv.value.find(
-			(docJson: DocumentJson) => docJson?.tag === "listBibl",
+			(docJson) => docJson?.tag === "listBibl",
 		);
 		if (!listBibl || !Array.isArray(listBibl.value)) {
-			return {
-				bibliographicReferences: [],
-				count: 0,
-			};
+			return [];
 		}
 
 		const bibliographicReferences = listBibl.value.filter(({ tag }) =>
 			["bibl", "biblStruct"].includes(tag),
 		);
 
-		return {
-			bibliographicReferences,
-			count: bibliographicReferences.length,
-		};
+		return bibliographicReferences;
 	}, [jsonDocument]);
+
+	// Then, enrich the references using the bibCheck web service
+	const { data: enrichedReferences } = useQuery({
+		queryKey: ["enrichedReferences", baseReferences],
+		queryFn: async () => {
+			if (baseReferences.length === 0) {
+				return baseReferences;
+			}
+			return await enrichReferences(baseReferences);
+		},
+		enabled: baseReferences.length > 0,
+		retry: false,
+	});
+
+	return enrichedReferences || baseReferences;
 };

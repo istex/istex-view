@@ -57,6 +57,20 @@ export const fr = {
 		bibliographicReferences: {
 			title_one: "Référence bibliographique ({{count}})",
 			title_other: "Références bibliographiques ({{count}})",
+			validationStatus: {
+				not_found: {
+					label: "Non trouvée",
+					tooltip: "Référence non trouvée dans Crossref ni DataCite.",
+				},
+				to_be_verified: {
+					label: "À vérifier",
+					tooltip: "Référence potentiellement hallucinée.",
+				},
+				retracted: {
+					label: "Rétractée",
+					tooltip: "Référence rétractée.",
+				},
+			},
 		},
 		documentIdentifier: {
 			title: "Identifiant du document",
