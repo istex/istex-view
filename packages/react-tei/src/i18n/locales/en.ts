@@ -66,11 +66,12 @@ export const en: Translation = {
 				},
 				not_found: {
 					label: "Not found",
-					tooltip: "Reference not found in Crossref nor DataCite.",
+					tooltip:
+						"Reference not found in Crossref or DataCite but does not seem to be AI-generated.",
 				},
 				to_be_verified: {
 					label: "To be verified",
-					tooltip: "Potentially hallucinated reference.",
+					tooltip: "Potentially AI-generated or incorrect reference.",
 				},
 				retracted: {
 					label: "Retracted",

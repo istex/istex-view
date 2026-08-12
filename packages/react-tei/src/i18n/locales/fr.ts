@@ -64,11 +64,12 @@ export const fr = {
 				},
 				not_found: {
 					label: "Non trouvée",
-					tooltip: "Référence non trouvée dans Crossref ni DataCite.",
+					tooltip:
+						"Référence non trouvée dans Crossref et DataCite mais qui ne semble pas générée par IA.",
 				},
 				to_be_verified: {
 					label: "À vérifier",
-					tooltip: "Référence potentiellement hallucinée.",
+					tooltip: "Référence potentiellement générée par IA ou erronée.",
 				},
 				retracted: {
 					label: "Rétractée",
