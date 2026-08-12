@@ -58,6 +58,10 @@ export const fr = {
 			title_one: "Référence bibliographique ({{count}})",
 			title_other: "Références bibliographiques ({{count}})",
 			validationStatus: {
+				found: {
+					label: "Trouvée",
+					tooltip: "Réference trouvée dans Crossref ou DataCite.",
+				},
 				not_found: {
 					label: "Non trouvée",
 					tooltip: "Référence non trouvée dans Crossref ni DataCite.",

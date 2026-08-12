@@ -60,6 +60,10 @@ export const en: Translation = {
 			title_one: "Reference ({{count}})",
 			title_other: "References ({{count}})",
 			validationStatus: {
+				found: {
+					label: "Found",
+					tooltip: "Reference found in Crossref or DataCite.",
+				},
 				not_found: {
 					label: "Not found",
 					tooltip: "Reference not found in Crossref nor DataCite.",
