@@ -57,6 +57,8 @@ export const fr = {
 		bibliographicReferences: {
 			title_one: "Référence bibliographique ({{count}})",
 			title_other: "Références bibliographiques ({{count}})",
+			tooltip:
+				"La vérification des références bibliographiques est faite avec le <bibCheckLink>web service bibCheck</bibCheckLink>.",
 			validationStatus: {
 				found: {
 					label: "Trouvée",

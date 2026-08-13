@@ -59,6 +59,8 @@ export const en: Translation = {
 		bibliographicReferences: {
 			title_one: "Reference ({{count}})",
 			title_other: "References ({{count}})",
+			tooltip:
+				"References are checked using the <bibCheckLink>bibCheck web service</bibCheckLink>.",
 			validationStatus: {
 				found: {
 					label: "Found",
