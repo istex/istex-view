@@ -57,14 +57,21 @@ export const fr = {
 		bibliographicReferences: {
 			title_one: "Référence bibliographique ({{count}})",
 			title_other: "Références bibliographiques ({{count}})",
+			tooltip:
+				"La vérification des références bibliographiques est faite avec le <bibCheckLink>web service bibCheck</bibCheckLink>.",
 			validationStatus: {
+				found: {
+					label: "Trouvée",
+					tooltip: "Réference trouvée dans Crossref ou DataCite.",
+				},
 				not_found: {
 					label: "Non trouvée",
-					tooltip: "Référence non trouvée dans Crossref ni DataCite.",
+					tooltip:
+						"Référence non trouvée dans Crossref et DataCite mais qui ne semble pas générée par IA.",
 				},
 				to_be_verified: {
 					label: "À vérifier",
-					tooltip: "Référence potentiellement hallucinée.",
+					tooltip: "Référence potentiellement générée par IA ou erronée.",
 				},
 				retracted: {
 					label: "Rétractée",

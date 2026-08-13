@@ -70,6 +70,9 @@ const theme = createTheme({
 		error: {
 			main: colors.red,
 		},
+		success: {
+			main: colors.lightGreen,
+		},
 	},
 });
 

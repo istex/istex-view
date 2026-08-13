@@ -14,7 +14,7 @@ import {
 
 type AccordionProps = {
 	name: PanelSection;
-	label: string;
+	label: React.ReactNode;
 	children: React.ReactNode;
 };
 

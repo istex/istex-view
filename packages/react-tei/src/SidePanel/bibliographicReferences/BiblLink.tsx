@@ -148,13 +148,15 @@ export const BiblLink = memo(
 function getValidationStatusChip(validationStatus?: ReferenceValidationStatus) {
 	const { t } = useTranslation();
 
-	// We don't display a chip when the reference is found
-	if (validationStatus == null || validationStatus === "found") {
+	if (validationStatus == null) {
 		return null;
 	}
 
 	let color: ChipProps["color"];
 	switch (validationStatus) {
+		case "found":
+			color = "success";
+			break;
 		case "not_found":
 			color = "info";
 			break;
