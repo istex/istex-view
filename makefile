@@ -15,8 +15,8 @@ build:									## Build the project
 build-watch:							## Build the project in watch mode
 	@pnpm turbo watch build
 
-dev:									## Start containers
-	@pnpm turbo watch dev --filter="@istex/viewer-demo" --ui="stream"
+dev:									## Start the dev server
+	@pnpm turbo run dev --filter="@istex/viewer-demo" --ui="stream"
 
 preview:								## Preview the demo package
 	@pnpm turbo run preview --filter="@istex/viewer-demo"
