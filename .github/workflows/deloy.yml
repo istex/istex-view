@@ -45,7 +45,7 @@ jobs:
         run: pnpm turbo run build --filter="@istex/viewer-demo" --no-cache
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+        uses: actions/upload-pages-artifact@v5
         with:
           path: "./packages/demo/dist"
 
