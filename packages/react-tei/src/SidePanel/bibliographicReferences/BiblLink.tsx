@@ -166,6 +166,8 @@ function getValidationStatusChip(validationStatus?: ReferenceValidationStatus) {
 		case "retracted":
 			color = "error";
 			break;
+		default:
+			return null;
 	}
 
 	return (

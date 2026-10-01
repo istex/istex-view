@@ -61,8 +61,9 @@ export const fr = {
 				"La vérification des références bibliographiques est faite avec le <bibCheckLink>web service bibCheck</bibCheckLink>.",
 			validationStatus: {
 				found: {
-					label: "Trouvée",
-					tooltip: "Réference trouvée dans Crossref ou DataCite.",
+					label: "Valide",
+					tooltip:
+						"Réference trouvée dans Crossref ou DataCite et considérée comme valide.",
 				},
 				not_found: {
 					label: "Non trouvée",

@@ -63,8 +63,9 @@ export const en: Translation = {
 				"References are checked using the <bibCheckLink>bibCheck web service</bibCheckLink>.",
 			validationStatus: {
 				found: {
-					label: "Found",
-					tooltip: "Reference found in Crossref or DataCite.",
+					label: "Valid",
+					tooltip:
+						"Reference found in Crossref or DataCite and considered valid.",
 				},
 				not_found: {
 					label: "Not found",
