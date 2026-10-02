@@ -3,11 +3,13 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { initReactI18next } from "react-i18next";
 
 import { enGB } from "./locales/en-GB";
+import { esES } from "./locales/es-ES";
 import { frFR } from "./locales/fr-FR";
 
 const resources = {
 	"fr-FR": { translation: frFR },
 	"en-GB": { translation: enGB },
+	"es-ES": { translation: esES },
 };
 
 export const supportedLanguages = Object.keys(
