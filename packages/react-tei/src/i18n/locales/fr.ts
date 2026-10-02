@@ -139,7 +139,7 @@ export const fr = {
 
 		teeft_zero: "Mot-clé (Teeft)",
 		teeft_one: "Mot-clé (Teeft) ({{count}})",
-		teeft_other: "Mot-clés (Teeft) ({{count}})",
+		teeft_other: "Mots-clés (Teeft) ({{count}})",
 	},
 	multicat: {
 		inist: "Catégorie Inist (Bayésien naïf)",
