@@ -7,7 +7,8 @@ export const esES: Translation = {
 			"Visualice y explore fácilmente documentos XML-TEI y sus anotaciones",
 	},
 	navbar: {
-		istex: "Acceso a Istex.fr",
+		burgerMenuAriaLabel: "Recursos externos de documentación científica",
+		istex: "acceso a istex.fr",
 		a_zJournalsList: "Sumarios de revistas",
 		documentaryDataset: "Referencias documentales",
 		specializedCorpus: "Corpus especializados",

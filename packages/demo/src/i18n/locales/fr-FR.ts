@@ -5,6 +5,7 @@ export const frFR = {
 			"Consultez et explorez facilement les documents XML-TEI et leurs enrichissements",
 	},
 	navbar: {
+		burgerMenuAriaLabel: "Ressources externes de documentation scientifique",
 		istex: "accès istex.fr",
 		a_zJournalsList: "Revue de sommaire",
 		documentaryDataset: "Référentiels documentaires",

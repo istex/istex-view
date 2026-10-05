@@ -7,6 +7,7 @@ export const enGB: Translation = {
 			"Easily view and explore XML-TEI documents and their annotations",
 	},
 	navbar: {
+		burgerMenuAriaLabel: "External scientific documentation resources",
 		istex: "go to istex.fr",
 		a_zJournalsList: "Summary Review",
 		documentaryDataset: "Documentary References",
