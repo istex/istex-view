@@ -1,4 +1,4 @@
-export const fr = {
+export const frFR = {
 	commons: {
 		colon: " : ",
 	},
@@ -181,4 +181,4 @@ export const fr = {
 	},
 };
 
-export type Translation = typeof fr;
+export type Translation = typeof frFR;

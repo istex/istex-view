@@ -1,16 +1,20 @@
-export const fr = {
+export const frFR = {
 	header: {
 		subtitle: "Un nouveau regard sur les documents TEI dans Istex",
 		description:
 			"Consultez et explorez facilement les documents XML-TEI et leurs enrichissements",
 	},
 	navbar: {
+		burgerMenuAriaLabel: "Ressources externes de documentation scientifique",
 		istex: "accès istex.fr",
 		a_zJournalsList: "Revue de sommaire",
 		documentaryDataset: "Référentiels documentaires",
 		specializedCorpus: "Corpus spécialisés",
 		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
+		LocalePicker: {
+			selectAriaLabel: "Langue",
+		},
 	},
 	home: {
 		headline: "Bienvenue sur la bêta publique d'Istex\u00A0View.",
@@ -32,4 +36,4 @@ export const fr = {
 	},
 };
 
-export type Translation = typeof fr;
+export type Translation = typeof frFR;

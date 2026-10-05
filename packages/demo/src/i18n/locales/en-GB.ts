@@ -1,18 +1,22 @@
-import type { Translation } from "./fr";
+import type { Translation } from "./fr-FR";
 
-export const en: Translation = {
+export const enGB: Translation = {
 	header: {
 		subtitle: "A new way to view TEI documents in Istex",
 		description:
 			"Easily view and explore XML-TEI documents and their annotations",
 	},
 	navbar: {
+		burgerMenuAriaLabel: "External scientific documentation resources",
 		istex: "go to istex.fr",
-		a_zJournalsList: "Summary Review",
-		documentaryDataset: "Documentary References",
-		specializedCorpus: "Specialized Corpus",
+		a_zJournalsList: "Holdings summary",
+		documentaryDataset: "Documentary references",
+		specializedCorpus: "Specialised corpora",
 		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
+		LocalePicker: {
+			selectAriaLabel: "Language",
+		},
 	},
 	home: {
 		headline: "Welcome to the Istex\u00A0View public beta.",

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import * as React from "react";
 import { useTranslation } from "react-i18next";
+import LocalePicker from "./LocalePicker";
 
 const navbarLinks = {
 	istex: {
@@ -65,7 +66,7 @@ export default function Navbar() {
 				<Box sx={{ display: { xs: "flex", sm: "none" } }}>
 					<IconButton
 						size="small"
-						aria-label="external scientific documentation resources"
+						aria-label={t("burgerMenuAriaLabel")}
 						aria-controls="menu-appbar"
 						aria-haspopup="true"
 						onClick={handleOpenNavMenu}
@@ -170,6 +171,11 @@ export default function Navbar() {
 							</Button>
 						</li>
 					))}
+				</Box>
+
+				{/* Locale picker */}
+				<Box sx={{ display: "flex", ml: { xs: 0, sm: 3 } }}>
+					<LocalePicker />
 				</Box>
 			</Container>
 		</AppBar>

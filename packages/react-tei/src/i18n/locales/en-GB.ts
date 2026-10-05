@@ -1,6 +1,6 @@
-import type { Translation } from "./fr";
+import type { Translation } from "./fr-FR";
 
-export const en: Translation = {
+export const enGB: Translation = {
 	commons: {
 		colon: ": ",
 	},
@@ -99,9 +99,9 @@ export const en: Translation = {
 		date_one: "Date (Unitex) ({{count}})",
 		date_other: "Dates (Unitex) ({{count}})",
 
-		orgName_zero: "Organizations names (Unitex)",
+		orgName_zero: "Organization names (Unitex)",
 		orgName_one: "Organization name (Unitex) ({{count}})",
-		orgName_other: "Organizations names (Unitex) ({{count}})",
+		orgName_other: "Organization names (Unitex) ({{count}})",
 
 		orgNameFunder_zero: "Funding organizations or funded projects (Unitex)",
 		orgNameFunder_one:
@@ -118,13 +118,13 @@ export const en: Translation = {
 		persName_one: "Person name (Unitex) ({{count}})",
 		persName_other: "People names (Unitex) ({{count}})",
 
-		placeName_zero: "Administrative places names (Unitex)",
+		placeName_zero: "Administrative place names (Unitex)",
 		placeName_one: "Administrative place name (Unitex) ({{count}})",
-		placeName_other: "Administrative places names (Unitex) ({{count}})",
+		placeName_other: "Administrative place names (Unitex) ({{count}})",
 
-		geogName_zero: "Geographical places names (Unitex)",
+		geogName_zero: "Geographical place names (Unitex)",
 		geogName_one: "Geographical place name (Unitex) ({{count}})",
-		geogName_other: "Geographical places names (Unitex) ({{count}})",
+		geogName_other: "Geographical place names (Unitex) ({{count}})",
 
 		ref_zero: "References",
 		ref_one: "Reference ({{count}})",
@@ -138,7 +138,7 @@ export const en: Translation = {
 		refUrl_one: "URL (Unitex) ({{count}})",
 		refUrl_other: "URLs (Unitex) ({{count}})",
 
-		teeft_zero: "Keyword (Teeft)",
+		teeft_zero: "Keywords (Teeft)",
 		teeft_one: "Keyword (Teeft) ({{count}})",
 		teeft_other: "Keywords (Teeft) ({{count}})",
 	},
