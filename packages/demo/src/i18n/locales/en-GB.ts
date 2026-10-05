@@ -9,9 +9,9 @@ export const enGB: Translation = {
 	navbar: {
 		burgerMenuAriaLabel: "External scientific documentation resources",
 		istex: "go to istex.fr",
-		a_zJournalsList: "Summary Review",
-		documentaryDataset: "Documentary References",
-		specializedCorpus: "Specialized Corpus",
+		a_zJournalsList: "Holdings summary",
+		documentaryDataset: "Documentary references",
+		specializedCorpus: "Specialised corpora",
 		istexTdm: "Istex TDM",
 		loterre: "Istex Loterre",
 		LocalePicker: {
