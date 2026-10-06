@@ -47,7 +47,7 @@ export const frFR = {
 			title: "Source",
 		},
 		keyword: {
-			title_one: "Mots-clé ({{count}})",
+			title_one: "Mot-clé ({{count}})",
 			title_other: "Mots-clés ({{count}})",
 		},
 		footnotes: {
