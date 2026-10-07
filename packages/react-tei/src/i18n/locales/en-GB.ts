@@ -22,12 +22,12 @@ export const enGB: Translation = {
 		genName: "Generation",
 		nameLink: "Name Link",
 		degree: "Degree",
-		honorific: "Honorific",
+		honorific: "Title",
 		forename: "First Name",
 		surname: "Last Name",
-		addName: "Honorific",
-		orgName: "Organization",
-		address: "Organization Address",
+		addName: "Title",
+		orgName: "Organisation",
+		address: "Organisation Address",
 	},
 	appendices: {
 		title: "Appendices",
@@ -37,7 +37,7 @@ export const enGB: Translation = {
 		open: "Open the side panel",
 		close: "Close the side panel",
 		tabs: {
-			metadata: "Editor Metadata",
+			metadata: "Publisher Metadata",
 			enrichment_zero: "Istex Enrichments (0)",
 			enrichment_one: "Istex Enrichment ({{count}})",
 			enrichment_other: "Istex Enrichments ({{count}})",
@@ -99,20 +99,20 @@ export const enGB: Translation = {
 		date_one: "Date (Unitex) ({{count}})",
 		date_other: "Dates (Unitex) ({{count}})",
 
-		orgName_zero: "Organization names (Unitex)",
-		orgName_one: "Organization name (Unitex) ({{count}})",
-		orgName_other: "Organization names (Unitex) ({{count}})",
+		orgName_zero: "Organisation names (Unitex)",
+		orgName_one: "Organisation name (Unitex) ({{count}})",
+		orgName_other: "Organisation names (Unitex) ({{count}})",
 
-		orgNameFunder_zero: "Funding organizations or funded projects (Unitex)",
+		orgNameFunder_zero: "Funding organisations or funded projects (Unitex)",
 		orgNameFunder_one:
-			"Funding organization or funded project (Unitex) ({{count}})",
+			"Funding organisation or funded project (Unitex) ({{count}})",
 		orgNameFunder_other:
-			"Funding organizations or funded projects (Unitex) ({{count}})",
+			"Funding organisations or funded projects (Unitex) ({{count}})",
 
-		orgNameProvider_zero: "Resource hosting organizations",
-		orgNameProvider_one: "Resource hosting organization (Unitex) ({{count}})",
+		orgNameProvider_zero: "Resource hosting organisations",
+		orgNameProvider_one: "Resource hosting organisation (Unitex) ({{count}})",
 		orgNameProvider_other:
-			"Resource hosting organizations (Unitex) ({{count}})",
+			"Resource hosting organisations (Unitex) ({{count}})",
 
 		persName_zero: "People names (Unitex)",
 		persName_one: "Person name (Unitex) ({{count}})",
