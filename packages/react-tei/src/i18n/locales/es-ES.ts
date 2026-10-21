@@ -90,31 +90,30 @@ export const esES: Translation = {
 		underlineWordsInText: "Subrayar las palabras del texto",
 		toggleBlock_show: "Activar el subrayado de las palabras del texto",
 		toggleBlock_hide: "Desactivar el subrayado de las palabras del texto",
-		toggleTerm_show: 'Activar el subrayado del término "{{term}}"',
-		toggleTerm_hide: 'Desactivar el subrayado del término "{{term}}"',
+		toggleTerm_show: 'Activar el subrayado de la palabra "{{term}}"',
+		toggleTerm_hide: 'Desactivar el subrayado de la palabra "{{term}}"',
 		previous: "Ir al anterior",
 		next: "Ir al siguiente",
 
-		date_zero: "Fecha (Unitex)",
-		date_one: "Fecha (Unitex) ({{count}})",
-		date_other: "Fechas (Unitex) ({{count}})",
+		date_zero: "Nombre de fecha (Unitex)",
+		date_one: "Nombre de fecha (Unitex) ({{count}})",
+		date_other: "Nombres de fechas (Unitex) ({{count}})",
 
 		orgName_zero: "Nombre de la organización (Unitex)",
 		orgName_one: "Nombre de la organización (Unitex) ({{count}})",
 		orgName_other: "Nombres de las organizaciones (Unitex) ({{count}})",
 
-		orgNameFunder_zero: "Organismo financiador o proyecto financiado (Unitex)",
-		orgNameFunder_one:
-			"Organismo financiador o proyecto financiado (Unitex) ({{count}})",
+		orgNameFunder_zero: "Nombre del organismo financiador (Unitex)",
+		orgNameFunder_one: "Nombre del organismo financiador (Unitex) ({{count}})",
 		orgNameFunder_other:
-			"Organismos financiadores o proyectos financiados (Unitex) ({{count}})",
+			"Nombres de organismos financiadores (Unitex) ({{count}})",
 
 		orgNameProvider_zero:
-			"Organismo proveedeor de hosting de recursos (Unitex)",
+			"Nombre del organismo proveedeor de hosting de recursos (Unitex)",
 		orgNameProvider_one:
-			"Organismo proveedeor de hosting de recursos (Unitex) ({{count}})",
+			"Nombre del organismo proveedeor de hosting de recursos (Unitex) ({{count}})",
 		orgNameProvider_other:
-			"Organismos proveedeores de hosting de recursos (Unitex) ({{count}})",
+			"Nombre de organismos proveedeores de hosting de recursos (Unitex) ({{count}})",
 
 		persName_zero: "Denominación de persona (Unitex)",
 		persName_one: "Denominación de persona (Unitex) ({{count}})",
