@@ -4,7 +4,7 @@ export const esES: Translation = {
 	header: {
 		subtitle: "Una nueva perspectiva sobre los documentos TEI en Istex",
 		description:
-			"Visualice y explore fácilmente documentos XML-TEI y sus anotaciones",
+			"Consulte y explore fácilmente los documentos XML-TEI y sus enriquecimientos",
 	},
 	navbar: {
 		burgerMenuAriaLabel: "Recursos externos de documentación científica",
@@ -21,8 +21,8 @@ export const esES: Translation = {
 	home: {
 		headline: "Bienvenido a la versión beta pública de Istex\u00A0View.",
 		paragraph:
-			"Istex\u00A0View es una herramienta en línea que permite consultar las publicaciones científicas de la plataforma <istexLink>Istex</istexLink>. Ofrece una interfaz para visualizar el contenido de los documentos TEI, así como los <enrichmentProcessLink>enriquecimientos Istex</enrichmentProcessLink>.",
-		examples: "Ejemplos:",
+			"Istex\u00A0View es una herramienta en línea que permite consultar las publicaciones científicas de la plataforma <istexLink>Istex</istexLink>, proporcionando una interfaz para visualizar el contenido de documentos TEI y los <enrichmentProcessLink>enriquecimientos generados por Istex</enrichmentProcessLink>.",
+		examples: "Ejemplos de documentos:",
 		ArkForm: {
 			head: "Pruebe Istex\u00A0View introduciendo el identificador ARK de un documento Istex.",
 			submitButton: "Buscar",
@@ -35,6 +35,6 @@ export const esES: Translation = {
 		DocumentNotFoundError:
 			"No hay ningún documento que coincida con este identificador.",
 		NoFulltextError:
-			"No hemos podido obtener el texto completo en formato TEI.",
+			"No se ha podido obtener el texto completo en formato TEI.",
 	},
 };

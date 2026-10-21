@@ -7,7 +7,7 @@ export const esES: Translation = {
 	document: {
 		abstract: {
 			title: "Resumen",
-			nextLanguage: "Siguiente idioma",
+			nextLanguage: "Idioma siguiente",
 			previousLanguage: "Idioma anterior",
 		},
 		tableOfContent: "Índice",
@@ -33,7 +33,7 @@ export const esES: Translation = {
 		title: "Anexos",
 	},
 	sidePanel: {
-		footNotes: "Notas al pie",
+		footNotes: "Notas a pie de página",
 		open: "Abrir el panel lateral",
 		close: "Cerrar el panel lateral",
 		tabs: {
@@ -49,21 +49,21 @@ export const esES: Translation = {
 			title: "Fuente",
 		},
 		keyword: {
-			title_one: "Palabras clave ({{count}})",
+			title_one: "Palabra clave ({{count}})",
 			title_other: "Palabras clave ({{count}})",
 		},
 		footnotes: {
-			title_one: "Nota al pie ({{count}})",
-			title_other: "Notas al pie ({{count}})",
+			title_one: "Nota a pie de página ({{count}})",
+			title_other: "Notas a pie de página ({{count}})",
 		},
 		bibliographicReferences: {
 			title_one: "Referencia bibliográfica ({{count}})",
 			title_other: "Referencias bibliográficas ({{count}})",
 			tooltip:
-				"La verificación de las referencias bibliográficas se realiza mediante el <bibCheckLink>servicio bibCheck</bibCheckLink>.",
+				"La verificación de las referencias bibliográficas se realiza mediante el <bibCheckLink>servicio web bibCheck</bibCheckLink>.",
 			validationStatus: {
 				found: {
-					label: "Válido",
+					label: "Válida",
 					tooltip:
 						"Referencia encontrada en Crossref o DataCite y considerada válida.",
 				},
@@ -73,9 +73,8 @@ export const esES: Translation = {
 						"Referencia no encontrada en Crossref ni en DataCite, pero que no parece haber sido generada por IA.",
 				},
 				to_be_verified: {
-					label: "Por confirmar",
-					tooltip:
-						"Referencia que podría haber sido generada por IA o que podría ser errónea.",
+					label: "Por verificar",
+					tooltip: "Referencia posiblemente generada por IA o errónea.",
 				},
 				retracted: {
 					label: "Retractada",
@@ -89,33 +88,33 @@ export const esES: Translation = {
 	},
 	termEnrichment: {
 		underlineWordsInText: "Subrayar las palabras del texto",
-		toggleBlock_show: "Activar el subrayado de las palabras en el texto",
-		toggleBlock_hide: "Desactivar el subrayado de las palabras en el texto",
-		toggleTerm_show: 'Activar el subrayado de la palabra "{{term}}"',
-		toggleTerm_hide: 'Desactivar el subrayado de la palabra "{{term}}"',
+		toggleBlock_show: "Activar el subrayado de las palabras del texto",
+		toggleBlock_hide: "Desactivar el subrayado de las palabras del texto",
+		toggleTerm_show: 'Activar el subrayado del término "{{term}}"',
+		toggleTerm_hide: 'Desactivar el subrayado del término "{{term}}"',
 		previous: "Ir al anterior",
 		next: "Ir al siguiente",
 
-		date_zero: "Denominación de fecha (Unitex)",
-		date_one: "Denominación de fecha (Unitex) ({{count}})",
-		date_other: "Denominaciones de fechas (Unitex) ({{count}})",
+		date_zero: "Fecha (Unitex)",
+		date_one: "Fecha (Unitex) ({{count}})",
+		date_other: "Fechas (Unitex) ({{count}})",
 
-		orgName_zero: "Denominación de la organización (Unitex)",
-		orgName_one: "Denominación de la organización (Unitex) ({{count}})",
-		orgName_other: "Denominaciones de organizaciones (Unitex) ({{count}})",
+		orgName_zero: "Nombre de la organización (Unitex)",
+		orgName_one: "Nombre de la organización (Unitex) ({{count}})",
+		orgName_other: "Nombres de las organizaciones (Unitex) ({{count}})",
 
-		orgNameFunder_zero: "Denominación del organismo financiador (Unitex)",
+		orgNameFunder_zero: "Organismo financiador o proyecto financiado (Unitex)",
 		orgNameFunder_one:
-			"Denominación del organismo financiador (Unitex) ({{count}})",
+			"Organismo financiador o proyecto financiado (Unitex) ({{count}})",
 		orgNameFunder_other:
-			"Denominaciones de organismos financiadores (Unitex) ({{count}})",
+			"Organismos financiadores o proyectos financiados (Unitex) ({{count}})",
 
 		orgNameProvider_zero:
-			"Denominación de la entidad que aloja los recursos (Unitex)",
+			"Organismo proveedeor de hosting de recursos (Unitex)",
 		orgNameProvider_one:
-			"Denominación de la entidad que aloja los recursos (Unitex) ({{count}})",
+			"Organismo proveedeor de hosting de recursos (Unitex) ({{count}})",
 		orgNameProvider_other:
-			"Denominaciones de entidades que alojan recursos (Unitex) ({{count}})",
+			"Organismos proveedeores de hosting de recursos (Unitex) ({{count}})",
 
 		persName_zero: "Denominación de persona (Unitex)",
 		persName_one: "Denominación de persona (Unitex) ({{count}})",
@@ -154,8 +153,8 @@ export const esES: Translation = {
 		scopus: "Categoría Scopus (Multicat)",
 	},
 	fullScreen: {
-		enter: "Pasar al modo de pantalla completa",
-		exit: "Salir del modo de pantalla completa",
+		enter: "Pasar al modo pantalla completa",
+		exit: "Salir del modo pantalla completa",
 	},
 	figure: {
 		unloaded: "Imagen no disponible",
