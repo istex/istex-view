@@ -45,7 +45,7 @@ export const Note = ({ data }: ComponentProps) => {
 	return (
 		<Stack
 			direction="row"
-			gap={1}
+			spacing={1}
 			data-fn-id={noteId}
 			role="note"
 			aria-label={label ?? undefined}

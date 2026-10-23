@@ -228,7 +228,7 @@ function TabPanel({
 				},
 				display: current ? "flex" : "none",
 			}}
-			gap={3}
+			spacing={3}
 		>
 			{children}
 		</Stack>

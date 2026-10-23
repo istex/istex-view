@@ -19,9 +19,9 @@ export function TableCaption({ id, label, titles }: TableCaptionProps) {
 				},
 			}}
 		>
-			<Stack direction="row" gap={2} alignItems="center">
+			<Stack direction="row" spacing={2} sx={{ alignItems: "center" }}>
 				<FullScreenButton />
-				<Stack gap={1} flexGrow={1}>
+				<Stack spacing={1} sx={{ flexGrow: 1 }}>
 					<Box component="span">
 						{label?.value && (
 							<Typography

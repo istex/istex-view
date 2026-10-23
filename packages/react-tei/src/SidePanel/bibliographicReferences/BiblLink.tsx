@@ -102,7 +102,7 @@ export const BiblLink = memo(
 					</Box>
 					{getValidationStatusChip(data.validationStatus)}
 				</Box>
-				<Stack gap={0.5} direction="row">
+				<Stack spacing={0.5} direction="row">
 					<Tooltip title={t(`termEnrichment.next`)} placement="top">
 						<span>
 							<IconButton

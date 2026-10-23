@@ -6,7 +6,7 @@ export const Title = ({ data }: ComponentProps) => {
 	switch (data.attributes?.["@type"]) {
 		case "main":
 			return (
-				<Typography fontWeight="bold" component="span">
+				<Typography component="span" sx={{ fontWeight: "bold" }}>
 					<Value data={data.value} />
 				</Typography>
 			);

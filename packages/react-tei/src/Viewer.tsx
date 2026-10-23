@@ -159,10 +159,10 @@ export const Viewer = ({
 								>
 									<Stack
 										component="article"
-										flexGrow={1}
-										width="100%"
 										direction="row"
 										sx={{
+											width: "100%",
+											flexGrow: 1,
 											"& *": {
 												transition: "background-color 0.3s ease-in-out",
 											},
@@ -182,7 +182,13 @@ export const Viewer = ({
 										}}
 										id="viewer"
 									>
-										<Stack direction="row" flexGrow={1} justifyContent="center">
+										<Stack
+											direction="row"
+											sx={{
+												flexGrow: 1,
+												justifyContent: "center",
+											}}
+										>
 											{!isSmallScreen && (
 												<TableOfContent
 													tableOfContent={tableOfContent}
@@ -209,18 +215,20 @@ export const Viewer = ({
 												id="document-container"
 											>
 												<Stack
-													marginInline={{
-														xs: "auto",
-														xl: "1rem auto",
+													spacing={4}
+													sx={{
+														marginInline: {
+															xs: "auto",
+															xl: "1rem auto",
+														},
+														paddingBlock: 4,
+														maxWidth: {
+															xs: "100%",
+															md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
+															lg: "732px",
+														},
+														position: "relative",
 													}}
-													paddingBlock={4}
-													maxWidth={{
-														xs: "100%",
-														md: `calc(100dvw - ${SIDEPANEL_WIDTH})`,
-														lg: "732px",
-													}}
-													gap={4}
-													position="relative"
 												>
 													<DocumentTitle teiHeader={teiHeader} />
 

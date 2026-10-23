@@ -43,7 +43,7 @@ export function DebugTag({
 			}}
 			className="debug"
 		>
-			<Stack component="span" direction="row" gap={1}>
+			<Stack component="span" direction="row" spacing={1}>
 				<Tooltip
 					title={`${message}${payload ? " (Click icon to see payload in console warnings)" : ""}`}
 					placement="top"
@@ -57,7 +57,7 @@ export function DebugTag({
 				</Tooltip>
 
 				<Tooltip title={renderedTag} placement="top">
-					<Typography component="span" fontWeight="bold">
+					<Typography component="span" sx={{ fontWeight: "bold" }}>
 						&lt;{tag}&gt;
 					</Typography>
 				</Tooltip>

@@ -77,7 +77,7 @@ export const EnrichmentTermAnnotation = memo(
 						/>
 					</Tooltip>
 				</Box>
-				<Stack gap={0.5} direction="row">
+				<Stack spacing={0.5} direction="row">
 					<Tooltip title={t(`termEnrichment.next`)} placement="top">
 						<span>
 							<IconButton

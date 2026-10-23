@@ -13,7 +13,12 @@ function HightlightCaption({ groups }: { groups: string[] }) {
 	return (
 		<Stack direction="column" spacing={1}>
 			{groups.map((group) => (
-				<Stack key={group} direction="row" spacing={1} alignItems="center">
+				<Stack
+					key={group}
+					direction="row"
+					spacing={1}
+					sx={{ alignItems: "center" }}
+				>
 					<Box
 						sx={{
 							width: 24,
