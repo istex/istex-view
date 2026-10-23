@@ -7,7 +7,6 @@ This document explains how the TEI viewer processes and displays term enrichment
 ## What is Term Enrichment?
 
 Term enrichment adds semantic annotations to text documents. These annotations identify and categorize important terms like:
-
 - **Named entities** (people, organizations, places)
 - **Technical terms** (domain-specific vocabulary)
 - **Bibliographic references**
@@ -54,7 +53,6 @@ The viewer receives enrichments as separate XML files that reference words in th
 ### Why Regex-Based Matching?
 
 Term matching uses regex rather than exact string matching:
-
 - **Word boundaries**: Ensures terms match whole words, not substrings
 - **Case handling**: Easy to toggle case sensitivity per enrichment type
 - **Flexibility**: Can handle special characters and punctuation
@@ -62,7 +60,6 @@ Term matching uses regex rather than exact string matching:
 ### Why Hierarchical Nested Terms?
 
 When terms overlap (e.g., "New York" and "New York University"), we create nested structures:
-
 - **Completeness**: All enrichments remain visible
 - **User clarity**: Shows relationship between terms
 - **No conflicts**: Prevents highlight collisions
@@ -81,7 +78,6 @@ Structured Data (TermStatistic[])
 ```
 
 Each enrichment type has a dedicated parser that:
-
 1. Parses the XML using fast-xml-parser
 2. Extracts terms and their metadata
 3. Organizes terms by category/type
@@ -98,7 +94,6 @@ Enriched Document + Statistics
 ```
 
 The `enrichDocumentWithTerms` function ([enrichDocumentWithTerm.ts](../packages/react-tei/src/termEnrichment/enrichDocumentWithTerm.ts)):
-
 1. **Computes nested terms**: Identifies overlapping terms and creates a hierarchy
 2. **Creates regex patterns**: Generates regular expressions for each term
 3. **Traverses document**: Walks through all text nodes in the document
@@ -117,7 +112,6 @@ HTML with Highlighted Terms
 ```
 
 The `Highlight` component ([tags/Highlight.tsx](../packages/react-tei/src/tags/Highlight.tsx)):
-
 - Renders `<highlight>` tags as styled `<span>` elements
 - Applies CSS classes based on enrichment groups
 - Adds click handlers for navigation
@@ -126,7 +120,6 @@ The `Highlight` component ([tags/Highlight.tsx](../packages/react-tei/src/tags/H
 ### Step 4: Statistics
 
 The viewer counts term occurrences by group and by value. These statistics are displayed in the side panel, allowing users to see:
-
 - Which enrichment types are present
 - How many terms in each category
 - Which specific terms appear most frequently
@@ -140,7 +133,6 @@ Click category headers to show/hide all terms in that category, or click individ
 ### Navigate to Term
 
 Click a highlighted term in the document to:
-
 1. Open the side panel
 2. Switch to the enrichments tab
 3. Scroll to that term in the list
@@ -176,7 +168,6 @@ To support a new enrichment format, create a parser hook (similar to `useUnitexE
 ### Terms Not Highlighting
 
 **Possible causes**:
-
 1. **XML format mismatch**: Enrichment XML doesn't match expected schema
    - Solution: Compare with working examples in [testdata/](../packages/e2e/testdata/)
 2. **Text mismatch**: Term text doesn't exist in document
@@ -189,7 +180,6 @@ To support a new enrichment format, create a parser hook (similar to `useUnitexE
 ### Missing Term Statistics
 
 **Possible causes**:
-
 1. **No matches found**: Terms exist in enrichment but not document
    - Solution: Verify document and enrichment match
 2. **Regex compilation failed**: Invalid characters in term text
@@ -200,7 +190,6 @@ To support a new enrichment format, create a parser hook (similar to `useUnitexE
 ### Performance Issues with Many Terms
 
 **Solutions**:
-
 - Limit enrichment file size (< 1000 terms recommended)
 - Use more specific terms (fewer false matches)
 - Consider lazy loading enrichments
@@ -209,7 +198,6 @@ To support a new enrichment format, create a parser hook (similar to `useUnitexE
 ### Nested Terms Displaying Incorrectly
 
 **Debug steps**:
-
 1. Log output of `computeNestedTerms` function
 2. Verify term hierarchy structure
 3. Check CSS for highlight overlays
@@ -218,14 +206,12 @@ To support a new enrichment format, create a parser hook (similar to `useUnitexE
 ## Testing Enrichments
 
 Test files are located in [packages/e2e/testdata/](../packages/e2e/testdata/):
-
 - `unitex-enrichment.tei` - Sample Unitex enrichment
 - `multicat-enrichment.tei` - Sample Multicat enrichment
 - `nb-enrichment.tei` - Sample NB enrichment
 - `unitex-document.tei` - Document with Unitex enrichments
 
 E2E tests verify:
-
 - Terms are highlighted correctly
 - Statistics are accurate
 - Toggle functionality works

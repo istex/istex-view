@@ -82,7 +82,7 @@ describe("KeywordSection", () => {
 		expect(
 			getByRole("button", { name: "sidePanel.keyword.title" }),
 		).toBeInTheDocument();
-		expect(getByRole("button", { name: "sidePanel.keyword" })).toHaveAttribute(
+		expect(getByRole("button", { name: /sidePanel\.keyword/ })).toHaveAttribute(
 			"aria-expanded",
 			"true",
 		);
@@ -172,7 +172,7 @@ describe("KeywordSection", () => {
 		expect(
 			getByRole("button", { name: "sidePanel.keyword.title" }),
 		).toBeInTheDocument();
-		expect(getByRole("button", { name: "sidePanel.keyword" })).toHaveAttribute(
+		expect(getByRole("button", { name: /sidePanel\.keyword/ })).toHaveAttribute(
 			"aria-expanded",
 			"true",
 		);
@@ -301,7 +301,7 @@ describe("KeywordSection", () => {
 		expect(
 			getByRole("button", { name: "sidePanel.keyword.title" }),
 		).toBeInTheDocument();
-		expect(getByRole("button", { name: "sidePanel.keyword" })).toHaveAttribute(
+		expect(getByRole("button", { name: /sidePanel\.keyword/ })).toHaveAttribute(
 			"aria-expanded",
 			"true",
 		);

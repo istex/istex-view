@@ -89,13 +89,14 @@ describe("PersNamePart", () => {
 				},
 				null,
 			],
-		])("should return description type", (input: DocumentJson, expected:
-			| string
-			| null) => {
-			const descriptionKey = getDescriptionKey(input);
+		])(
+			"should return description type",
+			(input: DocumentJson, expected: string | null) => {
+				const descriptionKey = getDescriptionKey(input);
 
-			expect(descriptionKey).toBe(expected);
-		});
+				expect(descriptionKey).toBe(expected);
+			},
+		);
 	});
 
 	it("should render PersNamePart value with aria-description", async () => {

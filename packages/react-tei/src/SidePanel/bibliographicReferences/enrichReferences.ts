@@ -32,7 +32,7 @@ export default async function enrichReferences(
 
 			const text = document
 				.querySelector<HTMLDivElement>(`#bibl-ref-${id}`)
-				?.innerText.replace(/\s+/g, " ")
+				?.textContent.replace(/\s+/g, " ")
 				.trim();
 			if (!text) {
 				return null;

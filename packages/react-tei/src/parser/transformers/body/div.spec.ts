@@ -157,30 +157,30 @@ describe("transformDiv", () => {
 		expect(node).toStrictEqual(div);
 	});
 
-	it.each<SectionContext | null>([
-		null,
-		{ id: "sec1", level: "1" },
-	])("should return the original context if no modifications are made", (section) => {
-		const div = {
-			tag: "div",
-			attributes: {},
-			value: [
-				{
-					tag: "p",
-					attributes: {},
-					value: [
-						{
-							tag: "#text",
-							attributes: {},
-							value: "This is a paragraph.",
-						},
-					],
-				},
-			],
-		};
+	it.each<SectionContext | null>([null, { id: "sec1", level: "1" }])(
+		"should return the original context if no modifications are made",
+		(section) => {
+			const div = {
+				tag: "div",
+				attributes: {},
+				value: [
+					{
+						tag: "p",
+						attributes: {},
+						value: [
+							{
+								tag: "#text",
+								attributes: {},
+								value: "This is a paragraph.",
+							},
+						],
+					},
+				],
+			};
 
-		const initialContext = { section };
-		const { context } = transformDiv(initialContext, div);
-		expect(context).toBe(initialContext);
-	});
+			const initialContext = { section };
+			const { context } = transformDiv(initialContext, div);
+			expect(context).toBe(initialContext);
+		},
+	);
 });

@@ -7,7 +7,6 @@ This document describes the architecture of **@istex/viewer-demo**, a React appl
 ## Purpose
 
 The demo application serves multiple purposes:
-
 - **Showcase** viewer features and capabilities
 - **Reference implementation** for integrating the viewer
 - **Testing environment** for development and debugging
@@ -22,14 +21,12 @@ The demo application serves multiple purposes:
 **Purpose**: Allows users to upload and view TEI documents from their local system
 
 **Features**:
-
 - Upload TEI XML documents via file picker
 - Upload enrichment files (Unitex, Multicat, NB, TEEFT)
 - Persist uploaded files in component state
 - Display documents using the `@istex/react-tei` Viewer
 
 **User flow**:
-
 1. User selects TEI document file
 2. Optionally selects enrichment files
 3. Files are read and stored in ViewerContext
@@ -43,14 +40,12 @@ The demo application serves multiple purposes:
 **Purpose**: Load and display documents by their ARK (Archival Resource Key) identifier
 
 **Features**:
-
 - Fetch documents from remote sources using ARK IDs
 - Loading states during document retrieval
 - Error handling for missing or invalid documents
 - Sample TEI and enrichment XML files for testing
 
 **User flow**:
-
 1. User enters ARK identifier or follows link
 2. Router loader initiates document fetch
 3. Loading indicator displayed

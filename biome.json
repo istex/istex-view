@@ -1,9 +1,10 @@
 {
-	"$schema": "https://biomejs.dev/schemas/2.3.8/schema.json",
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
 	"files": {
 		"includes": [
 			"**/*.{css,json,md,ts,tsx,yaml,yml}",
-			"!**/{.turbo,dist,playwright-report,test-results}"
+			"!**/{.turbo,dist,playwright-report,test-results}",
+			"!pnpm-*.yaml"
 		]
 	},
 	"linter": {
@@ -16,7 +17,7 @@
 				"useExhaustiveDependencies": "error"
 			},
 			"nursery": {
-				"useSortedClasses": {
+				"useTailwindSortedClasses": {
 					"level": "error",
 					"fix": "safe",
 					"options": {}

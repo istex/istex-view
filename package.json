@@ -2,6 +2,7 @@
 	"name": "@istex/viewer-monorepo",
 	"license": "CeCILL",
 	"version": "1.2.0",
+	"type": "module",
 	"workspaces": [
 		"packages/*"
 	],
@@ -26,7 +27,7 @@
 		"@vitest/coverage-v8": "catalog:",
 		"husky": "catalog:",
 		"playwright": "catalog:",
-		"turbo": "^2.11.5",
+		"turbo": "catalog:",
 		"typescript": "catalog:",
 		"vitest": "catalog:"
 	},

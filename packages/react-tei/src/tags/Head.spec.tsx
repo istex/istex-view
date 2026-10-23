@@ -22,33 +22,32 @@ describe("Head", () => {
 			content: "Heading 7",
 			expectedDepth: 6,
 		},
-	])("should render head tag ", async ({
-		attributes,
-		content,
-		expectedDepth,
-	}) => {
-		const jsonValue: DocumentJson = {
-			tag: "head",
-			attributes,
-			value: [{ tag: "#text", value: content }],
-		};
+	])(
+		"should render head tag ",
+		async ({ attributes, content, expectedDepth }) => {
+			const jsonValue: DocumentJson = {
+				tag: "head",
+				attributes,
+				value: [{ tag: "#text", value: content }],
+			};
 
-		const screen = await render(<Head data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
-		});
+			const screen = await render(<Head data={jsonValue} />, {
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			});
 
-		const heading = screen.getByRole("heading", {
-			level: expectedDepth ?? parseInt(attributes.level, 10),
-			name: content,
-		});
+			const heading = screen.getByRole("heading", {
+				level: expectedDepth ?? parseInt(attributes.level, 10),
+				name: content,
+			});
 
-		expect(heading).toBeInTheDocument();
-		expect(heading).toHaveAttribute("id", attributes.id);
-	});
+			expect(heading).toBeInTheDocument();
+			expect(heading).toHaveAttribute("id", attributes.id);
+		},
+	);
 
 	it("should render head tag with nested <hi> elements", async () => {
 		const jsonValue: DocumentJson = {
@@ -81,27 +80,26 @@ describe("Head", () => {
 		expect(heading).toHaveTextContent("This is a nested heading.");
 	});
 
-	it.each([
-		{ value: [] },
-		{ value: undefined },
-		{ value: "" },
-	])("should not render when value is empty", async ({ value }) => {
-		const jsonValue: DocumentJson = {
-			tag: "head",
-			attributes: {
-				id: "az",
-				level: "2",
-			},
-			value,
-		};
+	it.each([{ value: [] }, { value: undefined }, { value: "" }])(
+		"should not render when value is empty",
+		async ({ value }) => {
+			const jsonValue: DocumentJson = {
+				tag: "head",
+				attributes: {
+					id: "az",
+					level: "2",
+				},
+				value,
+			};
 
-		const screen = await render(<Head data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
-		});
-		await expect.element(screen.container).toBeEmptyDOMElement();
-	});
+			const screen = await render(<Head data={jsonValue} />, {
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			});
+			await expect.element(screen.container).toBeEmptyDOMElement();
+		},
+	);
 });

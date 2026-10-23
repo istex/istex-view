@@ -35,17 +35,17 @@ describe("useListEnrichmentTermAnnotationByBlockType", () => {
 			type: "placeName",
 			terms: enrichments.placeName,
 		},
-	])("should return the correct annotations for $type block type", async ({
-		type,
-		terms,
-	}) => {
-		const result = await renderHook(
-			() => useListEnrichmentTermAnnotationByBlockType(type),
-			{ wrapper: TestWrapper },
-		);
+	])(
+		"should return the correct annotations for $type block type",
+		async ({ type, terms }) => {
+			const result = await renderHook(
+				() => useListEnrichmentTermAnnotationByBlockType(type),
+				{ wrapper: TestWrapper },
+			);
 
-		expect(result.result.current.annotations).toEqual(terms);
-	});
+			expect(result.result.current.annotations).toEqual(terms);
+		},
+	);
 
 	it("should return an empty array for a block type with no annotations", async () => {
 		const result = await renderHook(

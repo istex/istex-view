@@ -188,7 +188,7 @@ describe("Bibl", () => {
 			.element(screen.getByRole("note"))
 			.toHaveAttribute("data-bibref-id", "bib1");
 		expect(
-			screen.getByText("emphasized Title with normal text"),
+			screen.getByText(/Emphasized Title with normal text/),
 		).toBeInTheDocument();
 
 		await expect
@@ -266,10 +266,10 @@ describe("Bibl", () => {
 			screen.container.querySelector("div[data-bibref-id='nested2']"),
 		).toBeNull();
 		await expect
-			.element(screen.getByText("Nested Article 1"))
+			.element(screen.getByText(/Nested Article 1/))
 			.toBeInTheDocument();
 		await expect
-			.element(screen.getByText("Nested Article 2"))
+			.element(screen.getByText(/Nested Article 2/i))
 			.toBeInTheDocument();
 	});
 

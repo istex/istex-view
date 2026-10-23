@@ -24,17 +24,22 @@ describe("useDocumentAbstracts", () => {
 				value: [],
 			},
 		],
-	])("should return an empty array if no abstract is present", async (value) => {
-		const headerJson: DocumentJson = {
-			tag: "teiHeader",
-			attributes: {},
-			value,
-		};
+	])(
+		"should return an empty array if no abstract is present",
+		async (value) => {
+			const headerJson: DocumentJson = {
+				tag: "teiHeader",
+				attributes: {},
+				value,
+			};
 
-		const { result } = await renderHook(() => useDocumentAbstracts(headerJson));
+			const { result } = await renderHook(() =>
+				useDocumentAbstracts(headerJson),
+			);
 
-		expect(result.current).toEqual([]);
-	});
+			expect(result.current).toEqual([]);
+		},
+	);
 
 	it("should return a single abstract", async () => {
 		const headerJson: DocumentJson = {

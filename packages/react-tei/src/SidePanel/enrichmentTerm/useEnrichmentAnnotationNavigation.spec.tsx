@@ -16,35 +16,35 @@ describe("useEnrichmentAnnotationNavigation", () => {
 	}>([
 		{ direction: DIRECTION_PREVIOUS, fnName: "goToPrevious" },
 		{ direction: DIRECTION_NEXT, fnName: "goToNext" },
-	])('should support navigating to the "%s" occurrence of a term', async ({
-		direction,
-		fnName,
-	}) => {
-		const navigateToBodyTargetSelector = vi.fn();
-		const { result } = await renderHook(
-			() => useEnrichmentAnnotationNavigation("example"),
-			{
-				wrapper: ({ children }) => (
-					<TestDocumentNavigationContextProvider
-						value={{
-							navigateToBodyTargetSelector,
-						}}
-					>
-						{children}
-					</TestDocumentNavigationContextProvider>
-				),
-			},
-		);
+	])(
+		'should support navigating to the "%s" occurrence of a term',
+		async ({ direction, fnName }) => {
+			const navigateToBodyTargetSelector = vi.fn();
+			const { result } = await renderHook(
+				() => useEnrichmentAnnotationNavigation("example"),
+				{
+					wrapper: ({ children }) => (
+						<TestDocumentNavigationContextProvider
+							value={{
+								navigateToBodyTargetSelector,
+							}}
+						>
+							{children}
+						</TestDocumentNavigationContextProvider>
+					),
+				},
+			);
 
-		const fn = result.current[fnName];
+			const fn = result.current[fnName];
 
-		act(() => {
-			fn();
-		});
+			act(() => {
+				fn();
+			});
 
-		expect(navigateToBodyTargetSelector).toHaveBeenCalledWith(
-			'[data-term="example"]',
-			direction,
-		);
-	});
+			expect(navigateToBodyTargetSelector).toHaveBeenCalledWith(
+				'[data-term="example"]',
+				direction,
+			);
+		},
+	);
 });

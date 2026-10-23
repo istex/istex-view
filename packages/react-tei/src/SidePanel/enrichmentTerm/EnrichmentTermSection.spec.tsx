@@ -57,32 +57,32 @@ describe("EnrichmentTermSection", () => {
 			expectedLabel: "Noms de lieux administratifs (Unitex) (2)",
 			expectedTerms: ["Paris", "London"],
 		},
-	])("should render a list of terms for $type", async ({
-		expectedLabel,
-		expectedTerms,
-	}) => {
-		const screen = await render(<EnrichmentTermSection />, {
-			wrapper: TestWrapper,
-		});
+	])(
+		"should render a list of terms for $type",
+		async ({ expectedLabel, expectedTerms }) => {
+			const screen = await render(<EnrichmentTermSection />, {
+				wrapper: TestWrapper,
+			});
 
-		const accordionButton = screen.getByRole("button", {
-			name: expectedLabel,
-		});
-		await accordionButton.click();
+			const accordionButton = screen.getByRole("button", {
+				name: expectedLabel,
+			});
+			await accordionButton.click();
 
-		const list = screen.getByRole("list", {
-			name: expectedLabel,
-		});
-		for (const term of expectedTerms) {
-			await expect
-				.element(
-					list.getByRole("note").filter({
-						hasText: term,
-					}),
-				)
-				.toBeInTheDocument();
-		}
-	});
+			const list = screen.getByRole("list", {
+				name: expectedLabel,
+			});
+			for (const term of expectedTerms) {
+				await expect
+					.element(
+						list.getByRole("note").filter({
+							hasText: term,
+						}),
+					)
+					.toBeInTheDocument();
+			}
+		},
+	);
 
 	it("should note render anything for a block type with no annotations", async () => {
 		const screen = await render(<EnrichmentTermSection />, {
