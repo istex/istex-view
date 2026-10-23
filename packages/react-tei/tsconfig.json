@@ -2,10 +2,10 @@
 	"extends": "../../tsconfig.base.json",
 	"include": ["src"],
 	"compilerOptions": {
-		"types": ["vite/client"],
+		"types": ["node", "vite/client"],
 		"jsx": "react-jsx",
 		"outDir": "dist",
 		"rootDir": "src",
-		"lib": ["es2024", "DOM"]
+		"lib": ["ESNext", "DOM"]
 	}
 }
