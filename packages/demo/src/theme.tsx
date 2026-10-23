@@ -1,5 +1,4 @@
 import { createTheme } from "@mui/material/styles";
-import type {} from "@mui/material/themeCssVarsAugmentation";
 import IncludeIcon from "./icons/IncludeIcon";
 import IndeterminateIcon from "./icons/IndeterminateIcon";
 
