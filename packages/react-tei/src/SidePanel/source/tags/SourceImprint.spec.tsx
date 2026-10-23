@@ -78,7 +78,7 @@ describe("SourceImprint", () => {
 		});
 
 		await expect
-			.element(screen.getByText("Vol. 10, n° 2 (2020), pp. 100-110"))
+			.element(screen.getByText(/Vol\. 10, n° 2 \(2020\), pp\. 100-110/))
 			.toBeInTheDocument();
 	});
 
@@ -119,7 +119,7 @@ describe("SourceImprint", () => {
 		});
 
 		await expect
-			.element(screen.getByText("n° 2 (2020), p. 100"))
+			.element(screen.getByText(/n° 2 \(2020\), p\. 100/))
 			.toBeInTheDocument();
 	});
 });

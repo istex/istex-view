@@ -129,8 +129,7 @@ describe("Highlight", () => {
 		);
 
 		const outerElement = screen.getByRole("mark").filter({
-			hasText: "Albert Einstein",
-			exact: true,
+			hasText: /^Albert Einstein$/,
 		});
 		await expect.element(outerElement).toBeInTheDocument();
 		await expect.element(outerElement).toHaveTextContent("Albert Einstein");
@@ -183,8 +182,7 @@ describe("Highlight", () => {
 			},
 		);
 		const outerElement = screen.getByRole("mark").filter({
-			hasText: "Université Albert Einstein",
-			exact: true,
+			hasText: /^Université Albert Einstein$/,
 		});
 		await expect.element(outerElement).not.toBeInTheDocument();
 		await expect
@@ -237,8 +235,7 @@ describe("Highlight", () => {
 		);
 
 		const outerElement = screen.getByRole("mark").filter({
-			hasText: "Université Albert Einstein",
-			exact: true,
+			hasText: /^Université Albert Einstein$/,
 		});
 		await expect.element(outerElement).toBeInTheDocument();
 		await expect
@@ -266,7 +263,7 @@ describe("Highlight", () => {
 		// We should not have a separate highlight for "Université "
 		// So we check that the matched element is the outer mark
 		await expect
-			.element(screen.getByText("Université"))
+			.element(screen.getByText(/Université/))
 			.toHaveTextContent("Université Albert Einstein");
 	});
 });

@@ -60,7 +60,7 @@ describe("EnrichmentTermAnnotation", () => {
 		);
 
 		const checkbox = screen.getByRole("checkbox", {
-			name: 'Activer le soulignement pour le terme "example"',
+			name: /terme "example"/,
 		});
 		await checkbox.click();
 

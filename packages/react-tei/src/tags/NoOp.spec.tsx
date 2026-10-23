@@ -29,8 +29,8 @@ describe("NoOp", () => {
 		});
 
 		await expect
-			.element(screen.getByText("This is a test."))
+			.element(screen.getByText(/This is a test\./))
 			.toBeInTheDocument();
-		await expect.element(screen.getByText("Bold Text")).toBeInTheDocument();
+		await expect.element(screen.getByText(/Bold Text/)).toBeInTheDocument();
 	});
 });

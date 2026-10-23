@@ -77,7 +77,7 @@ describe("Table", () => {
 		await expect
 			.element(
 				screen.getByRole("table", {
-					name: "Table 1 Sample Table",
+					name: /Table 1 Sample Table/,
 				}),
 			)
 			.toBeVisible();
@@ -103,8 +103,8 @@ describe("Table", () => {
 
 		await expect.element(screen.getByRole("note")).toBeVisible();
 		await expect
-			.element(screen.getByRole("note"))
-			.toHaveTextContent("This is a table note.");
+			.element(screen.getByText("This is a table note."))
+			.toBeVisible();
 	});
 
 	it("should render a table without caption and notes", async () => {

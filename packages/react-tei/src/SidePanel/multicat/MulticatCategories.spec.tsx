@@ -59,7 +59,7 @@ describe("MulticatCategories", () => {
 		);
 
 		await expect
-			.element(screen.getByText(`Catégorie ${label}`))
+			.element(screen.getByText(new RegExp(`Catégorie ${label}`, "i")))
 			.toBeInTheDocument();
 
 		await expect

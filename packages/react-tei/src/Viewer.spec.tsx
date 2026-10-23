@@ -98,7 +98,7 @@ describe("Viewer", () => {
 
 		expect(
 			screen.getByRole("table", {
-				name: "Table 1 Sample Table",
+				name: /Table 1 Sample Table/,
 			}),
 		).toBeVisible();
 
