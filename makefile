@@ -10,7 +10,7 @@ install:								## Install dependencies
 	@pnpm playwright install chromium chromium-headless-shell
 
 build:									## Build the project
-	@pnpm turbo run build --no-cache
+	@pnpm turbo run build --cache=local:r,remote:r
 
 build-watch:							## Build the project in watch mode
 	@pnpm turbo watch build
@@ -31,13 +31,13 @@ test-browser: 							## Run Unit tests in browser mode
 	@pnpm test:browser
 
 e2e:
-	@pnpm turbo run e2e --no-cache
+	@pnpm turbo run e2e --cache=local:r,remote:r
 
 e2e-ui:
 	@pnpm turbo run --ui=stream e2e:ui
 
 typecheck:								## Run type checks
-	@pnpm turbo run typecheck --no-cache
+	@pnpm turbo run typecheck --cache=local:r,remote:r
 
 lint-check:								## Run lint checks
 	@pnpm lint:check
