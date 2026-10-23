@@ -22,13 +22,12 @@ Visit <http://localhost:3000/> to see the viewer in action.
 - **Term Enrichment**: Support for Unitex, Multicat, NB, and TEEFT enrichments
 - **Interactive Navigation**: Table of contents, footnotes, and bibliographic references
 - **Customizable**: Built with Material-UI for easy theming
-- **Internationalization**: English and French language support
+- **Internationalization**: English, French and Spanish language support
 - **Responsive**: Works on desktop and mobile devices
 
 ## Project Structure
 
 This monorepo contains three packages:
-
 - **`@istex/react-tei`**: Core React component library (reusable in your projects)
 - **`@istex/viewer-demo`**: Demo application showcasing the viewer
 - **`@istex/e2e`**: End-to-end test suite with Playwright
@@ -44,15 +43,15 @@ pnpm add @istex/react-tei
 ### Basic Usage
 
 ```tsx
-import { Viewer } from '@istex/react-tei/Viewer';
+import { Viewer } from "@istex/react-tei/Viewer";
 
 function App() {
-  return (
-    <Viewer
-      teiDocument={teiXmlString}
-      enrichments={[unitexEnrichment, multicatEnrichment]}
-    />
-  );
+	return (
+		<Viewer
+			teiDocument={teiXmlString}
+			enrichments={[unitexEnrichment, multicatEnrichment]}
+		/>
+	);
 }
 ```
 
@@ -107,7 +106,6 @@ make typecheck        # Type check with TypeScript
 ## Contributing
 
 This project uses:
-
 - **pnpm workspaces** for monorepo management
 - **Turbo** for build orchestration
 - **Biome** for linting and formatting

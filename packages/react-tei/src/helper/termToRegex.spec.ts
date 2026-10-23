@@ -57,14 +57,13 @@ describe("termToRegex", () => {
 			text: "Between 1920	and	1921, many events happened.",
 			expected: true,
 		},
-	])("should return $expected when trying to match term: $term on text: $text", ({
-		term,
-		text,
-		expected,
-	}) => {
-		const regex = termToRegex(term);
-		expect(regex.test(text)).toBe(expected);
-	});
+	])(
+		"should return $expected when trying to match term: $term on text: $text",
+		({ term, text, expected }) => {
+			const regex = termToRegex(term);
+			expect(regex.test(text)).toBe(expected);
+		},
+	);
 
 	it("should match on every occurrence of a term in a text", () => {
 		const term = "test";

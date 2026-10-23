@@ -86,10 +86,13 @@ describe("getDocumentJsonAtPath", () => {
 				value: [{ tag: "namesdates", value: "Content of namesdates" }],
 			},
 		],
-	])("should return the document Json at the specified path", (path, expectedDocument) => {
-		const result = getDocumentJsonAtPath(documentJson, path);
-		expect(result).toStrictEqual(expectedDocument);
-	});
+	])(
+		"should return the document Json at the specified path",
+		(path, expectedDocument) => {
+			const result = getDocumentJsonAtPath(documentJson, path);
+			expect(result).toStrictEqual(expectedDocument);
+		},
+	);
 
 	it("should return undefined for a non-existing path", () => {
 		const path = ["TEI", "text", "header"];

@@ -19,19 +19,19 @@ describe("useListType", () => {
 		expect(result.current).toBe("ul");
 	});
 
-	it.each<ListContextValue>([
-		"ul",
-		"ol",
-	])("should inherit parent context when type is undefined", async (parentValue) => {
-		const wrapper = ({ children }: { children: React.ReactNode }) => (
-			<ListContext.Provider value={parentValue}>
-				{children}
-			</ListContext.Provider>
-		);
+	it.each<ListContextValue>(["ul", "ol"])(
+		"should inherit parent context when type is undefined",
+		async (parentValue) => {
+			const wrapper = ({ children }: { children: React.ReactNode }) => (
+				<ListContext.Provider value={parentValue}>
+					{children}
+				</ListContext.Provider>
+			);
 
-		const { result } = await renderHook(() => useListType(undefined), {
-			wrapper,
-		});
-		expect(result.current).toBe(parentValue);
-	});
+			const { result } = await renderHook(() => useListType(undefined), {
+				wrapper,
+			});
+			expect(result.current).toBe(parentValue);
+		},
+	);
 });

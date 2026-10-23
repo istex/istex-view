@@ -5,7 +5,6 @@ This guide explains how to run tests, write new tests, and understand the testin
 ## Testing Strategy
 
 The project uses a two-tier testing approach:
-
 1. **Unit Tests** - Fast, isolated tests for components and functions
 2. **End-to-End (E2E) Tests** - Full integration tests simulating real user scenarios
 
@@ -62,21 +61,18 @@ Test documents are in [packages/e2e/testdata/](../packages/e2e/testdata/) coveri
 ### Test Maintenance Tips
 
 **Flaky tests**:
-
 - Add proper wait conditions: `await expect.element(element).toBeVisible()`
 - Avoid fixed timeouts
 - Check for race conditions
 - Run test multiple times to verify stability
 
 **Slow tests**:
-
 - Mock expensive operations (API calls, file I/O)
 - Use smaller test documents
 - Parallelize independent tests
 - Profile with `--reporter=verbose`
 
 **Brittle tests**:
-
 - Use semantic queries (role, label) over CSS selectors
 - Test behavior, not implementation
 - Avoid testing internal state
@@ -85,13 +81,11 @@ Test documents are in [packages/e2e/testdata/](../packages/e2e/testdata/) coveri
 ### Adding Test Data
 
 **For unit tests**:
-
 - Create minimal test fixtures inline or in test files
 - Use builder pattern for complex objects
 - Share common fixtures via test utilities
 
 **For E2E tests**:
-
 - Add TEI documents to [testdata/](../packages/e2e/testdata/)
 - Keep files minimal (only necessary elements)
 - Name descriptively: `feature-scenario.tei`

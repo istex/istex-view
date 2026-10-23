@@ -36,30 +36,33 @@ describe("Hi", () => {
 		["superscript", "sup"],
 		["subscript", "sub"],
 		["smallCaps", "span"],
-	])("should render text with format %s", async (format: string, expectedTag: string) => {
-		const jsonValue: DocumentJson = {
-			tag: "hi",
-			attributes: { "@rend": format },
-			value: [
-				{
-					tag: "#text",
-					attributes: {},
-					value: "Formatted Text",
-				},
-			],
-		};
+	])(
+		"should render text with format %s",
+		async (format: string, expectedTag: string) => {
+			const jsonValue: DocumentJson = {
+				tag: "hi",
+				attributes: { "@rend": format },
+				value: [
+					{
+						tag: "#text",
+						attributes: {},
+						value: "Formatted Text",
+					},
+				],
+			};
 
-		const screen = await render(<Hi data={jsonValue} />, {
-			wrapper: ({ children }) => (
-				<TagCatalogProvider tagCatalog={tagCatalog}>
-					{children}
-				</TagCatalogProvider>
-			),
-		});
-		const element = screen.getByText("Formatted Text");
-		expect(element).toBeInTheDocument();
-		expect(element.element().tagName.toLowerCase()).toBe(expectedTag);
-	});
+			const screen = await render(<Hi data={jsonValue} />, {
+				wrapper: ({ children }) => (
+					<TagCatalogProvider tagCatalog={tagCatalog}>
+						{children}
+					</TagCatalogProvider>
+				),
+			});
+			const element = screen.getByText("Formatted Text");
+			expect(element).toBeInTheDocument();
+			expect(element.element().tagName.toLowerCase()).toBe(expectedTag);
+		},
+	);
 
 	it("should render text with multiple formats", async () => {
 		const jsonValue: DocumentJson = {

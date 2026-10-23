@@ -393,26 +393,29 @@ describe("DocumentSidePanelContextProvider", () => {
 			termCountByGroup: undefined,
 			expectedCount: 2,
 		},
-	])("should calculate enrichmentCount correctly with $description", async ({
-		jsonDocument,
-		multicatEnrichment,
-		jsonUnitexEnrichment,
-		termCountByGroup,
-		expectedCount,
-	}) => {
-		const { result } = await renderHook(() => useDocumentSidePanelContext(), {
-			wrapper: ({ children }) => (
-				<TestWrapper
-					jsonDocument={jsonDocument}
-					multicatEnrichment={multicatEnrichment}
-					jsonUnitexEnrichment={jsonUnitexEnrichment}
-					termCountByGroup={termCountByGroup}
-				>
-					{children}
-				</TestWrapper>
-			),
-		});
+	])(
+		"should calculate enrichmentCount correctly with $description",
+		async ({
+			jsonDocument,
+			multicatEnrichment,
+			jsonUnitexEnrichment,
+			termCountByGroup,
+			expectedCount,
+		}) => {
+			const { result } = await renderHook(() => useDocumentSidePanelContext(), {
+				wrapper: ({ children }) => (
+					<TestWrapper
+						jsonDocument={jsonDocument}
+						multicatEnrichment={multicatEnrichment}
+						jsonUnitexEnrichment={jsonUnitexEnrichment}
+						termCountByGroup={termCountByGroup}
+					>
+						{children}
+					</TestWrapper>
+				),
+			});
 
-		expect(result.current.enrichmentCount).toBe(expectedCount);
-	});
+			expect(result.current.enrichmentCount).toBe(expectedCount);
+		},
+	);
 });

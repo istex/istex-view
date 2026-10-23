@@ -7,7 +7,6 @@ This document describes the internal architecture of the **@istex/react-tei** vi
 ### Why Multiple Context Providers?
 
 The architecture uses multiple specialized contexts rather than a single global state for several reasons:
-
 - **Separation of concerns**: Each context manages a distinct aspect (document data, navigation, UI state)
 - **Performance**: Components only re-render when their specific context changes
 - **Testability**: Contexts can be tested and mocked independently
@@ -16,7 +15,6 @@ The architecture uses multiple specialized contexts rather than a single global 
 ### Why JSON Intermediate Representation?
 
 TEI XML is first parsed into a JSON structure before rendering:
-
 - **Performance**: JSON traversal is faster than DOM queries
 - **Transformation**: Easier to manipulate and enrich (e.g., adding highlights)
 - **Testability**: Simpler to create test fixtures
@@ -106,26 +104,22 @@ The viewer uses React's memoization extensively to avoid unnecessary re-parsing 
 ### Common Issues and Solutions
 
 **Problem**: Terms not highlighting correctly
-
 - Check enrichment XML format matches expected schema
 - Verify term text matches document text (case sensitivity)
 - Inspect `enrichDocumentWithTerms` output in browser DevTools
 - Check if regex patterns are generated correctly
 
 **Problem**: Navigation not working
-
 - Ensure elements have proper `id` attributes
 - Check DocumentNavigationContext is providing refs correctly
 - Verify scroll behavior isn't blocked by CSS overflow settings
 
 **Problem**: Context not updating
-
 - Check if context value is properly memoized
 - Verify dispatch actions are being called
 - Use React DevTools to inspect context values
 
 **Problem**: Performance degradation
-
 - Profile with React DevTools Profiler
 - Check for missing memoization in expensive computations
 - Verify useEffect dependencies are correct
@@ -154,7 +148,6 @@ The viewer can be extended by providing custom tag renderers through the TagCata
 5. Add E2E test with sample TEI document
 
 **Key considerations**:
-
 - Handle nested content recursively
 - Support all relevant TEI attributes
 - Apply consistent styling with theme
@@ -169,7 +162,6 @@ The viewer can be extended by providing custom tag renderers through the TagCata
 5. Add test data and E2E tests
 
 **Key considerations**:
-
 - Follow existing parser patterns (memoization, null handling)
 - Ensure term matching respects case sensitivity requirements
 - Add statistics tracking for the side panel
@@ -201,7 +193,6 @@ The viewer can be extended by providing custom tag renderers through the TagCata
 5. Update code if APIs changed
 
 **Critical dependencies to watch**:
-
 - **React**: Major versions may require migration
 - **Material-UI**: Theme structure changes
 - **fast-xml-parser**: Parser API changes
@@ -223,7 +214,6 @@ Styles are managed through Material-UI's `sx` prop and theme.
 **CSS classes**: Used sparingly (e.g., enrichment highlights)
 
 **Style guidelines**:
-
 - Use theme tokens (spacing, colors, breakpoints)
 - Avoid hardcoded values
 - Ensure responsive design
