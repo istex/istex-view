@@ -4,7 +4,7 @@ import { Value } from "../Value";
 
 export function FloatingTextHead({ data }: ComponentProps) {
 	return (
-		<Typography fontWeight="bold" display="block" gutterBottom>
+		<Typography gutterBottom sx={{ fontWeight: "bold", display: "block" }}>
 			<Value data={data.value} />
 		</Typography>
 	);

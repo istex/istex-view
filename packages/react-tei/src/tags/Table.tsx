@@ -67,7 +67,7 @@ export function Table({ data: { tag, value, attributes } }: ComponentProps) {
 
 	return (
 		<FullScreen>
-			<Stack gap={1}>
+			<Stack spacing={1}>
 				<Box
 					sx={{
 						width: "100%",

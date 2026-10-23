@@ -4,7 +4,7 @@ import { Value } from "../Value";
 
 export function Head({ data }: ComponentProps) {
 	return (
-		<Typography variant="caption" fontWeight="bold" display="block">
+		<Typography variant="caption" sx={{ fontWeight: "bold", display: "block" }}>
 			<Value data={data.value} />
 		</Typography>
 	);

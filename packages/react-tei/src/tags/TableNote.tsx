@@ -30,7 +30,7 @@ export function TableNote({ note }: TableNoteProps) {
 	switch (type) {
 		case "table-wrap-foot":
 			return (
-				<Stack role="group" gap={0.5} id={id}>
+				<Stack role="group" spacing={0.5} id={id}>
 					<TableNotes notes={note.value} />
 				</Stack>
 			);
@@ -47,13 +47,13 @@ export function TableNote({ note }: TableNoteProps) {
 			const label = note.value.find((item) => item.tag === "label");
 			const content = note.value.filter((item) => item.tag !== "label");
 			return (
-				<Stack role="note" direction="row" gap={0.5} id={id}>
+				<Stack role="note" direction="row" spacing={0.5} id={id}>
 					{label && (
 						<Typography component="sup">
 							<Value data={label.value} />
 						</Typography>
 					)}
-					<Box component="div" flex={1}>
+					<Box component="div" sx={{ flex: 1 }}>
 						<Value data={content} />
 					</Box>
 				</Stack>

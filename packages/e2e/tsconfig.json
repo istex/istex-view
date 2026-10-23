@@ -2,7 +2,8 @@
 	"extends": "../../tsconfig.base.json",
 	"include": ["e2e", "playwright.config.ts"],
 	"compilerOptions": {
-		"lib": ["es2024"],
+		"types": ["node"],
+		"lib": ["ESNext"],
 		"module": "nodenext",
 		"moduleResolution": "nodenext",
 		"noEmit": true
