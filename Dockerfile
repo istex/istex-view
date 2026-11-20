@@ -20,6 +20,6 @@ RUN pnpm turbo run build
 
 
 # Final stage where we get the production build and run it
-FROM nginxinc/nginx-unprivileged:1.29.4-alpine-slim
+FROM nginx/nginx-unprivileged:1.31.9-alpine-slim
 COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 COPY --from=build /app/packages/demo/dist /usr/share/nginx/html
